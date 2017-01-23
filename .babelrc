@@ -1,0 +1,26 @@
+{
+    "presets": ["es2015", "stage-1"],
+    "plugins": [
+        ["transform-replace-object-assign", "simple-assign"],
+        "add-module-exports",
+        "transform-runtime",
+        "transform-export-extensions"
+    ],
+    "env": {
+        "test": {
+            "plugins": [
+                ["istanbul", {
+                    "exclude": [
+                        "**/*.spec.js"
+                    ]
+                }]
+            ]
+        },
+        "release": {
+            "plugins": [
+                "transform-runtime"
+            ]
+        }
+    },
+    "comments": false
+}

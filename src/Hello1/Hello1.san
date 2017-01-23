@@ -1,0 +1,14 @@
+<template>
+    <p>Hello111 {{name}}!</p>
+</template>
+
+<script>
+    console.log(3);
+    export default {
+        initData() {
+            return {
+                name: 'San111'
+            }
+        }
+    }
+</script>

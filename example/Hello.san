@@ -1,0 +1,50 @@
+<template>
+    <div class="button-sp-area">
+        <san-hello />
+        <san-hello1 />
+    </div>
+</template>
+
+<script>
+import Hello from '../src/Hello';
+import Hello1 from '../src/Hello1';
+
+export default {
+    components: {
+        'san-hello': Hello,
+        'san-hello1': Hello1,
+    },
+
+    inited() {
+        console.debug('inited', this);
+    },
+
+    compiled() {
+        console.debug('compiled', this);
+    },
+
+    created() {
+        console.debug('created', this);
+    },
+
+    attached() {
+        console.debug('attached', this);
+    },
+
+    detached() {
+        console.debug('detached', this);
+    },
+
+    disposed() {
+        console.debug('disposed', this);
+    }
+}
+</script>
+
+<style>
+.button-sp-area {
+    margin: 0 auto;
+    padding: 15px 0;
+    width: 60%;
+}
+</style>
