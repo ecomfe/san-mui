@@ -12,9 +12,6 @@
                 name: 'San (not recommended)'
             }
         },
-        test() {
-            return 1;
-        },
         test2() {
             return 2;
         }

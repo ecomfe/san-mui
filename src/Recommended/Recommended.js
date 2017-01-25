@@ -20,12 +20,6 @@ export default san.defineComponent({
     test() {
         return 1;
     },
-    test2() {
-        return 2;
-    },
-    test3() {
-        return 3;
-    },
     inited() {
     },
     compiled() {
