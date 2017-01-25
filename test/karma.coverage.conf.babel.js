@@ -22,6 +22,7 @@ export default function (config) {
         ],
         plugins: [
             'karma-coverage',
+            'karma-phantomjs-launcher',
             'karma-chrome-launcher',
             'karma-mocha',
             'karma-sourcemap-loader',
@@ -33,25 +34,20 @@ export default function (config) {
         exclude: [],
         preprocessors: {
             'test/karma.adapter.js': ['webpack', 'sourcemap']
-            // 'src/**/*.js': ['coverage'],
-            // 'src/**/*.san': ['coverage'],
-            // 'test/**/*.js': ['webpack', 'sourcemap']
         },
         reporters: ['progress', 'coverage'],
         coverageReporter: {
-            // type: 'html',
-            // dir: path.join(__dirname, './coverage'),
             reporters: [
                 {type: 'text', dir: path.join(__dirname, './coverage')},
                 {type: 'text-summary', dir: path.join(__dirname, './coverage')},
-                {type: 'lcov', dir: path.join(__dirname, './coverage')}
+                {type: 'lcov', dir: path.join(__dirname, './coverage'), subdir: 'report-html'}
             ]
         },
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
         singleRun: false,
         concurrency: Infinity,
         webpack: {

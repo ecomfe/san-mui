@@ -15,29 +15,29 @@ export default {
         'san-hello1': Hello1,
     },
 
-    inited() {
-        console.debug('inited', this);
-    },
+    // inited() {
+    //     console.debug('inited', this);
+    // },
 
-    compiled() {
-        console.debug('compiled', this);
-    },
+    // compiled() {
+    //     console.debug('compiled', this);
+    // },
 
-    created() {
-        console.debug('created', this);
-    },
+    // created() {
+    //     console.debug('created', this);
+    // },
 
-    attached() {
-        console.debug('attached', this);
-    },
+    // attached() {
+    //     console.debug('attached', this);
+    // },
 
-    detached() {
-        console.debug('detached', this);
-    },
+    // detached() {
+    //     console.debug('detached', this);
+    // },
 
-    disposed() {
-        console.debug('disposed', this);
-    }
+    // disposed() {
+    //     console.debug('disposed', this);
+    // }
 }
 </script>
 
