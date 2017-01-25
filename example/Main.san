@@ -1,0 +1,27 @@
+<template>
+    <div class="wrapper">
+        <san-recommended />
+        <hr>
+        <san-notrecommended />
+    </div>
+</template>
+
+<script>
+import Recommended from '../src/Recommended';
+import NotRecommended from '../src/NotRecommended';
+
+export default {
+    components: {
+        'san-recommended': Recommended,
+        'san-notrecommended': NotRecommended
+    },
+}
+</script>
+
+<style>
+.wrapper {
+    margin: 0 auto;
+    padding: 15px 0;
+    width: 60%;
+}
+</style>

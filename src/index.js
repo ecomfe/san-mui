@@ -3,10 +3,10 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import Hello from './Hello';
-import Hello1 from './Hello1';
+import NotRecommended from './NotRecommended';
+import Recommended from './Recommended';
 
 export default {
-    Hello,
-    Hello1
+    NotRecommended,
+    Recommended
 };

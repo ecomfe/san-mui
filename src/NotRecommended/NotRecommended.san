@@ -1,0 +1,22 @@
+<template>
+    <div>
+        <p>Hello {{name}}!</p>
+        <p>We do not recommend using `.san` format to write components.</p>
+    </div>
+</template>
+
+<script>
+    export default {
+        initData() {
+            return {
+                name: 'San (not recommended)'
+            }
+        },
+        test() {
+            return 1;
+        },
+        test2() {
+            return 2;
+        }
+    }
+</script>

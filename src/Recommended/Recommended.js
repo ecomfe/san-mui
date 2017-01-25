@@ -7,12 +7,24 @@ import san from 'san';
 
 export default san.defineComponent({
     template: `
-        <p>Hello111 {{name}}!</p>
+        <div>
+            <p>Hello {{name}}!</p>
+            <p>We recommend using pure javascript to write components.</p>
+        </div>
     `,
     initData() {
         return {
-            name: 'San111'
+            name: 'San (recommended)'
         }
+    },
+    test() {
+        return 1;
+    },
+    test2() {
+        return 2;
+    },
+    test3() {
+        return 3;
     },
     inited() {
     },

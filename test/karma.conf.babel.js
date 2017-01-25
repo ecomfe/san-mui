@@ -5,7 +5,9 @@
 
 import path from 'path';
 import webpack from 'webpack';
+import {assetsPath} from '../tool/util';
 
+const SRC_ROOT = path.resolve(__dirname, '../src');
 
 export default function (config) {
     config.set({
@@ -22,7 +24,7 @@ export default function (config) {
         ],
         plugins: [
             'karma-coverage',
-            'karma-chrome-launcher',
+            'karma-phantomjs-launcher',
             'karma-mocha',
             'karma-sourcemap-loader',
             'karma-webpack',
@@ -33,24 +35,65 @@ export default function (config) {
         exclude: [],
         preprocessors: {
             'test/karma.adapter.js': ['webpack', 'sourcemap']
-            // 'src/**/*.js': ['coverage'],
-            // 'src/**/*.san': ['coverage'],
-            // 'test/**/*.js': ['webpack', 'sourcemap']
         },
         reporters: ['progress'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
         singleRun: false,
         concurrency: Infinity,
         webpack: {
             devtool: 'inline-source-map',
+            resolve: {
+                extensions: ['', '.js', '.san'],
+                fallback: [path.join(__dirname, '../node_modules')],
+                alias: {
+                    'src': SRC_ROOT
+                }
+            },
             module: {
                 loaders: [
-                    {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
-                    {test: /\.san$/, exclude: /node_modules/, loader: 'san-loader'}
+                    {
+                        test: /\.san$/,
+                        loader: 'san-loader',
+                        exclude: /node_modules/
+                    },
+                    {
+                        test: /\.js?$/,
+                        loader: 'babel-loader',
+                        exclude: /node_modules/,
+                        query: {
+                            presets: ['es2015', 'stage-1'],
+                            plugins: [
+                                ['transform-runtime', {
+                                    polyfill: false,
+                                    regenerator: false
+                                }]
+                            ]
+                        }
+                    },
+                    {
+                        test: /\.json$/,
+                        loader: 'json-loader'
+                    },
+                    {
+                        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                        loader: 'url-loader',
+                        query: {
+                            limit: 100000,
+                            name: assetsPath('img/[name].[hash:7].[ext]')
+                        }
+                    },
+                    {
+                        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                        loader: 'url-loader',
+                        query: {
+                            limit: 100000,
+                            name: assetsPath('fonts/[name].[hash:7].[ext]')
+                        }
+                    }
                 ]
             },
             plugins: [
