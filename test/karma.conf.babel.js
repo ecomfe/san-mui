@@ -42,7 +42,7 @@ export default function (config) {
         logLevel: config.LOG_INFO,
         autoWatch: true,
         browsers: ['PhantomJS'],
-        singleRun: false,
+        singleRun: process.env.NODE_ENV === 'test' ? false : true,
         concurrency: Infinity,
         webpack: {
             devtool: 'inline-source-map',
