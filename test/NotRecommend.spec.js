@@ -25,7 +25,6 @@ describe('NotRecommended Component', () => {
         notRecommended.attach(wrap);
 
         const p = wrap.getElementsByTagName('p')[0];
-        console.log(p.innerHTML);
         expect(p.innerHTML.indexOf('Hello San (not recommended)')).to.equal(0);
     });
 
