@@ -9,5 +9,4 @@ install:
 script:
   - npm run test-ci
 after_script:
-  - npm run coverage
   - npm run coveralls
