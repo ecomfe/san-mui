@@ -3,18 +3,89 @@
         <san-recommended />
         <hr>
         <san-notrecommended />
+        <hr>
+        <san-appbar 
+            title="{= bar =}" 
+            prop-themeClass="test"
+            showLeftIcon="1"
+            on-appbarlefticonclick="labelClicker($event)"
+            on-appbarrighticonclick="labelClicker($event)">
+            <span slot="appbarleft">
+                <icon
+                    value="{{isLeftIconOpen | yesOrNoToBe('close', 'menu')}}"
+                    font="24"
+                    color="white">
+                </icon>
+            </span>
+            <span slot="appbarright">
+                <icon
+                    san-if="!isMenuRightIcon"
+                    value="{{isRightIconOpen | yesOrNoToBe('expand_less', 'expand_more')}}">
+                </icon>
+                <icon
+                    san-if="isMenuRightIcon"
+                    value="more_vert">
+                </icon>
+            </span>
+        </san-appbar>
+        <san-card>
+            <slot>
+                <san-cardheader title="header title" subTitle="header subtitle">
+                </san-cardheader>
+                <san-cardmedia title="media title" subTitle="media subtitle">
+                </san-cardmedia>
+                <san-cardtitle title="title title" subTitle="title subtitle">
+                </san-cardtitle>
+                <san-cardtext>
+                    <slot>{{text}}</slot>
+                </san-cardtext>
+                <san-cardactions>
+                    <slot>
+                        <a href="#" class="san-card-click">点击</a>
+                    </slot>
+                </san-cardactions>
+            </slot>
+        </san-card>
+        <div class="san-slider-wrap">
+            <san-slider max="100" min="10" step="10" value="10">
+            </san-slider>
+            <san-slider max="100" min="1" step="1" value="4" disable="0">
+            </san-slider>
+        </div>
     </div>
 </template>
 
 <script>
 import Recommended from '../src/Recommended';
 import NotRecommended from '../src/NotRecommended';
+import AppBar from '../src/AppBar';
+import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../src/Card';
+import Slider from '../src/Slider';
+import Icon from '../src/Icon';
 
 export default {
     components: {
         'san-recommended': Recommended,
-        'san-notrecommended': NotRecommended
+        'san-notrecommended': NotRecommended,
+        'san-appbar': AppBar,
+        'san-card': Card,
+        'san-cardheader': CardHeader,
+        'san-cardmedia': CardMedia,
+        'san-cardtitle': CardTitle,
+        'san-cardtext': CardText,
+        'san-cardactions': CardActions,
+        'san-slider': Slider,
+        'icon': Icon
     },
+    initData() {
+        return {
+            bar: 'Title',
+            text: '散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。 似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光， 找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光'
+        }
+    },
+    labelClicker(data) {
+        console.log(data);
+    }
 }
 </script>
 
@@ -23,5 +94,19 @@ export default {
     margin: 0 auto;
     padding: 15px 0;
     width: 60%;
+}
+.san-card-click {
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+    background: rgba(0, 0, 0, .1);
+    color: #333;
+}
+.san-card-click:hover {
+    background: rgba(0, 0, 0, .2);
+    color: #333;
 }
 </style>

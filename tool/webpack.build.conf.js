@@ -23,7 +23,13 @@ const webpackConfig = merge(baseWebpackConfig, {
         main: './src/index.js'
     },
     module: {
-        loaders: styleLoaders({sourceMap: config.build.productionSourceMap, extract: true})
+        // loaders: styleLoaders({sourceMap: config.build.productionSourceMap, extract: true})
+        loaders: [
+            {
+                test: /\.styl$/,
+                loader: 'style-loader!css-loader!postcss-loader'
+            }
+        ]
     },
     devtool: config.build.productionSourceMap ? '#eval-source-map' : false,
     output: {

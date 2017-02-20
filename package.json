@@ -17,6 +17,7 @@
     "coveralls": "shx cat ./test/coverage/report-html/lcov.info | coveralls"
   },
   "dependencies": {
+    "postcss-loader": "^1.3.0",
     "san": "^3.0.3-rc.2",
     "san-router": "^1.0.0"
   },
