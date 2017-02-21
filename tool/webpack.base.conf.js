@@ -85,6 +85,10 @@ export default {
                     limit: 100000,
                     name: assetsPath('fonts/[name].[hash:7].[ext]')
                 }
+            },
+            {
+                test: /\.(html|tpl)(\?.*)?$/,
+                loader: 'html-loader'
             }
         ]
     },
