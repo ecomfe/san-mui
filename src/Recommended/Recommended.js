@@ -8,7 +8,7 @@ import san from 'san';
 export default san.defineComponent({
     template: `
         <div>
-            <p>Hello {{name}}! {{defaultMsg}}</p>
+            <p>Hello {{name}}!</p>
             <p>We recommend using pure javascript to write components.</p>
         </div>
     `,
@@ -27,7 +27,6 @@ export default san.defineComponent({
     created() {
     },
     attached() {
-        this.data.set('name', 'abcdfasdfas');
     },
     detached() {
     },
