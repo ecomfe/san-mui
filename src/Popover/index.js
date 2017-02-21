@@ -121,6 +121,15 @@ export default san.defineComponent({
         this.data.set(openKey, false);
         this.fire('hide');
     },
+    toggle() {
+        let isOpen = this.data.get(openKey);
+        if (isOpen) {
+            this.hide();
+        }
+        else {
+            this.show();
+        }
+    },
     bindEvent() {
         let me = this;
         let triggerEle = me.getTriggerEle();
