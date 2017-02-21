@@ -17,7 +17,8 @@ export default san.defineComponent({
             on-mousedown="handleMouseDown($event)"
             on-mouseup="handleMouseUp($event)"
             on-mouseenter="handleMouseEnter($event)"
-            on-mouseleave="handleMouseLeave($event)">
+            on-mouseleave="handleMouseLeave($event)"
+            on-click="handleClick($event)">
             <div class="san-slider-bg"></div>
             <div class="san-slider-fill" style="width: {{percent * 100 + '%'}}"></div>
             <div class="san-slider-thumb"
@@ -100,7 +101,8 @@ export default san.defineComponent({
         }
     },
     handleClick(e) {
-        this.onDragUpdate(e);
+        if (this.data.get('disabled')) return
+        this.setValue(e);
     },
     handleFocus(e) {
         if (this.data.get('disable')) return
