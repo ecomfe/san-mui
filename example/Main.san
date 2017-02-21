@@ -4,8 +4,8 @@
         <hr>
         <san-notrecommended />
         <hr>
-        <san-appbar 
-            title="{= bar =}" 
+        <san-appbar
+            title="{= bar =}"
             prop-themeClass="test"
             showLeftIcon="1"
             on-appbarlefticonclick="labelClicker($event)"
@@ -52,6 +52,26 @@
             <san-slider max="100" min="1" step="1" value="4" disable="0">
             </san-slider>
         </div>
+        <popover placement="left" trigger="{{triggerLeft}}" triggerOperation="click" on-show="onShow()" on-hide="onHide()">
+            <p>This is a popover!</p>
+            <p>popover content!</p>
+        </popover>
+        <popover placement="top" trigger="{{triggerTop}}" triggerOperation="click">
+            <p>This is a popover!</p>
+            <p>popover content!</p>
+        </popover>
+        <popover placement="bottom" trigger="{{triggerBottom}}" showArrow="false" triggerOperation="click">
+            <p>This is a popover!</p>
+            <p>popover content!</p>
+        </popover>
+        <popover placement="right" trigger="{{triggerRight}}" triggerOperation="click">
+            <p>This is a popover!</p>
+            <p>popover content!</p>
+        </popover>
+        <popover trigger="{{triggerFocus}}" triggerOperation="focus">
+            <p>This is a popover!</p>
+            <p>popover content!</p>
+        </popover>
     </div>
 </template>
 
@@ -62,6 +82,7 @@ import AppBar from '../src/AppBar';
 import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../src/Card';
 import Slider from '../src/Slider';
 import Icon from '../src/Icon';
+import Popover from '../src/Popover';
 
 export default {
     components: {
@@ -75,16 +96,28 @@ export default {
         'san-cardtext': CardText,
         'san-cardactions': CardActions,
         'san-slider': Slider,
-        'icon': Icon
+        'icon': Icon,
+        'popover': Popover
     },
     initData() {
         return {
             bar: 'Title',
-            text: '散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。 似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光， 找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光'
+            text: '散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。 似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光， 找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光',
+            triggerLeft: document.getElementById('popover-left'),
+            triggerTop: document.getElementById('popover-top'),
+            triggerBottom: document.getElementById('popover-bottom'),
+            triggerRight: document.getElementById('popover-right'),
+            triggerFocus: document.getElementById('input')
         }
     },
     labelClicker(data) {
         console.log(data);
+    },
+    onShow() {
+        console.log('popover show');
+    },
+    onHide() {
+        console.log('popover hide');
     }
 }
 </script>
