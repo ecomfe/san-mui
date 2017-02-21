@@ -52,6 +52,18 @@
             <san-slider max="100" min="1" step="1" value="4" disable="0">
             </san-slider>
         </div>
+
+        <san-dropdownmenu value="{{ value }}" on-menuchange="onChange($event)" labelStyle="{{ labelStyle }}">
+            <san-menuitem slot="menuItem" value="{{ 1 }}" primaryText="上海" label="SH">
+            </san-menuitem>
+            <san-menuitem slot="menuItem" value="{{ 2 }}" primaryText="北京" label="BJ">
+            </san-menuitem>
+            <san-menuitem slot="menuItem" value="{{ 3 }}" primaryText="深圳" label="SZ">
+            </san-menuitem>
+            <san-menuitem slot="menuItem" value="{{ 4 }}" primaryText="广州" label="GZ">
+            </san-menuitem>
+            <icon slot="iconButton" value="arrow_drop_down" />
+        </san-dropdownmenu>
     </div>
 </template>
 
@@ -62,6 +74,7 @@ import AppBar from '../src/AppBar';
 import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../src/Card';
 import Slider from '../src/Slider';
 import Icon from '../src/Icon';
+import {DropDownMenu, MenuItem} from '../src/Menu';
 
 export default {
     components: {
@@ -75,16 +88,31 @@ export default {
         'san-cardtext': CardText,
         'san-cardactions': CardActions,
         'san-slider': Slider,
-        'icon': Icon
+        'icon': Icon,
+        'san-dropdownmenu': DropDownMenu,
+        'san-menuitem': MenuItem
     },
     initData() {
         return {
             bar: 'Title',
-            text: '散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。 似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光， 找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光'
+            text: '散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。 似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光， 找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光',
+
+            value: 1
         }
     },
     labelClicker(data) {
         console.log(data);
+    },
+
+    /**
+     * onChange
+     *
+     * @params {} $event : TouchTap event targeting the menu item that was clicked.
+     * @params {} key : The index of the clicked menu item in the children collection.
+     * @params {} payload : The value prop of the clicked menu item.
+     */
+    onChange($event, key, payload) {
+        console.log('dropdown item changed to ' + value);
     }
 }
 </script>
