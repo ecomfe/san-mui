@@ -97,23 +97,25 @@ export default san.defineComponent({
         const data = this.data;
         obj = obj || {};
         for (var i in obj) {
-            data.set(i, obj[i]);
+            if (obj.hasOwnProperty(i)) {
+                data.set(i, obj[i]);
+            }
         }
     },
     handleClick(e) {
-        if (this.data.get('disabled')) return
+        if (this.data.get('disabled')) return;
         this.setValue(e);
     },
     handleFocus(e) {
-        if (this.data.get('disable')) return
+        if (this.data.get('disable')) return;
         this.data.set('focused', 1);
     },
     handleBlur(e) {
-        if (this.data.get('disable')) return
+        if (this.data.get('disable')) return;
         this.data.set('focused', 0);
     },
     handleTouchStart(e) {
-        if (+this.data.get('disabled')) return
+        if (+this.data.get('disabled')) return;
         this.setValue(e.touches[0]);
 
         var me = this;
@@ -125,20 +127,20 @@ export default san.defineComponent({
         this.onDragStart(e);
     },
     handleTouchEnd(e) {
-        if (+this.data.get('disabled')) return
+        if (+this.data.get('disabled')) return;
 
         var me = this;
         document.removeEventListener('touchmove', me.handleTouchMove);
         document.removeEventListener('touchup', me.handleTouchEnd);
         document.removeEventListener('touchend', me.handleTouchEnd);
         document.removeEventListener('touchcancel', me.handleTouchEnd);
-        this.onDragStop(e)
+        this.onDragStop(e);
     },
     handleTouchMove(e) {
         this.onDragUpdate(e.touches[0]);
     },
     handleMouseDown(e) {
-        if (this.data.get('disabled')) return
+        if (this.data.get('disabled')) return;
         e.preventDefault();
         var me = this;
         document.addEventListener('mousemove', me.handleDragMouseMove);
@@ -169,24 +171,24 @@ export default san.defineComponent({
     },
     onDragUpdate(e) {
         const data = this.data;
-        if (data.get('dragRunning')) return
+        if (data.get('dragRunning')) return;
         data.set('dragRunning', 1);
         var me = this;
 
         window.requestAnimationFrame(() => {
             data.set('dragRunning', 0);
-            if (!data.get('disable')) me.setValue(e)
-        })
+            if (!data.get('disable')) me.setValue(e);
+        });
     },
     handleMouseUp(e) {
-        if (this.data.get('disable')) return
+        if (this.data.get('disable')) return;
     },
     handleMouseEnter(e) {
-        if (this.data.get('disable')) return
+        if (this.data.get('disable')) return;
         this.data.set('hovered', 1);
     },
     handleMouseLeave(e) {
-        if (this.data.get('disable')) return
+        if (this.data.get('disable')) return;
         this.data.set('hovered', 0);
     },
     setValue(e) {
