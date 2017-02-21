@@ -110,6 +110,6 @@ export default {
     color: #333;
 }
 .san-appbar .material-icons {
-    line-height: rem(64px)
+    line-height: 64px;
 }
 </style>
