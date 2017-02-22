@@ -171,6 +171,36 @@ export default san.defineComponent({
                 }
                 me.data.clickNoHide = false;
             });
+            // 如果是iOS系统，处理全局点击无法代理监听的问题
+            if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                let isTouchMove;
+                let isMoving;
+                me.el.addEventListener('touchstart', e => {
+                    e.stopPropagation();
+                });
+                triggerEle.addEventListener('touchstart', e => {
+                    e.stopPropagation();
+                });
+                document.addEventListener('touchstart', () => {
+                    setTimeout(() => {
+                        if (!isTouchMove && !isMoving) {
+                            hide();
+                        }
+                    }, 100);
+                });
+                document.addEventListener('touchmove', () => {
+                    isMoving = true;
+                    isTouchMove = true;
+                });
+                document.addEventListener('touchend', () => {
+                    isMoving = false;
+                    setTimeout(() => {
+                        if (!isMoving) {
+                            isTouchMove = false;
+                        }
+                    }, 200);
+                });
+            }
         }
 
     },
