@@ -53,18 +53,28 @@
             </san-slider>
         </div>
 
-
         <san-dropdownmenu value="{{ value }}" on-menuchange="onChange($event)" labelStyle="{{ labelStyle }}">
-            <san-menuitem slot="menuItem" value="{{ 1 }}" primaryText="上海" label="SH">
+            <san-menuitem slot="menuItem" value="{{ 1 }}" title="MenuItem 1" label="No.1">
             </san-menuitem>
-            <san-menuitem slot="menuItem" value="{{ 2 }}" primaryText="北京" label="BJ">
+            <san-menuitem slot="menuItem" value="{{ 2 }}" title="MenuItem 2" label="No.2">
             </san-menuitem>
-            <san-menuitem slot="menuItem" value="{{ 3 }}" primaryText="深圳" label="SZ">
+            <san-menuitem slot="menuItem" value="{{ 3 }}" title="MenuItem 3" label="No.3">
             </san-menuitem>
-            <san-menuitem slot="menuItem" value="{{ 4 }}" primaryText="广州" label="GZ">
+            <san-menuitem slot="menuItem" value="{{ 4 }}" title="MenuItem 4" label="No.4">
             </san-menuitem>
             <icon slot="iconButton" value="arrow_drop_down" />
         </san-dropdownmenu>
+
+        <san-iconmenu icon="more_horiz">
+            <san-menuitem slot="menuItem" value="{{ 1 }}" title="MenuItem 1">
+            </san-menuitem>
+            <san-menuitem slot="menuItem" value="{{ 2 }}" title="MenuItem 2">
+            </san-menuitem>
+            <san-menuitem slot="menuItem" value="{{ 3 }}" title="MenuItem 3">
+            </san-menuitem>
+            <san-menuitem slot="menuItem" value="{{ 4 }}" title="MenuItem 4">
+            </san-menuitem>
+        </san-iconmenu>
 
         <popover placement="left" trigger="{{triggerLeft}}" triggerOperation="click" on-show="onShow()" on-hide="onHide()">
             <p>This is a popover!</p>
@@ -97,7 +107,7 @@ import AppBar from '../src/AppBar';
 import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../src/Card';
 import Slider from '../src/Slider';
 import Icon from '../src/Icon';
-import {DropDownMenu, MenuItem} from '../src/Menu';
+import {DropDownMenu, IconMenu, MenuItem} from '../src/Menu';
 import Popover from '../src/Popover';
 
 export default {
@@ -114,6 +124,7 @@ export default {
         'san-slider': Slider,
         'icon': Icon,
         'san-dropdownmenu': DropDownMenu,
+        'san-iconmenu': IconMenu,
         'san-menuitem': MenuItem,
         'popover': Popover
     },
@@ -131,6 +142,7 @@ export default {
             triggerFocus: document.getElementById('input')
         }
     },
+
     labelClicker(data) {
         console.log(data);
     },
@@ -143,7 +155,7 @@ export default {
      * @params {} payload : The value prop of the clicked menu item.
      */
     onChange($event, key, payload) {
-        console.log('dropdown item changed to ' + value);
+        console.log(`dropdown item changed...key:${key}, payload: ${payload}`);
     },
 
     onShow() {
@@ -177,5 +189,8 @@ export default {
 }
 .san-appbar .material-icons {
     line-height: 64px;
+}
+.sm-iconmenu {
+    margin: 20px 0
 }
 </style>
