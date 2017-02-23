@@ -8,15 +8,15 @@ import './AppBar.styl';
 
 export default san.defineComponent({
     template: `
-        <div class="san-appbar {{themeClass}}">
-            <div class="san-appbar-left" san-if="showLeftIcon">
+        <div class="sm-appbar {{themeClass}}">
+            <div class="sm-appbar-left" san-if="showLeftIcon">
                 <slot name="appbarleft">
                 </slot>
             </div>
-            <div class="san-appbar-title">
+            <div class="sm-appbar-title">
                 <span>{{title}}</span>
             </div>
-            <div class="san-appbar-right" san-if="showRightIcon">
+            <div class="sm-appbar-right" san-if="showRightIcon">
                 <slot name="appbarright">
                 </slot>
             </div>
