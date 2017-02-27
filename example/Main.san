@@ -97,6 +97,40 @@
             <p>popover content!</p>
         </popover>
 
+        <san-dialog-btn on-click="open">
+        <slot>
+            <button class="sm-dialog-trigger-btn">点我有浮层</button>
+        </slot>
+        </san-dialog-btn>
+        <san-dialog
+            prop-open="{=dialog=}"
+            prop-showTitle="{=showTitle=}"
+            prop-showFooter="{=showFooter=}"
+            prop-contentClass="{{contentClass}}">
+            <span slot="title">{{title}}</span>
+            <slot><div>this is the content</div></slot>
+            <button slot="actions" on-click="close" class="sm-dialog-cancel">取消</button>
+            <button slot="actions" on-click="close" class="sm-dialog-sure">确定</button>
+        </san-dialog>
+        <san-mask prop-open="{=dialog=}"></san-mask>
+
+        <san-dialog-btn on-click="open2">
+        <slot>
+            <button class="sm-dialog-trigger-btn">你要点我哟</button>
+        </slot>
+        </san-dialog-btn>
+        <san-dialog
+            prop-open="{=dialog2=}"
+            prop-showTitle="{=showTitle=}"
+            prop-showFooter="{=showFooter=}"
+            prop-dialogClass="{{dialogClass}}">
+            <span slot="title">{{title}}</span>
+            <slot><div>{{content}}</div></slot>
+            <button slot="actions" on-click="close2" class="sm-dialog-cancel">取消</button>
+            <button slot="actions" on-click="close2" class="sm-dialog-sure">确定</button>
+        </san-dialog>
+        <san-mask prop-open="{=dialog2=}"></san-mask>
+
     </div>
 </template>
 
@@ -109,6 +143,7 @@ import Slider from '../src/Slider';
 import Icon from '../src/Icon';
 import {DropDownMenu, IconMenu, MenuItem} from '../src/Menu';
 import Popover from '../src/Popover';
+import {Dialog, DialogMask, DialogButton} from '../src/Dialog';
 
 export default {
     components: {
@@ -126,7 +161,10 @@ export default {
         'san-dropdownmenu': DropDownMenu,
         'san-iconmenu': IconMenu,
         'san-menuitem': MenuItem,
-        'popover': Popover
+        'popover': Popover,
+        'san-dialog': Dialog,
+        'san-mask': DialogMask,
+        'san-dialog-btn': DialogButton
     },
     initData() {
         return {
@@ -139,7 +177,14 @@ export default {
             triggerTop: document.getElementById('popover-top'),
             triggerBottom: document.getElementById('popover-bottom'),
             triggerRight: document.getElementById('popover-right'),
-            triggerFocus: document.getElementById('input')
+            triggerFocus: document.getElementById('input'),
+            dialog: false,
+            showTitle: true,
+            showFooter: true,
+            title: 'this is a new title',
+            dialogClass: 'dialog-class',
+            content: 'this is a new content in dialog',
+            contentClass: 'content-class'
         }
     },
 
@@ -163,6 +208,21 @@ export default {
     },
     onHide() {
         console.log('popover hide');
+    },
+    triggerDialog() {
+        this.data.set('open', true);
+    },
+    open() {
+        this.data.set('dialog', true);
+    },
+    open2() {
+        this.data.set('dialog2', true);
+    },
+    close() {
+        this.data.set('dialog', false);
+    },
+    close2() {
+        this.data.set('dialog2', false);
     }
 }
 </script>
@@ -192,5 +252,13 @@ export default {
 }
 .sm-iconmenu {
     margin: 20px 0
+}
+.sm-dialog-trigger-btn,
+.sm-dialog-cancel,
+.sm-dialog-sure {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    outline: none;
 }
 </style>

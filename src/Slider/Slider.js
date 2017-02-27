@@ -8,7 +8,7 @@ import './Slider.styl';
 
 export default san.defineComponent({
     template: `
-        <div class="san-slider {{themeClass}} {{disable | yesToBe('san-slider-disable')}}"
+        <div class="sm-slider {{themeClass}} {{disable | yesToBe('sm-slider-disable')}}"
             on-focus="handleFocus($event)"
             on-blur="handleBlur($event)"
             on-touchstart="handleTouchStart($event)"
@@ -19,9 +19,9 @@ export default san.defineComponent({
             on-mouseenter="handleMouseEnter($event)"
             on-mouseleave="handleMouseLeave($event)"
             on-click="handleClick($event)">
-            <div class="san-slider-bg"></div>
-            <div class="san-slider-fill" style="width: {{percent * 100 + '%'}}"></div>
-            <div class="san-slider-thumb"
+            <div class="sm-slider-bg"></div>
+            <div class="sm-slider-fill" style="width: {{percent * 100 + '%'}}"></div>
+            <div class="sm-slider-thumb"
                 style="left: {{percent * 100 + '%'}}"
                 title="值：{{value}}；占比：{{percent * 100 + '%'}}">
             </div>
@@ -65,10 +65,18 @@ export default san.defineComponent({
     },
     formatInitValue() {
         let {max, min, percent, value, step} = this.getData();
-        if (min < 0) min = 0; 
-        if (max < min) max = min;
-        if (step > max) step = max;
-        else if (step < 0) step = 1;
+        if (min < 0) {
+            min = 0;
+        }
+        if (max < min) {
+            max = min;
+        }
+        if (step > max) {
+            step = max;
+        }
+        else if (step < 0) {
+            step = 1;
+        }
 
         let minus = value - min;
         if (minus <= 0) {
@@ -103,19 +111,27 @@ export default san.defineComponent({
         }
     },
     handleClick(e) {
-        if (this.data.get('disabled')) return;
+        if (this.data.get('disabled')) {
+            return;
+        }
         this.setValue(e);
     },
     handleFocus(e) {
-        if (this.data.get('disable')) return;
+        if (this.data.get('disabled')) {
+            return;
+        }
         this.data.set('focused', 1);
     },
     handleBlur(e) {
-        if (this.data.get('disable')) return;
+        if (this.data.get('disabled')) {
+            return;
+        }
         this.data.set('focused', 0);
     },
     handleTouchStart(e) {
-        if (+this.data.get('disabled')) return;
+        if (this.data.get('disabled')) {
+            return;
+        }
         this.setValue(e.touches[0]);
 
         var me = this;
@@ -127,7 +143,9 @@ export default san.defineComponent({
         this.onDragStart(e);
     },
     handleTouchEnd(e) {
-        if (+this.data.get('disabled')) return;
+        if (this.data.get('disabled')) {
+            return;
+        }
 
         var me = this;
         document.removeEventListener('touchmove', me.handleTouchMove);
@@ -140,7 +158,9 @@ export default san.defineComponent({
         this.onDragUpdate(e.touches[0]);
     },
     handleMouseDown(e) {
-        if (this.data.get('disabled')) return;
+        if (this.data.get('disabled')) {
+            return;
+        }
         e.preventDefault();
         var me = this;
         document.addEventListener('mousemove', me.handleDragMouseMove);
@@ -171,24 +191,34 @@ export default san.defineComponent({
     },
     onDragUpdate(e) {
         const data = this.data;
-        if (data.get('dragRunning')) return;
+        if (data.get('dragRunning')) {
+            return;
+        }
         data.set('dragRunning', 1);
         var me = this;
 
         window.requestAnimationFrame(() => {
             data.set('dragRunning', 0);
-            if (!data.get('disable')) me.setValue(e);
+            if (!data.get('disable')) {
+                me.setValue(e);
+            }
         });
     },
     handleMouseUp(e) {
-        if (this.data.get('disable')) return;
+        if (this.data.get('disabled')) {
+            return;
+        }
     },
     handleMouseEnter(e) {
-        if (this.data.get('disable')) return;
+        if (this.data.get('disabled')) {
+            return;
+        }
         this.data.set('hovered', 1);
     },
     handleMouseLeave(e) {
-        if (this.data.get('disable')) return;
+        if (this.data.get('disabled')) {
+            return;
+        }
         this.data.set('hovered', 0);
     },
     setValue(e) {

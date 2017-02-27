@@ -8,7 +8,7 @@ import './Card.styl';
 
 export default san.defineComponent({
     template: `
-        <div class="san-card-text {{themeClass}}">
+        <div class="sm-card-text {{themeClass}}">
             <slot></slot>
         </div>
     `,

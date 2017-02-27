@@ -8,11 +8,11 @@ import './Card.styl';
 
 export default san.defineComponent({
     template: `
-        <div class="san-card-title-wrap {{themeClass}}">
-            <div class="san-card-title {{titleClass}}">
+        <div class="sm-card-title-wrap {{themeClass}}">
+            <div class="sm-card-title {{titleClass}}">
                 {{title}}
             </div>
-            <div class="san-card-subtitle {{subTitleClass}}">
+            <div class="sm-card-subtitle {{subTitleClass}}">
                 {{subTitle}}
             </div>
         </div>

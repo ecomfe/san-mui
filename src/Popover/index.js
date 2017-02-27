@@ -76,11 +76,14 @@ export default san.defineComponent({
             return;
         }
 
-        this.data.set(openKey, true);
-        this.setPosition(triggerEle);
-        this.fire('show');
+        if (!this.data.get(openKey)) {
+            this.data.set(openKey, true);
+            this.setPosition(triggerEle);
+            this.fire('show');
+        }
     },
     setPosition(triggerEle) {
+
         let posTop;
         let posLeft;
         let placement = this.data.get(placementKey);
@@ -96,6 +99,7 @@ export default san.defineComponent({
         } = getOffset(this.el);
         let horizonPosTop = triggerEleOffsetTop + triggerEleOffsetHeight / 2 - popoverEleOffsetHeight / 2;
         let verticalPosLeft = triggerEleOffsetLeft + triggerEleOffsetWidth / 2 - popoverEleOffsetWidth / 2;
+
         switch (placement) {
             case 'right':
                 posLeft = triggerEleOffsetLeft + triggerEleOffsetWidth;
@@ -114,21 +118,25 @@ export default san.defineComponent({
                 posTop = triggerEleOffsetTop - popoverEleOffsetHeight;
                 break;
         }
+
         this.data.set('posLeft', posLeft);
         this.data.set('posTop', posTop);
     },
     hide() {
-        this.data.set(openKey, false);
-        this.fire('hide');
+        if (this.data.get(openKey)) {
+            this.data.set(openKey, false);
+            this.fire('hide');
+        }
     },
     toggle() {
-        let isOpen = this.data.get(openKey);
-        if (isOpen) {
+
+        if (this.data.get(openKey)) {
             this.hide();
         }
         else {
             this.show();
         }
+
     },
     bindEvent() {
         let me = this;
@@ -157,12 +165,42 @@ export default san.defineComponent({
             me.el.addEventListener(defaultTriggerOperation, () => {
                 me.data.clickNoHide = true;
             });
-            document.addEventListener(defaultTriggerOperation, e => {
-                if (!me.data.clickNoHide && me.data.get(openKey)) {
+            document.addEventListener(defaultTriggerOperation, () => {
+                if (!me.data.clickNoHide) {
                     hide();
                 }
                 me.data.clickNoHide = false;
             });
+            // 如果是iOS系统，处理全局点击无法代理监听的问题
+            if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                let isTouchMove;
+                let isMoving;
+                me.el.addEventListener('touchstart', e => {
+                    e.stopPropagation();
+                });
+                triggerEle.addEventListener('touchstart', e => {
+                    e.stopPropagation();
+                });
+                document.addEventListener('touchstart', () => {
+                    setTimeout(() => {
+                        if (!isTouchMove && !isMoving) {
+                            hide();
+                        }
+                    }, 100);
+                });
+                document.addEventListener('touchmove', () => {
+                    isMoving = true;
+                    isTouchMove = true;
+                });
+                document.addEventListener('touchend', () => {
+                    isMoving = false;
+                    setTimeout(() => {
+                        if (!isMoving) {
+                            isTouchMove = false;
+                        }
+                    }, 200);
+                });
+            }
         }
 
     },
@@ -198,7 +236,7 @@ export default san.defineComponent({
         let value = this.data.get(key);
 
         if (supportList) {
-            this.data.set(key, supportList.indexOf(value) !== -1 ? value : supportList[0]);
+            this.data.set(key, supportList.includes(value) ? value : supportList[0]);
         }
     }
 });
