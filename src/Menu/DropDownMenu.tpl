@@ -7,14 +7,14 @@
         <p
             class="sm-dropdown-menu-selected-label"
             style="{{ labelStyle | padStyles }}"
-        >{{ value }}</p>
+        >{{ text }}</p>
         <slot name="iconButton"></slot>
         <div class="sm-dropdown-menu-underline" style="{{ underlineStyle | padStyles }}"></div>
     </div>
 
-    <ul class="sm-menu-list depth-2 {{ isHidden | yesToBe('list-hidden') }}"
-        style="opacity:{{ opacity }};height:{{ height }};max-height:{{ maxHeight }}px;{{ menuStyle | padStyles }}">
+    <div class="sm-menu-list depth-2{{ open | yesOrNoToBe('', ' list-hidden') }}"
+        style="max-height:{{ maxHeightS }}px;opacity:{{ opacity }};{{ menuStyle | padStyles }}">
 
-        <slot name="menuItem"></slot>
-    </ul>
+        <slot></slot>
+    </div>
 </div>

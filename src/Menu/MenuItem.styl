@@ -1,11 +1,32 @@
 @require './common'
 
 .sm-menu-item
-    padding: 0 $pc-padding-hor
-    line-height: $pc-line-height
+    padding: 0 $padding-hor
+    line-height: $line-height
+    position: relative
+    font-size: 16px
+    cursor: pointer
 
     &:hover
         background-color: $light-grey
 
     &.selected
         color: $active-pink
+
+    &.has-left p
+        margin-left: $margin-with-icon
+
+    .sm-menu-item-right-icon
+    .sm-menu-item-left-icon
+        position: absolute
+        top: 0
+        padding: 12px 0
+
+        i
+            display: block
+
+    .sm-menu-item-right-icon
+        right: $padding-hor
+
+    .sm-menu-item-left-icon
+        left: $padding-hor

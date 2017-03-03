@@ -1,9 +1,11 @@
-<div class="sm-iconmenu">
-    <san-icon value="{{ icon }}" on-click="toggleMenu" />
+<div class="sm-iconmenu {{ className }}">
+    <div class="sm-iconmenu-icon">
+        <san-icon value="{{ icon }}" on-click="toggleMenu" />
+    </div>
 
-    <ul class="sm-menu-list depth-2 {{ position }} {{ isHidden | yesToBe('list-hidden') }}"
-        style="opacity:{{ opacity }};height:{{ height }};max-height:{{ maxHeight }}px;">
+    <div class="sm-menu-list depth-2 {{ open | yesOrNoToBe('', 'list-hidden') }}"
+        style="max-height:{{ maxHeightS }}px;opacity:{{ opacity }};left:{{ left }}px;top:{{ top }}px;">
 
-        <slot name="menuItem"></slot>
-    </ul>
+        <slot></slot>
+    </div>
 </div>

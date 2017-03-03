@@ -6,17 +6,16 @@ $light-grey = #e0e0e0
 $label-fontSize = 16px
 $font-size = 14px
 
+$w-x = 56px
+$padding-ver = 8px
+$padding-hor = 16px
+$margin-with-icon = 48px
 $line-height = 48px
-
-$mobile-w-x = 56px
-$mobile-padding-ver = 8px
-$mobile-padding-hor = 16px
-$mobile-line-height = 24px
 
 $pc-w-x = 64px
 $pc-padding-ver = 16px
 $pc-padding-hor = 24px
-$pc-padding-hor-no-icon = 64px
+$pc-padding-with-icon = 64px
 $pc-line-height = 32px
 
 p
@@ -38,35 +37,17 @@ p
 .sm-menu-list
     position: absolute
     top: 0
-    padding: $pc-padding-ver 0
-    list-style-type: none
+    padding: $padding-ver 0
     margin: 0
     background-color: #fff
     overflow-y: scroll
     transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms
-    min-width: 2 * $mobile-w-x
-    width: 3 * $mobile-w-x
+    min-width: 2 * $w-x
+    // width: 3 * $w-x
+    z-index: 1
 
-    &.leftTop
-        top: 0
-        left: 0
-
-    &.leftBottom
-        bottom: 0
-        left: 0
-
-    &.rightTop
-        top: 0
-        right: 0
-
-    &.rightBottom
-        bottom: 0
-        right: 0
-
-    &.centerTop
-        top: 0
-        left: -50%
-
-    &.centerBottom
-        bottom: 0
-        left: -50%
+.sm-divider
+    height: 1px
+    border: none
+    margin: 7px 0 8px 0
+    background-color: $light-grey

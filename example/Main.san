@@ -53,27 +53,29 @@
             </san-slider>
         </div>
 
-        <san-dropdownmenu value="{{ value }}" on-menuchange="onChange($event)" labelStyle="{{ labelStyle }}">
-            <san-menuitem slot="menuItem" value="{{ 1 }}" title="MenuItem 1" label="No.1">
-            </san-menuitem>
-            <san-menuitem slot="menuItem" value="{{ 2 }}" title="MenuItem 2" label="No.2">
-            </san-menuitem>
-            <san-menuitem slot="menuItem" value="{{ 3 }}" title="MenuItem 3" label="No.3">
-            </san-menuitem>
-            <san-menuitem slot="menuItem" value="{{ 4 }}" title="MenuItem 4" label="No.4">
-            </san-menuitem>
+        <san-dropdownmenu value="{{ value }}" text="{{ dropDownText }}">
+            <slot>
+                <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" on-change="dropDownMenuChange($event)" />
+                <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" on-change="dropDownMenuChange($event)" />
+                <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" on-change="dropDownMenuChange($event)" />
+                <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" on-change="dropDownMenuChange($event)" />
+            </slot>
             <icon slot="iconButton" value="arrow_drop_down" />
         </san-dropdownmenu>
 
-        <san-iconmenu icon="more_horiz">
-            <san-menuitem slot="menuItem" value="{{ 1 }}" title="MenuItem 1">
-            </san-menuitem>
-            <san-menuitem slot="menuItem" value="{{ 2 }}" title="MenuItem 2">
-            </san-menuitem>
-            <san-menuitem slot="menuItem" value="{{ 3 }}" title="MenuItem 3">
-            </san-menuitem>
-            <san-menuitem slot="menuItem" value="{{ 4 }}" title="MenuItem 4">
-            </san-menuitem>
+        <san-iconmenu icon="more_horiz" open="{{ false }}">
+            <san-menuitem title="MenuItem 1" on-change="iconMenuChange($event)" />
+            <san-menuitem title="MenuItem 2" on-change="iconMenuChange($event)" />
+            <san-divider />
+            <san-menuitem title="Download" on-change="iconMenuChange($event)" leftIcon="file_download" />
+            <san-menuitem title="MenuItem 4" on-change="iconMenuChange($event)" rightIcon="chevron_right" />
+        </san-iconmenu>
+
+         <san-iconmenu icon="more_horiz" value="{{ value }}" open="{{ false }}" multiple="{{ true }}">
+            <san-menuitem value="{{ 1 }}" title="MenuItem 1 - multiple" on-change="iconMenuMultiple($event)" />
+            <san-menuitem value="{{ 2 }}" title="MenuItem 2 - multiple" on-change="iconMenuMultiple($event)" />
+            <san-menuitem value="{{ 3 }}" title="MenuItem 3 - multiple" on-change="iconMenuMultiple($event)" />
+            <san-menuitem value="{{ 4 }}" title="MenuItem 4 - multiple" on-change="iconMenuMultiple($event)" />
         </san-iconmenu>
 
         <popover placement="left" trigger="{{triggerLeft}}" triggerOperation="click" on-show="onShow()" on-hide="onHide()">
@@ -141,7 +143,7 @@ import AppBar from '../src/AppBar';
 import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../src/Card';
 import Slider from '../src/Slider';
 import Icon from '../src/Icon';
-import {DropDownMenu, IconMenu, MenuItem} from '../src/Menu';
+import {DropDownMenu, IconMenu, MenuItem, Divider} from '../src/Menu';
 import Popover from '../src/Popover';
 import {Dialog, DialogMask, DialogButton} from '../src/Dialog';
 
@@ -161,6 +163,7 @@ export default {
         'san-dropdownmenu': DropDownMenu,
         'san-iconmenu': IconMenu,
         'san-menuitem': MenuItem,
+        'san-divider': Divider,
         'popover': Popover,
         'san-dialog': Dialog,
         'san-mask': DialogMask,
@@ -192,15 +195,26 @@ export default {
         console.log(data);
     },
 
-    /**
-     * onChange
-     *
-     * @params {} $event : TouchTap event targeting the menu item that was clicked.
-     * @params {} key : The index of the clicked menu item in the children collection.
-     * @params {} payload : The value prop of the clicked menu item.
-     */
     onChange($event, key, payload) {
         console.log(`dropdown item changed...key:${key}, payload: ${payload}`);
+    },
+    dropDownMenuChange(data) {
+        let [value, text] = data;
+        this.data.set('value', value);
+        this.data.set('dropDownText', text);
+    },
+    iconMenuMultiple(data) {
+        let value = data[0];
+        let vals = String(this.data.get('value'));
+
+        if (vals.indexOf(value) !== -1) {
+            vals = vals.replace(new RegExp(`${value},?`, 'g'), '').replace(/,$/, '');
+        }
+        else {
+            vals += (vals.length ? ',' : '') + value;
+        }
+
+        this.data.set('value', vals);
     },
 
     onShow() {
