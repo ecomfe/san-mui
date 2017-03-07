@@ -1,5 +1,5 @@
 /**
- * @file filters of Menu component
+ * @file 展开styles对象
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
@@ -12,7 +12,7 @@ let nameReseter = (str = '') => str.replace(/([A-Z])/g, '-$1').toLowerCase();
  * @param {Object} styles 用户定制样式
  * @return {string} style
  */
-export const padStyles = (styles = null) => {
+export default function (styles = null) {
     if (!styles) {
         return;
     }

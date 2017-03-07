@@ -22,16 +22,29 @@ export default {
     },
 
     /**
-     * 获取元素的computedStyle
+     * 属性类型转换
      *
-     * @param {string} selector 元素选择器
-     * @param {string} prop 需获取的属性
-     * @return {number|*} 属性值，主要为宽高等信息
+     * @param {*} val 需要转换的值
+     * @param {string} type 目标类型（b - boolean，n - number，s - string）
+     * @return {*} 目标值
      */
-    getComputedStyle(selector, prop) {
-        return +window.getComputedStyle(
-            document.querySelector(selector)
-        )[prop].replace('px', '');
+    propConvert(val, type) {
+        switch (type) {
+            case 'b':
+                if (val === 'true') {
+                    return true;
+                }
+                if (val === 'false') {
+                    return false;
+                }
+                return val;
+
+            case 'n': return +val;
+
+            case 's': return val + '';
+        }
+
+        return val;
     },
 
     /**

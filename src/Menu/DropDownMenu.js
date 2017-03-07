@@ -8,31 +8,28 @@ import './DropDownMenu.styl';
 import template from './DropDownMenu.tpl';
 import Menu from './Menu';
 
-function DropDownMenu() {
-    Menu.call(this, {});
-}
-san.inherits(DropDownMenu, Menu);
+let DropDownMenu = san.defineComponent({
+    template,
 
-DropDownMenu.prototype.template = template;
+    initData() {
+        return Object.assign({
+            openImmediately: false
+        }, this.defaultData());
+    },
 
-DropDownMenu.prototype.initData = function () {
-    return Object.assign({
-        openImmediately: false,
-        className: 'drop-down-menu'
-    }, this.defaultData());
-};
+    attached() {
+        if (this.data.get('openImmediately')) {
+            this.toggleMenu();
+        }
 
-DropDownMenu.prototype.attached = function () {
-    console.log(this.data)
-    if (this.data.get('openImmediately')) {
-        this.toggleMenu();
+        this.data.set('text', this.data.get('text'));
+
+        this.rootClass = '.' + this.data.get('className');
+        this.clickerClass = '.sm-dropdown-menu-selected';
+
+        this.bindEvent();
     }
-
-    this.watch('text', () => {
-        this.toggleMenu(true);
-    });
-
-    this.bindEvents();
-};
+});
+san.inherits(DropDownMenu, Menu);
 
 export default DropDownMenu;

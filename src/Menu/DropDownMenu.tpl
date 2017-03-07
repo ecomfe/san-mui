@@ -3,7 +3,7 @@
     style="{{ style | padStyles }}"
     >
 
-    <div class="sm-dropdown-menu-selected" on-click="toggleMenu" style="width:{{ selectedLabelWidth }}px;">
+    <div class="sm-dropdown-menu-selected" on-click="toggleMenu">
         <p
             class="sm-dropdown-menu-selected-label"
             style="{{ labelStyle | padStyles }}"
@@ -13,7 +13,7 @@
     </div>
 
     <div class="sm-menu-list depth-2{{ open | yesOrNoToBe('', ' list-hidden') }}"
-        style="max-height:{{ maxHeightS }}px;opacity:{{ opacity }};{{ menuStyle | padStyles }}">
+        style="transform:{{ transform }};transform-origin:{{ transformOrigin }};left:{{ left }}px;top:{{ top }}px;{{ menuStyle | padStyles }};">
 
         <slot></slot>
     </div>

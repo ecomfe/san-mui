@@ -5,11 +5,11 @@
 
 import san from 'san';
 import './MenuItem.styl';
-import {padStyles} from './filters';
+import padStyles from '../filters/padStyles';
 import template from './MenuItem.tpl';
 import Icon from '../Icon';
 
-let getValue = (title, label) => {
+let getSelectedText = (title, label) => {
     return label ? label : title;
 };
 
@@ -24,43 +24,66 @@ export default san.defineComponent({
         padStyles
     },
 
+    inited() {
+        this.data.set('rightIcons', (this.data.get('rightIcon') || '').split(','));
+    },
+
     attached() {
-        // TODO 是否应该通过判断当前item有无value来决定是否需要selected
-        if (!this.data.get('value')) {
-            return;
-        }
 
-        // TODO 不应该跟owner对比，应该跟父menu对比，可是目前取不到父组件
-        // let selected = this.data.get('value') === this.owner.data.get('value');
-        let selected = String(this.owner.data.get('value')).indexOf(this.data.get('value')) !== -1;
-        this.data.set('selected', selected);
+        // 改变其已选状态
+        this.watch('selectValue', () => {
+            let value = this.data.get('value');
+            let selectValue = this.data.get('selectValue');
+            let selected = false;
 
-        // if (selected) {
-        //     this.fire('change', [
-        //         this.data.get('value'),
-        //         getValue(this.data.get('title'), this.data.get('label'))
-        //     ]);
-        // }
+            if (!value) {
+                return;
+            }
+
+            if (selectValue && selectValue.constructor === Array) {
+
+                let len = selectValue.length;
+                while (len--) {
+                    if (value === selectValue[len]) {
+                        selected = true;
+                        break;
+                    }
+                }
+            }
+            else {
+                selected = value === selectValue;
+            }
+
+            this.data.set('selected', selected);
+
+            if (selected) {
+                this.dispatch('UI:menu-item-selected-text',
+                    getSelectedText(
+                        this.data.get('title'),
+                        this.data.get('label')
+                    )
+                );
+            }
+        });
+
+        this.dispatch('UI:menu-item-attached');
+    },
+
+    detached() {
+        this.dispatch('UI:menu-item-detached');
     },
 
     select() {
         let value = this.data.get('value');
 
-        if (!value) {
-            // TODO 做特定事情的item，触发change是否需要什么参数？
-            this.fire('change');
-            return;
-        }
+        this.dispatch('UI:menu-item-selected', value);
+        this.dispatch('UI:menu-item-selected-text',
+            getSelectedText(
+                this.data.get('title'),
+                this.data.get('label')
+            )
+        );
 
-        this.fire('change', [
-            this.data.get('value'),
-            getValue(this.data.get('title'), this.data.get('label'))
-        ]);
-
-        for (let item of this.parent.childs) {
-            // item.data && item.data.set('selected', item.data.get('value') === value);
-            item.data
-            && item.data.set('selected', String(this.owner.data.get('value')).indexOf(item.data.get('value')) !== -1);
-        }
+        this.fire('change');
     }
 });
