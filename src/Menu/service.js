@@ -58,23 +58,20 @@ export default {
         let htmlStyle = document.documentElement.style;
         let testProps = [];
 
-        let toUpper = (string) => {
-            return string.replace(/-(\w)/g, ($0, $1) => {
-                return $1.toUpperCase();
-            });
-        };
-
-        for (let i in prefix) {
-            let str = toUpper(prefix[i] + '-' + prop);
-            testProps.push(str);
+        for (let p of prefix) {
+            testProps.push(toUpper(p + '-' + prop));
         }
 
-        for (let i in testProps) {
-            if (testProps[i] in htmlStyle) {
+        for (let tProp of testProps) {
+            if (tProp in htmlStyle) {
                 return true;
             }
 
             return false;
-        } 
-    }  
+        }
+    }
 };
+
+function toUpper(string) {
+    return string.replace(/-(\w)/g, ($0, $1) => $1.toUpperCase());
+}

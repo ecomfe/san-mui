@@ -1,5 +1,5 @@
 <div class="sm-iconmenu {{ className }}" style="{{ style | padStyles }}">
-    <div class="sm-iconmenu-icon" on-touchstart="touchstart">
+    <div class="sm-iconmenu-icon">
         <san-icon value="{{ icon }}" on-click="toggleMenu" />
     </div>
 

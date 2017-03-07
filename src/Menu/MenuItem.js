@@ -9,9 +9,9 @@ import padStyles from '../filters/padStyles';
 import template from './MenuItem.tpl';
 import Icon from '../Icon';
 
-let getSelectedText = (title, label) => {
+function getSelectedText(title, label) {
     return label ? label : title;
-};
+}
 
 export default san.defineComponent({
     template,

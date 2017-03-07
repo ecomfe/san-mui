@@ -42,7 +42,7 @@ export default san.defineComponent({
     },
 
     messages: {
-        'UI:menu-item-selected': function (arg) {
+        'UI:menu-item-selected'(arg) {
             let value = arg.value;
             let selectValue = this.data.get('value');
 
@@ -83,16 +83,16 @@ export default san.defineComponent({
             this.toggleMenu(true);
         },
 
-        'UI:menu-item-selected-text': function (arg) {
+        'UI:menu-item-selected-text'(arg) {
             this.data.set('text', arg.value);
         },
 
-        'UI:menu-item-attached': function (arg) {
+        'UI:menu-item-attached'(arg) {
             this.items.push(arg.target);
             arg.target.data.set('selectValue', this.data.get('value'));
         },
 
-        'UI:menu-item-detached': function (arg) {
+        'UI:menu-item-detached'(arg) {
             let len = this.items.length;
 
             while (len--) {
@@ -111,7 +111,7 @@ export default san.defineComponent({
         let lastMove;
 
         // 点击menu外位置隐藏menu
-        document.body.addEventListener('click', (event) => {
+        document.body.addEventListener('click', function () {
             if (typeof me.toggleAction === 'undefined') {
                 return;
             }
@@ -124,7 +124,7 @@ export default san.defineComponent({
         });
 
         // 页面滚动过程中调整menu位置
-        this.data.get('scroller').addEventListener('scroll', (event) => {
+        this.data.get('scroller').addEventListener('scroll', function () {
             lastMove = lastMove || document.body.scrollTop || document.documentElement.scrollTop;
             // 已滚动高度
             let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
@@ -236,7 +236,10 @@ export default san.defineComponent({
      * @param {Object} targetOrigin 组件内部操作时自定义的target
      */
     setPos(anchorOrigin, targetOrigin) {
-        let [left, top, root, clicker] = [0, 0, this.rootClass, this.clickerClass];
+        let left = 0;
+        let top = 0;
+        let root = this.rootClass;
+        let clicker = this.clickerClass;
 
         let {
             horizontal: anchorHoriz,
@@ -256,28 +259,48 @@ export default san.defineComponent({
         ];
 
         switch (anchorHoriz) {
-            case 'left': left += 0; break;
-            case 'center': left += clickerW / 2; break;
-            case 'right': left += clickerW;
-        };
+            case 'left':
+                left += 0;
+                break;
+            case 'center':
+                left += clickerW / 2;
+                break;
+            case 'right':
+                left += clickerW;
+        }
 
         switch (anchorVerti) {
-            case 'top': top += 0; break;
-            case 'middle': top += clickerH / 2; break;
-            case 'bottom': top += clickerH;
-        };
+            case 'top':
+                top += 0;
+                break;
+            case 'middle':
+                top += clickerH / 2;
+                break;
+            case 'bottom':
+                top += clickerH;
+        }
 
         switch (targetHoriz) {
-            case 'left': left -= 0; break;
-            case 'center': left -= menuW / 2; break;
-            case 'right': left -= menuW;
-        };
+            case 'left':
+                left -= 0;
+                break;
+            case 'center':
+                left -= menuW / 2;
+                break;
+            case 'right':
+                left -= menuW;
+        }
 
         switch (targetVerti) {
-            case 'top': top -= 0; break;
-            case 'middle': top -= menuH / 2; break;
-            case 'bottom': top -= menuH;
-        };
+            case 'top':
+                top -= 0;
+                break;
+            case 'middle':
+                top -= menuH / 2;
+                break;
+            case 'bottom':
+                top -= menuH;
+        }
 
         this.data.set('left', left);
         this.data.set('top', top);

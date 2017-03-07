@@ -23,4 +23,4 @@ export default function (styles = null) {
     }
 
     return result;
-};
+}

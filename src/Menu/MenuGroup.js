@@ -5,10 +5,10 @@
 
 import san from 'san';
 // import './MenuGroup.styl';
-import template from './MenuGroup.tpl';
+// import template from './MenuGroup.tpl';
 
 export default san.defineComponent({
-    template: ``,
+    template: '',
 
     initData() {
         return {
