@@ -1,0 +1,43 @@
+@require './common'
+
+.sm-menu-item
+    padding: 0 $padding-hor
+    line-height: $line-height
+    position: relative
+    font-size: 16px
+    cursor: pointer
+    overflow: hidden
+
+    &:hover
+        background-color: $light-grey
+
+    &.selected
+        color: $active-pink
+
+    p
+        float: left
+    &.has-left p
+        margin-left: $margin-with-icon
+
+    .sm-menu-item-left-icon
+        position: absolute
+        top: 0
+        left: $padding-hor
+        padding: 12px 0
+
+        i
+            display: block
+
+    .sm-menu-item-right-icon
+        float: right
+        padding: 12px 0
+        margin-right: -5px
+
+        i
+            display: block
+
+        &:last-of-type
+            margin-left: 20px
+
+        &:first-of-type
+            margin-right: -1 * $padding-hor
