@@ -72,6 +72,8 @@
             <p>This is a popover!</p>
             <p>popover content!</p>
         </popover>
+        <san-pagination total="345"></san-pagination>
+        <san-pagination current="3" total="188" pageSize="10" showSizeChanger="true" pageSizeOptions="[5, 10, 20]" on-pageChange="onPageChange($event)" on-pageSizeChange="onPageSizeChange($event)"></san-pagination>
     </div>
 </template>
 
@@ -83,6 +85,7 @@ import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../
 import Slider from '../src/Slider';
 import Icon from '../src/Icon';
 import Popover from '../src/Popover';
+import Pagination from '../src/Pagination';
 
 export default {
     components: {
@@ -97,7 +100,8 @@ export default {
         'san-cardactions': CardActions,
         'san-slider': Slider,
         'icon': Icon,
-        'popover': Popover
+        'popover': Popover,
+        'san-pagination': Pagination
     },
     initData() {
         return {
@@ -118,6 +122,12 @@ export default {
     },
     onHide() {
         console.log('popover hide');
+    },
+    onPageChange(data) {
+        console.log(data);
+    },
+    onPageSizeChange(data) {
+        console.log(data);
     }
 }
 </script>
@@ -144,5 +154,8 @@ export default {
 }
 .san-appbar .material-icons {
     line-height: 64px;
+}
+.wrapper {
+    margin-bottom: 200px;
 }
 </style>
