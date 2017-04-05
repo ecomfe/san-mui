@@ -26,7 +26,15 @@ export default san.defineComponent({
     },
 
     filters: {
-        padStyles
+        padStyles,
+
+        notOpen(open, className) {
+            return open ? '' : className;
+        },
+
+        disabled(disabled) {
+            return disabled ? 'disabled' : '';
+        }
     },
 
     inited() {

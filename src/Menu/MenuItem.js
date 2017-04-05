@@ -21,7 +21,11 @@ export default san.defineComponent({
     },
 
     filters: {
-        padStyles
+        padStyles,
+
+        yesToBe(prop, className) {
+            return prop ? className : '';
+        }
     },
 
     inited() {
