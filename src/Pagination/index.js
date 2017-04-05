@@ -126,10 +126,7 @@ export default san.defineComponent({
 
         this.setPageSize(pageSize);
         this.data.set(totalPageKey, this.getTotalPage());
-        // 这里不能直接setCurrentPage，有一个莫名的bug
-        setTimeout(() => {
-            me.setCurrentPage(current);
-        }, 0);
+        me.setCurrentPage(current);
 
         this.fire('pageSizeChange', {
             pageSize,
