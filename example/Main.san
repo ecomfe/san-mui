@@ -73,9 +73,9 @@
         </san-iconmenu>
 
         <p class="sm-menu-intro">多选icon menu: </p>
-        <san-iconmenu 
-            icon="more_verti" 
-            value="{{ multipleValues }}" 
+        <san-iconmenu
+            icon="more_verti"
+            value="{{ multipleValues }}"
             multiple="true"
             on-change="iconMenuMultipleChange($event)"
         >
@@ -105,6 +105,8 @@
             <p>This is a popover!</p>
             <p>popover content!</p>
         </popover>
+        <san-pagination total="345"></san-pagination>
+        <san-pagination current="3" total="188" pageSize="10" showSizeChanger="true" pageSizeOptions="[5, 10, 20]" on-pageChange="onPageChange($event)" on-pageSizeChange="onPageSizeChange($event)"></san-pagination>
 
         <san-dialog-btn on-click="open">
         <slot>
@@ -152,6 +154,7 @@ import Slider from '../src/Slider';
 import Icon from '../src/Icon';
 import {DropDownMenu, IconMenu, MenuItem, Divider} from '../src/Menu';
 import Popover from '../src/Popover';
+import Pagination from '../src/Pagination';
 import {Dialog, DialogMask, DialogButton} from '../src/Dialog';
 
 export default {
@@ -167,6 +170,8 @@ export default {
         'san-cardactions': CardActions,
         'san-slider': Slider,
         'icon': Icon,
+        'popover': Popover,
+        'san-pagination': Pagination,
         'san-dropdownmenu': DropDownMenu,
         'san-iconmenu': IconMenu,
         'san-menuitem': MenuItem,
@@ -222,6 +227,12 @@ export default {
     onHide() {
         console.log('popover hide');
     },
+    onPageChange(data) {
+        console.log(data);
+    },
+    onPageSizeChange(data) {
+        console.log(data);
+    },
     triggerDialog() {
         this.data.set('open', true);
     },
@@ -245,6 +256,7 @@ export default {
     margin: 0 auto;
     padding: 15px 0;
     width: 60%;
+    margin-bottom: 200px;
 }
 .san-card-click {
     display: inline-block;
