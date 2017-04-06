@@ -52,6 +52,39 @@
             <san-slider max="100" min="1" step="1" value="4" disable="0">
             </san-slider>
         </div>
+
+        <san-dropdownmenu on-change="dropDownChange($event)" on-close="dropDownClose()" value="{{ value }}">
+            <slot>
+                <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
+                <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
+                <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
+                <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
+            </slot>
+            <icon slot="iconButton" value="arrow_drop_down" />
+        </san-dropdownmenu>
+
+        <p class="sm-menu-intro">command icon menu:</p>
+        <san-iconmenu icon="more_horiz">
+            <san-menuitem title="MenuItem 1" />
+            <san-menuitem title="MenuItem 2" />
+            <san-divider />
+            <san-menuitem title="Download" on-change="download()" leftIcon="file_download" />
+            <san-menuitem title="MenuItem 4" on-change="openGroup()" rightIcon="chevron_right,subdirectory_arrow_right,notifications_off" />
+        </san-iconmenu>
+
+        <p class="sm-menu-intro">多选icon menu: </p>
+        <san-iconmenu
+            icon="more_verti"
+            value="{{ multipleValues }}"
+            multiple="true"
+            on-change="iconMenuMultipleChange($event)"
+        >
+            <san-menuitem value="{{ 1 }}" title="multiple 1" />
+            <san-menuitem value="{{ 2 }}" title="multiple 2" />
+            <san-menuitem value="{{ 3 }}" title="multiple 3" />
+            <san-menuitem value="{{ 4 }}" title="multiple 4" />
+        </san-iconmenu>
+
         <popover placement="left" trigger="{{triggerLeft}}" triggerOperation="click" on-show="onShow()" on-hide="onHide()">
             <p>This is a popover!</p>
             <p>popover content!</p>
@@ -93,18 +126,42 @@
         <div>
             <san-text-field hintText="提示文字"/></san-text-field>
         </div>
-        <div style="margin-bottom: 30px">
-            <san-switch label="开关"></san-switch>
-        </div>
-        <div style="margin-bottom: 30px">
-            <san-switch label="开关" value="{{defaultValue}}" inputValue="{{defaultCheck}}"></san-switch>
-        </div>
-        <div style="margin-bottom: 30px">
-            <san-switch label="不可用" disabled/></san-switch>
-        </div>
-        <div style="margin-bottom: 30px">
-            <san-switch label="文字在左边" labelLeft/></san-switch>
-        </div>
+        <san-pagination total="345"></san-pagination>
+        <san-pagination current="3" total="188" pageSize="10" showSizeChanger="true" pageSizeOptions="[5, 10, 20]" on-pageChange="onPageChange($event)" on-pageSizeChange="onPageSizeChange($event)"></san-pagination>
+
+        <san-dialog-btn on-click="open">
+        <slot>
+            <button class="sm-dialog-trigger-btn">点我有浮层</button>
+        </slot>
+        </san-dialog-btn>
+        <san-dialog
+            prop-open="{=dialog=}"
+            prop-showTitle="{=showTitle=}"
+            prop-showFooter="{=showFooter=}"
+            prop-contentClass="{{contentClass}}">
+            <span slot="title">{{title}}</span>
+            <slot><div>this is the content</div></slot>
+            <button slot="actions" on-click="close" class="sm-dialog-cancel">取消</button>
+            <button slot="actions" on-click="close" class="sm-dialog-sure">确定</button>
+        </san-dialog>
+        <san-mask prop-open="{=dialog=}"></san-mask>
+
+        <san-dialog-btn on-click="open2">
+        <slot>
+            <button class="sm-dialog-trigger-btn">你要点我哟</button>
+        </slot>
+        </san-dialog-btn>
+        <san-dialog
+            prop-open="{=dialog2=}"
+            prop-showTitle="{=showTitle=}"
+            prop-showFooter="{=showFooter=}"
+            prop-dialogClass="{{dialogClass}}">
+            <span slot="title">{{title}}</span>
+            <slot><div>{{content}}</div></slot>
+            <button slot="actions" on-click="close2" class="sm-dialog-cancel">取消</button>
+            <button slot="actions" on-click="close2" class="sm-dialog-sure">确定</button>
+        </san-dialog>
+        <san-mask prop-open="{=dialog2=}"></san-mask>
     </div>
 </template>
 
@@ -115,9 +172,11 @@ import AppBar from '../src/AppBar';
 import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../src/Card';
 import Slider from '../src/Slider';
 import Icon from '../src/Icon';
+import {DropDownMenu, IconMenu, MenuItem, Divider} from '../src/Menu';
 import Popover from '../src/Popover';
 import TextField from '../src/TextField';
-import FormSwitch from '../src/Switch';
+import Pagination from '../src/Pagination';
+import {Dialog, DialogMask, DialogButton} from '../src/Dialog';
 
 export default {
     components: {
@@ -133,18 +192,35 @@ export default {
         'san-slider': Slider,
         'icon': Icon,
         'popover': Popover,
+<<<<<<< HEAD
         'san-text-field': TextField,
         'san-switch': FormSwitch
+=======
+        'san-pagination': Pagination,
+        'san-dropdownmenu': DropDownMenu,
+        'san-iconmenu': IconMenu,
+        'san-menuitem': MenuItem,
+        'san-divider': Divider,
+        'popover': Popover,
+        'san-dialog': Dialog,
+        'san-mask': DialogMask,
+        'san-dialog-btn': DialogButton
+>>>>>>> d4e7634fc3a169e165a8ea65918e7b06ba4e0c69
     },
     initData() {
         return {
             bar: 'Title',
             text: '散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。 似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光， 找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光',
+
+            value: 1,
+            multipleValues: [2,3],
+
             triggerLeft: document.getElementById('popover-left'),
             triggerTop: document.getElementById('popover-top'),
             triggerBottom: document.getElementById('popover-bottom'),
             triggerRight: document.getElementById('popover-right'),
             triggerFocus: document.getElementById('input'),
+<<<<<<< HEAD
             textValue: '默认值',
             input: '',
             inputErrorText: '',
@@ -152,23 +228,70 @@ export default {
             multiLineInputErrorText: '',
             defaultCheck: ['ON'],
             defaultValue: 'ON'
+=======
+            dialog: false,
+            showTitle: true,
+            showFooter: true,
+            title: 'this is a new title',
+            dialogClass: 'dialog-class',
+            content: 'this is a new content in dialog',
+            contentClass: 'content-class'
+>>>>>>> d4e7634fc3a169e165a8ea65918e7b06ba4e0c69
         }
     },
+
     labelClicker(data) {
         console.log(data);
     },
+
+    dropDownChange(value) {
+        console.log('value of dropdown menu changed to: ' + value);
+    },
+    dropDownClose() {
+        console.log('menu closed');
+    },
+    download() {
+        console.log('starting to download');
+    },
+    iconMenuMultipleChange(value) {
+        console.log('iconmenu multiple values changed to: ' + JSON.stringify(value));
+    },
+
     onShow() {
         console.log('popover show');
     },
     onHide() {
         console.log('popover hide');
     },
+<<<<<<< HEAD
     handleInputOverflow (isOverflow) {
         console.log(isOverflow);
         this.data.set('inputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
     },
     handleMultiLineOverflow (isOverflow) {
         this.data.set('multiLineInputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
+=======
+    onPageChange(data) {
+        console.log(data);
+    },
+    onPageSizeChange(data) {
+        console.log(data);
+    },
+    triggerDialog() {
+        this.data.set('open', true);
+    },
+    open() {
+        this.data.set('dialog', true);
+    },
+    open2() {
+        this.data.set('dialog2', true);
+    },
+    close() {
+        this.data.set('dialog', false);
+    },
+    close2() {
+        this.data.set('dialog2', false);
+>>>>>>> d4e7634fc3a169e165a8ea65918e7b06ba4e0c69
     }
 }
 </script>
@@ -178,6 +301,7 @@ export default {
     margin: 0 auto;
     padding: 15px 0;
     width: 60%;
+    margin-bottom: 200px;
 }
 .san-card-click {
     display: inline-block;
@@ -195,5 +319,18 @@ export default {
 }
 .san-appbar .material-icons {
     line-height: 64px;
+}
+.sm-menu-intro {
+    margin: 20px 0 5px 0;
+    color: #03a9f4;
+    font-size: 14px;
+}
+.sm-dialog-trigger-btn,
+.sm-dialog-cancel,
+.sm-dialog-sure {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    outline: none;
 }
 </style>

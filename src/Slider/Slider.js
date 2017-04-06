@@ -8,7 +8,7 @@ import './Slider.styl';
 
 export default san.defineComponent({
     template: `
-        <div class="san-slider {{themeClass}} {{disable | yesToBe('san-slider-disable')}}"
+        <div class="sm-slider {{themeClass}} {{disable | yesToBe('sm-slider-disable')}}"
             on-focus="handleFocus($event)"
             on-blur="handleBlur($event)"
             on-touchstart="handleTouchStart($event)"
@@ -19,9 +19,9 @@ export default san.defineComponent({
             on-mouseenter="handleMouseEnter($event)"
             on-mouseleave="handleMouseLeave($event)"
             on-click="handleClick($event)">
-            <div class="san-slider-bg"></div>
-            <div class="san-slider-fill" style="width: {{percent * 100 + '%'}}"></div>
-            <div class="san-slider-thumb"
+            <div class="sm-slider-bg"></div>
+            <div class="sm-slider-fill" style="width: {{percent * 100 + '%'}}"></div>
+            <div class="sm-slider-thumb"
                 style="left: {{percent * 100 + '%'}}"
                 title="值：{{value}}；占比：{{percent * 100 + '%'}}">
             </div>
