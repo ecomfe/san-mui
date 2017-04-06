@@ -1,4 +1,4 @@
-<div class="sm-dialog-wrapper {{open | yesToBe('sm-dialog-show')}}{{!open | yesToBe('sm-dialog-hide')}} {{dialogClass}}">
+<div class="sm-dialog-wrapper {{open ? 'sm-dialog-show' : 'sm-dialog-hide'}} {{dialogClass}}">
     <div class="sm-dialog">
         <h3 class="sm-dialog-title {{titleClass}}" san-if="showTitle">
             <slot name="title">

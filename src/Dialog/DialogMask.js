@@ -8,7 +8,7 @@ import './Dialog.styl';
 
 export default san.defineComponent({
     template: `
-        <div class="sm-dialog-mask{{open | yesToBe(' sm-mask-show')}} {{!open | yesToBe('sm-mask-hide')}}"
+        <div class="sm-dialog-mask {{open ? 'sm-mask-show' : 'sm-mask-hide'}}"
         on-click="handleClick">
         </div>`,
     initData() {
