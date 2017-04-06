@@ -72,6 +72,39 @@
             <p>This is a popover!</p>
             <p>popover content!</p>
         </popover>
+        <div>
+            <san-text-field hintText="提示文字" disabled></san-text-field><br/>
+        </div>
+        <div>
+            <san-text-field hintText="多行文本输入，默认 3行，最大6行" multiLine="true" rows="3" rowsMax="6"></san-text-field>
+        </div>
+        <div>
+            <san-text-field hintText="提示文字" errorText="这是必填项"/></san-text-field>
+        </div>
+        <div>
+            <san-text-field label="标签文字" errorText="请输入数字" hintText="提示文字"/></san-text-field>
+        </div>
+        <div>
+            <san-text-field label="自定义错误颜色" errorText="又输错了，笨死了！" errorColor="orange" labelFloat/></san-text-field>
+        </div>
+        <div>
+            <san-text-field hintText="电话号码" type="number" icon="menu"/></san-text-field>
+        </div>
+        <div>
+            <san-text-field hintText="提示文字"/></san-text-field>
+        </div>
+        <div style="margin-bottom: 30px">
+            <san-switch label="开关"></san-switch>
+        </div>
+        <div style="margin-bottom: 30px">
+            <san-switch label="开关" value="{{defaultValue}}" inputValue="{{defaultCheck}}"></san-switch>
+        </div>
+        <div style="margin-bottom: 30px">
+            <san-switch label="不可用" disabled/></san-switch>
+        </div>
+        <div style="margin-bottom: 30px">
+            <san-switch label="文字在左边" labelLeft/></san-switch>
+        </div>
     </div>
 </template>
 
@@ -83,6 +116,8 @@ import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../
 import Slider from '../src/Slider';
 import Icon from '../src/Icon';
 import Popover from '../src/Popover';
+import TextField from '../src/TextField';
+import FormSwitch from '../src/Switch';
 
 export default {
     components: {
@@ -97,7 +132,9 @@ export default {
         'san-cardactions': CardActions,
         'san-slider': Slider,
         'icon': Icon,
-        'popover': Popover
+        'popover': Popover,
+        'san-text-field': TextField,
+        'san-switch': FormSwitch
     },
     initData() {
         return {
@@ -107,7 +144,14 @@ export default {
             triggerTop: document.getElementById('popover-top'),
             triggerBottom: document.getElementById('popover-bottom'),
             triggerRight: document.getElementById('popover-right'),
-            triggerFocus: document.getElementById('input')
+            triggerFocus: document.getElementById('input'),
+            textValue: '默认值',
+            input: '',
+            inputErrorText: '',
+            multiLineInput: '',
+            multiLineInputErrorText: '',
+            defaultCheck: ['ON'],
+            defaultValue: 'ON'
         }
     },
     labelClicker(data) {
@@ -118,6 +162,13 @@ export default {
     },
     onHide() {
         console.log('popover hide');
+    },
+    handleInputOverflow (isOverflow) {
+        console.log(isOverflow);
+        this.data.set('inputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
+    },
+    handleMultiLineOverflow (isOverflow) {
+        this.data.set('multiLineInputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
     }
 }
 </script>
