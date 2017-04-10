@@ -7,16 +7,16 @@ import path from 'path';
 import config from './config';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
-export function assetsPath(_path) {
+export function assetsPath(p) {
     const assetsSubDirectory = process.env.NODE_ENV === 'prod'
         ? config.build.assetsSubDirectory
-        : config.dev.assetsSubDirectory
-    return path.posix.join(config.build.assetsSubDirectory, _path);
+        : config.dev.assetsSubDirectory;
+    return path.posix.join(assetsSubDirectory, p);
 }
 
 export function cssLoaders(options = {}) {
-    const generateLoaders = (loaders) => {
-        const sourceLoader = loaders.map((loader) => {
+    const generateLoaders = loaders => {
+        const sourceLoader = loaders.map(loader => {
             let extraParamChar;
             if (/\?/.test(loader)) {
                 loader = loader.replace(/\?/, '-loader?');
@@ -29,12 +29,9 @@ export function cssLoaders(options = {}) {
             return loader + (options.sourceMap ? extraParamChar + 'sourceMap' : '');
         }).join('!');
 
-        if (options.extract) {
-            return ExtractTextPlugin.extract('style-loader', sourceLoader);
-        }
-        else {
-            return ['style-loader', sourceLoader].join('!');
-        }
+        return options.extract
+            ? ExtractTextPlugin.extract('style-loader', sourceLoader)
+            : ['style-loader', sourceLoader].join('!');
     };
     return {
         css: generateLoaders(['css']),
@@ -42,8 +39,16 @@ export function cssLoaders(options = {}) {
         less: generateLoaders(['css', 'less']),
         sass: generateLoaders(['css', 'sass?indentedSyntax']),
         scss: generateLoaders(['css', 'sass']),
-        stylus: generateLoaders(['css', 'postcss', 'stylus']),
-        styl: generateLoaders(['css', 'postcss', 'stylus'])
+        stylus: generateLoaders([
+            'css',
+            'postcss',
+            'stylus?resolve url&include css'
+        ]),
+        styl: generateLoaders([
+            'css',
+            'postcss',
+            'stylus?resolve url&include css'
+        ])
     };
 }
 

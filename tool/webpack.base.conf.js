@@ -23,7 +23,8 @@ export default {
         extensions: ['', '.js', '.san'],
         fallback: [path.join(__dirname, '../node_modules')],
         alias: {
-            'src': SRC_ROOT
+            'src': SRC_ROOT,
+            'san': 'san/src/main'
         }
     },
     resolveLoader: {
@@ -44,7 +45,7 @@ export default {
                 loader: 'san-loader',
                 include: [
                     EXAMPLE_ROOT,
-                    SRC_ROOT,
+                    SRC_ROOT
                 ]
             },
             {
