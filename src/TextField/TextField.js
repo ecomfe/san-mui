@@ -1,10 +1,15 @@
+/**
+ * @file testfield component
+ * @author liuchaofan(asd123freedom@gmail.com)
+ */
+
 import san from 'san';
 import './styles/textField.styl';
-import underline from './textFieldUnderline';
-import textFieldLabel from './textFieldLabel';
-import textFieldHint from './textFieldHint';
-import template from './textField.tpl';
-import enhancedTextarea from './enhancedTextarea';
+import underline from './TextFieldUnderline';
+import textFieldLabel from './TextFieldLabel';
+import textFieldHint from './TextFieldHint';
+import template from './TextField.tpl';
+import enhancedTextarea from './TextFieldEnhancedTextarea';
 import icon from '../Icon';
 export default san.defineComponent({
     template,
@@ -73,12 +78,6 @@ export default san.defineComponent({
     },
 
     attached() {
-        // compute float value
-        let labelFloat = this.data.get('labelFloat');
-        // console.log(labelFloat);
-        let focus = this.data.get('focus');
-        let inputValue = this.data.get('inputValue');
-        // this.computeFloat();
         this.watch('inputValue', val => {
             let charLength = 0;
             let maxLength = +this.data.get('maxLength');
@@ -96,15 +95,15 @@ export default san.defineComponent({
             // this.fire('input', val);
         });
     },
-    handleFocus (event) {
+    handleFocus(event) {
         this.data.set('focus', true);
         this.fire('input-focus', event);
     },
-    handleBlur (event) {
+    handleBlur(event) {
         this.data.set('focus', false);
         this.fire('input-blur', event);
     },
-    handleChange (event) {
+    handleChange(event) {
         this.fire('input-change', event);
     },
     handleKeypress(event) {

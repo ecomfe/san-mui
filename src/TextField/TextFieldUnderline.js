@@ -12,7 +12,7 @@ export default san.defineComponent({
             <hr class="sm-text-field-line {{lineClass}}"/>
             <hr san-if="!disabled"
                 class="sm-text-field-focus-line {{focusLineClass}}"
-                style="{{errorColor | yesToBe('background-color:' + errorColor)}}"/>
+                style="{{errorColor ? ('background-color:' + errorColor) : ''}}"/>
         </div>
     `,
     initData() {
@@ -25,7 +25,7 @@ export default san.defineComponent({
             focusClass: '',
             focusLineClass: '',
             lineClass: ''
-        }
+        };
     },
 
     inited() {

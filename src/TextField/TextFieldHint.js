@@ -8,7 +8,7 @@ import './styles/hint.styl';
 
 export default san.defineComponent({
     template: `
-        <div class="sm-text-field-hint {{show | yesToBe('show')}} {{hintTextClass}}">
+        <div class="sm-text-field-hint {{show ? 'show' : ''}} {{hintTextClass}}">
             {{text}}
         </div>
     `,
@@ -16,6 +16,6 @@ export default san.defineComponent({
         return {
             text: '',
             show: true
-        }
+        };
     }
 });

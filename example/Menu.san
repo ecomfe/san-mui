@@ -1,0 +1,82 @@
+<template>
+    <div>
+        <san-dropdownmenu on-change="dropDownChange($event)" on-close="dropDownClose()" value="{{ value }}">
+            <slot>
+                <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
+                <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
+                <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
+                <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
+            </slot>
+            <icon slot="iconButton" value="arrow_drop_down" />
+        </san-dropdownmenu>
+
+        <p class="sm-menu-intro">command icon menu:</p>
+        <san-iconmenu icon="more_horiz">
+            <san-menuitem title="MenuItem 1" />
+            <san-menuitem title="MenuItem 2" />
+            <san-divider />
+            <san-menuitem title="Download" on-change="download()" leftIcon="file_download" />
+            <san-menuitem title="MenuItem 4" on-change="openGroup()" rightIcon="chevron_right,subdirectory_arrow_right,notifications_off" />
+        </san-iconmenu>
+
+        <p class="sm-menu-intro">多选icon menu: </p>
+        <san-iconmenu
+            icon="more_verti"
+            value="{{ multipleValues }}"
+            multiple="true"
+            on-change="iconMenuMultipleChange($event)"
+        >
+            <san-menuitem value="{{ 1 }}" title="multiple 1" />
+            <san-menuitem value="{{ 2 }}" title="multiple 2" />
+            <san-menuitem value="{{ 3 }}" title="multiple 3" />
+            <san-menuitem value="{{ 4 }}" title="multiple 4" />
+        </san-iconmenu>
+    </div>
+</template>
+
+<script>
+
+import Icon from '../src/Icon';
+import {DropDownMenu, IconMenu, MenuItem, Divider} from '../src/Menu';
+
+export default {
+
+    components: {
+        'icon': Icon,
+        'san-dropdownmenu': DropDownMenu,
+        'san-iconmenu': IconMenu,
+        'san-menuitem': MenuItem,
+        'san-divider': Divider
+    },
+
+    initData() {
+        return {
+            value: 1,
+            multipleValues: [2,3]
+        };
+    },
+
+    dropDownChange(value) {
+        console.log('value of dropdown menu changed to: ' + value);
+    },
+    dropDownClose() {
+        console.log('menu closed');
+    },
+    download() {
+        console.log('starting to download');
+    },
+    iconMenuMultipleChange(value) {
+        console.log('iconmenu multiple values changed to: ' + JSON.stringify(value));
+    }
+
+}
+
+</script>
+
+<style>
+.sm-menu-intro {
+    margin: 20px 0 5px 0;
+    color: #03a9f4;
+    font-size: 14px;
+}
+</style>

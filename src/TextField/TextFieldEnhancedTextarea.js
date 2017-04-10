@@ -27,11 +27,11 @@ export default san.defineComponent({
             rowsMax: 0,
             disabled: false,
             normalClass: ''
-        }
+        };
     },
-    resizeTextarea () {
+    resizeTextarea() {
         let element = null;
-        let textareas = document.getElementsByClassName('mu-text-field-textarea');
+        let textareas = document.getElementsByClassName('sm-text-field-textarea');
         Array.prototype.forEach.call(textareas, item => {
             if (this.el.contains(item)) {
                 if (this.el.contains(item)) {
@@ -40,10 +40,10 @@ export default san.defineComponent({
             }
         });
         if (!element) {
-            return
+            return;
         }
         let hiddenEl = null;
-        let hiddenTextareas = document.getElementsByClassName('mu-text-field-textarea-hide');
+        let hiddenTextareas = document.getElementsByClassName('sm-text-field-textarea-hide');
         Array.prototype.forEach.call(hiddenTextareas, item => {
             if (this.el.contains(item)) {
                 if (this.el.contains(item)) {
@@ -62,27 +62,29 @@ export default san.defineComponent({
         let minHeight = pd + pt + lineHeight * rows;
         let maxHeight = pd + pt + lineHeight * rowsMax;
         let height = hiddenEl.scrollHeight;
-        element.style.height = (height < minHeight ? minHeight : height > maxHeight && maxHeight > 0 ? maxHeight : height) + 'px';
+        let styleHeight = height < minHeight
+            ? minHeight : height > maxHeight && maxHeight > 0 ? maxHeight : height;
+        element.style.height = `${styleHeight}px`;
     },
-    handleInput (e) {
-        this.fire('change', e.target.value)
+    handleInput(e) {
+        this.fire('change', e.target.value);
     },
-    handleFocus (e) {
-        this.fire('focus', e)
+    handleFocus(e) {
+        this.fire('focus', e);
     },
-    handleBlur (e) {
-        this.fire('blur', e)
+    handleBlur(e) {
+        this.fire('blur', e);
     },
 
-    attached () {
+    attached() {
         this.resizeTextarea();
-        this.watch('value', (value) => {
+        this.watch('value', value => {
             if (value === this.data.get('value')) {
                 return;
             }
             setTimeout(() => {
                 this.resizeTextarea();
-            },1);
+            }, 1);
         });
     }
 });

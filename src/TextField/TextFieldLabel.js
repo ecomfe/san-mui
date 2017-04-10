@@ -17,12 +17,11 @@ export default san.defineComponent({
             text: '',
             show: true,
             labelClass: ''
-        }
+        };
     },
 
     computeClass() {
         let float = this.data.get('float');
-        let normalClass = this.data.get('normalClass');
         let focus = this.data.get('focus');
         let focusClass = this.data.get('focusClass');
         let labelClass = '';

@@ -1,12 +1,12 @@
 <div class="sm-text-field
-    {{focus | yesToBe('focus-state')}}
-    {{label | yesToBe('has-label')}}
-    {{errorText | yesToBe('error')}}
-    {{disabled | yesToBe('disabled')}}
-    {{fullWidth | yesToBe('full-width')}}
-    {{multiLine | yesToBe('multi-line')}}
-    {{icon | yesToBe('has-icon')}}"
-    style="{{errorColor | yesToBe('color:' + errorColor)}}">
+    {{focus ? 'focus-state' : ''}}
+    {{label ? 'has-label' : ''}}
+    {{errorText ? 'error' : ''}}
+    {{disabled ? 'disabled' : ''}}
+    {{fullWidth ? 'full-width' : ''}}
+    {{multiLine ? 'multi-line' : ''}}
+    {{icon ? 'has-icon' : ''}}"
+    style="{{errorColor ? 'color:' + errorColor : ''}}">
     <icon san-if="{{icon}}" value="{{icon}}" iconClass="sm-text-field-icon"></icon>
     <div on-click="handleLabelClick" class="sm-text-field-content">
         <text-field-label
@@ -57,7 +57,7 @@
         </underline>
         <div
             class="sm-text-field-help {{helpTextClass}}"
-            style="{{errorColor | yesToBe('color:' + errorColor)}}"
+            style="{{errorColor ? ('color:' + errorColor) : ''}}"
             san-if="errorText || helpText || maxLength > 0">
             <div>
                 {{errorText || helpText}}

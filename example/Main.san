@@ -49,38 +49,6 @@
             </san-slider>
         </div>
 
-        <san-dropdownmenu on-change="dropDownChange($event)" on-close="dropDownClose()" value="{{ value }}">
-            <slot>
-                <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
-                <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
-                <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
-                <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
-            </slot>
-            <icon slot="iconButton" value="arrow_drop_down" />
-        </san-dropdownmenu>
-
-        <p class="sm-menu-intro">command icon menu:</p>
-        <san-iconmenu icon="more_horiz">
-            <san-menuitem title="MenuItem 1" />
-            <san-menuitem title="MenuItem 2" />
-            <san-divider />
-            <san-menuitem title="Download" on-change="download()" leftIcon="file_download" />
-            <san-menuitem title="MenuItem 4" on-change="openGroup()" rightIcon="chevron_right,subdirectory_arrow_right,notifications_off" />
-        </san-iconmenu>
-
-        <p class="sm-menu-intro">多选icon menu: </p>
-        <san-iconmenu
-            icon="more_verti"
-            value="{{ multipleValues }}"
-            multiple="true"
-            on-change="iconMenuMultipleChange($event)"
-        >
-            <san-menuitem value="{{ 1 }}" title="multiple 1" />
-            <san-menuitem value="{{ 2 }}" title="multiple 2" />
-            <san-menuitem value="{{ 3 }}" title="multiple 3" />
-            <san-menuitem value="{{ 4 }}" title="multiple 4" />
-        </san-iconmenu>
-
         <popover placement="left" trigger="{{triggerLeft}}" triggerOperation="click" on-show="onShow()" on-hide="onHide()">
             <p>This is a popover!</p>
             <p>popover content!</p>
@@ -209,9 +177,6 @@ export default {
             bar: 'Title',
             text: '散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。 似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光， 找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光',
 
-            value: 1,
-            multipleValues: [2,3],
-
             triggerLeft: document.getElementById('popover-left'),
             triggerTop: document.getElementById('popover-top'),
             triggerBottom: document.getElementById('popover-bottom'),
@@ -236,19 +201,6 @@ export default {
 
     labelClicker(data) {
         console.log(data);
-    },
-
-    dropDownChange(value) {
-        console.log('value of dropdown menu changed to: ' + value);
-    },
-    dropDownClose() {
-        console.log('menu closed');
-    },
-    download() {
-        console.log('starting to download');
-    },
-    iconMenuMultipleChange(value) {
-        console.log('iconmenu multiple values changed to: ' + JSON.stringify(value));
     },
 
     onShow() {
@@ -312,11 +264,6 @@ export default {
 }
 .san-appbar .material-icons {
     line-height: 64px;
-}
-.sm-menu-intro {
-    margin: 20px 0 5px 0;
-    color: #03a9f4;
-    font-size: 14px;
 }
 .sm-dialog-trigger-btn,
 .sm-dialog-cancel,

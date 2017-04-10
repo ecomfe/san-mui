@@ -1,0 +1,85 @@
+<template>
+    <div>
+        <h3>简单使用</h3>
+        <div>
+            <san-text-field hintText="提示文字"/><br/>
+            <san-text-field inputValue="{=value=}"/><br/>
+            <san-text-field label="标签文字" hintText="提示文字"/><br/>
+            <san-text-field label="浮动标签" labelFloat/><br/>
+            <san-text-field hintText="提输入密码" label="密码" labelFloat type="password"/><br/>
+            <san-text-field hintText="多行文本输入，默认 3行，最大6行" multiLine="true" rows="3" rowsMax="6"/>
+            <san-text-field hintText="Full Width" fullWidth/><br/>
+        </div>
+        <h3>错误状态样式</h3>
+        <div>
+            <san-text-field hintText="提示文字" errorText="这是必填项"/><br/>
+            <san-text-field label="标签文字" hintText="提示文字" errorText="请输入数字"/><br/>
+            <san-text-field label="浮动标签" errorText="出错！出错！" labelFloat/><br/>
+            <san-text-field hintText="多行输入" errorText="不能一个字都不输入哦" multiLine="true" rows="3"/><br/>
+            <san-text-field label="自定义错误颜色" errorText="又输错了，笨死了！" errorColor="orange" labelFloat/><br/>
+        </div>
+        <h3>使用图表的示例</h3>
+        <div>
+            <san-text-field hintText="简介" type="number" icon="menu"/><br/>
+            <san-text-field hintText="简介" multiLine="true" rows="3" rowsMax="6" icon="menu"/><br/>
+        </div>
+        <h3>输入框被禁用</h3>
+        <div>
+            <san-text-field hintText="提示文字" disabled/><br/>
+            <san-text-field label="带标签" disabled/><br/>
+            <san-text-field label="浮动标签" labelFloat disabled/><br/>
+            <san-text-field hintText="多行文本输入，默认 3行，最大6行" disabled multiLine="true" rows="3" rowsMax="6"/><br/>
+        </div>
+        <h3>输入字符记录</h3>
+        <div>
+            <san-text-field
+                hintText="最多不超过10个字符"
+                errorText="{{inputErrorText}}"
+                on-textOverflow="handleInputOverflow($event)"
+                maxLength="10"/><br/>
+            <san-text-field
+                hintText="不允许超过100个字符"
+                errorText="{{multiLineInputErrorText}}"
+                on-textOverflow="handleMultiLineOverflow($event)"
+                multiLine rows="3" rowsMax="6" maxLength="100"/><br/>
+        </div>
+    </div>
+</template>
+
+<script>
+import TextField from '../src/TextField';
+
+export default {
+
+    components: {
+        'san-text-field': TextField,
+    },
+
+    initData() {
+        return {
+            value: '',
+            input: '',
+            inputErrorText: '',
+            multiLineInput: '',
+            multiLineInputErrorText: ''
+        };
+    },
+
+    attached() {
+        this.watch('value', val => {
+            console.log(val);
+        });
+    },
+
+    handleInputOverflow(isOverflow) {
+        this.data.set('inputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
+    },
+    handleMultiLineOverflow(isOverflow) {
+        this.data.set('multiLineInputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
+    }
+}
+
+</script>
+
+<style>
+</style>
