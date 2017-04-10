@@ -101,6 +101,29 @@
             <p>This is a popover!</p>
             <p>popover content!</p>
         </popover>
+        <div>
+            <san-text-field hintText="提示文字" disabled></san-text-field><br/>
+        </div>
+        <div>
+            <san-text-field hintText="多行文本输入，默认 3行，最大6行" multiLine="true" rows="3" rowsMax="6"></san-text-field>
+        </div>
+        <div>
+            <san-text-field hintText="提示文字" errorText="这是必填项"/></san-text-field>
+        </div>
+        <div>
+            <san-text-field label="标签文字" errorText="请输入数字" hintText="提示文字"/></san-text-field>
+        </div>
+        <div>
+            <san-text-field label="自定义错误颜色" errorText="又输错了，笨死了！" errorColor="orange" labelFloat/></san-text-field>
+        </div>
+        <div>
+            <san-text-field hintText="电话号码" type="number" icon="menu"/></san-text-field>
+        </div>
+        <div>
+            <san-text-field hintText="提示文字"/></san-text-field>
+        </div>
+        <san-pagination total="345"></san-pagination>
+        <san-pagination current="3" total="188" pageSize="10" showSizeChanger="true" pageSizeOptions="[5, 10, 20]" on-pageChange="onPageChange($event)" on-pageSizeChange="onPageSizeChange($event)"></san-pagination>
 
         <san-dialog-btn on-click="open">
         <slot>
@@ -142,6 +165,7 @@
             <button id="popover-right">我是右侧的popover</button>
             <input id="input" name="" placeholder="我是focus出现的popover">
         </div>
+        <san-mask prop-open="{=dialog2=}"></san-mask>
     </div>
 </template>
 
@@ -152,6 +176,8 @@ import Slider from '../src/Slider';
 import Icon from '../src/Icon';
 import {DropDownMenu, IconMenu, MenuItem, Divider} from '../src/Menu';
 import Popover from '../src/Popover';
+import TextField from '../src/TextField';
+import Pagination from '../src/Pagination';
 import {Dialog, DialogMask, DialogButton} from '../src/Dialog';
 
 export default {
@@ -165,6 +191,10 @@ export default {
         'san-cardactions': CardActions,
         'san-slider': Slider,
         'icon': Icon,
+        'popover': Popover,
+        'san-text-field': TextField,
+        // 'san-switch': FormSwitch,
+        'san-pagination': Pagination,
         'san-dropdownmenu': DropDownMenu,
         'san-iconmenu': IconMenu,
         'san-menuitem': MenuItem,
@@ -187,6 +217,13 @@ export default {
             triggerBottom: document.getElementById('popover-bottom'),
             triggerRight: document.getElementById('popover-right'),
             triggerFocus: document.getElementById('input'),
+            textValue: '默认值',
+            input: '',
+            inputErrorText: '',
+            multiLineInput: '',
+            multiLineInputErrorText: '',
+            defaultCheck: ['ON'],
+            defaultValue: 'ON',
             dialog: false,
             showTitle: true,
             showFooter: true,
@@ -220,6 +257,19 @@ export default {
     onHide() {
         console.log('popover hide');
     },
+    handleInputOverflow (isOverflow) {
+        console.log(isOverflow);
+        this.data.set('inputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
+    },
+    handleMultiLineOverflow (isOverflow) {
+        this.data.set('multiLineInputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
+    },
+    onPageChange(data) {
+        console.log(data);
+    },
+    onPageSizeChange(data) {
+        console.log(data);
+    },
     triggerDialog() {
         this.data.set('open', true);
     },
@@ -244,6 +294,7 @@ export default {
     margin: 0 auto;
     padding: 15px 0;
     width: 60%;
+    margin-bottom: 200px;
 }
 .san-card-click {
     display: inline-block;

@@ -1,5 +1,5 @@
 <div
-    class="{{ className }} sm-dropdown-menu {{ disabled | yesToBe('disabled') }}"
+    class="{{ className }} sm-dropdown-menu {{ disabled | disabled }}"
     style="{{ style | padStyles }}"
     >
 
@@ -12,7 +12,7 @@
         <div class="sm-dropdown-menu-underline" style="{{ underlineStyle | padStyles }}"></div>
     </div>
 
-    <div class="sm-menu-list depth-2{{ open | yesOrNoToBe('', ' list-hidden') }}"
+    <div class="sm-menu-list depth-2 {{ open | notOpen('list-hidden') }}"
         style="transform:{{ transform }};transform-origin:{{ transformOrigin }};left:{{ left }}px;top:{{ top }}px;{{ menuStyle | padStyles }};">
 
         <slot></slot>

@@ -32,10 +32,6 @@ let IconMenu = san.defineComponent({
         this.clickerClass = '.sm-iconmenu-icon';
 
         this.bindEvent();
-    },
-
-    touchstart() {
-        console.log('touchstart')
     }
 });
 san.inherits(IconMenu, Menu);

@@ -45,36 +45,5 @@ export default {
         }
 
         return val;
-    },
-
-    /**
-     * 判断浏览器是否某个css3属性
-     *
-     * @param {string} prop 属性
-     * @return {boolean} 是否支持
-     */
-    isSupportCSS3(prop) {
-        let prefix = ['webkit', 'ms', 'o', 'moz', ''];
-        let htmlStyle = document.documentElement.style;
-        let testProps = [];
-
-        let toUpper = (string) => {
-            return string.replace(/-(\w)/g, ($0, $1) => {
-                return $1.toUpperCase();
-            });
-        };
-
-        for (let i in prefix) {
-            let str = toUpper(prefix[i] + '-' + prop);
-            testProps.push(str);
-        }
-
-        for (let i in testProps) {
-            if (testProps[i] in htmlStyle) {
-                return true;
-            }
-
-            return false;
-        } 
-    }  
+    }
 };
