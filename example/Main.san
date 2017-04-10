@@ -1,9 +1,5 @@
 <template>
     <div class="wrapper">
-        <san-recommended />
-        <hr>
-        <san-notrecommended />
-        <hr>
         <san-appbar
             title="{= bar =}"
             prop-themeClass="test"
@@ -73,9 +69,9 @@
         </san-iconmenu>
 
         <p class="sm-menu-intro">多选icon menu: </p>
-        <san-iconmenu 
-            icon="more_verti" 
-            value="{{ multipleValues }}" 
+        <san-iconmenu
+            icon="more_verti"
+            value="{{ multipleValues }}"
             multiple="true"
             on-change="iconMenuMultipleChange($event)"
         >
@@ -139,13 +135,17 @@
             <button slot="actions" on-click="close2" class="sm-dialog-sure">确定</button>
         </san-dialog>
         <san-mask prop-open="{=dialog2=}"></san-mask>
-
+        <div class="wrapper">
+            <button id="popover-left">我是左侧的popover</button>
+            <button id="popover-top">我是顶部的popover</button>
+            <button id="popover-bottom">我是底部的popover(不显示小箭头)</button>
+            <button id="popover-right">我是右侧的popover</button>
+            <input id="input" name="" placeholder="我是focus出现的popover">
+        </div>
     </div>
 </template>
 
 <script>
-import Recommended from '../src/Recommended';
-import NotRecommended from '../src/NotRecommended';
 import AppBar from '../src/AppBar';
 import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../src/Card';
 import Slider from '../src/Slider';
@@ -156,8 +156,6 @@ import {Dialog, DialogMask, DialogButton} from '../src/Dialog';
 
 export default {
     components: {
-        'san-recommended': Recommended,
-        'san-notrecommended': NotRecommended,
         'san-appbar': AppBar,
         'san-card': Card,
         'san-cardheader': CardHeader,
@@ -235,6 +233,7 @@ export default {
         this.data.set('dialog', false);
     },
     close2() {
+        console.log(12321);
         this.data.set('dialog2', false);
     }
 }

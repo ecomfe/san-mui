@@ -1,0 +1,63 @@
+<template>
+    <div>
+        <h3>
+            FlatButton
+        </h3>
+        <section class="demo-buttion-row">
+            <san-button san-for="variant in variants" variants="{{variant}}" >
+                {{variant}}
+            </san-button>
+        </section>
+        <h3>
+            RaisedButton
+        </h3>
+        <section class="demo-buttion-row">
+            <san-button san-for="variant in variants" variants="raised {{variant}}" >
+                {{variant}}
+            </san-button>
+        </section>
+    </div>
+</template>
+
+<script>
+
+import {Button, FlatButton} from '../src/Button';
+
+import '../src/Button/Button.styl';
+
+export default {
+
+    components: {
+        'san-button': Button
+    },
+
+    initData() {
+        return {
+            variants: [
+                'primary',
+                'secondery',
+                'danger',
+                'success',
+                'info',
+                'warning'
+            ]
+        };
+    },
+
+    onDemoButtonClick(e) {
+        console.log('app get the click');
+    }
+
+}
+
+</script>
+
+<style>
+.demo-buttion-row {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+</style>
