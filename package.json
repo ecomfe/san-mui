@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "san": "git://github.com/ecomfe/san.git#master",
+    "san": "git://github.com/ecomfe/san.git#master"
   },
   "devDependencies": {
     "san-router": "^1.0.0",
