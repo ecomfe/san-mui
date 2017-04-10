@@ -1,0 +1,17 @@
+.sm-text-field-label
+    line-height: 20px
+    transition: all .45s cubic-bezier(0.23, 1, 0.32, 1)
+    z-index: 1
+    cursor: text
+    transform: translate3d(0, 0, 0) scale(0.75)
+    transform-origin: left top
+    user-select: none
+    pointer-events: none
+    backface-visibility: hidden
+    .sm-text-field.has-label &
+        top: 8px
+        position: absolute
+
+    .sm-text-field.has-label &.float
+        transform: translate3d(0, 28px, 0) scale(1)
+        color: rgba(0, 0, 0, .38)

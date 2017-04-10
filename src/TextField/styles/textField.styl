@@ -1,0 +1,86 @@
+.sm-text-field
+    font-size: 16px
+    width: 256px
+    min-height: 48px
+    display: inline-block
+    position: relative
+    color: rgba(0, 0, 0, .54)
+    margin-bottom: 8px
+    &.full-width
+        width: 100%
+
+    &.focus-state
+        color: #03a9f4
+        &.error
+            color: #f44336
+
+
+    &.has-icon
+        padding-left: 56px
+
+    &.has-label
+        min-height: 72px
+
+
+
+.sm-text-field-icon
+    position: absolute
+    left: 16px
+    top: 12px
+    .sm-text-field.has-label &
+        top: 36px
+
+
+
+.sm-text-field-content
+    display: inline-block
+    width: 100%
+    cursor: pointer
+    height: 100%
+    .sm-text-field.disabled &
+        color: rgba(0, 0, 0, .38)
+        cursor: not-allowed
+
+    padding-bottom: 12px
+    padding-top: 4px
+    .sm-text-field.has-label &
+        padding-top: 28px
+        padding-bottom: 12px
+
+
+
+.sm-text-field-input
+    appearance: none
+    outline: none
+    border: none
+    background: none
+    border-radius: 0 0 0 0
+    box-shadow: none
+    display: block
+    padding: 0
+    margin: 0
+    width: 100%
+    height: 32px
+    color: rgba(0, 0, 0, 0.87)
+    position: relative
+    font-style: inherit
+    font-variant: inherit
+    font-weight: inherit
+    font-stretch: inherit
+    font-size: inherit
+
+
+.sm-text-field-help
+    position: absolute
+    margin-top: 6px
+    font-size: 12px
+    line-height: 12px
+    display: flex
+    justify-content: space-between
+    left: 0
+    right: 0
+    .sm-text-field.error &
+        color: #f44336
+
+    .sm-text-field.disabled &
+        color: inherit
