@@ -1,0 +1,27 @@
+/**
+ * @file Tabs 样式
+ * @author leon <ludafa@outlook.com>
+ */
+
+@require '../css/variable.styl'
+
+.sm-tabs
+    display: flex
+    position: relative;
+    flex-flow: row nowrap;
+    width: 100%;
+    background-color: $md-colors.blue500
+
+    &-bar
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 2px;
+        background-color: $md-colors.yellow500
+        transition: transform .5s
+
+    >.sm-tab >.sm-touch-ripple >.sm-ripple
+        background-color: $md-colors.lightBlack
+
+@require './Tab.styl'
+@require '../Icon/Icon.styl'

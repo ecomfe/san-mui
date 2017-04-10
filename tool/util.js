@@ -42,12 +42,12 @@ export function cssLoaders(options = {}) {
         stylus: generateLoaders([
             'css',
             'postcss',
-            'stylus?resolve url&include css'
+            'stylus?resolve url&include css&paths=node_modules'
         ]),
         styl: generateLoaders([
             'css',
             'postcss',
-            'stylus?resolve url&include css'
+            'stylus?resolve url&include css&paths=node_modules'
         ])
     };
 }

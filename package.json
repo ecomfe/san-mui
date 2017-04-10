@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "san": "git://github.com/ecomfe/san.git#master"
+    "san": "git://github.com/ecomfe/san.git#master",
+    "material-design-icons": "~3.0.1"
   },
   "devDependencies": {
     "san-router": "^1.0.0",

@@ -1,0 +1,27 @@
+/**
+ * @file Tab
+ * @author leon <ludafa@outlook.com>
+ */
+
+.sm-tab
+    display: flex;
+    position: relative;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    box-sizing: border-box;
+    padding: 8px 12px
+    min-height: 3em
+    font-size: 16px
+    color: rgba(#fff, .7)
+    text-transform: uppercase;
+    cursor: pointer;
+
+    transition: color .5s;
+
+    &.state-active
+        color: $md-colors.fullWhite
+
+    .sm-icon ~ span
+        margin-top: 10px

@@ -1,0 +1,87 @@
+<template>
+    <div>
+        <h3>
+            Tabs
+        </h3>
+        <section class="demo-buttion-row">
+            <san-tabs activeIndex="{=activeIndex=}" total="{{tabs.length}}">
+                <san-tab
+                    san-for="tab, index in tabs"
+                    active="{{index === activeIndex}}"
+                    on-click="changeTab(index)">
+                    <san-icon slot="icon">{{tab.icon}}</san-icon>
+                    <span slot="label">{{tab.label}}</span>
+                </san-tab>
+            </san-tabs>
+        </section>
+        <section class="demo-buttion-row">
+            <san-tabs activeIndex="{=activeIndex=}" total="{{tabs.length}}">
+                <san-tab
+                    san-for="tab, index in tabs"
+                    active="{{index === activeIndex}}"
+                    on-click="changeTab(index)">
+                    <span slot="label">{{tab.label}}</span>
+                    <div slot="panel">
+                        {{index}}
+                    </div>
+                </san-tab>
+            </san-tabs>
+        </section>
+        <section class="demo-buttion-row">
+            <san-tabs activeIndex="{=activeIndex=}" total="{{tabs.length}}">
+                <san-tab
+                    san-for="tab, index in tabs"
+                    active="{{index === activeIndex}}"
+                    on-click="changeTab(index)">
+                    <san-icon slot="icon">{{tab.icon}}</san-icon>
+                    <div slot="panel">
+                        {{index}}
+                    </div>
+                </san-tab>
+            </san-tabs>
+        </section>
+    </div>
+</template>
+
+<script>
+
+import Tabs, {Tab} from '../src/Tabs';
+import Icon from '../src/Icon';
+
+import '../src/Tabs/Tabs.styl';
+
+export default {
+
+    components: {
+        'san-tabs': Tabs,
+        'san-tab': Tab,
+        'san-icon': Icon
+    },
+
+    initData() {
+        return {
+            tabs: [
+                {
+                    label: 'recents',
+                    icon: 'phone'
+                },
+                {
+                    label: 'favorites',
+                    icon: 'favorite'
+                },
+                {
+                    label: 'messages',
+                    icon: 'message'
+                }
+            ],
+            activeIndex: 0
+        };
+    },
+
+    changeTab(index) {
+        this.data.set('activeIndex', index);
+    }
+
+}
+
+</script>
