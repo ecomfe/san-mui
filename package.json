@@ -17,12 +17,12 @@
     "coveralls": "shx cat ./test/coverage/report-html/lcov.info | coveralls"
   },
   "dependencies": {
-    "classname": "^0.0.0",
-    "postcss-loader": "^1.3.0",
-    "san": "git://github.com/ecomfe/san.git#master",
-    "san-router": "^1.0.0"
+    "classnames": "^2.2.5",
+    "san": "git://github.com/ecomfe/san.git#master"
   },
   "devDependencies": {
+    "san-router": "^1.0.0",
+    "postcss-loader": "^1.3.0",
     "autoprefixer": "^6.6.1",
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
