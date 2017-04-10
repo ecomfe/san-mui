@@ -20,7 +20,7 @@ export default {
     },
     dev: {
         env: devEnv,
-        port: 8005,
+        port: 8003,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {},
