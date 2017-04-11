@@ -11,7 +11,7 @@ const openKey = 'open';
 const animationKey = 'animation';
 const showArrowKey = 'showArrow';
 const placementKey = 'placement';
-const triggerKey = 'trigger';
+const triggerKey = 'triggerEleId';
 const triggerOperationKey = 'triggerOperation';
 const defaultPlacement = 'bottom';
 const defaultTriggerOperation = 'click';
@@ -123,7 +123,7 @@ export default san.defineComponent({
         this.data.set('posTop', posTop);
     },
     hide() {
-        if (this.data.get(openKey)) {
+        if (this.data && this.data.get(openKey)) {
             this.data.set(openKey, false);
             this.fire('hide');
         }
@@ -166,10 +166,12 @@ export default san.defineComponent({
                 me.data.clickNoHide = true;
             });
             document.addEventListener(defaultTriggerOperation, () => {
-                if (!me.data.clickNoHide) {
+                if (!me.data || !me.data.clickNoHide) {
                     hide();
                 }
-                me.data.clickNoHide = false;
+                if (me.data) {
+                    me.data.clickNoHide = false;
+                }
             });
             // 如果是iOS系统，处理全局点击无法代理监听的问题
             if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
@@ -205,9 +207,10 @@ export default san.defineComponent({
 
     },
     getTriggerEle() {
-        let triggerEle = this.data.get(triggerKey);
+        let triggerEleId = this.data.get(triggerKey);
+        let triggerEle = document.getElementById(triggerEleId);
 
-        if (!triggerEle || !triggerEle.tagName) {
+        if (!triggerEleId || !triggerEle) {
             console.error('Please provide trigger');
             return;
         }

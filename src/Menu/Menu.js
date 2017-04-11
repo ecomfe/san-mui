@@ -51,7 +51,7 @@ export default san.defineComponent({
 
     messages: {
         'UI:menu-item-selected'(arg) {
-            let value = arg.value;
+            let value = arg.value.value;
             let selectValue = this.data.get('value');
 
             // 多选
@@ -88,7 +88,7 @@ export default san.defineComponent({
             // 触发owner的onChange
             this.fire('change', selectValue);
             // 收起menu
-            this.toggleMenu(true);
+            this.toggleMenu(true, 'ITEM', arg.value.evt);
         },
 
         'UI:menu-item-selected-text'(arg) {
@@ -128,7 +128,7 @@ export default san.defineComponent({
                 return;
             }
 
-            me.toggleMenu(true);
+            me.toggleMenu(true, 'BODY');
         });
 
         // 页面滚动过程中调整menu位置
@@ -144,10 +144,10 @@ export default san.defineComponent({
 
             // 当上边缘 到顶/底，hide
             if (scrollTop >= menuOffsetTop && downward) {
-                me.toggleMenu(true);
+                me.toggleMenu(true, 'POS');
             }
             if (scrollTop + screen.availHeight <= menuOffsetTop && !downward) {
-                me.toggleMenu(true);
+                me.toggleMenu(true, 'POS');
             }
 
             // 当下边缘 到底，切换origin，反弹
@@ -172,8 +172,10 @@ export default san.defineComponent({
      * menu开关toggle
      *
      * @param {boolean} toClose 是否关闭menu
+     * @param {string} driver 开关驱动者
+     * @param {Object} evt event
      */
-    toggleMenu(toClose) {
+    toggleMenu(toClose, driver, evt) {
 
         let open = !this.data.get('open');
         if (typeof toClose !== 'undefined') {
@@ -186,7 +188,9 @@ export default san.defineComponent({
         if (!open
             && typeof this.data.get('itemClickClose') !== 'undefined'
             && !this.data.get('itemClickClose')
+            && driver === 'ITEM'
         ) {
+            evt.stopPropagation();
             return;
         }
 
