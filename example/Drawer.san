@@ -3,7 +3,7 @@
         <h3>
             Drawer
         </h3>
-        <section class="demo-buttion-row">
+        <section class="demo-drawer-row">
             <label>位置</label>：
             <select value="{=position=}">
                 <option value="left">left</option>
@@ -12,14 +12,14 @@
                 <option value="bottom">bottom</option>
             </select>
         </section>
-        <section class="demo-buttion-row">
+        <section class="demo-drawer-row">
             <label>使用 mask</label>：
             <select value="{=useMask=}">
                 <option value="1">是</option>
                 <option value="0">否</option>
             </select>
         </section>
-        <section class="demo-buttion-row">
+        <section class="demo-drawer-row">
             <san-button
                 variants="raised info"
                 on-click="onDemoButtonClick">
@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style>
-.demo-buttion-row {
+.demo-drawer-row {
     padding: 1rem 0;
     display: flex;
     flex-direction: row;

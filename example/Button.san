@@ -21,7 +21,7 @@
 
 <script>
 
-import {Button, FlatButton} from '../src/Button';
+import Button from '../src/Button';
 
 import '../src/Button/Button.styl';
 
