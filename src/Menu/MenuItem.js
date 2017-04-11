@@ -8,6 +8,7 @@ import './MenuItem.styl';
 import padStyles from '../filters/padStyles';
 import template from './MenuItem.tpl';
 import Icon from '../Icon';
+import {TouchRipple} from '../Ripple';
 
 function getSelectedText(title, label) {
     return label ? label : title;
@@ -17,7 +18,8 @@ export default san.defineComponent({
     template,
 
     components: {
-        'san-icon': Icon
+        'san-icon': Icon,
+        'san-touch-ripple': TouchRipple
     },
 
     filters: {
@@ -77,10 +79,13 @@ export default san.defineComponent({
         this.dispatch('UI:menu-item-detached');
     },
 
-    select() {
+    select(evt) {
         let value = this.data.get('value');
 
-        this.dispatch('UI:menu-item-selected', value);
+        this.dispatch('UI:menu-item-selected', {
+            value,
+            evt
+        });
         this.dispatch('UI:menu-item-selected-text',
             getSelectedText(
                 this.data.get('title'),
