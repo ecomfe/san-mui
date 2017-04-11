@@ -45,10 +45,14 @@ export default {
     },
 
     attached() {
-        setInterval(() => {
+        this.timer = setInterval(() => {
             let value = this.data.get('value');
             this.data.set('value', (value + Math.ceil(Math.random() * 20)) % 100);
         }, 1000);
+    },
+
+    detached() {
+        clearTimeout(this.timer);
     }
 
 }

@@ -12,8 +12,8 @@
         position: fixed;
         z-index: $san-z-index.dialog
         background-color: #fff;
-        transition: transform .3s cubic-bezier(.4, 0, .2, 1)
-        box-shadow: san-shadow('2')
+        transition: transform .3s cubic-bezier(.4, 0, .2, 1), box-shadow .3s linear
+
 
     &-mask
         position: fixed
@@ -24,3 +24,6 @@
         background-color: rgba(0, 0, 0, .54)
         z-index: $san-z-index.mask
         transition: visibility 0s linear, opacity .3s cubic-bezier(.4, 0, .2, 1)
+
+    &.state-open &-content
+        box-shadow: san-shadow('2')

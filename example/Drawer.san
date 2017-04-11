@@ -20,7 +20,11 @@
             </select>
         </section>
         <section class="demo-buttion-row">
-            <san-button on-click="onDemoButtonClick">toggle drawer</san-button>
+            <san-button
+                variants="raised info"
+                on-click="onDemoButtonClick">
+                toggle drawer
+            </san-button>
         </section>
         <san-drawer position="{=position=}" open="{=open=}" useMask="{{useMask === '1'}}">
             <ul>
