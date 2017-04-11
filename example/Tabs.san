@@ -21,9 +21,6 @@
                     active="{{index === activeIndex}}"
                     on-click="changeTab(index)">
                     <span slot="label">{{tab.label}}</span>
-                    <div slot="panel">
-                        {{index}}
-                    </div>
                 </san-tab>
             </san-tabs>
         </section>
@@ -34,9 +31,6 @@
                     active="{{index === activeIndex}}"
                     on-click="changeTab(index)">
                     <san-icon slot="icon">{{tab.icon}}</san-icon>
-                    <div slot="panel">
-                        {{index}}
-                    </div>
                 </san-tab>
             </san-tabs>
         </section>

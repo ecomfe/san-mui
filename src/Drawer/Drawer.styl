@@ -1,0 +1,26 @@
+/**
+ * @file Drawer 样式
+ * @author leon(ludafa@outlook.com)
+ */
+
+@require '../css/variable.styl';
+@require '../css/func.styl';
+
+.sm-drawer
+
+    &-content
+        position: fixed;
+        z-index: $san-z-index.dialog
+        background-color: #fff;
+        transition: transform .3s cubic-bezier(.4, 0, .2, 1)
+        box-shadow: san-shadow('2')
+
+    &-mask
+        position: fixed
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+        background-color: rgba(0, 0, 0, .54)
+        z-index: $san-z-index.mask
+        transition: visibility 0s linear, opacity .3s cubic-bezier(.4, 0, .2, 1)
