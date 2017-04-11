@@ -16,7 +16,7 @@ export default san.defineComponent({
             multiple: false,
             autoWidth: true,
             maxHeight: 500,
-            scroller: window,
+            scroller: 'window',
             className: 'menu-' + Date.now(),
             anchorOrigin: {
                 vertical: 'top',
@@ -46,7 +46,18 @@ export default san.defineComponent({
         this.data.set('openImmediately', service.propConvert(this.data.get('openImmediately'), 'b'));
         this.data.set('useLayerForClickAway', service.propConvert(this.data.get('useLayerForClickAway'), 'b'));
 
+        let scrollerName = this.data.get('scroller');
+        this.scroller = document.getElementsByTagName(scrollerName)[0]
+            || document.getElementsByClassName(scrollerName)[0]
+            || document.getElementById(scrollerName)
+            || window;
+
         this.items = [];
+    },
+
+    created() {
+        this.handleClickOff = this.handleClickOff.bind(this);
+        this.handleMenuPos = this.handleMenuPos.bind(this);
     },
 
     messages: {
@@ -115,57 +126,58 @@ export default san.defineComponent({
      * 事件绑定
      */
     bindEvent() {
-        let me = this;
-        let lastMove;
 
         // 点击menu外位置隐藏menu
-        document.body.addEventListener('click', function () {
-            if (typeof me.toggleAction === 'undefined') {
-                return;
-            }
-            if (me.toggleAction) {
-                me.toggleAction--;
-                return;
-            }
-
-            me.toggleMenu(true, 'BODY');
-        });
+        document.body.addEventListener('click', this.handleClickOff);
 
         // 页面滚动过程中调整menu位置
-        this.data.get('scroller').addEventListener('scroll', function () {
-            lastMove = lastMove || document.body.scrollTop || document.documentElement.scrollTop;
-            // 已滚动高度
-            let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-            // 上滑or下滑
-            let downward = scrollTop - lastMove > 0;
-            // menu上下边缘的offset
-            let menuOffsetTop = document.querySelector(me.rootClass).offsetTop + (me.data.get('top') || 0);
-            let menuOffsetBottom = menuOffsetTop + service.getOffset(`${me.rootClass} .sm-menu-list`, 'height');
+        this.scroller.addEventListener('scroll', this.handleMenuPos);
+    },
 
-            // 当上边缘 到顶/底，hide
-            if (scrollTop >= menuOffsetTop && downward) {
-                me.toggleMenu(true, 'POS');
-            }
-            if (scrollTop + screen.availHeight <= menuOffsetTop && !downward) {
-                me.toggleMenu(true, 'POS');
-            }
+    handleClickOff() {
+        if (typeof this.toggleAction === 'undefined') {
+            return;
+        }
+        if (this.toggleAction) {
+            this.toggleAction--;
+            return;
+        }
 
-            // 当下边缘 到底，切换origin，反弹
-            if (scrollTop + screen.availHeight <= menuOffsetBottom && !downward) {
-                let anchorOrigin = Object.assign({}, me.data.get('anchorOrigin'));
-                let targetOrigin = Object.assign({}, me.data.get('targetOrigin') || {
-                    vertical: 'top',
-                    horizontal: 'left'
-                });
+        this.toggleMenu(true, 'BODY');
+    },
 
-                anchorOrigin.vertical = 'bottom';
-                targetOrigin.vertical = 'bottom';
-                me.setPos(anchorOrigin, targetOrigin);
-            }
+    handleMenuPos() {
+        let lastMove = this.lastMove || document.body.scrollTop || document.documentElement.scrollTop;
+        // 已滚动高度
+        let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+        // 上滑or下滑
+        let downward = scrollTop - lastMove > 0;
+        // menu上下边缘的offset
+        let menuOffsetTop = document.querySelector(this.rootClass).offsetTop + (this.data.get('top') || 0);
+        let menuOffsetBottom = menuOffsetTop + service.getOffset(`${this.rootClass} .sm-menu-list`, 'height');
 
-            lastMove = scrollTop;
+        // 当上边缘 到顶/底，hide
+        if (scrollTop >= menuOffsetTop && downward) {
+            this.toggleMenu(true, 'POS');
+        }
+        if (scrollTop + screen.availHeight <= menuOffsetTop && !downward) {
+            this.toggleMenu(true, 'POS');
+        }
 
-        });
+        // 当下边缘 到底，切换origin，反弹
+        if (scrollTop + screen.availHeight <= menuOffsetBottom && !downward) {
+            let anchorOrigin = Object.assign({}, this.data.get('anchorOrigin'));
+            let targetOrigin = Object.assign({}, this.data.get('targetOrigin') || {
+                vertical: 'top',
+                horizontal: 'left'
+            });
+
+            anchorOrigin.vertical = 'bottom';
+            targetOrigin.vertical = 'bottom';
+            this.setPos(anchorOrigin, targetOrigin);
+        }
+
+        lastMove = scrollTop;       
     },
 
     /**
@@ -316,5 +328,10 @@ export default san.defineComponent({
 
         this.data.set('left', left);
         this.data.set('top', top);
+    },
+
+    disposed() {
+        document.body.removeEventListener('click', this.handleClickOff);
+        this.scroller.removeEventListener('scroll', this.handleMenuPos);
     }
 });
