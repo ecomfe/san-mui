@@ -1,6 +1,6 @@
 /**
  * @file Icon component
- * @author hanbingbing@baidu.com
+ * @author leon <ludafa@outlook.com>
  */
 
 import san from 'san';

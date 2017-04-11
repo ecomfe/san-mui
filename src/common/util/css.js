@@ -8,8 +8,9 @@ export default function css(style) {
         ? Object
             .keys(style)
             .map(key => {
+                let value = style[key];
                 let kebabKey = key.replace(/([A-Z])/g, m => `-${m.toLowerCase()}`);
-                return `${kebabKey}:${style[key]};`;
+                return value == null || value === '' ? '' : `${kebabKey}:${value};`;
             })
             .join('')
         : '';
