@@ -10,6 +10,7 @@ import TextField from './TextField.san';
 import Menu from './Menu.san';
 import Tabs from './Tabs.san';
 import Drawer from './Drawer.san';
+import Progress from './Progress.san';
 
 import './index.styl';
 
@@ -20,5 +21,6 @@ router.add({rule: '/textfield', Component: TextField, target: '#root'});
 router.add({rule: '/menu', Component: Menu, target: '#root'});
 router.add({rule: '/tabs', Component: Tabs, target: '#root'});
 router.add({rule: '/drawer', Component: Drawer, target: '#root'});
+router.add({rule: '/progress', Component: Progress, target: '#root'});
 
 router.start();

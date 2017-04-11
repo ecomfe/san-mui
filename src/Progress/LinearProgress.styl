@@ -1,0 +1,38 @@
+/**
+ * @file Progress Style
+ * @author leon <ludafa@outlook.com>
+ */
+
+@require '../css/variable.styl'
+
+@keyframes sm-linear-progress-bar-animation {
+    0% {
+        left: -40%
+    }
+
+    to {
+        left: 100%
+    }
+}
+
+.sm-linear-progress
+    position: relative
+    height: 4px
+    width: 100%
+    background-color: #bdbdbd
+    border-radius: 2px
+    overflow: hidden;
+
+    &-bar
+        position: absolute;
+        top: 0
+        height: 100%
+        background-color: $md-colors.blue500
+
+    &.variant-indeterminate &-bar
+        width: 40%;
+        animation: sm-linear-progress-bar-animation .84s cubic-bezier(.445,.05,.55,.95);
+        animation-iteration-count: infinite;
+
+    &.variant-determinate &-bar
+        transition: width .3s

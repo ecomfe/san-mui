@@ -1,0 +1,36 @@
+/**
+ * @file Circular Progress Style
+ * @author leon <ludafa@outlook.com>
+ */
+
+@require '../css/variable.styl'
+
+@keyframes sm-circular-progress-svg-animation {
+    to {
+        transform: rotate(5turn)
+    }
+}
+
+.sm-circular-progress
+    display: inline-block
+    width: 32px
+    height: @width
+
+    &-content
+        height: 100%
+        width: 100%
+        transform-origin: center center 0
+
+    &-svg
+        height: 100%
+        width: 100%
+        stroke-dashoffset: 0
+        stroke: $md-colors.blue500
+        stroke-linecap: round
+        stroke-width: 2
+
+    &.variant-determinate &-svg > circle
+        transition: all .3s linear
+
+    &.variant-indeterminate &-content
+        animation: sm-circular-progress-svg-animation 10s linear infinite both
