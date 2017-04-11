@@ -49,26 +49,6 @@
             </san-slider>
         </div>
 
-        <popover placement="left" trigger="{{triggerLeft}}" triggerOperation="click" on-show="onShow()" on-hide="onHide()">
-            <p>This is a popover!</p>
-            <p>popover content!</p>
-        </popover>
-        <popover placement="top" trigger="{{triggerTop}}" triggerOperation="click">
-            <p>This is a popover!</p>
-            <p>popover content!</p>
-        </popover>
-        <popover placement="bottom" trigger="{{triggerBottom}}" showArrow="false" triggerOperation="click">
-            <p>This is a popover!</p>
-            <p>popover content!</p>
-        </popover>
-        <popover placement="right" trigger="{{triggerRight}}" triggerOperation="click">
-            <p>This is a popover!</p>
-            <p>popover content!</p>
-        </popover>
-        <popover trigger="{{triggerFocus}}" triggerOperation="focus">
-            <p>This is a popover!</p>
-            <p>popover content!</p>
-        </popover>
         <div>
             <san-text-field hintText="提示文字" disabled></san-text-field><br/>
         </div>
@@ -90,8 +70,6 @@
         <div>
             <san-text-field hintText="提示文字"/></san-text-field>
         </div>
-        <san-pagination total="345"></san-pagination>
-        <san-pagination current="3" total="188" pageSize="10" showSizeChanger="true" pageSizeOptions="[5, 10, 20]" on-pageChange="onPageChange($event)" on-pageSizeChange="onPageSizeChange($event)"></san-pagination>
 
         <san-dialog-btn on-click="open">
         <slot>
@@ -126,13 +104,7 @@
             <button slot="actions" on-click="close2" class="sm-dialog-sure">确定</button>
         </san-dialog>
         <san-mask prop-open="{=dialog2=}"></san-mask>
-        <div class="wrapper">
-            <button id="popover-left">我是左侧的popover</button>
-            <button id="popover-top">我是顶部的popover</button>
-            <button id="popover-bottom">我是底部的popover(不显示小箭头)</button>
-            <button id="popover-right">我是右侧的popover</button>
-            <input id="input" name="" placeholder="我是focus出现的popover">
-        </div>
+
         <san-mask prop-open="{=dialog2=}"></san-mask>
     </div>
 </template>
@@ -159,15 +131,12 @@ export default {
         'san-cardactions': CardActions,
         'san-slider': Slider,
         'icon': Icon,
-        'popover': Popover,
         'san-text-field': TextField,
         // 'san-switch': FormSwitch,
-        'san-pagination': Pagination,
         'san-dropdownmenu': DropDownMenu,
         'san-iconmenu': IconMenu,
         'san-menuitem': MenuItem,
         'san-divider': Divider,
-        'popover': Popover,
         'san-dialog': Dialog,
         'san-mask': DialogMask,
         'san-dialog-btn': DialogButton
@@ -176,12 +145,6 @@ export default {
         return {
             bar: 'Title',
             text: '散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。 似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光， 找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光',
-
-            triggerLeft: document.getElementById('popover-left'),
-            triggerTop: document.getElementById('popover-top'),
-            triggerBottom: document.getElementById('popover-bottom'),
-            triggerRight: document.getElementById('popover-right'),
-            triggerFocus: document.getElementById('input'),
             textValue: '默认值',
             input: '',
             inputErrorText: '',
@@ -202,25 +165,12 @@ export default {
     labelClicker(data) {
         console.log(data);
     },
-
-    onShow() {
-        console.log('popover show');
-    },
-    onHide() {
-        console.log('popover hide');
-    },
     handleInputOverflow (isOverflow) {
         console.log(isOverflow);
         this.data.set('inputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
     },
     handleMultiLineOverflow (isOverflow) {
         this.data.set('multiLineInputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
-    },
-    onPageChange(data) {
-        console.log(data);
-    },
-    onPageSizeChange(data) {
-        console.log(data);
     },
     triggerDialog() {
         this.data.set('open', true);
