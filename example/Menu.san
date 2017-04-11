@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p class="sm-menu-intro">DropDown Menu:</p>
         <san-dropdownmenu on-change="dropDownChange($event)" on-close="dropDownClose()" value="{{ value }}">
             <slot>
                 <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
@@ -10,8 +11,8 @@
             <icon slot="iconButton" value="arrow_drop_down" />
         </san-dropdownmenu>
 
-        <p class="sm-menu-intro">command icon menu:</p>
-        <san-iconmenu icon="more_horiz">
+        <p class="sm-menu-intro">Command Icon Menu:</p>
+        <san-iconmenu icon="more_horiz" itemClickClose="false">
             <san-menuitem title="MenuItem 1" />
             <san-menuitem title="MenuItem 2" />
             <san-divider />
@@ -19,7 +20,7 @@
             <san-menuitem title="MenuItem 4" on-change="openGroup()" rightIcon="chevron_right,subdirectory_arrow_right,notifications_off" />
         </san-iconmenu>
 
-        <p class="sm-menu-intro">多选icon menu: </p>
+        <p class="sm-menu-intro">多选Icon Menu:</p>
         <san-iconmenu
             icon="more_verti"
             value="{{ multipleValues }}"
@@ -75,8 +76,13 @@ export default {
 
 <style>
 .sm-menu-intro {
-    margin: 20px 0 5px 0;
-    color: #03a9f4;
-    font-size: 14px;
+    margin: 50px 0 5px 0;
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sm-menu-intro:first-child {
+    margin-top: 20px;
 }
 </style>

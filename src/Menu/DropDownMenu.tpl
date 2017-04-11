@@ -10,6 +10,7 @@
         >{{ text }}</p>
         <slot name="iconButton"></slot>
         <div class="sm-dropdown-menu-underline" style="{{ underlineStyle | padStyles }}"></div>
+        <san-touch-ripple />
     </div>
 
     <div class="sm-menu-list depth-2 {{ open | notOpen('list-hidden') }}"
