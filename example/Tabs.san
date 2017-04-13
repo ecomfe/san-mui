@@ -4,12 +4,21 @@
             Tabs
         </h3>
         <section class="demo-buttion-row">
+            <san-tabs value="{=currentTab=}">
+                <san-tab
+                    san-for="tab, index in tabs"
+                    value="{{tab.value}}">
+                    <san-icon slot="icon">{{tab.icon}}</san-icon>
+                    <span slot="label">{{tab.label}}</span>
+                </san-tab>
+            </san-tabs>
+        </section>
+        <!-- <section class="demo-buttion-row">
             <san-tabs activeIndex="{=activeIndex=}" total="{{tabs.length}}">
                 <san-tab
                     san-for="tab, index in tabs"
                     active="{{index === activeIndex}}"
-                    on-click="changeTab(index)">
-                    <san-icon slot="icon">{{tab.icon}}</san-icon>
+                    on-active="changeTab(index)">
                     <span slot="label">{{tab.label}}</span>
                 </san-tab>
             </san-tabs>
@@ -19,21 +28,11 @@
                 <san-tab
                     san-for="tab, index in tabs"
                     active="{{index === activeIndex}}"
-                    on-click="changeTab(index)">
-                    <span slot="label">{{tab.label}}</span>
-                </san-tab>
-            </san-tabs>
-        </section>
-        <section class="demo-buttion-row">
-            <san-tabs activeIndex="{=activeIndex=}" total="{{tabs.length}}">
-                <san-tab
-                    san-for="tab, index in tabs"
-                    active="{{index === activeIndex}}"
-                    on-click="changeTab(index)">
+                    on-active="changeTab(index)">
                     <san-icon slot="icon">{{tab.icon}}</san-icon>
                 </san-tab>
             </san-tabs>
-        </section>
+        </section> -->
     </div>
 </template>
 
@@ -57,23 +56,22 @@ export default {
             tabs: [
                 {
                     label: 'recents',
-                    icon: 'phone'
+                    icon: 'phone',
+                    value: 'phone'
                 },
                 {
                     label: 'favorites',
-                    icon: 'favorite'
+                    icon: 'favorite',
+                    value: 'favorite'
                 },
                 {
                     label: 'messages',
-                    icon: 'message'
+                    icon: 'message',
+                    value: 'message'
                 }
             ],
-            activeIndex: 0
+            currentTab: 'phone'
         };
-    },
-
-    changeTab(index) {
-        this.data.set('activeIndex', index);
     }
 
 }

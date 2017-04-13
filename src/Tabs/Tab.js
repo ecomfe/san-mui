@@ -7,6 +7,8 @@ import san from 'san';
 import {TouchRipple} from '../Ripple';
 import {create} from '../common/util/cx';
 
+import {TAB_INIT, TAB_ACTIVE, TAB_DISPOSE} from './constant';
+
 const cx = create('tab');
 
 export default san.defineComponent({
@@ -16,7 +18,7 @@ export default san.defineComponent({
     },
 
     template: `
-        <div class="{{computedClassName}}">
+        <div class="{{computedClassName}}" on-click="click">
             <slot name="icon" />
             <slot name="label" />
             <san-touch-ripple />
@@ -28,6 +30,19 @@ export default san.defineComponent({
             let active = this.data.get('active');
             return cx(this).addStates({active}).build();
         }
+    },
+
+    inited() {
+        this.dispatch(TAB_INIT);
+    },
+
+    click() {
+        this.dispatch(TAB_ACTIVE);
+        this.fire('active');
+    },
+
+    detached() {
+        this.dispatch(TAB_DISPOSE);
     }
 
 });
