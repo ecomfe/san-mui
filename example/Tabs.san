@@ -13,26 +13,24 @@
                 </san-tab>
             </san-tabs>
         </section>
-        <!-- <section class="demo-buttion-row">
-            <san-tabs activeIndex="{=activeIndex=}" total="{{tabs.length}}">
+        <section class="demo-buttion-row">
+            <san-tabs value="{=currentTab=}">
                 <san-tab
                     san-for="tab, index in tabs"
-                    active="{{index === activeIndex}}"
-                    on-active="changeTab(index)">
-                    <span slot="label">{{tab.label}}</span>
+                    value="{{tab.value}}">
+                    <san-icon slot="icon">{{tab.icon}}</san-icon>
                 </san-tab>
             </san-tabs>
         </section>
         <section class="demo-buttion-row">
-            <san-tabs activeIndex="{=activeIndex=}" total="{{tabs.length}}">
+            <san-tabs value="{=currentTab=}">
                 <san-tab
                     san-for="tab, index in tabs"
-                    active="{{index === activeIndex}}"
-                    on-active="changeTab(index)">
-                    <san-icon slot="icon">{{tab.icon}}</san-icon>
+                    value="{{tab.value}}">
+                    <span slot="label">{{tab.label}}</span>
                 </san-tab>
             </san-tabs>
-        </section> -->
+        </section>
     </div>
 </template>
 
