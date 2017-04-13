@@ -22,6 +22,24 @@ export default san.defineComponent({
         };
     },
 
+    inited() {
+        this.items = [];
+    },
+
+    disposed() {
+        this.items = null;
+    },
+
+    addItem(itemComponent) {
+        this.items.push(itemComponent);
+        this.data.push('items', itemComponent.data.get('value'));
+    },
+
+    removeItem(itemComponent) {
+        this.items = this.items.filter(item => item === itemComponent);
+        this.data.remove('items', itemComponent.data.get('value'));
+    },
+
     computed: {
         barStyle() {
 
@@ -29,7 +47,7 @@ export default san.defineComponent({
             let value = this.data.get('value');
             let total = items.length;
             let activeIndex = items.findIndex(
-                item => item.data.get('value') === value
+                item => item === value
             );
 
             if (activeIndex < 0) {
@@ -46,8 +64,9 @@ export default san.defineComponent({
 
     messages: {
         [TAB_INIT]({target}) {
-            this.data.push('items', target);
+            this.addItem(target);
         },
+
         [TAB_ACTIVE]({target}) {
             this.data.get('items').forEach(child => {
                 let active = child === target;
@@ -57,8 +76,9 @@ export default san.defineComponent({
                 }
             });
         },
+
         [TAB_DISPOSE]({target}) {
-            this.data.remove('items', target);
+            this.removeItem(target);
         }
     }
 
