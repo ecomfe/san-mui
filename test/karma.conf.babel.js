@@ -19,7 +19,7 @@ export default function (config) {
                 pattern: 'test/karma.adapter.js',
                 watched: false,
                 served: true,
-                included: true,
+                included: true
             }
         ],
         plugins: [
@@ -42,7 +42,7 @@ export default function (config) {
         logLevel: config.LOG_INFO,
         autoWatch: true,
         browsers: ['PhantomJS'],
-        singleRun: process.env.NODE_ENV === 'test' ? false : true,
+        singleRun: process.env.NODE_ENV !== 'test',
         concurrency: Infinity,
         webpack: {
             devtool: 'inline-source-map',
@@ -50,7 +50,8 @@ export default function (config) {
                 extensions: ['', '.js', '.san'],
                 fallback: [path.join(__dirname, '../node_modules')],
                 alias: {
-                    'src': SRC_ROOT
+                    src: SRC_ROOT,
+                    san: 'san/src/main'
                 }
             },
             module: {
@@ -106,4 +107,4 @@ export default function (config) {
             noInfo: true
         }
     });
-};
+}
