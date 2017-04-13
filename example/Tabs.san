@@ -4,7 +4,7 @@
             Tabs
         </h3>
         <section class="demo-buttion-row">
-            <san-tabs value="{=currentTab=}">
+            <san-tabs value="{=currentTab=}" on-change="change($event)">
                 <san-tab
                     san-for="tab, index in tabs"
                     value="{{tab.value}}">
@@ -70,6 +70,10 @@ export default {
             ],
             currentTab: 'phone'
         };
+    },
+
+    change(value) {
+        // 在这里你可以做一些额外的操作，比如发个 ajax
     }
 
 }

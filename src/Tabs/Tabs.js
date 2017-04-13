@@ -37,7 +37,9 @@ export default san.defineComponent({
 
     removeItem(itemComponent) {
         this.items = this.items.filter(item => item === itemComponent);
-        this.data.remove('items', itemComponent.data.get('value'));
+        if (this.data) {
+            this.data.remove('items', itemComponent.data.get('value'));
+        }
     },
 
     computed: {
@@ -68,11 +70,13 @@ export default san.defineComponent({
         },
 
         [TAB_ACTIVE]({target}) {
-            this.data.get('items').forEach(child => {
-                let active = child === target;
-                child.data.set('active', active);
+            this.items.forEach(tab => {
+                let active = tab === target;
+                tab.data.set('active', active);
                 if (active) {
-                    this.data.set('value', target.data.get('value'));
+                    let currentValue = target.data.get('value');
+                    this.data.set('value', currentValue);
+                    this.fire('change', currentValue);
                 }
             });
         },

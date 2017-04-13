@@ -37,8 +37,9 @@ export default san.defineComponent({
     },
 
     click() {
-        this.dispatch(TAB_ACTIVE);
-        this.fire('active');
+        if (!this.data.get('active')) {
+            this.dispatch(TAB_ACTIVE);
+        }
     },
 
     detached() {
