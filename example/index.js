@@ -12,19 +12,30 @@ import Tabs from './Tabs.san';
 import Pagination from './Pagination.san';
 import Popover from './Popover.san';
 import Drawer from './Drawer.san';
+import Dialog from './Dialog.san';
 import Progress from './Progress.san';
+import DatePicker from './DatePicker.san';
 
 import './index.styl';
 
-router.add({rule: '/', Component: Main, target: '#root'});
-router.add({rule: '/button', Component: Button, target: '#root'});
-router.add({rule: '/textfield', Component: TextField, target: '#root'});
-router.add({rule: '/textfield', Component: TextField, target: '#root'});
-router.add({rule: '/menu', Component: Menu, target: '#root'});
-router.add({rule: '/tabs', Component: Tabs, target: '#root'});
-router.add({rule: '/pagination', Component: Pagination, target: '#root'});
-router.add({rule: '/popover', Component: Popover, target: '#root'});
-router.add({rule: '/drawer', Component: Drawer, target: '#root'});
-router.add({rule: '/progress', Component: Progress, target: '#root'});
+let routes = {
+    '/': Main,
+    '/button': Button,
+    '/textfield': TextField,
+    '/menu': Menu,
+    '/tabs': Tabs,
+    '/pagination': Pagination,
+    '/popover': Popover,
+    '/drawer': Drawer,
+    '/progress': Progress,
+    '/datepicker': DatePicker,
+    '/dialog': Dialog
+};
+
+Object.keys(routes).forEach(rule => router.add({
+    rule,
+    Component: routes[rule],
+    target: '#root'
+}));
 
 router.start();
