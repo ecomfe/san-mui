@@ -1,13 +1,18 @@
+/**
+ * @file Layer
+ * @author leon <ludafa@outlook.com>
+ */
 
+import {Component} from 'san';
 
-import san from 'san';
+export default class Layer extends Component {
 
-export default class Layer extends san.Component {
-    static template = ``;
+    static template = '';
 
     attached() {
         if (this.el.parentNode !== document.body) {
             document.body.appendChild(this.el);
         }
     }
+
 }

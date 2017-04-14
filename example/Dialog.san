@@ -2,10 +2,14 @@
     <div>
         <san-button on-click="openDialog">open a dialog</san-button>
         <san-dialog open="{{open}}">
+            <div slot="title">
+                <san-icon style="vertical-align: middle">warning</san-icon>
+                确认要删除吗？
+            </div>
             <div>这里是弹框的内容呀</div>
             <div slot="actions">
-                <san-button on-click="onDelete">delete</san-button>
-                <san-button on-click="onCancel">cancel</san-button>
+                <san-button on-click="onCancel" variants="info">cancel</san-button>
+                <san-button on-click="onDelete" variants="danger">delete</san-button>
             </div>
         </san-dialog>
     </div>
@@ -13,11 +17,17 @@
 <script>
 import Button from '../src/Button';
 import Dialog from '../src/Dialog';
+import Icon from '../src/Icon';
+
+import '../src/Button/Button.styl';
+import '../src/Dialog/Dialog.styl';
+import '../src/Icon/Icon.styl';
 
 export default {
     components: {
         'san-dialog': Dialog,
-        'san-button': Button
+        'san-button': Button,
+        'san-icon': Icon
     },
     initData() {
         return {
