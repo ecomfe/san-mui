@@ -4,9 +4,9 @@
  */
 
 import TouchRipple from './TouchRipple';
-// import CenterRipple from './CenterRipple';
+import CenterRipple from './CenterRipple';
 
 export {
-    // CenterRipple,
+    CenterRipple,
     TouchRipple
 };
