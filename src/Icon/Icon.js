@@ -7,14 +7,13 @@ import san from 'san';
 
 export default san.defineComponent({
     template: `
-        <i class="sm-icon {{class}}" style="font-size: {{size}}px;color: {{color}}">
+        <i class="sm-icon" style="font-size: {{size}}px;">
             <slot />
         </i>
     `,
     initData() {
         return {
-            size: 24,
-            color: ''
+            size: 24
         };
     }
 });
