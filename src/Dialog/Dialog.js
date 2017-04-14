@@ -4,21 +4,33 @@
  */
 
 import san from 'san';
-import './Dialog.styl';
-import template from './Dialog.tpl';
+import DialogLayer from './DialogLayer';
 
 export default san.defineComponent({
-    template,
+    template: `
+        <div class="sm-dialog" />
+    `,
     initData() {
-        let options = {
+        return {
             title: 'this is a title!',
-            open: false,
-            showTitle: false,
-            dialogClass: '',
-            titleClass: '',
-            contentClass: '',
-            footerClass: ''
+            open: false
         };
-        return options;
+    },
+    attached() {
+        // console.log(this.slotChilds);
+        this.layer = new DialogLayer();
+        this.watch('open', value => {
+            this.layer.data.set('open', value);
+            this.layer.data.set('children', this.slotsChilds);
+        });
+        this.layer.watch('open', open => {
+            this.data.set('open', open);
+        });
+        this.layer.attach(document.body);
+    },
+    detached() {
+        if (this.layer) {
+            this.layer.dispose();
+        }
     }
 });

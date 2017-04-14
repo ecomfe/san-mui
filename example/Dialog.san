@@ -1,0 +1,41 @@
+<template>
+    <div>
+        <san-button on-click="opeDialog">open a dialog</san-button>
+        <san-dialog open="{{open}}">
+            <div>这里是弹框的内容呀</div>
+            <div slot="actions">
+                <san-button on-click="onDelete">delete</san-button>
+                <san-button on-click="onCancel">cancel</san-button>
+            </div>
+        </san-dialog>
+    </div>
+</template>
+<script>
+import Button from '../src/Button';
+import Dialog from '../src/Dialog';
+
+export default {
+    components: {
+        'san-dialog': Dialog,
+        'san-button': Button
+    },
+    initData() {
+        return {
+            open: false
+        };
+    },
+    open() {
+        this.data.set('open', true);
+    },
+
+    onDelete() {
+        this.data.set('open', false);
+    },
+
+    onCancel() {
+        this.data.set('open', false);
+    }
+
+}
+
+</script>
