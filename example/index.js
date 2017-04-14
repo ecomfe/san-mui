@@ -12,23 +12,38 @@ import Tabs from './Tabs.san';
 import Pagination from './Pagination.san';
 import Popover from './Popover.san';
 import Drawer from './Drawer.san';
+import Dialog from './Dialog.san';
 import Progress from './Progress.san';
 import Switch from './Switch.san';
 import Radio from './Radio.san';
+import DatePicker from './DatePicker.san';
+import Table from './Table.san';
+import Ripple from './Ripple.san';
 
 import './index.styl';
 
-router.add({rule: '/', Component: Main, target: '#root'});
-router.add({rule: '/button', Component: Button, target: '#root'});
-router.add({rule: '/textfield', Component: TextField, target: '#root'});
-router.add({rule: '/textfield', Component: TextField, target: '#root'});
-router.add({rule: '/menu', Component: Menu, target: '#root'});
-router.add({rule: '/tabs', Component: Tabs, target: '#root'});
-router.add({rule: '/pagination', Component: Pagination, target: '#root'});
-router.add({rule: '/popover', Component: Popover, target: '#root'});
-router.add({rule: '/drawer', Component: Drawer, target: '#root'});
-router.add({rule: '/progress', Component: Progress, target: '#root'});
-router.add({rule: '/switch', Component: Switch, target: '#root'});
-router.add({rule: '/radio', Component: Radio, target: '#root'});
+let routes = {
+    '/': Main,
+    '/button': Button,
+    '/textfield': TextField,
+    '/menu': Menu,
+    '/tabs': Tabs,
+    '/pagination': Pagination,
+    '/popover': Popover,
+    '/drawer': Drawer,
+    '/progress': Progress,
+    '/datepicker': DatePicker,
+    '/dialog': Dialog,
+    '/table': Table,
+    '/ripple': Ripple,
+    '/switch': Switch,
+    '/radio': Radio
+};
+
+Object.keys(routes).forEach(rule => router.add({
+    rule,
+    Component: routes[rule],
+    target: '#root'
+}));
 
 router.start();

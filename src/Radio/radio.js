@@ -21,7 +21,6 @@ export default san.defineComponent({
             label: '',
             labelLeft: false,
             labelClass: '',
-            disabled: false,
             uncheckIcon: '',
             checkedIcon: '',
             iconClass: '',
@@ -38,5 +37,8 @@ export default san.defineComponent({
     handleChange() {
         let inputValue = this.data.get('inputValue');
         this.fire('change', inputValue);
+    },
+    attached() {
+        console.log(this.data.get('inputValue'));
     }
 });

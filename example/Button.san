@@ -4,7 +4,7 @@
             FlatButton
         </h3>
         <section class="demo-buttion-row">
-            <san-button san-for="variant in variants" variants="{{variant}}" >
+            <san-button san-for="variant in variants" variants="{{variant}}">
                 {{variant}}
             </san-button>
         </section>

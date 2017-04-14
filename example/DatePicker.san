@@ -1,0 +1,18 @@
+<template>
+<div>
+    <san-date-picker value="{=date=}" />
+</div>
+</template>
+<script>
+import DatePicker from '../src/DatePicker';
+export default {
+    components: {
+        'san-date-picker': DatePicker
+    },
+    initData() {
+        return {
+            date: '2016-08-08'
+        };
+    }
+};
+</script>

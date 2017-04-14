@@ -3,22 +3,45 @@
  * @author zhouqinghuai@baidu.com
  */
 
-import san from 'san';
-import './Dialog.styl';
-import template from './Dialog.tpl';
+import {create} from '../common/util/cx';
+import Layer from '../Layer/Layer';
+import * as Mask from '../Mask';
 
-export default san.defineComponent({
-    template,
+const cx = create('dialog');
+
+export default class Dialog extends Layer {
+
+    static template = `
+        <div class="{{computedClassName}}" style="display: {{open ? 'block' : 'none'}}">
+            <h3 class="${cx.getPartClassName('title')}">
+                <slot name="title">{{title}}</slot>
+            </h3>
+            <div class="${cx.getPartClassName('body')}">
+                <slot></slot>
+            </div>
+            <div class="${cx.getPartClassName('actions')}">
+                <slot name="actions"></slot>
+            </div>
+        </div>
+    `;
+
     initData() {
-        let options = {
-            title: 'this is a title!',
+        return {
             open: false,
-            showTitle: false,
-            dialogClass: '',
-            titleClass: '',
-            contentClass: '',
-            footerClass: ''
+            computedClassName: cx(this).build(),
+            useMask: true
         };
-        return options;
     }
-});
+
+    attached() {
+        super.attached();
+        this.watch('open', open => {
+            console.log(open);
+            if (this.data.get('useMask')) {
+                open ? Mask.show() : Mask.hide();
+            }
+        });
+    }
+
+
+}

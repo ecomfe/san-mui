@@ -7,7 +7,7 @@
     {{multiLine ? 'multi-line' : ''}}
     {{icon ? 'has-icon' : ''}}"
     style="{{errorColor ? 'color:' + errorColor : ''}}">
-    <sm-icon san-if="{{icon}}" value="{{icon}}" class="sm-text-field-icon"/>
+    <sm-icon san-if="{{icon}}" class="sm-text-field-icon">{{icon}}</sm-icon>
     <div on-click="handleLabelClick" class="sm-text-field-content">
         <text-field-label
             san-if="{{label}}"
