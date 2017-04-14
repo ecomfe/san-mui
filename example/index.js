@@ -16,6 +16,7 @@ import Dialog from './Dialog.san';
 import Progress from './Progress.san';
 import DatePicker from './DatePicker.san';
 import Table from './Table.san';
+import Ripple from './Ripple.san';
 
 import './index.styl';
 
@@ -31,7 +32,8 @@ let routes = {
     '/progress': Progress,
     '/datepicker': DatePicker,
     '/dialog': Dialog,
-    '/table': Table
+    '/table': Table,
+    '/ripple': Ripple
 };
 
 Object.keys(routes).forEach(rule => router.add({
