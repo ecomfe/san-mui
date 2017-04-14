@@ -49,28 +49,6 @@
             </san-slider>
         </div>
 
-        <div>
-            <san-text-field hintText="提示文字" disabled></san-text-field><br/>
-        </div>
-        <div>
-            <san-text-field hintText="多行文本输入，默认 3行，最大6行" multiLine="true" rows="3" rowsMax="6"></san-text-field>
-        </div>
-        <div>
-            <san-text-field hintText="提示文字" errorText="这是必填项"/></san-text-field>
-        </div>
-        <div>
-            <san-text-field label="标签文字" errorText="请输入数字" hintText="提示文字"/></san-text-field>
-        </div>
-        <div>
-            <san-text-field label="自定义错误颜色" errorText="又输错了，笨死了！" errorColor="orange" labelFloat/></san-text-field>
-        </div>
-        <div>
-            <san-text-field hintText="电话号码" type="number" icon="menu"/></san-text-field>
-        </div>
-        <div>
-            <san-text-field hintText="提示文字"/></san-text-field>
-        </div>
-
         <san-dialog-btn on-click="open">
         <slot>
             <button class="sm-dialog-trigger-btn">点我有浮层</button>

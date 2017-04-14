@@ -1,0 +1,38 @@
+<template>
+    <div>
+        <h3>使用示例</h3>
+        <sm-radio label="单选 1" name="group" nativeValue="simple1" class="demo-radio"/> <br/>
+        <sm-radio label="单选 2" name="group" nativeValue="simple2" class="demo-radio"/> <br/>
+        <sm-radio label="自定义icon" name="group" nativeValue="simple3" class="demo-radio" uncheckIcon="favorite_border" checkedIcon="favorite"/> <br/>
+        <sm-radio label="不可用" class="demo-radio" name="disabled" disabled v-model="disabled" nativeValue="dd"/> <br/>
+        <sm-radio label="不可用" class="demo-radio" name="disabled" disabled v-model="disabled" nativeValue="tt"/><br/>
+        <sm-radio label="文字在左边的" class="demo-radio" nativeValue="test" v-model="value2" labelLeft/><br/>
+    </div>
+</template>
+
+<script>
+import Radio from '../src/Radio';
+
+export default {
+
+    components: {
+        'sm-radio': Radio,
+    },
+
+    initData() {
+        return {
+            value: 'ON',
+            inputValue: ['ON']
+        };
+    },
+
+    attached() {
+    }
+}
+
+</script>
+
+<style lang="stylus">
+.demo-switch
+    margin-bottom: 16px
+</style>

@@ -1,0 +1,36 @@
+<template>
+    <div>
+        <h3>使用示例</h3>
+        <sm-switch label="开关" value="{{value}}" class="demo-switch"/><br/>
+        <sm-switch label="默认为 true" inputValue="{= inputValue =}" class="demo-switch"/><br/>
+        <sm-switch label="不可用" disabled class="demo-switch"/><br/>
+        <sm-switch label="文字在左边" labelLeft class="demo-switch"/>
+    </div>
+</template>
+
+<script>
+import Switch from '../src/Switch';
+
+export default {
+
+    components: {
+        'sm-switch': Switch,
+    },
+
+    initData() {
+        return {
+            value: 'ON',
+            inputValue: ['ON']
+        };
+    },
+
+    attached() {
+    }
+}
+
+</script>
+
+<style lang="stylus">
+.demo-switch
+    margin-bottom: 16px
+</style>

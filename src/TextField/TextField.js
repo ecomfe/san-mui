@@ -123,7 +123,7 @@ export default san.defineComponent({
         this.data.set(key, value === 'false' ? false : !!value);
     },
     components: {
-        icon,
+        'sm-icon': icon,
         underline,
         'enhanced-textarea': enhancedTextarea,
         'text-field-label': textFieldLabel,
