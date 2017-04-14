@@ -4,33 +4,39 @@
  */
 
 import san from 'san';
-import DialogLayer from './DialogLayer';
+import {create} from '../common/util/cx';
+import Layer from '../Layer/Layer';
 
-export default san.defineComponent({
-    template: `
-        <div class="sm-dialog" />
-    `,
+const cx = create('dialog');
+
+export default class Dialog extends Layer {
+    static template = `
+        <div class="{{computedClassName}}" style="display: {{open ? 'block' : 'none'}}">
+            <h3 class="${cx.getPartClassName('title')}" san-if="title">
+                <slot name="title">{{title}}</slot>
+            </h3>
+            <div class="${cx.getPartClassName('body')}">
+                <slot></slot>
+            </div>
+            <div class="${cx.getPartClassName('actions')}">
+                <slot name="actions"></slot>
+            </div>
+        </div>
+    `;
+
     initData() {
         return {
             title: 'this is a title!',
-            open: false
+            open: false,
+            computedClassName: cx(this).build()
         };
-    },
-    attached() {
-        // console.log(this.slotChilds);
-        this.layer = new DialogLayer();
-        this.watch('open', value => {
-            this.layer.data.set('open', value);
-            this.layer.data.set('children', this.slotsChilds);
-        });
-        this.layer.watch('open', open => {
-            this.data.set('open', open);
-        });
-        this.layer.attach(document.body);
-    },
-    detached() {
-        if (this.layer) {
-            this.layer.dispose();
-        }
     }
-});
+
+    attached() {
+        super.attached();
+
+        this.watch('open', value => {
+            console.log(value)
+        })
+    }
+}

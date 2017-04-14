@@ -5,7 +5,4 @@
 
 import Layer from './Layer';
 
-export {
-    Layer,
-    Layer as default
-};
+export default Layer;

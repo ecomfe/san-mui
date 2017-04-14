@@ -1,6 +1,6 @@
 <template>
     <div>
-        <san-button on-click="opeDialog">open a dialog</san-button>
+        <san-button on-click="openDialog">open a dialog</san-button>
         <san-dialog open="{{open}}">
             <div>这里是弹框的内容呀</div>
             <div slot="actions">
@@ -24,7 +24,7 @@ export default {
             open: false
         };
     },
-    open() {
+    openDialog() {
         this.data.set('open', true);
     },
 
