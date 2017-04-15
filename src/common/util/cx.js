@@ -10,6 +10,8 @@ function addPrefix(prefix) {
 
     return function (...args) {
 
+        console.log(...args);
+
         let classNames = cx(...args).trim();
 
         return classNames
@@ -48,6 +50,11 @@ export function create(prefix) {
 
         let part = '';
         let variants = component.data.get('variants') || [];
+
+        if (!Array.isArray(variants)) {
+            variants = variants.split(' ').map(variant => variant.trim());
+        }
+
         let states = resolveStates(component);
         let originClassName = component.data.get('className');
         let getVariantClassName = addPrefix('variant');
