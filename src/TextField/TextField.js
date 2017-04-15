@@ -5,12 +5,12 @@
 
 import san from 'san';
 import './styles/textField.styl';
-import underline from './TextFieldUnderline';
-import textFieldLabel from './TextFieldLabel';
+import Underline from './TextFieldUnderline';
+import TextFieldLabel from './TextFieldLabel';
 import textFieldHint from './TextFieldHint';
 import template from './TextField.tpl';
-import enhancedTextarea from './TextFieldEnhancedTextarea';
-import icon from '../Icon';
+import EnhancedTextarea from './TextFieldEnhancedTextarea';
+import Icon from '../Icon';
 export default san.defineComponent({
     template,
     initData() {
@@ -29,6 +29,7 @@ export default san.defineComponent({
             helpTextClass: '',
             maxLength: 0,
             disabled: false,
+            readOnly: false,
             fullWidth: 0,
             underlineShow: true,
             underlineClass: '',
@@ -123,10 +124,10 @@ export default san.defineComponent({
         this.data.set(key, value === 'false' ? false : !!value);
     },
     components: {
-        icon,
-        underline,
-        'enhanced-textarea': enhancedTextarea,
-        'text-field-label': textFieldLabel,
+        'icon': Icon,
+        'underline': Underline,
+        'enhanced-textarea': EnhancedTextarea,
+        'text-field-label': TextFieldLabel,
         'text-field-hint': textFieldHint
     }
 });
