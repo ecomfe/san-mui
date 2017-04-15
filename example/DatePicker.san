@@ -5,6 +5,7 @@
 </template>
 <script>
 import DatePicker from '../src/DatePicker';
+import '../src/DatePicker/DatePicker.styl';
 export default {
     components: {
         'san-date-picker': DatePicker

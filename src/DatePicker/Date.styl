@@ -1,0 +1,42 @@
+/**
+ * @file Date
+ * @author leon <ludafa@outlook.com>
+ */
+
+
+.sm-date-picker-date
+    display: flex
+    width: 42px
+    height: 34px
+    align-items: center
+    justify-content: center
+    margin-bottom: 2px
+
+    &.variant-after,
+    &.variant-before
+        visibility: hidden
+
+    &-cell
+        position: relative
+        width: 34px
+        height: 34px
+        display: flex
+        align-items: center
+        justify-content: center
+        border-radius: 50%
+        overflow: hidden
+        transition: background-color .3s
+        cursor: pointer
+        font-size: 12px
+        color: rgba(0, 0, 0, .8)
+
+        &:hover
+            color: #fff
+            background-color: rgba(0, 159, 147, .6)
+
+        .sm-ripple
+            background-color: rgb(0, 159, 147)
+
+    &.state-active &-cell
+        color: #fff
+        background-color: rgb(0, 159, 147)

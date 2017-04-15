@@ -1,0 +1,29 @@
+/**
+ * @file DatePickerYear
+ * @author leon <ludafa@outlook.com>
+ */
+
+@require '../css/variable.styl'
+
+.sm-date-picker-year
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    overflow-y: auto
+    background-color: #fff
+
+    &-item
+        display: flex;
+        align-items: center
+        justify-content: center
+        height: 36px
+        cursor: pointer
+
+        &.state-active
+            font-size: 26px
+            color: $md-colors.teal500
+
+        &:hover
+            color: $md-colors.teal500
