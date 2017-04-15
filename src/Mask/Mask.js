@@ -10,7 +10,10 @@ let singleton = null;
 export class Mask extends Component {
 
     static template = `
-        <div class="sm-mask" style="display: {{open ? 'block' : 'none'}}" />
+        <div
+            class="sm-mask"
+            style="display: {{open ? 'block' : 'none'}}"
+            on-click="onRequestClose" />
     `;
 
     initData() {
@@ -27,18 +30,24 @@ export class Mask extends Component {
         this.data.set('open', false);
     }
 
+    onRequestClose() {
+        this.fire('close');
+    }
+
 }
 
-export function show() {
+export function show(onClose) {
     if (!singleton) {
         singleton = new Mask();
         singleton.attach(document.body);
     }
     singleton.show();
+    singleton.on('close', onClose);
 }
 
-export function hide() {
+export function hide(onClose) {
     if (singleton) {
         singleton.hide();
+        singleton.un('close', onClose);
     }
 }
