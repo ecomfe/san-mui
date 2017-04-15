@@ -17,6 +17,7 @@ import Progress from './Progress.san';
 import DatePicker from './DatePicker.san';
 import Table from './Table.san';
 import Ripple from './Ripple.san';
+import Icon from './Icon.san';
 
 import './index.styl';
 
@@ -33,7 +34,8 @@ let routes = {
     '/datepicker': DatePicker,
     '/dialog': Dialog,
     '/table': Table,
-    '/ripple': Ripple
+    '/ripple': Ripple,
+    '/Icon': Icon
 };
 
 Object.keys(routes).forEach(rule => router.add({
