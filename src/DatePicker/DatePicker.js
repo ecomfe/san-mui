@@ -5,7 +5,6 @@
 
 import Dialog from '../Dialog';
 import {Component} from 'san';
-import {create} from '../common/util/cx';
 import moment from 'moment';
 import {FORMAT} from './constant';
 
@@ -16,8 +15,6 @@ import MonthCarousel from './MonthCarousel';
 import Year from './Year';
 import Week from './Week';
 import TextField from '../TextField';
-
-const cx = create('date-picker');
 
 export default class DatePicker extends Component {
 
@@ -88,6 +85,7 @@ export default class DatePicker extends Component {
         return {
             open: false,
             yearPanelOpen: false,
+            format: FORMAT,
 
             // text field props
             label: '',
@@ -121,15 +119,19 @@ export default class DatePicker extends Component {
 
         // 最终值
         let value = this.data.get('value');
-        let date = moment(value);
+        let format = this.data.get('format');
+
+        // 以指定格式解析值
+        let date = moment(value, format);
+
         if (!date.isValid()) {
             date = moment();
         }
 
-        // 用于定位选中日期的数据
+        // 用于定位选中日期的数据，内部格式
         this.data.set('visualDate', date.format(FORMAT));
 
-        // 用于定位选择器的数据
+        // 用于定位选择器的数据，内部格式
         this.data.set('pickedDate', date.format(FORMAT));
 
         this.watch('pickedDate', date => this.data.set('visualDate', date));
@@ -145,8 +147,13 @@ export default class DatePicker extends Component {
     }
 
     confirm() {
+
+        let format = this.data.get('format');
+        let value = moment(this.data.get('pickedDate'), FORMAT).format(format);
+
         this.data.set('open', false);
-        this.data.set('value', this.data.get('pickedDate'));
+        this.data.set('value', value);
+
     }
 
     toggleYearPanel() {

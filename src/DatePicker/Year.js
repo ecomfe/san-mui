@@ -6,6 +6,7 @@
 import {Component} from 'san';
 import {create} from '../common/util/cx';
 import moment from 'moment';
+import {FORMAT} from './constant';
 
 const cx = create('date-picker-year');
 const years = Array.apply(null, new Array(200)).map((_, i) => i + 1900);
@@ -47,7 +48,7 @@ export default class DatePickerYear extends Component {
 
     click(year) {
         let date = moment(this.data.get('date')).year(year);
-        this.data.set('date', date);
+        this.data.set('date', date.format(FORMAT));
         this.fire('select');
     }
 
