@@ -3,31 +3,31 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import san from 'san';
+import {Component} from 'san';
 import {create} from '../common/util/cx';
 import {TouchRipple} from '../Ripple';
 
 const cx = create('button');
 
-export default san.defineComponent({
+export default class Button extends Component {
 
-    components: {
+    static components = {
         'san-touch-ripple': TouchRipple
-    },
+    };
 
-    template: `
+    static template = `
         <button
             class="{{computedClassName}}"
             disabled="{{disabled}}">
             <slot></slot>
             <san-touch-ripple />
         </button>
-    `,
+    `;
 
-    computed: {
+    static computed = {
         computedClassName() {
             return cx(this).build();
         }
-    }
+    };
 
-});
+}

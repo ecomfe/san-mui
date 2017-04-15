@@ -7,5 +7,10 @@
 // import RaisedButton from './RaisedButton';
 // import FloatingActionButton from './FloatingActionButton';
 import Button from './Button';
+import IconButton from './IconButton';
 
-export default Button;
+export {
+    IconButton,
+    Button,
+    Button as default
+};
