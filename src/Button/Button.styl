@@ -126,6 +126,7 @@ san-button-swatch($swatches, $revert = false)
     border-radius: 2px
     color: $md-colors.blue500
     text-transform: uppercase
+    overflow: hidden
 
     cursor: pointer
     user-select: none
@@ -141,4 +142,15 @@ san-button-swatch($swatches, $revert = false)
             &.variant-floating
                 san-button-swatch($value, true)
 
+    &.variant-icon
+        width: 36px;
+        height: @width;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0
+        border-radius: 50%
+
 @require '../Ripple/TouchRipple.styl'
+@require '../Ripple/CenterRipple.styl'
+@require '../Icon/Icon.styl'
