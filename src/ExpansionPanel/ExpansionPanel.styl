@@ -1,0 +1,50 @@
+/**
+ * @file ExpansionPanel
+ * @author leon <ludafa@outlook.com>
+ */
+
+
+.sm-expansion-panel
+
+    border: 1px solid rgba(#000, .12)
+    border-radius: 2px
+
+    &-header
+        display: flex;
+        box-sizing: border-box;
+        max-height: 48px
+        min-height: 48px
+        padding: 0 24px
+        border-radius: 2px
+        align-items: center
+        transition: max-height .3s, transform .3s
+
+        >.sm-icon
+            flex: 1 1 auto
+            color: rgba(#000, 54%)
+
+    &-title
+        flex: 0 0 auto
+        font-size: 15px
+        color: rgba(#000, .87)
+
+    &-description
+        flex: 2 1 auto
+        margin-left: 16px
+        font-size: 12px
+        color: rgba(#000, .54);
+
+    &-content
+        border-top: 0
+        transition: max-height .3s, opacity .3s, transform .3s
+        transform-origin: top left
+
+    &.state-open
+        margin: 16px 0
+
+    &.state-open &-header
+        max-height: 64px
+        min-height: 64px
+
+    &.state-open &-content
+        padding: 0 24px 16px

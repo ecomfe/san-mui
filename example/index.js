@@ -18,6 +18,7 @@ import DatePicker from './DatePicker.san';
 import Table from './Table.san';
 import Ripple from './Ripple.san';
 import Icon from './Icon.san';
+import ExpansionPanel from './ExpansionPanel.san';
 
 import './index.styl';
 
@@ -35,7 +36,8 @@ let routes = {
     '/dialog': Dialog,
     '/table': Table,
     '/ripple': Ripple,
-    '/Icon': Icon
+    '/Icon': Icon,
+    '/ExpansionPanel': ExpansionPanel
 };
 
 Object.keys(routes).forEach(rule => router.add({
