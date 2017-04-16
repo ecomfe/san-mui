@@ -6,6 +6,7 @@
 import san from 'san';
 import './switch.styl';
 import template from './index.tpl';
+import {CenterRipple} from '../Ripple';
 
 export default san.defineComponent({
     template,
@@ -23,12 +24,16 @@ export default san.defineComponent({
         };
     },
 
+    components: {
+        'sm-center-ripple': CenterRipple
+    },
+
     attached() {
     },
 
-    handleClick(event) {
-        event.stopPropagation();
+    handleClick(e) {
         // 阻止事件冒泡，放置外部控制的时候触发两次 click
+        this.ref('ripple').click();
     },
     handleMouseUp() {
     },

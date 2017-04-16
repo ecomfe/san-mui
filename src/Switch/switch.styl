@@ -10,12 +10,16 @@
 	user-select: none
 	input[type="checkbox"]
 		display: none
-		&:checked ~ .sm-switch-wrapper .sm-switch-track
-			background-color: alpha($md-colors.lightBlue500, 50%)
-		&:checked ~ .sm-switch-wrapper .sm-switch-thumb
-			background-color: $md-colors.lightBlue500
-			color: $md-colors.lightBlue500
-			transform: translate3d(18px, 0, 0)
+		&:checked ~ .sm-switch-wrapper
+			.sm-switch-track
+				background-color: alpha($md-colors.lightBlue500, 50%)
+			.sm-switch-thumb
+				background-color: $md-colors.lightBlue500
+				color: $md-colors.lightBlue500
+				transform: translate3d(18px, 0, 0)
+			.sm-switch-ripple-wrapper
+				.sm-ripple
+					background-color: $md-colors.lightBlue500
 	&.disabled
 		input[type="checkbox"]:checked
 		~ .sm-switch-wrapper
@@ -81,7 +85,7 @@
 	.sm-switch.disabled &
 		background-color: $md-colors.grey300
 
-.sm-switch-ripple-wrapper
+.sm-switch .sm-switch-ripple-wrapper
 	height: 200%
 	width: 200%
 	top: -10px
