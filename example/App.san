@@ -1,0 +1,184 @@
+<template>
+    <div id="app">
+
+        <sm-drawer
+            position="left"
+            open="{{openNav}}"
+            useMask="{{false}}"
+            class="example-drawer">
+
+            <sm-appbar
+                title="SAN-MUI"
+                class="example-drawer-appbar">
+            </sm-appbar>
+
+            <div class="example-drawer-content">
+                <!-- menu list 似乎有问题 先手动 -->
+                <div class="menu-list">
+                    <sm-menu-item
+                        san-for="menuItem in menus"
+                        selectValue="{{menuVal}}"
+                        title="{{menuItem.title}}"
+                        value="{{menuItem.value}}">
+                    </sm-menu-item>
+                </div>
+
+            </div>
+        </sm-drawer>
+
+        <sm-appbar
+            title="{{navTitle}}"
+            showLeftIcon="1"
+            class="example-appbar">
+
+            <div slot="appbarleft">
+                <icon font="24" color="white">menu</icon>
+            </div>
+
+        </sm-appbar>
+
+        <div class="example-content">
+            <div id="example"></div>
+        </div>
+
+    </div>
+</template>
+
+<script>
+
+import {router} from 'san-router';
+import routes from './routes';
+
+import Appbar from '../src/AppBar';
+import '../src/AppBar/AppBar.styl';
+import Drawer from '../src/Drawer';
+import '../src/Drawer/Drawer.styl';
+import Icon from '../src/Icon';
+import {MenuItem, Divider} from '../src/Menu';
+
+export default {
+
+    components: {
+        'sm-appbar': Appbar,
+        'sm-drawer': Drawer,
+        'sm-menu-item': MenuItem,
+        'sm-menu-divider': Divider,
+        'icon': Icon
+    },
+
+    initData() {
+        return {
+            navTitle: '组件',
+            openNav: true,
+            menuVal: '#/',
+            menus: Object.keys(routes).map((path) => {
+
+                var title = (path === '/')
+                    ? 'Index'
+                    : path.slice(1, 2).toUpperCase() + path.slice(2);
+
+                return {
+                    value: '#' + path,
+                    title: title
+                }
+
+            })
+        }
+    },
+
+    computed: {
+        navTitle() {
+            var menuVal = this.data.get('menuVal');
+            var menus = this.data.get('menus');
+            var item = menus.find( (item) => item.value == menuVal);
+            return item.title || '404';
+
+        }
+    },
+
+    messages: {
+        'UI:menu-item-selected': function(e) {
+
+            var itemVal = e.value;
+
+            var menuPath = itemVal.value;
+
+            location.href = menuPath;
+
+            this.data.set('menuVal', menuPath);
+
+        }
+    },
+
+    attached() {
+
+        Object.keys(routes).forEach(rule => router.add({
+            rule,
+            Component: routes[rule],
+            target: '#example'
+        }));
+
+
+        // hack do route
+        var doRoute = router.doRoute.bind(router);
+        router.doRoute = (routeItem, e) => {
+            doRoute(routeItem, e);
+            this.data.set('menuVal', '#' + e.path);
+        };
+
+        router.start();
+
+    }
+
+
+}
+
+</script>
+
+<style lang="stylus">
+
+@require '../src/css/variable.styl'
+
+.example-drawer
+    width: 300px
+    position: fixed
+    top: 0
+    bottom: 0
+    overflow: auto
+
+
+.example-drawer-appbar
+    background: $md-colors.blue900
+    color: #fff
+
+.example-drawer-content
+    -webkit-box-flex: 1
+    -webkit-flex: 1
+    -ms-flex: 1
+    flex: 1
+    overflow: auto
+    -webkit-overflow-scrolling: touch
+
+
+.example-appbar
+    position: fixed
+    left: 300px
+    right: 0
+    top: 0
+    width: auto
+    -webkit-transition: all .45s cubic-bezier(.23,1,.32,1)
+    transition: all .45s cubic-bezier(.23,1,.32,1)
+    background: $md-colors.blue900
+    color: #fff
+    z-index: 100
+
+.example-content
+    padding-top: 64px
+    padding-left: 300px
+
+
+#example
+    padding: 48px 72px
+
+
+</style>
