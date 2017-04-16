@@ -10,15 +10,13 @@ export default san.defineComponent({
     template: `
         <div class="sm-appbar {{themeClass}}">
             <div class="sm-appbar-left" san-if="showLeftIcon">
-                <slot name="appbarleft">
-                </slot>
+                <slot name="left"></slot>
             </div>
             <div class="sm-appbar-title">
                 <span>{{title}}</span>
             </div>
             <div class="sm-appbar-right" san-if="showRightIcon">
-                <slot name="appbarright">
-                </slot>
+                <slot name="right"></slot>
             </div>
         </div>
     `,
@@ -33,9 +31,6 @@ export default san.defineComponent({
         };
 
         return config;
-    },
-    test() {
-        return 'AppBar';
     },
     inited() {
         [
