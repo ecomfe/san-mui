@@ -6,12 +6,14 @@
 import san from 'san';
 import icon from '../Icon';
 import './radio.styl';
+import {CenterRipple} from '../Ripple';
 import template from './index.tpl';
 
 export default san.defineComponent({
     template,
     components: {
-        'sm-icon': icon
+        'sm-icon': icon,
+        'sm-center-ripple': CenterRipple
     },
     initData() {
         return {
@@ -27,8 +29,9 @@ export default san.defineComponent({
             inputValue: ''
         };
     },
-    handleClick() {
-      // 阻止事件冒泡，放置外部控制的时候触发两次 click
+    handleClick(e) {
+        // 阻止事件冒泡，放置外部控制的时候触发两次 click
+        this.ref('ripple').click();
     },
     handleTouchStart(event) {
     },
@@ -39,6 +42,5 @@ export default san.defineComponent({
         this.fire('change', inputValue);
     },
     attached() {
-        console.log(this.data.get('inputValue'));
     }
 });

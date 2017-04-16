@@ -23,7 +23,7 @@ export default san.defineComponent({
         return {
             step: 0,
             steps: 40,
-            opacity: [0.3, 0],
+            opacity: [0.1, 0],
             scale: [0, 2],
             animating: false
         };
