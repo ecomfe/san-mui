@@ -19,6 +19,7 @@ import Radio from './Radio.san';
 import DatePicker from './DatePicker.san';
 import Table from './Table.san';
 import Ripple from './Ripple.san';
+import Checkbox from './Checkbox.san';
 
 import './index.styl';
 
@@ -37,7 +38,8 @@ let routes = {
     '/table': Table,
     '/ripple': Ripple,
     '/switch': Switch,
-    '/radio': Radio
+    '/radio': Radio,
+    '/checkbox': Checkbox
 };
 
 Object.keys(routes).forEach(rule => router.add({

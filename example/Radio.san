@@ -37,6 +37,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.demo-switch
+.demo-radio
     margin-bottom: 16px
 </style>
