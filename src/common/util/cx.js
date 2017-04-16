@@ -10,8 +10,6 @@ function addPrefix(prefix) {
 
     return function (...args) {
 
-        console.log(...args);
-
         let classNames = cx(...args).trim();
 
         return classNames
@@ -38,6 +36,23 @@ function resolveStates(component) {
     };
 }
 
+function convertToVariants(variants) {
+
+    if (!variants) {
+        return [];
+    }
+
+    if (typeof variants === 'string') {
+        return variants
+            .split(' ')
+            .filter(variant => !!variant)
+            .map(variant => variant.trim());
+    }
+
+    return Array.isArray(variants) ? variants : [];
+
+}
+
 export function create(prefix) {
 
     function getPartClassName(part) {
@@ -49,11 +64,7 @@ export function create(prefix) {
     function classNameBuilder(component) {
 
         let part = '';
-        let variants = component.data.get('variants') || [];
-
-        if (!Array.isArray(variants)) {
-            variants = variants.split(' ').map(variant => variant.trim());
-        }
+        let variants = convertToVariants(component.data.get('variants'));
 
         let states = resolveStates(component);
         let originClassName = component.data.get('className');
@@ -73,7 +84,10 @@ export function create(prefix) {
         }
 
         function addVariants(...extraVariants) {
-            variants = [...variants, ...extraVariants];
+            variants = [
+                ...variants,
+                ...extraVariants.map(convertToVariants)
+            ];
             return builder;
         }
 
