@@ -183,7 +183,7 @@ export default {
     right: 0
     top: 0
     width: auto
-    transition: all .3s cubic-bezier(.23,1,.32,1)
+    transition: all .3s cubic-bezier(.4, 0, .2, 1)
     background: $md-colors.blue500
     color: #fff
     z-index: 10
@@ -194,7 +194,7 @@ export default {
 .example-content
     padding-top: 64px
     padding-left: 300px
-    transition: all .3s cubic-bezier(.23,1,.32,1)
+    transition: all .3s cubic-bezier(.4, 0, .2, 1)
 
     &.hide-menu
         padding-left: 0
