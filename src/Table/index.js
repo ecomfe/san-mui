@@ -7,6 +7,7 @@ import TBody from './TBody'
 import TR from './TR'
 import TD from './TD'
 import TH from './TH'
+import ConfigurableTable from './ConfigurableTable'
 
 export {
     Table,
@@ -15,5 +16,6 @@ export {
     TBody,
     TR,
     TD,
-    TH
+    TH,
+    ConfigurableTable
 };
