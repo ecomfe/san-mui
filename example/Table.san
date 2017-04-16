@@ -1,8 +1,7 @@
 <template>
     <div>
-        <h3>
-            Table
-        </h3>
+        <h3>Table</h3>
+
         <section class="demo-buttion-row">
             <ui-table>
                 <ui-thead slot="header">
@@ -20,6 +19,50 @@
                     </ui-tr>
                 </ui-tbody>
             </ui-table>
+        </section>
+
+        <section class="demo-buttion-row">
+            <ui-table selectable="multi" on-select="multiTableSelect($event)">
+                <ui-thead slot="header">
+                    <ui-tr>
+                        <ui-th tooltip="名称">Name</ui-th>
+                        <ui-th tooltip="城市">City</ui-th>
+                        <ui-th tooltip="生日">Birthday</ui-th>
+                    </ui-tr>
+                </ui-thead>
+                <ui-tbody>
+                    <ui-tr san-for="item in persons">
+                        <ui-td>{{item.name}}</ui-td>
+                        <ui-td>{{item.city}}</ui-td>
+                        <ui-td>{{item.birthday}}</ui-td>
+                    </ui-tr>
+                </ui-tbody>
+            </ui-table>
+        </section>
+
+        <section class="demo-buttion-row">selected: {{multiTableSelected}}
+        </section>
+
+        <section class="demo-buttion-row">
+            <ui-table selectable="single" on-select="singleTableSelect($event)">
+                <ui-thead slot="header">
+                    <ui-tr>
+                        <ui-th tooltip="名称">Name</ui-th>
+                        <ui-th tooltip="城市">City</ui-th>
+                        <ui-th tooltip="生日">Birthday</ui-th>
+                    </ui-tr>
+                </ui-thead>
+                <ui-tbody>
+                    <ui-tr san-for="item in persons">
+                        <ui-td>{{item.name}}</ui-td>
+                        <ui-td>{{item.city}}</ui-td>
+                        <ui-td>{{item.birthday}}</ui-td>
+                    </ui-tr>
+                </ui-tbody>
+            </ui-table>
+        </section>
+
+        <section class="demo-buttion-row">selected: {{singleTableSelected}}
         </section>
     </div>
 </template>
@@ -75,6 +118,14 @@ export default {
             ],
             currentTab: 'phone'
         };
+    },
+
+    multiTableSelect(selected) {
+        this.data.set('multiTableSelected', selected.join(', '));
+    },
+
+    singleTableSelect(selected) {
+        this.data.set('singleTableSelected', selected);
     }
 }
 
