@@ -17,6 +17,9 @@ import DatePicker from './DatePicker.san';
 import Table from './Table.san';
 import Ripple from './Ripple.san';
 import Icon from './Icon.san';
+import Checkbox from './Checkbox.san';
+import Switch from './Switch.san';
+import Radio from './Radio.san';
 import ExpansionPanel from './ExpansionPanel.san';
 
 let routes = {
@@ -34,6 +37,9 @@ let routes = {
     '/table': Table,
     '/ripple': Ripple,
     '/Icon': Icon,
+    '/Checkbox': Checkbox,
+    '/Radio': Radio,
+    '/Switch': Switch,
     '/ExpansionPanel': ExpansionPanel
 };
 

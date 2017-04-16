@@ -18,7 +18,7 @@
             <san-text-field hintText="多行输入" errorText="不能一个字都不输入哦" multiLine="true" rows="3"/><br/>
             <san-text-field label="自定义错误颜色" errorText="又输错了，笨死了！" errorColor="orange" labelFloat/><br/>
         </div>
-        <h3>使用图表的示例</h3>
+        <h3>使用图标的示例</h3>
         <div>
             <san-text-field hintText="简介" type="number" icon="menu"/><br/>
             <san-text-field hintText="简介" multiLine="true" rows="3" rowsMax="6" icon="menu"/><br/>

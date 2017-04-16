@@ -7,7 +7,7 @@ import san from 'san';
 import './styles/textField.styl';
 import Underline from './TextFieldUnderline';
 import TextFieldLabel from './TextFieldLabel';
-import textFieldHint from './TextFieldHint';
+import TextFieldHint from './TextFieldHint';
 import template from './TextField.tpl';
 import EnhancedTextarea from './TextFieldEnhancedTextarea';
 import Icon from '../Icon';
@@ -124,10 +124,10 @@ export default san.defineComponent({
         this.data.set(key, value === 'false' ? false : !!value);
     },
     components: {
-        'icon': Icon,
+        'sm-icon': Icon,
         'underline': Underline,
         'enhanced-textarea': EnhancedTextarea,
         'text-field-label': TextFieldLabel,
-        'text-field-hint': textFieldHint
+        'text-field-hint': TextFieldHint
     }
 });

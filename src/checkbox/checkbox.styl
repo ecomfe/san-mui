@@ -1,0 +1,108 @@
+@require '../css/variable.styl'
+@require '../css/func.styl'
+$easeOutFunction = cubic-bezier(0.23, 1, 0.32, 1)
+
+.sm-checkbox
+    position: relative
+    display: inline-block
+    height: 24px
+    line-height: 24px
+    cursor: pointer
+    user-select: none
+    input[type="checkbox"]
+        display: none
+        &:checked ~ .sm-checkbox-wrapper
+            .sm-checkbox-icon-uncheck
+                opacity: 0
+                transition: opacity 650ms $easeOutFunction 150ms
+                color: $md-colors.lightBlue500
+
+            .sm-checkbox-icon-checked
+                opacity: 1
+                transform: scale(1)
+                transition: opacity 0ms $easeOutFunction, transform 800ms $easeOutFunction
+
+            .sm-checkbox-ripple-wrapper
+                .sm-ripple
+                    background-color: $md-colors.lightBlue500
+
+    *
+        pointer-events: none
+
+    &.disabled
+        cursor: not-allowed
+
+
+
+.sm-checkbox-wrapper
+    display: flex
+    width: 100%
+    height: 24px
+    align-items: center
+    justify-content: space-between
+
+
+.sm-checkbox-icon
+    width: 24px
+    height: 24px
+    vertical-align: middle
+    position: relative
+    margin-right: 16px
+    .sm-checkbox.label-left &
+        margin-right: 0
+        margin-left: 16px
+
+    .sm-checkbox.no-label &
+        margin-left: 0
+        margin-right: 0
+
+
+
+.sm-checkbox-label
+    color: rgba(0, 0, 0, 0.87)
+    .sm-checkbox.disabled &
+        color: alpha(#000, 0.38)
+
+
+
+.sm-checkbox-svg-icon
+    display: inline-block
+    fill: currentColor
+    height: 24px
+    width: 24px
+    user-select: none
+
+
+.sm-checkbox-icon-uncheck
+    position: absolute
+    left: 0
+    top: 0
+    opacity: 1
+    transition: opacity 1s $easeOutFunction .2s
+    color: $md-colors.darkBlack
+    .sm-checkbox.disabled &
+        color: alpha(#000, 0.38)
+
+
+
+.sm-checkbox-icon-checked
+    position: absolute
+    left: 0
+    top: 0
+    opacity: 0
+    color: $md-colors.lightBlue500
+    transform: scale(0)
+    transition: opacity 450ms $easeOutFunction, transform 0ms $easeOutFunction 450ms
+    .sm-checkbox.disabled &
+        color: alpha(#000, 0.38)
+
+
+
+.sm-checkbox .sm-checkbox-ripple-wrapper
+    width: 48px
+    height: 48px
+    top: -12px
+    left: -12px
+    .sm-checkbox.label-left &
+        right: -12px
+        left: auto

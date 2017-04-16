@@ -1,0 +1,41 @@
+<template>
+    <div>
+        <h3>使用示例</h3>
+        <sm-checkbox label="最简单的" nativeValue="{{value}}" class="demo-checkbox"/> <br/>
+        <sm-checkbox label="自定义icon" class="demo-checkbox" uncheckIcon="favorite_border" checkedIcon="favorite"/> <br/>
+        <sm-checkbox label="不同的图形的icon" class="demo-checkbox" uncheckIcon="visibility_off" checkedIcon="visibility"/><br/>
+        <sm-checkbox label="不可用" class="demo-checkbox" disabled/> <br/>
+        <sm-checkbox label="不可用" nativeValue="{{value}}" class="demo-checkbox" disabled inputValue="{=inputValue=}"/><br/>
+        <sm-checkbox label="文字在左边的" class="demo-checkbox" labelLeft/><br/>
+    </div>
+</template>
+
+<script>
+import Checkbox from '../src/Checkbox';
+
+export default {
+
+    components: {
+        'sm-checkbox': Checkbox,
+    },
+
+    initData() {
+        return {
+            value: 'ON',
+            inputValue: ['ON']
+        };
+    },
+
+    attached() {
+        this.watch('inputValue', val => {
+            console.log(val);
+        });
+    }
+}
+
+</script>
+
+<style lang="stylus">
+.demo-checkbox
+    margin-bottom: 16px
+</style>
