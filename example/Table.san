@@ -64,6 +64,11 @@
 
         <section class="demo-buttion-row">selected: {{singleTableSelected}}
         </section>
+
+        <section class="demo-buttion-row">
+            <ui-configurable-table data="{{persons}}" fields="{{fields}}" selectable="multi">
+            </ui-configurable-table>
+        </section>
     </div>
 </template>
 
@@ -75,7 +80,8 @@ import {
     TBody,
     TR,
     TD,
-    TH
+    TH,
+    ConfigurableTable
 } from '../src/Table';
 
 import '../src/Table/Table.styl';
@@ -89,7 +95,8 @@ export default {
         'ui-td': TD,
         'ui-tbody': TBody,
         'ui-thead': THead,
-        'ui-tfoot': TFoot
+        'ui-tfoot': TFoot,
+        'ui-configurable-table': ConfigurableTable
     },
 
     initData() {
@@ -116,7 +123,23 @@ export default {
                     city: 'ShenZhen'
                 }
             ],
-            currentTab: 'phone'
+            currentTab: 'phone',
+            fields: [
+                {
+                    title: '名字',
+                    content: 'name'
+                },
+                {
+                    title: '城市',
+                    content: 'city'
+                },
+                {
+                    title: '生日',
+                    content: function (item) {
+                        return item.birthday
+                    }
+                }
+            ]
         };
     },
 
