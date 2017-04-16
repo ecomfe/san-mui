@@ -6,13 +6,13 @@
 import san from 'san';
 
 const WEEKS = [
+    '日',
     '一',
     '二',
     '三',
     '四',
     '五',
-    '六',
-    '日'
+    '六'
 ];
 
 export default san.defineComponent({

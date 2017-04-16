@@ -1,0 +1,196 @@
+<template>
+    <div id="app">
+
+        <san-drawer
+            position="left"
+            open="{{openMenu}}"
+            useMask="{{false}}"
+            class="example-drawer">
+
+            <san-appbar
+                title="SAN-MUI"
+                class="example-drawer-appbar">
+            </san-appbar>
+
+            <div class="example-drawer-content">
+                <!-- menu list 似乎有问题 先手动 -->
+                <div class="menu-list">
+                    <san-menu-item
+                        san-for="menuItem in menus"
+                        selectValue="{{menuVal}}"
+                        title="{{menuItem.title}}"
+                        value="{{menuItem.value}}">
+                    </san-menu-item>
+                </div>
+
+            </div>
+        </san-drawer>
+
+        <san-appbar
+            title="{{navTitle}}"
+            showLeftIcon="1"
+            class="example-appbar {{openMenu ? '': 'hide-menu'}}">
+
+            <san-icon-button
+                on-click="toggleMenu($event)"
+                variants="info raised"
+                slot="appbarleft">
+                menu
+            </san-icon-button>
+
+        </san-appbar>
+
+        <div class="example-content {{openMenu ? '': 'hide-menu'}}">
+            <div id="example"></div>
+        </div>
+
+    </div>
+</template>
+
+<script>
+
+import {router} from 'san-router';
+import routes from './routes';
+
+import Appbar from '../src/AppBar';
+import '../src/AppBar/AppBar.styl';
+import Drawer from '../src/Drawer';
+import '../src/Drawer/Drawer.styl';
+import IconButton from '../src/Button/IconButton';
+import '../src/Button/Button.styl';
+import {MenuItem, Divider} from '../src/Menu';
+
+export default {
+
+    components: {
+        'san-appbar': Appbar,
+        'san-drawer': Drawer,
+        'san-menu-item': MenuItem,
+        'san-menu-divider': Divider,
+        'san-icon-button': IconButton,
+
+    },
+
+    initData() {
+        return {
+            navTitle: '组件',
+            openMenu: true,
+            menuVal: '#/',
+            menus: Object.keys(routes).map((path) => {
+
+                var title = (path === '/')
+                    ? 'Index'
+                    : path.slice(1, 2).toUpperCase() + path.slice(2);
+
+                return {
+                    value: '#' + path,
+                    title: title
+                }
+
+            })
+        }
+    },
+
+    computed: {
+        navTitle() {
+            var menuVal = this.data.get('menuVal');
+            var menus = this.data.get('menus');
+            var item = menus.find( (item) => item.value == menuVal);
+            return item.title || '404';
+
+        }
+    },
+
+    messages: {
+        'UI:menu-item-selected': function(e) {
+
+            var itemVal = e.value;
+
+            var menuPath = itemVal.value;
+
+            location.href = menuPath;
+
+            this.data.set('menuVal', menuPath);
+
+        }
+    },
+
+    toggleMenu() {
+        var openMenu = this.data.get('openMenu');
+        this.data.set('openMenu', !openMenu);
+    },
+
+    attached() {
+
+        Object.keys(routes).forEach(rule => router.add({
+            rule,
+            Component: routes[rule],
+            target: '#example'
+        }));
+
+
+        // hack do route
+        var doRoute = router.doRoute.bind(router);
+        router.doRoute = (routeItem, e) => {
+            doRoute(routeItem, e);
+            this.data.set('menuVal', '#' + e.path);
+        };
+
+        router.start();
+
+    }
+
+
+}
+
+</script>
+
+<style lang="stylus">
+
+@require '../src/css/variable.styl'
+
+.example-drawer
+    width: 300px
+    position: fixed
+    top: 0
+    bottom: 0
+    overflow: auto
+
+
+.example-drawer-appbar
+    background: $md-colors.blue500
+    color: #fff
+
+.example-drawer-content
+    flex: 1
+    overflow: auto
+    -webkit-overflow-scrolling: touch
+
+
+.example-appbar
+    position: fixed
+    left: 300px
+    right: 0
+    top: 0
+    width: auto
+    transition: all .3s cubic-bezier(.23,1,.32,1)
+    background: $md-colors.blue500
+    color: #fff
+    z-index: 10
+
+    &.hide-menu
+        left: 0
+
+.example-content
+    padding-top: 64px
+    padding-left: 300px
+    transition: all .3s cubic-bezier(.23,1,.32,1)
+
+    &.hide-menu
+        padding-left: 0
+
+#example
+    padding: 20px 48px
+
+
+</style>
