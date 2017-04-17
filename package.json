@@ -14,16 +14,15 @@
     "clean:coverage": "rimraf test/coverage",
     "prepublish": "npm run build",
     "build": "npm run clean && NODE_ENV=production gulp build",
-    "coveralls": "shx cat ./test/coverage/report-html/lcov.info | coveralls",
-    "postinstall": "gulp sync-md-font"
+    "coveralls": "shx cat ./test/coverage/report-html/lcov.info | coveralls"
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "material-design-icons": "~3.0.1",
     "moment": "^2.18.1",
     "san": "^3.0.3-rc.23"
   },
   "devDependencies": {
+    "material-design-icons": "~3.0.1",
     "autoprefixer": "^6.6.1",
     "babel-cli": "^6.22.2",
     "babel-loader": "^6.2.10",
