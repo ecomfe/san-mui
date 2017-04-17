@@ -28,7 +28,7 @@ gulp.task('stylus-compile', () => {
     return gulp.src('src/index.styl')
         .pipe(stylus({
             use: function (style) {
-                style.include(path.join(__dirname, 'node_modules'));
+                // style.include(path.join(__dirname, 'node_modules'));
                 style.define('url', stylus.stylus.resolver());
                 style.use(rider());
             },
@@ -50,17 +50,10 @@ gulp.task('stylus-source', () => {
 });
 
 gulp.task('font', () => {
-    return gulp.src('src/font/*').pipe(gulp.dest('lib/font'));
+    return gulp.src('src/**/font/*').pipe(gulp.dest('lib'));
 });
 
-gulp.task('pkg', () => {
-    return gulp.src([
-        'package.json',
-        'readme.md'
-    ]).pipe(gulp.dest('lib'));
-});
-
-gulp.task('build', ['babel', 'stylus-compile', 'stylus-source', 'font', 'pkg']);
+gulp.task('build', ['babel', 'stylus-compile', 'stylus-source', 'font']);
 
 gulp.task('clean', () => {
     return gulp.src('lib', {read: false}).pipe(clean());
