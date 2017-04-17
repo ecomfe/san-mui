@@ -3,11 +3,11 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import gulp from 'gulp';
-import babel from 'gulp-babel';
-import clean from 'gulp-clean';
-import babelHelpers from 'gulp-babel-external-helpers';
-import sourcemaps from 'gulp-sourcemaps';
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+const clean = require('gulp-clean');
+const babelHelpers = require('gulp-babel-external-helpers');
+const sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('babel', () => {
     return gulp.src('src/**/*.js')
