@@ -7,10 +7,15 @@ import san from 'san';
 
 export default san.defineComponent({
     template: `
-        <i class="sm-icon" style="font-size: {{size}}px;">
+        <i class="{{icon ? icon : 'sm-icon'}}" style="{{size | fontSize}}">
             <slot />
         </i>
     `,
+    filters: {
+        fontSize(size) {
+            return size ? `font-size: ${size}px` : '';
+        }
+    },
     initData() {
         return {
             size: 24

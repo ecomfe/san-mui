@@ -3,13 +3,13 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import {Component} from 'san';
+import BaseButton from './Base';
 import {create} from '../common/util/cx';
 import {TouchRipple} from '../Ripple';
 
 const cx = create('button');
 
-export default class Button extends Component {
+export default class Button extends BaseButton {
 
     static components = {
         'san-touch-ripple': TouchRipple
@@ -29,5 +29,7 @@ export default class Button extends Component {
             return cx(this).build();
         }
     };
+
+
 
 }

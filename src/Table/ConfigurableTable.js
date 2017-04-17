@@ -19,14 +19,11 @@ export default class ConfigurableTable extends Table {
 
     static filters = {
         renderField(field, item) {
-            let content = field.content;
-
-            switch (typeof content) {
-                case 'string':
-                    return item[content];
-
-                case 'function':
-                    return content.call(this, item);
+            if (typeof field.content === 'function') {
+                return field.content.call(this, item);
+            }
+            else if (field.prop) {
+                return item[field.prop];
             }
 
             return '';

@@ -10,7 +10,7 @@ export default class TR extends san.Component {
         'ui-th': TH
     };
 
-    static template = `<tr>
+    static template = `<tr class="{{selected && pos === 'tbody' ? 'sm-table-row-selected' : ''}}">
         <ui-th san-if="tableSelectable === 'multi' && pos === 'thead'" class="sm-table-col-select">
             <input type="checkbox" on-click="selectAll($event)">
         </ui-th>
