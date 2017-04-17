@@ -21,6 +21,7 @@ import Checkbox from './Checkbox.san';
 import Switch from './Switch.san';
 import Radio from './Radio.san';
 import ExpansionPanel from './ExpansionPanel.san';
+import Toast from './Toast.san'
 
 let routes = {
     '/': Main,
@@ -40,7 +41,8 @@ let routes = {
     '/Checkbox': Checkbox,
     '/Radio': Radio,
     '/Switch': Switch,
-    '/ExpansionPanel': ExpansionPanel
+    '/ExpansionPanel': ExpansionPanel,
+    '/Snackbar & Toast': Toast
 };
 
 export default routes;
