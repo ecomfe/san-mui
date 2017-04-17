@@ -1,1 +1,1 @@
-export {default} from './radio'
+export {default} from './Radio'

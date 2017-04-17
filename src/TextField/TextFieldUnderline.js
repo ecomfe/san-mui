@@ -4,7 +4,7 @@
  */
 
 import san from 'san';
-import './styles/underline.styl';
+import './styles/Underline.styl';
 
 export default san.defineComponent({
     template: `

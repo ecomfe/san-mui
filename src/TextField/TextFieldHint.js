@@ -4,7 +4,7 @@
  */
 
 import san from 'san';
-import './styles/hint.styl';
+import './styles/Hint.styl';
 
 export default san.defineComponent({
     template: `
