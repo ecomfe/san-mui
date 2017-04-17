@@ -4,6 +4,7 @@
             "presets": ["es2015", "stage-1"]
         },
         "test": {
+            "presets": ["es2015", "stage-1"],
             "plugins": [
                 ["istanbul", {
                     "exclude": [
