@@ -103,9 +103,8 @@ export default {
         navTitle() {
             var menuVal = this.data.get('menuVal');
             var menus = this.data.get('menus');
-            var item = menus.find( (item) => item.value == menuVal);
-            return item.title || '404';
-
+            var item = menus.find(item => item.value == menuVal);
+            return item ? item.title : '404';
         }
     },
 
