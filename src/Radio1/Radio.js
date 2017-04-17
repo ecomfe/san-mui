@@ -1,50 +1,46 @@
 /**
- * @file switch component
+ * @file radio component
  * @author liuchaofan(asd123freedom@gmail.com)
  */
 
 import san from 'san';
-import './switch.styl';
-import template from './index.tpl';
+import icon from '../Icon';
+import './Radio.styl';
 import {CenterRipple} from '../Ripple';
+import template from './index.tpl';
 
 export default san.defineComponent({
     template,
+    components: {
+        'sm-icon': icon,
+        'sm-center-ripple': CenterRipple
+    },
     initData() {
         return {
             name: '',
-            value: 'ON',
+            value: '',
+            nativeValue: '',
             label: '',
-            labelLeft: '',
+            labelLeft: false,
             labelClass: '',
-            trackClass: '',
-            thumbClass: '',
-            disabled: false,
-            inputValue: []
+            uncheckIcon: '',
+            checkedIcon: '',
+            iconClass: '',
+            inputValue: ''
         };
     },
-
-    components: {
-        'sm-center-ripple': CenterRipple
-    },
-
-    attached() {
-    },
-
     handleClick(e) {
         // 阻止事件冒泡，放置外部控制的时候触发两次 click
         this.ref('ripple').click();
-    },
-    handleMouseUp() {
-    },
-    handleMouseLeave() {
     },
     handleTouchStart(event) {
     },
     handleTouchEnd() {
     },
-    handleChange(event) {
+    handleChange() {
         let inputValue = this.data.get('inputValue');
         this.fire('change', inputValue);
+    },
+    attached() {
     }
 });

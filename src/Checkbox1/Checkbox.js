@@ -5,7 +5,7 @@
 
 import san from 'san';
 import icon from '../Icon';
-import './checkbox.styl';
+import './Checkbox.styl';
 import {CenterRipple} from '../Ripple';
 import template from './index.tpl';
 
