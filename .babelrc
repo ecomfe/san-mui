@@ -1,9 +1,8 @@
 {
-    "presets": ["es2015", "stage-1"],
-    "plugins": [
-        ["transform-replace-object-assign", "simple-assign"]
-    ],
     "env": {
+        "dev": {
+            "presets": ["es2015", "stage-1"]
+        },
         "test": {
             "plugins": [
                 ["istanbul", {
