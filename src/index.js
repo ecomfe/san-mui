@@ -3,10 +3,5 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-// import NotRecommended from './NotRecommended';
-// import Recommended from './Recommended';
-
-// export default {
-//     NotRecommended,
-//     Recommended
-// };
+export {default as AppBar} from './AppBar';
+export {default as Button, IconButton} from './Button';
