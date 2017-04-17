@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import template from './index.tpl';
 
 const openKey = 'open';
 const animationKey = 'animation';
@@ -40,7 +39,15 @@ function getOffset(ele) {
 
 export default san.defineComponent({
 
-    template,
+    template: `
+        <div class="sm-popover {{ placement }}{{ !open ? ' hide' : '' }}{{ open ? ' show' : '' }}{{ animation ? ' animation' : '' }}{{ !showArrow ? ' no-arrow' : '' }}"
+            style="left: {{ posLeft }}px; top: {{ posTop }}px;">
+            <div san-if="{{ showArrow }}" class="arrow arrow-{{ placement }}"></div>
+            <div class="inner">
+                <slot></slot>
+            </div>
+        </div>
+    `,
 
     initData() {
         // default data
