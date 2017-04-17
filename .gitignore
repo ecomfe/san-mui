@@ -31,3 +31,7 @@ coverage
 
 lib/
 dist/
+
+# material icon
+src/common/font/MaterialIcons-Regular.*
+src/common/font/codepoints

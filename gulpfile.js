@@ -60,3 +60,14 @@ gulp.task('clean', () => {
 });
 
 gulp.task('rebuild', ['clean', 'build']);
+
+gulp.task('sync-md-font', () => {
+
+    return gulp
+        .src([
+            './node_modules/material-design-icons/iconfont/MaterialIcons-Regular.*',
+            './node_modules/material-design-icons/iconfont/codepoints'
+        ])
+        .pipe(gulp.dest('./src/common/font/'));
+
+});

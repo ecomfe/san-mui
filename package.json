@@ -14,7 +14,8 @@
         "clean:coverage": "rimraf test/coverage",
         "prepublish": "npm run build",
         "build": "npm run clean && NODE_ENV=production gulp build",
-        "coveralls": "shx cat ./test/coverage/report-html/lcov.info | coveralls"
+        "coveralls": "shx cat ./test/coverage/report-html/lcov.info | coveralls",
+        "postinstall": "gulp sync-md-font"
     },
     "dependencies": {
         "classnames": "^2.2.5",
