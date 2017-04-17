@@ -3,9 +3,6 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-/* eslint-disable fecs-no-require */
-/* eslint-disable fecs-arrow-body-style */
-
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const clean = require('gulp-clean');
@@ -23,37 +20,40 @@ gulp.task('babel', () => {
         .pipe(gulp.dest('lib'));
 });
 
-gulp.task('stylus', () => {
-    return gulp.src('src/**/*.styl').pipe(gulp.dest('lib'));
-});
+gulp.task('stylus-compile', () => {
+    const rider = require('rider');
+    const postcss = require('gulp-postcss');
+    const autoprefixer = require('autoprefixer');
 
-gulp.task('css', () => {
-    return gulp
-        .src('src/**/*.styl')
-        .pipe(sourcemaps.init())
+    return gulp.src('src/index.styl')
         .pipe(stylus({
-            'include css': true,
-            'resolve url': true,
-            'paths': [
-                path.join(__dirname, './node_modules')
-            ]
+            use: function (style) {
+                // style.include(path.join(__dirname, 'node_modules'));
+                style.define('url', stylus.stylus.resolver());
+                style.use(rider());
+            },
+            compress: false
         }))
-        .pipe(sourcemaps.write('.'))
+        .pipe(postcss([autoprefixer({
+            browsers: [
+                'iOS >= 7',
+                'Android >= 4.0',
+                'ExplorerMobile >= 10',
+                'ie >= 9'
+            ]
+        })]))
         .pipe(gulp.dest('lib'));
 });
 
+gulp.task('stylus-source', () => {
+    return gulp.src('src/**/*.styl').pipe(gulp.dest('lib'));
+});
+
 gulp.task('font', () => {
-    return gulp.src('src/common/font/*').pipe(gulp.dest('lib/common/font'));
+    return gulp.src('src/**/font/*').pipe(gulp.dest('lib'));
 });
 
-gulp.task('pkg', () => {
-    return gulp.src([
-        'package.json',
-        'readme.md'
-    ]).pipe(gulp.dest('lib'));
-});
-
-gulp.task('build', ['babel', 'stylus', 'font', 'pkg', 'css']);
+gulp.task('build', ['babel', 'stylus-compile', 'stylus-source', 'font']);
 
 gulp.task('clean', () => {
     return gulp.src('lib', {read: false}).pipe(clean());
