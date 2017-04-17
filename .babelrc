@@ -1,10 +1,7 @@
 {
     "presets": ["es2015", "stage-1"],
     "plugins": [
-        ["transform-replace-object-assign", "simple-assign"],
-        "add-module-exports",
-        "transform-runtime",
-        "transform-export-extensions"
+        ["transform-replace-object-assign", "simple-assign"]
     ],
     "env": {
         "test": {
@@ -16,9 +13,14 @@
                 }]
             ]
         },
-        "release": {
+        "production": {
+            "presets": [
+                ["es2015", {"modules": "umd"}],
+                "stage-1"
+            ],
             "plugins": [
-                "transform-runtime"
+                "external-helpers",
+                "external-helpers-insert-require"
             ]
         }
     },
