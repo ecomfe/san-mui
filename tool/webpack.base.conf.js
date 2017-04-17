@@ -56,16 +56,7 @@ export default {
                     SRC_ROOT,
                     path.resolve(__dirname) // for dev-client.js es6 syntax
                 ],
-                exclude: /node_modules/,
-                query: {
-                    presets: ['es2015', 'stage-1'],
-                    plugins: [
-                        ['transform-runtime', {
-                            polyfill: false,
-                            regenerator: false
-                        }]
-                    ]
-                }
+                exclude: /node_modules/ 
             },
             {
                 test: /\.json$/,
