@@ -4,7 +4,7 @@
  */
 
 import san from 'san';
-import './styles/label.styl';
+import './styles/Label.styl';
 
 export default san.defineComponent({
     template: `

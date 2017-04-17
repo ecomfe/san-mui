@@ -4,7 +4,7 @@
  */
 
 import san from 'san';
-import './styles/textField.styl';
+import './styles/TextField.styl';
 import Underline from './TextFieldUnderline';
 import TextFieldLabel from './TextFieldLabel';
 import TextFieldHint from './TextFieldHint';

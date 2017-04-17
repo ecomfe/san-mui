@@ -4,7 +4,7 @@
  */
 
 import san from 'san';
-import './styles/textarea.styl';
+import './styles/Textarea.styl';
 
 export default san.defineComponent({
     template: `
