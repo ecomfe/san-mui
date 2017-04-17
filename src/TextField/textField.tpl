@@ -29,7 +29,7 @@
                     type="{{type}}"
                     value="{= inputValue =}"
                     disabled="{{disabled}}"
-                    readOnly="{{readOnly}}"
+                    readonly="{{readOnly}}"
                     on-focus="handleFocus($event)"
                     on-input="handleChange($event)"
                     on-blur="handleBlur($event)"

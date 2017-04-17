@@ -16,7 +16,8 @@ export default san.defineComponent({
                 on-focus="handleFocus($event)"
                 on-blur="handleBlur($event)"
                 placeholder="{{placeholder}}"
-                disabled="{{disabled}}"></textarea>
+                readonly="{{readOnly}}"
+                disabled="{{disabled}}"/>
         </div>
     `,
     initData() {

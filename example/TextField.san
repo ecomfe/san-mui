@@ -48,6 +48,7 @@
 
 <script>
 import TextField from '../src/TextField';
+import '../src/TextField/index.styl';
 
 export default {
 
