@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import './IconMenu.styl';
 import template from './IconMenu.tpl';
 import Icon from '../Icon';
 import Menu from './Menu';

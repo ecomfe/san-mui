@@ -51,21 +51,21 @@
 </template>
 
 <script type="text/javascript">
+import Popover from '../src/Popover';
+import '../src/Popover/index.styl';
 
-    import Popover from '../src/Popover';
+export default {
+    components: {
+        'san-popover': Popover
+    },
 
-    export default {
-        components: {
-            'san-popover': Popover
-        },
-
-        onShow() {
-            console.log('popover show');
-        },
-        onHide() {
-            console.log('popover hide');
-        },
-    };
+    onShow() {
+        console.log('popover show');
+    },
+    onHide() {
+        console.log('popover hide');
+    },
+};
 </script>
 
 <style type="text/css">

@@ -12,6 +12,7 @@
 
 <script>
 import Checkbox from '../src/Checkbox';
+import '../src/Checkbox/Checkbox.styl';
 
 export default {
 

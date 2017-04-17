@@ -39,6 +39,10 @@
 
 import Icon from '../src/Icon';
 import {DropDownMenu, IconMenu, MenuItem, Divider} from '../src/Menu';
+import '../src/Menu/IconMenu.styl';
+import '../src/Menu/DropDownMenu.styl';
+import '../src/Menu/IconMenu.styl';
+import '../src/Menu/MenuItem.styl';
 
 export default {
 

@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import './Switch.styl';
 import template from './index.tpl';
 import {CenterRipple} from '../Ripple';
 

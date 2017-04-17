@@ -5,7 +5,6 @@
 
 import san from 'san';
 import icon from '../Icon';
-import './Radio.styl';
 import {CenterRipple} from '../Ripple';
 import template from './index.tpl';
 

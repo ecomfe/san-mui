@@ -3,7 +3,6 @@
  * @author zhangzhiqiang(zhiqiangzhang37@gmail.com)
  */
 
-import './index.styl';
 import san from 'san';
 import template from './index.tpl';
 

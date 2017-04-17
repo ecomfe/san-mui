@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import './DropDownMenu.styl';
 import template from './DropDownMenu.tpl';
 import Menu from './Menu';
 import {TouchRipple} from '../Ripple';

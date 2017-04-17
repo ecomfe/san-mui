@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import './MenuItem.styl';
 import padStyles from '../filters/padStyles';
 import template from './MenuItem.tpl';
 import Icon from '../Icon';
