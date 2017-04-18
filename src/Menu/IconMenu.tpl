@@ -3,7 +3,7 @@
         <san-icon on-click="toggleMenu($event)">{{ icon }}</san-icon>
     </div>
 
-    <div class="sm-menu-list depth-2 {{ open | notOpen('list-hidden') }}"
+    <div class="sm-menu-list {{ open | notOpen('list-hidden') }}"
         style="z-index:{{ zIndex }};transform:{{ transform }};transform-origin:{{ transformOrigin }};left:{{ left }}px;top:{{ top }}px;{{ menuStyle | padStyles }};">
 
         <slot></slot>
