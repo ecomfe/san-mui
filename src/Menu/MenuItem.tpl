@@ -1,12 +1,14 @@
 <div
     on-click="select($event)"
-    class="sm-menu-item
+    class="sm-menuitem
             {{ selected | yesToBe(' selected') }}
             {{ leftIcon | yesToBe('has-left') }}"
     value="{{value}}"
 >
-    <div class="sm-menu-item-left-icon" san-if="{{ leftIcon }}"><san-icon value="{{ leftIcon }}" /></div>
+    <div class="sm-menuitem-left-icon" san-if="{{ leftIcon }}"><san-icon>{{ leftIcon }}</san-icon></div>
     <p>{{ title }}</p>
-    <div class="sm-menu-item-right-icon" san-for="ri in rightIcons"><san-icon value="{{ ri }}" /></div>
+    <div class="sm-menuitem-right-icon-group">
+        <san-icon san-for="ri in rightIcons">{{ ri }}</san-icon>
+    </div>
     <san-touch-ripple />
 </div>

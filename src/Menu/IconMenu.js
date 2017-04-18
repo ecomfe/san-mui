@@ -19,17 +19,22 @@ let IconMenu = san.defineComponent({
     initData() {
         return Object.assign({
             itemClickClose: true,
-            useLayerForClickAway: true,
+            useLayerForClickAway: false,
             targetOrigin: {
                 horizontal: 'left',
                 vertical: 'top'
-            }
+            },
+            zIndex: 101,
         }, this.defaultData());
     },
 
     attached() {
         this.rootClass = '.' + this.data.get('className');
         this.clickerClass = '.sm-iconmenu-icon';
+
+        if (!this.data.get('useLayerForClickAway')) {
+            this.data.set('zIndex', 1);
+        }
 
         this.bindEvent();
     }

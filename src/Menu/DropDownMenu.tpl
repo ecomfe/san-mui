@@ -3,7 +3,7 @@
     style="{{ style | padStyles }}"
     >
 
-    <div class="sm-dropdown-menu-selected" on-click="toggleMenu">
+    <div class="sm-dropdown-menu-selected" on-click="toggleMenu($event)">
         <p
             class="sm-dropdown-menu-selected-label"
             style="{{ labelStyle | padStyles }}"

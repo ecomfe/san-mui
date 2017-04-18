@@ -99,7 +99,7 @@ export default san.defineComponent({
             // 触发owner的onChange
             this.fire('change', selectValue);
             // 收起menu
-            this.toggleMenu(true, 'ITEM', arg.value.evt);
+            this.toggleMenu(arg.value.evt, true, 'ITEM');
         },
 
         'UI:menu-item-selected-text'(arg) {
@@ -134,16 +134,16 @@ export default san.defineComponent({
         this.scroller.addEventListener('scroll', this.handleMenuPos);
     },
 
-    handleClickOff() {
-        if (typeof this.toggleAction === 'undefined') {
-            return;
-        }
-        if (this.toggleAction) {
-            this.toggleAction--;
-            return;
-        }
+    handleClickOff(e) {
+        e.stopPropagation();
+        e.preventDefault();
 
-        this.toggleMenu(true, 'BODY');
+        if (!this.toggleAction) {
+            return;
+        }
+        this.toggleAction--;
+
+        this.toggleMenu(null, true, 'BODY');
     },
 
     handleMenuPos() {
@@ -158,10 +158,10 @@ export default san.defineComponent({
 
         // 当上边缘 到顶/底，hide
         if (scrollTop >= menuOffsetTop && downward) {
-            this.toggleMenu(true, 'POS');
+            this.toggleMenu(null, true, 'POS');
         }
         if (scrollTop + screen.availHeight <= menuOffsetTop && !downward) {
-            this.toggleMenu(true, 'POS');
+            this.toggleMenu(null, true, 'POS');
         }
 
         // 当下边缘 到底，切换origin，反弹
@@ -183,27 +183,27 @@ export default san.defineComponent({
     /**
      * menu开关toggle
      *
+     * @param {Object} evt event
      * @param {boolean} toClose 是否关闭menu
      * @param {string} driver 开关驱动者
-     * @param {Object} evt event
      */
-    toggleMenu(toClose, driver, evt) {
+    toggleMenu(evt, toClose, driver) {
+        evt && evt.stopPropagation();
+
+        if (this.data.get('disabled')) {
+            return;
+        }
 
         let open = !this.data.get('open');
         if (typeof toClose !== 'undefined') {
             open = !toClose;
         }
 
-        open && (this.toggleAction = 1);
-
-        // 要求点击item不关闭
-        if (!open
-            && typeof this.data.get('itemClickClose') !== 'undefined'
-            && !this.data.get('itemClickClose')
-            && driver === 'ITEM'
-        ) {
-            evt.stopPropagation();
+        if (!open && driver === 'ITEM' && this.data.get('itemClickClose') === false) {
             return;
+        }
+        else if (open) {
+            this.toggleAction = 1;
         }
 
         // toggle效果
@@ -211,7 +211,6 @@ export default san.defineComponent({
 
         // hide
         if (!open) {
-            this.toggleAction--;
             this.data.set('open', false);
             this.fire('close');
             return;
