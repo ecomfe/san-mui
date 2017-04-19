@@ -154,6 +154,10 @@ export default san.defineComponent({
     },
 
     handleMenuPos() {
+        if (!this.data.get('open')) {
+            return;
+        }
+
         let lastMove = this.lastMove || document.body.scrollTop || document.documentElement.scrollTop;
         // 已滚动高度
         let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
@@ -184,7 +188,7 @@ export default san.defineComponent({
             this.setPos(anchorOrigin, targetOrigin);
         }
 
-        lastMove = scrollTop;       
+        this.lastMove = scrollTop;       
     },
 
     /**

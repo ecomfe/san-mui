@@ -42,8 +42,8 @@ let DropDownMenu = san.defineComponent({
             return {
                 'transform': this.data.get('transform'),
                 'transform-origin': this.data.get('transformOrigin'),
-                'left': this.data.get('left'),
-                'top': this.data.get('top'),
+                'left': this.data.get('left') + 'px',
+                'top': this.data.get('top') + 'px',
                 'max-height': this.data.get('maxHeight') + 'px'
             };
         }
