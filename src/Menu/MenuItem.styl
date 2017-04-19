@@ -1,7 +1,7 @@
 @require './common'
 @require '../Ripple/TouchRipple.styl'
 
-.sm-menu-item
+.sm-menuitem
     padding: 0 $padding-hor
     line-height: $line-height
     position: relative
@@ -20,7 +20,7 @@
     &.has-left p
         margin-left: $margin-with-icon
 
-    .sm-menu-item-left-icon
+    .sm-menuitem-left-icon
         position: absolute
         top: 0
         left: $padding-hor
@@ -29,16 +29,16 @@
         i
             display: block
 
-    .sm-menu-item-right-icon
+    .sm-menuitem-right-icon-group
+        margin-left: 20px
+        margin-right: -8px
+        // margin-right: -1 * $padding-hor
+        overflow: hidden
         float: right
-        padding: 12px 0
-        margin-right: -5px
 
         i
             display: block
-
-        &:last-of-type
-            margin-left: 20px
-
-        &:first-of-type
-            margin-right: -1 * $padding-hor
+            float: right
+            position: relative
+            padding-top: 12px
+            margin-right: -5px

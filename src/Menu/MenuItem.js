@@ -4,6 +4,7 @@
  */
 
 import san from 'san';
+import './MenuItem.styl';
 import padStyles from '../filters/padStyles';
 import Icon from '../Icon';
 import {TouchRipple} from '../Ripple';
@@ -14,17 +15,20 @@ function getSelectedText(title, label) {
 
 export default san.defineComponent({
     template: `
-        <div
-            on-click="select($event)"
-            class="sm-menu-item
-                    {{ selected | yesToBe(' selected') }}
-                    {{ leftIcon | yesToBe('has-left') }}"
-            value="{{value}}">
-            <div class="sm-menu-item-left-icon" san-if="{{ leftIcon }}"><san-icon value="{{ leftIcon }}" /></div>
-            <p>{{ title }}</p>
-            <div class="sm-menu-item-right-icon" san-for="ri in rightIcons"><san-icon value="{{ ri }}" /></div>
-            <san-touch-ripple />
-        </div>
+<div
+    on-click="select($event)"
+    class="sm-menuitem
+            {{ selected | yesToBe(' selected') }}
+            {{ leftIcon | yesToBe('has-left') }}"
+    value="{{value}}"
+>
+    <div class="sm-menuitem-left-icon" san-if="{{ leftIcon }}"><san-icon>{{ leftIcon }}</san-icon></div>
+    <p>{{ title }}</p>
+    <div class="sm-menuitem-right-icon-group">
+        <san-icon san-for="ri in rightIcons">{{ ri }}</san-icon>
+    </div>
+    <san-touch-ripple />
+</div>
     `,
 
     components: {

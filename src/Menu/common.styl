@@ -1,3 +1,5 @@
+@require '../css/func.styl'
+
 $black = rgba(0, 0, 0, 0.87)
 $active-pink = #ff4081
 $grey = rgba(0,0,0,.38)
@@ -25,15 +27,6 @@ p
 .list-hidden
     display: none
 
-.depth-1
-    box-shadow: 0 1px 1.5px rgba(0, 0, 0, .12)
-
-.depth-2
-    box-shadow: 0 3px 3px rgba(0, 0, 0, .16)
-    
-.depth-3
-    box-shadow: 0 10px 10px rgba(0, 0, 0, .19)
-
 .sm-menu-list
     position: absolute
     top: 0
@@ -46,3 +39,4 @@ p
     transform-origin: left top
     min-width: 2 * $w-x
     z-index: 1
+    box-shadow: san-shadow('2')

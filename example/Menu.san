@@ -1,23 +1,67 @@
 <template>
     <div>
-        <p class="sm-menu-intro">DropDown Menu:</p>
-        <san-dropdownmenu on-change="dropDownChange($event)" on-close="dropDownClose()" value="{{ value }}">
-            <slot>
-                <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
-                <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
-                <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
-                <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
-            </slot>
-            <icon slot="iconButton" value="arrow_drop_down" />
+        <p class="sm-menu-intro">DropDown Menu - <span>无label值列表</span></p>
+        <san-dropdownmenu value="{{ value }}">
+            <san-menuitem value="{{ 1 }}" title="MenuItem 1" />
+            <san-menuitem value="{{ 2 }}" title="MenuItem 2" />
+            <san-menuitem value="{{ 3 }}" title="MenuItem 3" />
+            <san-menuitem value="{{ 4 }}" title="MenuItem 4" />
+            <san-icon slot="iconButton">arrow_drop_down</san-icon>
         </san-dropdownmenu>
 
-        <p class="sm-menu-intro">Command Icon Menu:</p>
+        <p class="sm-menu-intro">DropDown Menu - <span>绑定了change、close事件，有label值列表（列表项为title，选中值为label）</span></p>
+        <san-dropdownmenu on-change="dropDownChange($event)" on-close="dropDownClose()" value="{{ value }}">
+            <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
+            <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
+            <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
+            <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
+            <san-icon slot="iconButton">arrow_drop_down</san-icon>
+        </san-dropdownmenu>
+
+        <p class="sm-menu-intro">Disabled DropDown Menu</p>
+        <san-dropdownmenu value="{{ value }}" disabled="true">
+            <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
+            <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
+            <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
+            <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
+            <san-icon slot="iconButton">arrow_drop_down</san-icon>
+        </san-dropdownmenu>
+
+        <p class="sm-menu-intro">自动展开 DropDown Menu</p>
+        <san-dropdownmenu value="{{ value }}" openImmediately="true">
+            <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
+            <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
+            <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
+            <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
+            <san-icon slot="iconButton">arrow_drop_down</san-icon>
+        </san-dropdownmenu>
+
+        <p class="sm-menu-intro">Command版 Icon Menu -  <span>点击列表项不关闭MENU，选项内嵌icon</span></p>
         <san-iconmenu icon="more_horiz" itemClickClose="false">
             <san-menuitem title="MenuItem 1" />
             <san-menuitem title="MenuItem 2" />
             <san-divider />
             <san-menuitem title="Download" on-change="download()" leftIcon="file_download" />
             <san-menuitem title="MenuItem 4" on-change="openGroup()" rightIcon="chevron_right,subdirectory_arrow_right,notifications_off" />
+        </san-iconmenu>
+
+        <p class="sm-menu-intro">Icon Menu 调整menu位置 -  <span>anchorOrigin: {vertical: 'bottom',horizontal: 'right'},
+targetOrigin: {horizontal: 'left',vertical: 'top'}</span></p>
+        <san-iconmenu icon="more_horiz" anchorOrigin="{{anchorOrigin}}" targetOrigin="{{targetOrigin}}">
+            <san-menuitem title="MenuItem 1" />
+            <san-menuitem title="MenuItem 2" />
+            <san-divider />
+            <san-menuitem title="Download" on-change="download()" leftIcon="file_download" />
+            <san-menuitem title="MenuItem 4" on-change="openGroup()" rightIcon="chevron_right,subdirectory_arrow_right,notifications_off" />
+        </san-iconmenu>
+
+        <p class="sm-menu-intro">Icon Menu - MENU渲染在一个隐形层之上，防止触发其他对象的点击事件 <span></span></p>
+        <san-iconmenu icon="more_horiz" useLayerForClickAway="true">
+            <san-menuitem title="MenuItem 1" />
+            <san-menuitem title="MenuItem 2" />
+            <san-divider />
+            <san-menuitem title="MenuItem 3" />
+            <san-menuitem title="MenuItem 4" />
         </san-iconmenu>
 
         <p class="sm-menu-intro">多选Icon Menu:</p>
@@ -47,7 +91,7 @@ import '../src/Menu/MenuItem.styl';
 export default {
 
     components: {
-        'icon': Icon,
+        'san-icon': Icon,
         'san-dropdownmenu': DropDownMenu,
         'san-iconmenu': IconMenu,
         'san-menuitem': MenuItem,
@@ -57,21 +101,29 @@ export default {
     initData() {
         return {
             value: 1,
-            multipleValues: [2,3]
+            multipleValues: [2,3],
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'right'
+            },
+            targetOrigin: {
+                horizontal: 'left',
+                vertical: 'top'
+            }
         };
     },
 
     dropDownChange(value) {
-        console.log('value of dropdown menu changed to: ' + value);
+        alert('value of dropdown menu changed to: ' + value);
     },
     dropDownClose() {
-        console.log('menu closed');
+        alert('menu closed');
     },
     download() {
-        console.log('starting to download');
+        alert('starting to download');
     },
     iconMenuMultipleChange(value) {
-        console.log('iconmenu multiple values changed to: ' + JSON.stringify(value));
+        alert('iconmenu multiple values changed to: ' + JSON.stringify(value));
     }
 
 }
@@ -84,6 +136,10 @@ export default {
     color: #000;
     font-size: 20px;
     font-weight: bold;
+}
+
+.sm-menu-intro span{
+    font-size: 14px;
 }
 
 .sm-menu-intro:first-child {
