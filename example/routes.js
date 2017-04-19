@@ -7,6 +7,7 @@ import Main from './Main';
 import Button from './Button.san';
 import TextField from './TextField.san';
 import Menu from './Menu.san';
+import List from './List.san';
 import Tabs from './Tabs.san';
 import Pagination from './Pagination.san';
 import Popover from './Popover.san';
@@ -27,6 +28,7 @@ let routes = {
     '/button': Button,
     '/textfield': TextField,
     '/menu': Menu,
+    '/list': List,
     '/tabs': Tabs,
     '/pagination': Pagination,
     '/popover': Popover,
