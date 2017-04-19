@@ -42,18 +42,31 @@ gulp.task('stylus-compile', () => {
                 'ie >= 9'
             ]
         })]))
-        .pipe(gulp.dest('lib'));
+        .pipe(gulp.dest('lib'))
+        .pipe(gulp.dest('es'));
 });
 
 gulp.task('stylus-source', () => {
-    return gulp.src('src/**/*.styl').pipe(gulp.dest('lib'));
+    return gulp.src('src/**/*.styl')
+        .pipe(gulp.dest('lib'))
+        .pipe(gulp.dest('es'));
 });
 
 gulp.task('font', () => {
-    return gulp.src('src/**/font/*').pipe(gulp.dest('lib'));
+    return gulp.src('src/**/font/*')
+        .pipe(gulp.dest('lib'))
+        .pipe(gulp.dest('es'));
 });
 
-gulp.task('build', ['babel', 'stylus-compile', 'stylus-source', 'font']);
+gulp.task('es6Module', () => {
+    return gulp.src('src/**/*.js').pipe(gulp.dest('es'));
+});
+
+gulp.task('build', [
+    'babel', 'stylus-compile',
+    'stylus-source', 'font',
+    'es6Module'
+]);
 
 gulp.task('clean', () => {
     return gulp.src('lib', {read: false}).pipe(clean());
