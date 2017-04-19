@@ -19,7 +19,7 @@ export default function (config) {
                 pattern: 'test/karma.adapter.js',
                 watched: false,
                 served: true,
-                included: true,
+                included: true
             }
         ],
         plugins: [
@@ -57,7 +57,7 @@ export default function (config) {
                 extensions: ['', '.js', '.san'],
                 fallback: [path.join(__dirname, '../node_modules')],
                 alias: {
-                    'src': SRC_ROOT
+                    src: SRC_ROOT
                 }
             },
             module: {
@@ -113,4 +113,4 @@ export default function (config) {
             noInfo: true
         }
     });
-};
+}
