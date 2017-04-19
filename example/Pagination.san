@@ -10,19 +10,20 @@
 
 <script type="text/javascript">
 
-    import Pagination from '../src/Pagination';
+import Pagination from '../src/Pagination';
+import '../src/Pagination/index.styl';
 
-    export default {
-        components: {
-            'san-pagination': Pagination
-        },
-        onPageChange(data) {
-            console.log(data);
-        },
-        onPageSizeChange(data) {
-            console.log(data);
-        }
-    };
+export default {
+    components: {
+        'san-pagination': Pagination
+    },
+    onPageChange(data) {
+        console.log(data);
+    },
+    onPageSizeChange(data) {
+        console.log(data);
+    }
+};
 </script>
 
 <style type="text/css">

@@ -6,11 +6,23 @@
         "test": {
             "presets": ["es2015", "stage-1"],
             "plugins": [
-                ["istanbul", {
-                    "exclude": [
-                        "**/*.spec.js"
-                    ]
-                }]
+                [
+                    "istanbul",
+                    {
+                        "exclude": ["**/*.spec.js"]
+                    }
+                ]
+            ]
+        },
+        "test-ci": {
+            "presets": ["es2015", "stage-1"],
+            "plugins": [
+                [
+                    "istanbul",
+                    {
+                        "exclude": ["**/*.spec.js"]
+                    }
+                ]
             ]
         },
         "production": {
