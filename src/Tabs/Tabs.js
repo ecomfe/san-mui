@@ -36,7 +36,7 @@ export default san.defineComponent({
     },
 
     removeItem(itemComponent) {
-        this.items = this.items.filter(item => item === itemComponent);
+        this.items = this.items.filter(item => item !== itemComponent);
         if (this.data) {
             this.data.remove('items', itemComponent.data.get('value'));
         }
