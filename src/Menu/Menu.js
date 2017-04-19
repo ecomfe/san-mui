@@ -129,7 +129,7 @@ export default san.defineComponent({
     bindEvent() {
 
         // 点击menu外位置隐藏menu
-        document.body.addEventListener('click', this.handleClickOff);
+        document.addEventListener('click', this.handleClickOff);
 
         // 页面滚动过程中调整menu位置
         this.scroller.addEventListener('scroll', this.handleMenuPos);
@@ -337,7 +337,7 @@ export default san.defineComponent({
     },
 
     disposed() {
-        document.body.removeEventListener('click', this.handleClickOff);
+        document.removeEventListener('click', this.handleClickOff);
         this.scroller.removeEventListener('scroll', this.handleMenuPos);
     }
 });

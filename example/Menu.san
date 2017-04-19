@@ -19,7 +19,7 @@
         </san-dropdownmenu>
 
         <p class="sm-menu-intro">Disabled DropDown Menu</p>
-        <san-dropdownmenu value="{{ value }}" disabled="true">
+        <san-dropdownmenu value="{{ value }}" disabled="true" selectedMenuItemStyle="{{selectedMenuItemStyle}}">
             <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
             <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
             <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
@@ -109,6 +109,9 @@ export default {
             targetOrigin: {
                 horizontal: 'left',
                 vertical: 'top'
+            },
+            selectedMenuItemStyle: {
+                width: '200px'
             }
         };
     },

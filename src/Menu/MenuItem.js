@@ -21,9 +21,10 @@ export default san.defineComponent({
             {{ selected | yesToBe(' selected') }}
             {{ leftIcon | yesToBe('has-left') }}"
     value="{{value}}"
+    style="{{ style | padStyles }}"
 >
     <div class="sm-menuitem-left-icon" san-if="{{ leftIcon }}"><san-icon>{{ leftIcon }}</san-icon></div>
-    <p>{{ title }}</p>
+    <p style="{{ titleStyle | padStyles }}">{{ title }}</p>
     <div class="sm-menuitem-right-icon-group">
         <san-icon san-for="ri in rightIcons">{{ ri }}</san-icon>
     </div>

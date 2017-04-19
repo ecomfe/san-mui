@@ -15,7 +15,7 @@ let DropDownMenu = san.defineComponent({
     style="{{ style | padStyles }}"
     >
 
-    <div class="sm-dropdown-menu-selected" on-click="toggleMenu($event)">
+    <div class="sm-dropdown-menu-selected" on-click="toggleMenu($event)" style="{{ selectedMenuItemStyle | padStyles }}">
         <p
             class="sm-dropdown-menu-selected-label"
             style="{{ labelStyle | padStyles }}"
