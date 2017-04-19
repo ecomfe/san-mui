@@ -1,7 +1,7 @@
 <template>
     <div>
-        <p class="sm-menu-intro">DropDown Menu - <span>无label值列表</span></p>
-        <san-dropdownmenu value="{{ value }}">
+        <p class="sm-menu-intro">DropDown Menu - <span>无label值列表, 设置了maxHeight</span></p>
+        <san-dropdownmenu value="{{ value }}" maxHeight="120">
             <san-menuitem value="{{ 1 }}" title="MenuItem 1" />
             <san-menuitem value="{{ 2 }}" title="MenuItem 2" />
             <san-menuitem value="{{ 3 }}" title="MenuItem 3" />

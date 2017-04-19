@@ -133,6 +133,12 @@ export default san.defineComponent({
 
         // 页面滚动过程中调整menu位置
         this.scroller.addEventListener('scroll', this.handleMenuPos);
+
+        let menu = document.getElementsByClassName(this.rootClass.substr(1))[0];
+        menu.addEventListener('scroll', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
     },
 
     handleClickOff(e) {

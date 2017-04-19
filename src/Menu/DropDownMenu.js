@@ -26,7 +26,7 @@ let DropDownMenu = san.defineComponent({
     </div>
 
     <div class="sm-menu-list {{ open | notOpen('list-hidden') }}"
-        style="transform:{{ transform }};transform-origin:{{ transformOrigin }};left:{{ left }}px;top:{{ top }}px;{{ menuStyle | padStyles }};">
+        style="{{menuStyleDefault | padStyles }};{{ menuStyle | padStyles }};">
 
         <slot></slot>
     </div>
@@ -35,6 +35,18 @@ let DropDownMenu = san.defineComponent({
 
     components: {
         'san-touch-ripple': TouchRipple
+    },
+
+    computed: {
+        menuStyleDefault() {
+            return {
+                'transform': this.data.get('transform'),
+                'transform-origin': this.data.get('transformOrigin'),
+                'left': this.data.get('left'),
+                'top': this.data.get('top'),
+                'max-height': this.data.get('maxHeight') + 'px'
+            };
+        }
     },
 
     initData() {
