@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import './Slider.styl';
 
 export default san.defineComponent({
     template: `

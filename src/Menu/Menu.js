@@ -108,7 +108,8 @@ export default san.defineComponent({
 
         'UI:menu-item-attached'(arg) {
             this.items.push(arg.target);
-            arg.target.data.set('selectValue', this.data.get('value'));
+            // 没有value默认填充第一个item的值
+            arg.target.data.set('selectValue', this.data.get('value') || this.items[0].data.get('value'));
         },
 
         'UI:menu-item-detached'(arg) {
@@ -128,10 +129,16 @@ export default san.defineComponent({
     bindEvent() {
 
         // 点击menu外位置隐藏menu
-        document.body.addEventListener('click', this.handleClickOff);
+        document.addEventListener('click', this.handleClickOff);
 
         // 页面滚动过程中调整menu位置
         this.scroller.addEventListener('scroll', this.handleMenuPos);
+
+        let menu = document.getElementsByClassName(this.rootClass.substr(1))[0];
+        menu.addEventListener('scroll', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
     },
 
     handleClickOff(e) {
@@ -330,7 +337,7 @@ export default san.defineComponent({
     },
 
     disposed() {
-        document.body.removeEventListener('click', this.handleClickOff);
+        document.removeEventListener('click', this.handleClickOff);
         this.scroller.removeEventListener('scroll', this.handleMenuPos);
     }
 });

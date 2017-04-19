@@ -5,12 +5,24 @@
 
 import san from 'san';
 import './IconMenu.styl';
-import template from './IconMenu.tpl';
 import Icon from '../Icon';
 import Menu from './Menu';
 
 let IconMenu = san.defineComponent({
-    template,
+    template: `
+<div class="sm-iconmenu {{ className }}" style="{{ style | padStyles }}">
+    <div class="sm-iconmenu-icon">
+        <san-icon on-click="toggleMenu($event)">{{ icon }}</san-icon>
+    </div>
+
+    <div class="sm-menu-list {{ open | notOpen('list-hidden') }}"
+        style="{{ menuStyleDefault | padStyles }}{{ menuStyle | padStyles }};">
+
+        <slot></slot>
+    </div>
+    <div san-if="useLayerForClickAway" class="sm-layer-for-click {{ open | notOpen('list-hidden') }}" style="z-index:{{zIndex-1}}"></div>
+</div>
+    `,
 
     components: {
         'san-icon': Icon
@@ -37,7 +49,20 @@ let IconMenu = san.defineComponent({
         }
 
         this.bindEvent();
-    }
+    },
+
+    computed: {
+        menuStyleDefault() {
+            return {
+                'transform': this.data.get('transform'),
+                'transform-origin': this.data.get('transformOrigin'),
+                'left': this.data.get('left'),
+                'top': this.data.get('top'),
+                'max-height': this.data.get('maxHeight') + 'px',
+                'z-index': this.data.get('zIndex')
+            };
+        }
+    },
 });
 san.inherits(IconMenu, Menu);
 

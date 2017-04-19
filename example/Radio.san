@@ -12,7 +12,7 @@
 
 <script>
 import Radio from '../src/Radio';
-
+import '../src/Radio/Radio.styl';
 export default {
 
     components: {

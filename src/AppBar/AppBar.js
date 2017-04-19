@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import './AppBar.styl';
 
 export default san.defineComponent({
     template: `
