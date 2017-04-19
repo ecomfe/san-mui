@@ -109,7 +109,6 @@ export default san.defineComponent({
         'UI:menu-item-attached'(arg) {
             this.items.push(arg.target);
             // 没有value默认填充第一个item的值
-            // arg.target.data.set('selectValue', this.data.get('value'));
             arg.target.data.set('selectValue', this.data.get('value') || this.items[0].data.get('value'));
         },
 
