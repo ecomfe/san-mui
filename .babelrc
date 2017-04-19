@@ -27,7 +27,7 @@
         },
         "production": {
             "presets": [
-                ["es2015", {"modules": "umd"}],
+                ["es2015", {"modules": "commonjs"}],
                 "stage-1"
             ],
             "plugins": [
