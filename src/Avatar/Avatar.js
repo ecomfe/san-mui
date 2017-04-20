@@ -42,7 +42,7 @@ export default san.defineComponent({
                 });
             }
 
-            return style;       
+            return style;
         }
     }
 });

@@ -44,7 +44,7 @@ export default san.defineComponent({
     messages: {
         'UI:nested-counter'(arg) {
             let target = arg.value;
-            
+
             target.set('level', target.get('level') + 1);
             this.dispatch('UI:nested-counter', target);
         }
