@@ -87,12 +87,9 @@ import Divider from '../src/Divider';
 import '../src/Menu/IconMenu.styl';
 import '../src/Menu/DropDownMenu.styl';
 import '../src/Menu/MenuItem.styl';
-<<<<<<< HEAD
 import '../src/Icon/Icon.styl'
 import '../src/Ripple/TouchRipple.styl';
-=======
 import '../src/Divider/Divider.styl';
->>>>>>> 4d910cdaea308974eca0f8aa5fa67b96977766e2
 
 export default {
 
