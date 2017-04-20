@@ -19,12 +19,20 @@ export default san.defineComponent({
             <div class="sm-list-right-avatar"><slot name="rightAvatar"></slot></div>
             <div class="sm-list-item-content" style="{{ itemContentStyle | padStyles }}">
                 <div class="sm-list-item-left"><slot name="left"></slot></div>
-                <p class="sm-list-item-primary-text" san-if="primaryText">{{ primaryText }}</p>
-                <p class="sm-list-item-secondary-text" style="{{ secondaryTextStyle | padStyles }}" san-if="secondaryText">{{ secondaryText | raw }}</p>
+                <p class="sm-list-item-primary-text" 
+                    san-if="primaryText"
+                >{{ primaryText }}</p>
+                <p class="sm-list-item-secondary-text" 
+                    style="{{ secondaryTextStyle | padStyles }}" 
+                    san-if="secondaryText"
+                >{{ secondaryText | raw }}</p>
             </div>
             <san-touch-ripple san-if="!disableRipple && !disabled" />
             <div class="sm-list-item-right" san-if="!toggleNested"><slot name="right"></slot></div>
-            <div class="sm-list-item-expand" san-if="toggleNested">
+            <div class="sm-list-item-expand" 
+                san-if="toggleNested" 
+                on-click="toggleList($event, 'EXPAND')"
+            >
                 <san-icon>expand_{{ open | listOpenIcon }}</san-icon>
                 <san-center-ripple />
             </div>
@@ -116,17 +124,20 @@ export default san.defineComponent({
         this.data.set('hasLeft', hasLeft > 0);
     },
 
-    toggleList(evt) {
+    toggleList(evt, driver) {
         evt.stopPropagation();
 
         if (this.data.get('disabled')) {
+            return;
+        }
+        if (driver !== 'EXPAND' && !this.data.get('primaryTogglesNestedList')) {
             return;
         }
 
         let open = this.data.get('open');
         this.data.set('open', !open);
 
-        this.fire('nestedListToggle');
+        this.fire('nestedListToggle', open);
     },
 
     transBoolean(key) {

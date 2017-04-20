@@ -71,7 +71,13 @@
                 <san-list-item primaryText="Drafts">
                     <san-icon slot="left">drafts</san-icon>
                 </san-list-item>
-                <san-list-item primaryText="Inbox" toggleNested="true" initiallyOpen primaryTogglesNestedList>
+                <san-list-item
+                    primaryText="Inbox" 
+                    toggleNested="true" 
+                    initiallyOpen 
+                    primaryTogglesNestedList
+                    on-nestedListToggle="nestedListToggle($event)"
+                >
                     <san-icon slot="left">inbox</san-icon>
                     <san-list-item slot="nested" primaryText="Starred">
                         <san-icon slot="left">star</san-icon>
@@ -243,6 +249,10 @@ export default {
             longSecText1: '<span style="color: #333">靳东 - </span>我这周末会去你家附近办点事儿，要不要一起吃个饭？',
             longSecText2: '<span style="color: #333">我，张三，李四 - </span>我尽量到，可是我这周要出差，不知道啥时候能赶回来，你们先吃着，我回到再给你们打电话，别太想我'
         };
+    },
+
+    nestedListToggle(value) {
+        console.log(value ? 'open' : 'close');
     }
 
 }
