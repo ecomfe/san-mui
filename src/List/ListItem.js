@@ -19,9 +19,8 @@ export default san.defineComponent({
             <div class="sm-list-right-avatar"><slot name="rightAvatar"></slot></div>
             <div class="sm-list-item-content" style="{{ itemContentStyle | padStyles }}">
                 <div class="sm-list-item-left"><slot name="left"></slot></div>
-                <p class="sm-list-item-title" san-if='title'>{{ title }}</p>
                 <p class="sm-list-item-primary-text" san-if="primaryText">{{ primaryText }}</p>
-                <p class="sm-list-item-secondary-text" san-if="secondaryText">{{ secondaryText | raw }}</p>
+                <p class="sm-list-item-secondary-text" style="{{ secondaryTextStyle | padStyles }}" san-if="secondaryText">{{ secondaryText | raw }}</p>
             </div>
             <san-touch-ripple san-if="!disableRipple && !disabled" />
             <div class="sm-list-item-right" san-if="!toggleNested"><slot name="right"></slot></div>
@@ -29,7 +28,7 @@ export default san.defineComponent({
                 <san-icon>expand_{{ open | listOpenIcon }}</san-icon>
                 <san-center-ripple />
             </div>
-            <div class="sm-list-item-nested {{ open | listOpen }}">
+            <div class="sm-list-item-nested {{ open | listOpen }}" style="{{ nestedListStyle | padStyles }}">
                 <slot name="nested"></slot>
             </div>
         </div>
@@ -45,14 +44,15 @@ export default san.defineComponent({
         'UI:nested-counter'(arg) {
             let target = arg.value;
 
-            target.set('level', target.get('level') + 1);
+            target.set('nestedLevel', target.get('nestedLevel') + 1);
             this.dispatch('UI:nested-counter', target);
         }
     },
 
     initData() {
         return {
-            level: 1
+            nestedLevel: 1,
+            secondaryTextLines: 1
         };
     },
 
@@ -75,13 +75,18 @@ export default san.defineComponent({
         },
         itemContentStyle() {
             return {
-                marginLeft: (this.data.get('level') - 1) * 16 + 'px',
+                marginLeft: (this.data.get('nestedLevel') - 1) * 16 + 'px',
                 paddingLeft: this.data.get('hasLeft') ? '72px' : '16px'
             };
         },
         listItemClass() {
             return (this.data.get('disabled') ? 'disabled ' : '')
                 + (this.data.get('toggleNested') ? 'nested' : '');
+        },
+        secondaryTextStyle() {
+            return {
+                '-webkit-line-clamp': this.data.get('secondaryTextLines')
+            }
         }
     },
 
@@ -90,6 +95,7 @@ export default san.defineComponent({
         this.transBoolean('disabled');
         this.transBoolean('toggleNested');
         this.transBoolean('disableRipple');
+        this.transBoolean('primaryTogglesNestedList');
         this.transBoolean('initiallyOpen');
         this.data.set('open', this.data.get('initiallyOpen'));
 
@@ -119,6 +125,8 @@ export default san.defineComponent({
 
         let open = this.data.get('open');
         this.data.set('open', !open);
+
+        this.fire('nestedListToggle');
     },
 
     transBoolean(key) {
