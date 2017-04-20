@@ -3,11 +3,11 @@
       <p class="sm-demo-title">配合列表使用</p>
       <div class="sm-list-demo-wrapper">
         <san-list>
-            <san-list-item title="List Item 1" />
+            <san-list-item primaryText="List Item 1" />
             </san-list-item>
-            <san-list-item title="List Item 2" />
+            <san-list-item primaryText="List Item 2" />
             <san-divider />
-            <san-list-item title="List Item 3" />
+            <san-list-item primaryText="List Item 3" />
         </san-list>
       </div>
 

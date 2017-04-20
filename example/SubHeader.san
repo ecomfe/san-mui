@@ -4,19 +4,19 @@
       <div class="sm-list-wrapper">
           <san-list>
               <san-sub-header>最近聊天记录</san-sub-header>
-              <san-list-item title="Junmer">
+              <san-list-item primaryText="Junmer">
                   <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                   <san-icon slot="right">chat_bubble</san-icon>
               </san-list-item>
-              <san-list-item title="Leon Lu">
+              <san-list-item primaryText="Leon Lu">
                   <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                   <san-icon slot="right">chat_bubble</san-icon>
               </san-list-item>
-              <san-list-item title="Zhiqiang Zhang">
+              <san-list-item primaryText="Zhiqiang Zhang">
                   <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                   <san-icon slot="right">chat_bubble</san-icon>
               </san-list-item>
-              <san-list-item title="CK Yaw">
+              <san-list-item primaryText="CK Yaw">
                   <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                   <san-icon slot="right">chat_bubble</san-icon>
               </san-list-item>
@@ -24,7 +24,7 @@
           <san-divider />
           <san-list>
               <san-sub-header>历史聊天记录</san-sub-header>
-              <san-list-item title="Huiquan Huang">
+              <san-list-item primaryText="Huiquan Huang">
                   <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                   <san-icon slot="right">chat_bubble</san-icon>
               </san-list-item>
@@ -35,15 +35,15 @@
       <div class="sm-list-wrapper">
           <san-list>
               <san-sub-header inset="true">Folders</san-sub-header>
-              <san-list-item title="Photos">
+              <san-list-item primaryText="Photos">
                   <san-avatar slot="leftAvatar" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
-              <san-list-item title="Recipes">
+              <san-list-item primaryText="Recipes">
                   <san-avatar slot="leftAvatar" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
-              <san-list-item title="Work">
+              <san-list-item primaryText="Work">
                   <san-avatar slot="leftAvatar" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
