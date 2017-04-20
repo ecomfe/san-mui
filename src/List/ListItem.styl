@@ -1,0 +1,78 @@
+@require '../css/variable.styl';
+
+$one-line-height = 48px
+$two-line-height = 72px
+$three-line-height = 88px
+$list-padding-horz = 16px
+$text-padding-left-with-icon = 72px
+
+.sm-list-item
+    position: relative
+    cursor: pointer
+
+    &.disabled
+        cursor: auto
+
+    .sm-list-item-right,
+    .sm-list-item-left,
+    .sm-list-right-avatar,
+    .sm-list-left-avatar
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        right: $list-padding-horz
+
+    .sm-list-item-left, .sm-list-left-avatar
+        left: $list-padding-horz
+        right: initial
+
+        .sm-checkbox
+            position: absolute
+            top: 50%
+            transform: translateY(-50%)
+
+    .sm-icon
+        display: block
+
+    .sm-list-item-expand
+        position: absolute
+        top: 0
+        right: 0
+        width: $one-line-height
+        height: $one-line-height
+        border-radius: 100%
+        text-align: center
+
+        .sm-icon
+            line-height: 48px
+
+    .sm-list-item-content
+        position: relative
+        line-height: 1
+        padding: 16px
+        font-size: 16px
+
+    &.nested .sm-touch-ripple
+        height: $one-line-height
+
+    .sm-touch-ripple:hover
+        background: rgba(0, 0, 0, .1)
+
+    .sm-list-item-primary-text
+        font-size: 16px
+    .sm-list-item-secondary-text
+        font-size: 14px
+        line-height: 18px
+        margin-top: 6px
+        color: $md-colors.grey500  
+        overflow: hidden
+        text-overflow: ellipsis
+        display: -webkit-box
+        -webkit-line-clamp: 2
+        -webkit-box-orient: vertical
+        max-height: 36px
+
+.show
+    display: block
+.hide
+    display: none

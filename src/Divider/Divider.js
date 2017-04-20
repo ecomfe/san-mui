@@ -6,5 +6,5 @@
 import san from 'san';
 
 export default san.defineComponent({
-    template: '<hr style="height:1px;margin:7px 0 8px 0;background-color:#e0e0e0;border:none;" />'
+    template: '<hr class="sm-divider" />'
 });

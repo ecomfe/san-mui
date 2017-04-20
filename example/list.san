@@ -1,0 +1,263 @@
+<template>
+    <div>
+        <p class="sm-list-demo-title">普通列表</p>
+        <div class="sm-list-wrapper">
+            <san-list>
+                <san-list-item title="Sent mail">
+                    <san-icon slot="left">send</san-icon>
+                </san-list-item>
+                <san-list-item title="Drafts">
+                    <san-icon slot="left">drafts</san-icon>
+                </san-list-item>
+                <san-list-item title="Inbox">
+                    <san-icon slot="left">inbox</san-icon>
+                </san-list-item>
+                <san-list-item title="Starred">
+                    <san-icon slot="left">star</san-icon>
+                </san-list-item>
+                <san-divider />
+                <san-list-item title="All mail">
+                    <san-icon slot="right">info</san-icon>
+                </san-list-item>
+                <san-list-item title="Trash">
+                    <san-icon slot="right">info</san-icon>
+                </san-list-item>
+                <san-list-item title="Spam">
+                    <san-icon slot="right">info</san-icon>
+                </san-list-item>
+                <san-list-item title="Follow up">
+                    <san-icon slot="right">info</san-icon>
+                </san-list-item>
+            </san-list>
+        </div>
+
+        <p class="sm-list-demo-title">聊天列表</p>
+        <div class="sm-list-wrapper">
+            <san-list>
+                <san-sub-header>最近聊天记录</san-sub-header>
+                <san-list-item title="Junmer">
+                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-icon slot="right">chat_bubble</san-icon>
+                </san-list-item>
+                <san-list-item title="Leon Lu">
+                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-icon slot="right">chat_bubble</san-icon>
+                </san-list-item>
+                <san-list-item title="Zhiqiang Zhang">
+                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-icon slot="right">chat_bubble</san-icon>
+                </san-list-item>
+                <san-list-item title="CK Yaw">
+                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-icon slot="right">chat_bubble</san-icon>
+                </san-list-item>
+            </san-list>
+            <san-divider />
+            <san-list>
+                <san-sub-header>历史聊天记录</san-sub-header>
+                <san-list-item title="Huiquan Huang">
+                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-icon slot="right">chat_bubble</san-icon>
+                </san-list-item>
+            </san-list>
+        </div>
+
+        <p class="sm-list-demo-title">嵌套列表</p>
+        <div class="sm-list-wrapper">
+            <san-list>
+                <san-list-item title="Sent mail">
+                    <san-icon slot="left">send</san-icon>
+                </san-list-item>
+                <san-list-item title="Drafts">
+                    <san-icon slot="left">drafts</san-icon>
+                </san-list-item>
+                <san-list-item title="Inbox" toggleNested="true" initiallyOpen>
+                    <san-icon slot="left">inbox</san-icon>
+                    <san-list-item slot="nested" title="Starred">
+                        <san-icon slot="left">star</san-icon>
+                    </san-list-item>
+                    <san-list-item slot="nested" title="Sent mail" toggleNested="true" disabled="true">
+                        <san-icon slot="left">send</san-icon>
+                        <san-list-item title="Drafts" slot="nested">
+                            <san-icon slot="left">drafts</san-icon>
+                        </san-list-item>
+                    </san-list-item>
+                    <san-list-item slot="nested" title="Inbox" toggleNested="true">
+                        <san-icon slot="left">inbox</san-icon>
+                        <san-list-item title="Drafts" slot="nested">
+                            <san-icon slot="left">drafts</san-icon>
+                        </san-list-item>
+                    </san-list-item>
+                </san-list-item>
+            </san-list>
+        </div>
+
+        <p class="sm-list-demo-title">联系人列表</p>
+        <div class="sm-list-wrapper">
+            <san-list>
+                <san-list-item title="Mark">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                    <san-icon slot="left">star</san-icon>
+                </san-list-item>
+                <san-list-item title="David" inset="true">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                </san-list-item>
+                <san-list-item title="Helen" inset="true">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                </san-list-item>
+            </san-list>
+            <san-divider />
+            <san-list>
+                <san-list-item title="Alice">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                    <san-avatar slot="left" backgroundColor="#fff" color="#f24" style="{{avatarStyle}}">A</san-avatar>
+                </san-list-item>
+                <san-list-item title="Allen" inset="true">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                </san-list-item>
+            </san-list>
+        </div>
+
+        <p class="sm-list-demo-title">文件夹列表</p>
+        <div class="sm-list-wrapper">
+          <san-list>
+              <san-sub-header inset="true">Folders</san-sub-header>
+              <san-list-item title="Photos">
+                  <san-avatar slot="leftAvatar" icon="folder"/>
+                  <san-icon slot="right">info</san-icon>
+              </san-list-item>
+              <san-list-item title="Recipes">
+                  <san-avatar slot="leftAvatar" icon="folder"/>
+                  <san-icon slot="right">info</san-icon>
+              </san-list-item>
+              <san-list-item title="Work">
+                  <san-avatar slot="leftAvatar" icon="folder"/>
+                  <san-icon slot="right">info</san-icon>
+              </san-list-item>
+          </san-list>
+        </div>
+
+        <p class="sm-list-demo-title">设置列表</p>
+        <div class="sm-list-wrapper">
+            <san-list>
+                <san-list-item disabled="true" primaryText="通知与信息设置" secondaryText="总是中断"/>
+            </san-list>
+            <san-divider />
+            <san-list>
+                <san-sub-header>声音开启设置</san-sub-header>
+                <san-list-item disableRipple="true" title="事件和提醒">
+                    <san-switch slot="right"/>
+                </san-list-item>
+                <san-list-item disableRipple="true" title="电话">
+                    <san-switch slot="right"/>
+                </san-list-item>
+                <san-list-item disableRipple="true" title="信息">
+                    <san-switch slot="right"/>
+                </san-list-item>
+            </san-list>
+            <san-list>
+                <san-sub-header>通知设置</san-sub-header>
+                <san-list-item disableRipple="true" title="通知">
+                    <san-checkbox slot="left"/>
+                </san-list-item>
+                <san-list-item disableRipple="true" title="声音">
+                    <san-checkbox slot="left"/>
+                </san-list-item>
+                <san-list-item disableRipple="true" title="视频的声音">
+                    <san-checkbox slot="left"/>
+                </san-list-item>
+            </san-list>
+        </div>
+
+        <p class="sm-list-demo-title">通讯列表</p>
+        <div class="sm-list-wrapper">
+            <san-list>
+                <san-list-item primaryText="(020)86812345" secondaryText="Mobile">
+                    <san-icon slot="left">phone</san-icon>
+                    <san-icon slot="right">chat_bubble</san-icon>
+                </san-list-item>
+                <san-list-item primaryText="(021)86812346" secondaryText="Work" inset>
+                    <san-icon slot="right">chat_bubble</san-icon>
+                </san-list-item>
+            </san-list>
+            <san-divider />
+            <san-list>
+                <san-list-item primaryText="spring@example.com" secondaryText="Personal">
+                    <san-icon slot="left">mail_outline</san-icon>
+                </san-list-item>
+                <san-list-item primaryText="summer@example.com" secondaryText="Work" inset>
+                </san-list-item>
+            </san-list>
+        </div>
+
+        <p class="sm-list-demo-title">信息列表</p>
+        <div class="sm-list-wrapper">
+            <san-sub-header>今天</san-sub-header>
+            <san-list>
+                <san-list-item primaryText="周末一起吃饭？" secondaryText="{{ longSecText1 }}">
+                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                </san-list-item>
+                <san-list-item primaryText="夏天浪起来" secondaryText="{{ longSecText2 }}">
+                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                </san-list-item>
+            </san-list>
+        </div>
+    </div>
+</template>
+
+<script>
+
+import Icon from '../src/Icon';
+import {List, ListItem} from '../src/List';
+import Divider from '../src/Divider';
+import Avatar from '../src/Avatar';
+import SubHeader from '../src/SubHeader';
+import Checkbox from '../src/Checkbox';
+import Switch from '../src/Switch';
+
+import '../src/Avatar/Avatar.styl';
+import '../src/List/index.styl';
+import '../src/SubHeader/SubHeader.styl';
+import '../src/Checkbox/Checkbox.styl';
+import '../src/Switch/Switch.styl';
+import '../src/Divider/Divider.styl';
+
+export default {
+
+    components: {
+        'san-sub-header': SubHeader,
+        'san-icon': Icon,
+        'san-list': List,
+        'san-list-item': ListItem,
+        'san-divider': Divider,
+        'san-avatar': Avatar,
+        'san-checkbox': Checkbox,
+        'san-switch': Switch
+    },
+
+    initData() {
+        return {
+            avatarStyle: {
+                'margin-left': '-8px'
+            },
+            longSecText1: '<span style="color: #333">靳东 - </span>我这周末会去你家附近办点事儿，要不要一起吃个饭？',
+            longSecText2: '<span style="color: #333">我，张三，李四 - </span>我尽量到，可是我这周要出差，不知道啥时候能赶回来，你们先吃着，我回到再给你们打电话，别太想我'
+        };
+    }
+
+}
+
+</script>
+
+<style>
+.sm-list-demo-title {
+    margin: 20px 0 10px 0;
+    color: #666;
+    font-size: 18px;
+    font-weight: bold;
+}
+.sm-list-wrapper {
+    border: 1px solid #e1e1e1;
+    max-width: 360px;
+}
+</style>
