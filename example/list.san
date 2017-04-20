@@ -3,29 +3,29 @@
         <p class="sm-list-demo-title">普通列表</p>
         <div class="sm-list-wrapper">
             <san-list>
-                <san-list-item title="Sent mail">
+                <san-list-item primaryText="Sent mail">
                     <san-icon slot="left">send</san-icon>
                 </san-list-item>
-                <san-list-item title="Drafts">
+                <san-list-item primaryText="Drafts">
                     <san-icon slot="left">drafts</san-icon>
                 </san-list-item>
-                <san-list-item title="Inbox">
+                <san-list-item primaryText="Inbox">
                     <san-icon slot="left">inbox</san-icon>
                 </san-list-item>
-                <san-list-item title="Starred">
+                <san-list-item primaryText="Starred">
                     <san-icon slot="left">star</san-icon>
                 </san-list-item>
                 <san-divider />
-                <san-list-item title="All mail">
+                <san-list-item primaryText="All mail">
                     <san-icon slot="right">info</san-icon>
                 </san-list-item>
-                <san-list-item title="Trash">
+                <san-list-item primaryText="Trash">
                     <san-icon slot="right">info</san-icon>
                 </san-list-item>
-                <san-list-item title="Spam">
+                <san-list-item primaryText="Spam">
                     <san-icon slot="right">info</san-icon>
                 </san-list-item>
-                <san-list-item title="Follow up">
+                <san-list-item primaryText="Follow up">
                     <san-icon slot="right">info</san-icon>
                 </san-list-item>
             </san-list>
@@ -35,19 +35,19 @@
         <div class="sm-list-wrapper">
             <san-list>
                 <san-sub-header>最近聊天记录</san-sub-header>
-                <san-list-item title="Junmer">
+                <san-list-item primaryText="Junmer">
                     <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
-                <san-list-item title="Leon Lu">
+                <san-list-item primaryText="Leon Lu">
                     <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
-                <san-list-item title="Zhiqiang Zhang">
+                <san-list-item primaryText="Zhiqiang Zhang">
                     <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
-                <san-list-item title="CK Yaw">
+                <san-list-item primaryText="CK Yaw">
                     <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
@@ -55,7 +55,7 @@
             <san-divider />
             <san-list>
                 <san-sub-header>历史聊天记录</san-sub-header>
-                <san-list-item title="Huiquan Huang">
+                <san-list-item primaryText="Huiquan Huang">
                     <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
@@ -65,26 +65,26 @@
         <p class="sm-list-demo-title">嵌套列表</p>
         <div class="sm-list-wrapper">
             <san-list>
-                <san-list-item title="Sent mail">
+                <san-list-item primaryText="Sent mail">
                     <san-icon slot="left">send</san-icon>
                 </san-list-item>
-                <san-list-item title="Drafts">
+                <san-list-item primaryText="Drafts">
                     <san-icon slot="left">drafts</san-icon>
                 </san-list-item>
-                <san-list-item title="Inbox" toggleNested="true" initiallyOpen>
+                <san-list-item primaryText="Inbox" toggleNested="true" initiallyOpen primaryTogglesNestedList>
                     <san-icon slot="left">inbox</san-icon>
-                    <san-list-item slot="nested" title="Starred">
+                    <san-list-item slot="nested" primaryText="Starred">
                         <san-icon slot="left">star</san-icon>
                     </san-list-item>
-                    <san-list-item slot="nested" title="Sent mail" toggleNested="true" disabled="true">
+                    <san-list-item slot="nested" primaryText="Sent mail" toggleNested="true" disabled="true">
                         <san-icon slot="left">send</san-icon>
-                        <san-list-item title="Drafts" slot="nested">
+                        <san-list-item primaryText="Drafts" slot="nested">
                             <san-icon slot="left">drafts</san-icon>
                         </san-list-item>
                     </san-list-item>
-                    <san-list-item slot="nested" title="Inbox" toggleNested="true">
+                    <san-list-item slot="nested" primaryText="Inbox" toggleNested="true">
                         <san-icon slot="left">inbox</san-icon>
-                        <san-list-item title="Drafts" slot="nested">
+                        <san-list-item primaryText="Drafts" slot="nested">
                             <san-icon slot="left">drafts</san-icon>
                         </san-list-item>
                     </san-list-item>
@@ -95,24 +95,24 @@
         <p class="sm-list-demo-title">联系人列表</p>
         <div class="sm-list-wrapper">
             <san-list>
-                <san-list-item title="Mark">
+                <san-list-item primaryText="Mark">
                     <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
                     <san-icon slot="left">star</san-icon>
                 </san-list-item>
-                <san-list-item title="David" inset="true">
+                <san-list-item primaryText="David" inset="true">
                     <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
                 </san-list-item>
-                <san-list-item title="Helen" inset="true">
+                <san-list-item primaryText="Helen" inset="true">
                     <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
                 </san-list-item>
             </san-list>
             <san-divider />
             <san-list>
-                <san-list-item title="Alice">
+                <san-list-item primaryText="Alice">
                     <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
                     <san-avatar slot="left" backgroundColor="#fff" color="#f24" style="{{avatarStyle}}">A</san-avatar>
                 </san-list-item>
-                <san-list-item title="Allen" inset="true">
+                <san-list-item primaryText="Allen" inset="true">
                     <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
                 </san-list-item>
             </san-list>
@@ -122,15 +122,15 @@
         <div class="sm-list-wrapper">
           <san-list>
               <san-sub-header inset="true">Folders</san-sub-header>
-              <san-list-item title="Photos">
+              <san-list-item primaryText="Photos">
                   <san-avatar slot="leftAvatar" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
-              <san-list-item title="Recipes">
+              <san-list-item primaryText="Recipes">
                   <san-avatar slot="leftAvatar" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
-              <san-list-item title="Work">
+              <san-list-item primaryText="Work">
                   <san-avatar slot="leftAvatar" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
@@ -145,25 +145,25 @@
             <san-divider />
             <san-list>
                 <san-sub-header>声音开启设置</san-sub-header>
-                <san-list-item disableRipple="true" title="事件和提醒">
+                <san-list-item disableRipple="true" primaryText="事件和提醒">
                     <san-switch slot="right"/>
                 </san-list-item>
-                <san-list-item disableRipple="true" title="电话">
+                <san-list-item disableRipple="true" primaryText="电话">
                     <san-switch slot="right"/>
                 </san-list-item>
-                <san-list-item disableRipple="true" title="信息">
+                <san-list-item disableRipple="true" primaryText="信息">
                     <san-switch slot="right"/>
                 </san-list-item>
             </san-list>
             <san-list>
                 <san-sub-header>通知设置</san-sub-header>
-                <san-list-item disableRipple="true" title="通知">
+                <san-list-item disableRipple="true" primaryText="通知">
                     <san-checkbox slot="left"/>
                 </san-list-item>
-                <san-list-item disableRipple="true" title="声音">
+                <san-list-item disableRipple="true" primaryText="声音">
                     <san-checkbox slot="left"/>
                 </san-list-item>
-                <san-list-item disableRipple="true" title="视频的声音">
+                <san-list-item disableRipple="true" primaryText="视频的声音">
                     <san-checkbox slot="left"/>
                 </san-list-item>
             </san-list>
@@ -194,10 +194,10 @@
         <div class="sm-list-wrapper">
             <san-sub-header>今天</san-sub-header>
             <san-list>
-                <san-list-item primaryText="周末一起吃饭？" secondaryText="{{ longSecText1 }}">
+                <san-list-item primaryText="周末一起吃饭？" secondaryText="{{ longSecText1 }}" secondaryTextLines="2">
                     <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                 </san-list-item>
-                <san-list-item primaryText="夏天浪起来" secondaryText="{{ longSecText2 }}">
+                <san-list-item primaryText="夏天浪起来" secondaryText="{{ longSecText2 }}" secondaryTextLines="2">
                     <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                 </san-list-item>
             </san-list>
