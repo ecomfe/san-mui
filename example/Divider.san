@@ -1,0 +1,71 @@
+<template>
+  <div>
+      <p class="sm-demo-title">配合列表使用</p>
+      <div class="sm-list-demo-wrapper">
+        <san-list>
+            <san-list-item title="List Item 1" />
+            </san-list-item>
+            <san-list-item title="List Item 2" />
+            <san-divider />
+            <san-list-item title="List Item 3" />
+        </san-list>
+      </div>
+
+      <p class="sm-demo-title">配合Menu使用</p>
+      <san-dropdownmenu openImmediately="true" anchorOrigin="{{anchorOrigin}}">
+          <san-menuitem value="{{ 1 }}" title="MenuItem 1" />
+          <san-menuitem value="{{ 2 }}" title="MenuItem 2" />
+          <san-divider />
+          <san-menuitem value="{{ 3 }}" title="MenuItem 3" />
+          <san-icon slot="iconButton">arrow_drop_down</san-icon>
+      </san-dropdownmenu>
+  </div>
+</template>
+
+<script>
+
+import Icon from '../src/Icon';
+import {List, ListItem} from '../src/List';
+import Divider from '../src/Divider';
+import {DropDownMenu, MenuItem} from '../src/Menu';
+
+import '../src/List/index.styl';
+import '../src/Menu/DropDownMenu.styl';
+import '../src/Menu/MenuItem.styl';
+import '../src/Divider/Divider.styl';
+
+export default {
+
+    components: {
+        'san-dropdownmenu': DropDownMenu,
+        'san-menuitem': MenuItem,
+        'san-icon': Icon,
+        'san-list': List,
+        'san-list-item': ListItem,
+        'san-divider': Divider
+    },
+
+    initData() {
+        return {
+            anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'left'
+            },
+        };
+    }
+
+}
+
+</script>
+
+<style>
+.sm-demo-title {
+    margin: 20px 0 10px 0;
+    color: #666;
+    font-size: 18px;
+    font-weight: bold;
+}
+.sm-list-demo-wrapper {
+  max-width: 200px;
+}
+</style>

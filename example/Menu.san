@@ -82,11 +82,13 @@ targetOrigin: {horizontal: 'left',vertical: 'top'}</span></p>
 <script>
 
 import Icon from '../src/Icon';
-import {DropDownMenu, IconMenu, MenuItem, Divider} from '../src/Menu';
+import {DropDownMenu, IconMenu, MenuItem} from '../src/Menu';
+import Divider from '../src/Divider';
 import '../src/Menu/IconMenu.styl';
 import '../src/Menu/DropDownMenu.styl';
 import '../src/Menu/IconMenu.styl';
 import '../src/Menu/MenuItem.styl';
+import '../src/Divider/Divider.styl';
 
 export default {
 
