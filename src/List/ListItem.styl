@@ -16,6 +16,7 @@ $text-padding-left-with-icon = 72px
         top: 50%
         transform: translateY(-50%)
         right: $list-padding-horz
+        line-height: 0
 
     .sm-list-item-left
         left: $list-padding-horz
@@ -49,6 +50,10 @@ $text-padding-left-with-icon = 72px
 
     .sm-list-item-primary-text
         font-size: 16px
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+
     .sm-list-item-secondary-text
         font-size: 14px
         line-height: 18px

@@ -92,7 +92,7 @@ export default san.defineComponent({
             return {
                 marginLeft: (this.data.get('nestedLevel') - 1) * 16 + 'px',
                 paddingLeft: this.data.get('hasLeft') ? '72px' : '16px',
-                paddingRight: this.data.get('hasRight') ? '56px' : 0
+                paddingRight: this.data.get('hasRight') ? '56px' : '16px'
             };
         },
         secondaryTextStyle() {
