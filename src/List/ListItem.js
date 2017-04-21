@@ -13,7 +13,7 @@ export default san.defineComponent({
     template: `
         <div class="sm-list-item {{listItemClass}}"
             on-click="toggleList($event)"
-            style="{{ listItemStyle | padStyles }}{{ style | padStyles }}"
+            style="{{ style | padStyles }}"
         >
             <div class="sm-list-item-content" style="{{ itemContentStyle | padStyles }}">
                 <div class="sm-list-item-left"><slot name="left"></slot></div>
@@ -37,6 +37,7 @@ export default san.defineComponent({
             <div class="sm-list-item-nested {{ open | listOpen }}" style="{{ nestedListStyle | padStyles }}">
                 <slot name="nested"></slot>
             </div>
+            
         </div>
     `,
 
@@ -74,13 +75,9 @@ export default san.defineComponent({
     },
 
     computed: {
-        listItemStyle() {
-            return {
-                paddingLeft: this.data.get('inset') ? '56px' : 0
-            };
-        },
         listItemClass() {
             return (this.data.get('disabled') ? 'disabled' : '')
+                + (this.data.get('inset') ? ' inset' : '')
                 + (this.data.get('toggleNested') ? ' nested' : '')
                 + (this.data.get('secondaryTextLines') > 1 ? ' three-lines' : '')
                 + (

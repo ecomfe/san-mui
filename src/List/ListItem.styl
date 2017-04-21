@@ -9,6 +9,7 @@ $text-padding-left-with-icon = 72px
 .sm-list-item
     position: relative
     cursor: pointer
+    overflow: hidden
 
     .sm-list-item-right,
     .sm-list-item-left
@@ -72,6 +73,9 @@ $text-padding-left-with-icon = 72px
     &.disabled
         cursor: auto
 
+    &.inset
+        padding-left: 56px
+
     &.selected>.sm-touch-ripple
         background: rgba(0, 0, 0, .2)
 
@@ -81,8 +85,10 @@ $text-padding-left-with-icon = 72px
             top: 16px
             transform: initial
 
-    &.nested .sm-touch-ripple
-        height: $one-line-height
+    .sm-list-item-nested
+        background: #fff
+        position: relative
+        z-index: 1
 
 .hide
     display: none
