@@ -37,7 +37,7 @@ export default san.defineComponent({
             <div class="sm-list-item-nested {{ open | listOpen }}" style="{{ nestedListStyle | padStyles }}">
                 <slot name="nested"></slot>
             </div>
-            
+
         </div>
     `,
 
@@ -95,7 +95,7 @@ export default san.defineComponent({
         secondaryTextStyle() {
             return {
                 '-webkit-line-clamp': this.data.get('secondaryTextLines')
-            }
+            };
         }
     },
 
