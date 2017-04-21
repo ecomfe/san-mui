@@ -78,7 +78,6 @@ export default san.defineComponent({
         listItemClass() {
             return (this.data.get('disabled') ? 'disabled' : '')
                 + (this.data.get('inset') ? ' inset' : '')
-                + (this.data.get('toggleNested') ? ' nested' : '')
                 + (this.data.get('secondaryTextLines') > 1 ? ' three-lines' : '')
                 + (
                     this.data.get('selectValue')
