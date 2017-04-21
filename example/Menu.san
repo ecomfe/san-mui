@@ -41,8 +41,14 @@
             <san-menuitem title="MenuItem 1" />
             <san-menuitem title="MenuItem 2" />
             <san-divider />
-            <san-menuitem title="Download" on-change="download()" leftIcon="file_download" />
-            <san-menuitem title="MenuItem 4" on-change="openGroup()" rightIcon="chevron_right,subdirectory_arrow_right,notifications_off" />
+            <san-menuitem title="Download" on-change="download()">
+                <san-icon slot="leftIcon">file_download</san-icon>
+            </san-menuitem>
+            <san-menuitem title="MenuItem 4" on-change="openGroup()">
+                <san-icon slot="rightIcon">chevron_right</san-icon>
+                <san-icon slot="rightIcon">subdirectory_arrow_right</san-icon>
+                <san-icon slot="rightIcon">notifications_off</san-icon>
+            </san-menuitem>
         </san-iconmenu>
 
         <p class="sm-menu-intro">Icon Menu 调整menu位置 -  <span>anchorOrigin: {vertical: 'bottom',horizontal: 'right'},
