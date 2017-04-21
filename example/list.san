@@ -36,19 +36,19 @@
             <san-list>
                 <san-sub-header>最近聊天记录</san-sub-header>
                 <san-list-item primaryText="Junmer">
-                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
                 <san-list-item primaryText="Leon Lu">
-                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
                 <san-list-item primaryText="Zhiqiang Zhang">
-                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
-                <san-list-item primaryText="CK Yaw">
-                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                <san-list-item primaryText="CK Yau">
+                    <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
             </san-list>
@@ -56,7 +56,7 @@
             <san-list>
                 <san-sub-header>历史聊天记录</san-sub-header>
                 <san-list-item primaryText="Huiquan Huang">
-                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
             </san-list>
@@ -102,24 +102,24 @@
         <div class="sm-list-wrapper">
             <san-list>
                 <san-list-item primaryText="Mark">
-                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="right"/>
                     <san-icon slot="left">star</san-icon>
                 </san-list-item>
                 <san-list-item primaryText="David" inset="true">
-                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="right"/>
                 </san-list-item>
                 <san-list-item primaryText="Helen" inset="true">
-                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="right"/>
                 </san-list-item>
             </san-list>
-            <san-divider />
+            <san-divider inset />
             <san-list>
                 <san-list-item primaryText="Alice">
-                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="right"/>
                     <san-avatar slot="left" backgroundColor="#fff" color="#f24" style="{{avatarStyle}}">A</san-avatar>
                 </san-list-item>
                 <san-list-item primaryText="Allen" inset="true">
-                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="rightAvatar"/>
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="right"/>
                 </san-list-item>
             </san-list>
         </div>
@@ -129,15 +129,15 @@
           <san-list>
               <san-sub-header inset="true">Folders</san-sub-header>
               <san-list-item primaryText="Photos">
-                  <san-avatar slot="leftAvatar" icon="folder"/>
+                  <san-avatar slot="left" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
               <san-list-item primaryText="Recipes">
-                  <san-avatar slot="leftAvatar" icon="folder"/>
+                  <san-avatar slot="left" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
               <san-list-item primaryText="Work">
-                  <san-avatar slot="leftAvatar" icon="folder"/>
+                  <san-avatar slot="left" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
           </san-list>
@@ -186,7 +186,7 @@
                     <san-icon slot="right">chat_bubble</san-icon>
                 </san-list-item>
             </san-list>
-            <san-divider />
+            <san-divider inset />
             <san-list>
                 <san-list-item primaryText="spring@example.com" secondaryText="Personal">
                     <san-icon slot="left">mail_outline</san-icon>
@@ -201,10 +201,36 @@
             <san-sub-header>今天</san-sub-header>
             <san-list>
                 <san-list-item primaryText="周末一起吃饭？" secondaryText="{{ longSecText1 }}" secondaryTextLines="2">
-                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                 </san-list-item>
+                <san-divider inset />
                 <san-list-item primaryText="夏天浪起来" secondaryText="{{ longSecText2 }}" secondaryTextLines="2">
-                    <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                    <san-iconmenu icon="more_horiz" tooltip="操作" slot="right">
+                        <san-menuitem title="回复" />
+                        <san-menuitem title="删除" />
+                    </san-iconmenu>
+                </san-list-item>
+            </san-list>
+        </div>
+
+        <p class="sm-list-demo-title">可选择列表</p>
+        <div class="sm-list-wrapper">
+            <san-list value="{{ 3 }}" selectable on-change="listItemSelect($event)">
+                <san-list-item primaryText="Junmer" toggleNested initiallyOpen value="{{ 1 }}">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
+                    <san-list-item primaryText="Leon Lu" value="{{ 2 }}" slot="nested">
+                        <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
+                    </san-list-item>
+                </san-list-item>
+                <san-list-item primaryText="CK Yau" value="{{ 3 }}">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
+                </san-list-item>
+                <san-list-item primaryText="Zhiqiang Zhang" value="{{ 4 }}">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
+                </san-list-item>
+                <san-list-item primaryText="Huiquan Huang" value="{{ 5 }}">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
                 </san-list-item>
             </san-list>
         </div>
@@ -220,6 +246,7 @@ import Avatar from '../src/Avatar';
 import SubHeader from '../src/SubHeader';
 import Checkbox from '../src/Checkbox';
 import Switch from '../src/Switch';
+import {IconMenu, MenuItem} from '../src/Menu';
 
 import '../src/Avatar/Avatar.styl';
 import '../src/List/index.styl';
@@ -227,6 +254,8 @@ import '../src/SubHeader/SubHeader.styl';
 import '../src/Checkbox/Checkbox.styl';
 import '../src/Switch/Switch.styl';
 import '../src/Divider/Divider.styl';
+import '../src/Menu/IconMenu.styl';
+import '../src/Menu/MenuItem.styl';
 
 export default {
 
@@ -238,7 +267,9 @@ export default {
         'san-divider': Divider,
         'san-avatar': Avatar,
         'san-checkbox': Checkbox,
-        'san-switch': Switch
+        'san-switch': Switch,
+        'san-iconmenu': IconMenu,
+        'san-menuitem': MenuItem
     },
 
     initData() {
@@ -247,12 +278,16 @@ export default {
                 'margin-left': '-8px'
             },
             longSecText1: '<span style="color: #333">靳东 - </span>我这周末会去你家附近办点事儿，要不要一起吃个饭？',
-            longSecText2: '<span style="color: #333">我，张三，李四 - </span>我尽量到，可是我这周要出差，不知道啥时候能赶回来，你们先吃着，我回到再给你们打电话，别太想我'
+            longSecText2: '<span style="color: #333">我，张三，李四</span><br />我尽量到，可是我这周要出差，不知道啥时候能赶回来，你们先吃着，我回到再给你们打电话，别太想我'
         };
     },
 
     nestedListToggle(value) {
         console.log(value ? 'open' : 'close');
+    },
+
+    listItemSelect(value) {
+        console.log('selected item value : ', value);
     }
 
 }

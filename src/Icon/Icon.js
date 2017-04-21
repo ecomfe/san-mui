@@ -7,7 +7,7 @@ import san from 'san';
 
 export default san.defineComponent({
     template: `
-        <i class="{{icon ? icon : 'sm-icon'}}" style="{{size | fontSize}}">
+        <i class="{{icon ? icon : 'sm-icon'}} {{ className }}" style="{{size | fontSize}}">
             <slot />
         </i>
     `,

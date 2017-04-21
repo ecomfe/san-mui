@@ -27,11 +27,8 @@ export default san.defineComponent({
     },
     filters: {
         padStyles,
-        notOpen(open, className) {
-            return open ? '' : className;
-        },
-        disabled(disabled) {
-            return disabled ? 'disabled' : '';
+        yesToBe(value, className) {
+            return value ? className : '';
         }
     },
     computed: {
@@ -220,6 +217,8 @@ export default san.defineComponent({
         else if (open) {
             this.toggleAction = 1;
         }
+
+        this.beforeToggleMenu && this.beforeToggleMenu();
 
         // toggle效果
         this.data.set('transform', 'scale(1, 0)');

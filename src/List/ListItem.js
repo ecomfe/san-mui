@@ -13,10 +13,8 @@ export default san.defineComponent({
     template: `
         <div class="sm-list-item {{listItemClass}}"
             on-click="toggleList($event)"
-            style="{{ itemStyle | padStyles }}{{ style | padStyles }}"
+            style="{{ listItemStyle | padStyles }}{{ style | padStyles }}"
         >
-            <div class="sm-list-left-avatar"><slot name="leftAvatar"></slot></div>
-            <div class="sm-list-right-avatar"><slot name="rightAvatar"></slot></div>
             <div class="sm-list-item-content" style="{{ itemContentStyle | padStyles }}">
                 <div class="sm-list-item-left"><slot name="left"></slot></div>
                 <p class="sm-list-item-primary-text" 
@@ -76,20 +74,26 @@ export default san.defineComponent({
     },
 
     computed: {
-        itemStyle() {
+        listItemStyle() {
             return {
                 paddingLeft: this.data.get('inset') ? '56px' : 0
             };
         },
+        listItemClass() {
+            return (this.data.get('disabled') ? 'disabled' : '')
+                + (this.data.get('toggleNested') ? ' nested' : '')
+                + (this.data.get('secondaryTextLines') > 1 ? ' three-lines' : '')
+                + (
+                    this.data.get('selectValue')
+                    && this.data.get('selectValue') === this.data.get('value') ? ' selected' : ''
+                );
+        },
         itemContentStyle() {
             return {
                 marginLeft: (this.data.get('nestedLevel') - 1) * 16 + 'px',
-                paddingLeft: this.data.get('hasLeft') ? '72px' : '16px'
+                paddingLeft: this.data.get('hasLeft') ? '72px' : '16px',
+                paddingRight: this.data.get('hasRight') ? '56px' : 0
             };
-        },
-        listItemClass() {
-            return (this.data.get('disabled') ? 'disabled ' : '')
-                + (this.data.get('toggleNested') ? 'nested' : '');
         },
         secondaryTextStyle() {
             return {
@@ -108,20 +112,25 @@ export default san.defineComponent({
         this.data.set('open', this.data.get('initiallyOpen'));
 
         this.dispatch('UI:nested-counter', this.data);
+        this.dispatch('UI:list-item-attached');
     },
-
 
     attached() {
         let slotChilds = this.slotChilds;
-        let hasLeft = 2;
+        let hasLeft = true;
+        let hasRight = true;
 
         for (let slot of slotChilds) {
-            if (slot.name === 'left' || slot.name === 'leftAvatar') {
-                hasLeft--;
+            if (slot.name === 'left') {
+                hasLeft = false;
+            }
+            if (slot.name === 'right') {
+                hasRight = false;
             }
         }
 
-        this.data.set('hasLeft', hasLeft > 0);
+        this.data.set('hasLeft', hasLeft);
+        this.data.set('hasRight', hasRight);
     },
 
     toggleList(evt, driver) {
@@ -130,8 +139,13 @@ export default san.defineComponent({
         if (this.data.get('disabled')) {
             return;
         }
-        if (driver !== 'EXPAND' && !this.data.get('primaryTogglesNestedList')) {
-            return;
+
+        if (driver !== 'EXPAND') {
+            this.dispatch('UI:list-item-selected');
+
+            if (!this.data.get('primaryTogglesNestedList')) {
+                return;
+            }
         }
 
         let open = this.data.get('open');

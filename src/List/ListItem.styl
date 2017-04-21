@@ -10,19 +10,14 @@ $text-padding-left-with-icon = 72px
     position: relative
     cursor: pointer
 
-    &.disabled
-        cursor: auto
-
     .sm-list-item-right,
-    .sm-list-item-left,
-    .sm-list-right-avatar,
-    .sm-list-left-avatar
+    .sm-list-item-left
         position: absolute
         top: 50%
         transform: translateY(-50%)
         right: $list-padding-horz
 
-    .sm-list-item-left, .sm-list-left-avatar
+    .sm-list-item-left
         left: $list-padding-horz
         right: initial
 
@@ -30,9 +25,6 @@ $text-padding-left-with-icon = 72px
             position: absolute
             top: 50%
             transform: translateY(-50%)
-
-    .sm-icon
-        display: block
 
     .sm-list-item-expand
         position: absolute
@@ -52,9 +44,6 @@ $text-padding-left-with-icon = 72px
         padding: 16px
         font-size: 16px
 
-    &.nested .sm-touch-ripple
-        height: $one-line-height
-
     .sm-touch-ripple:hover
         background: rgba(0, 0, 0, .1)
 
@@ -69,9 +58,26 @@ $text-padding-left-with-icon = 72px
         text-overflow: ellipsis
         display: -webkit-box
         -webkit-box-orient: vertical
-        // max-height: 36px
 
-.show
-    display: block
+    .sm-list-right-control
+        position: absolute
+        right: 0
+        top: 16px
+
+    &.disabled
+        cursor: auto
+
+    &.selected>.sm-touch-ripple
+        background: rgba(0, 0, 0, .2)
+
+    &.three-lines
+        .sm-list-item-left,
+        .sm-list-item-right
+            top: 16px
+            transform: initial
+
+    &.nested .sm-touch-ripple
+        height: $one-line-height
+
 .hide
     display: none

@@ -10,7 +10,7 @@ import {TouchRipple} from '../Ripple';
 let DropDownMenu = san.defineComponent({
     template: `
         <div
-            class="{{ className }} sm-dropdown-menu {{ disabled | disabled }}"
+            class="{{ className }} sm-dropdown-menu {{ disabled | yesToBe('disabled') }}"
             style="{{ style | padStyles }}"
         >
 
@@ -27,13 +27,13 @@ let DropDownMenu = san.defineComponent({
                 <san-touch-ripple />
             </div>
 
-            <div class="sm-menu-list {{ open | notOpen('list-hidden') }}"
+            <div class="sm-menu-list {{ !open | yesToBe('list-hidden') }}"
                 style="{{menuStyleDefault | padStyles }}{{ menuStyle | padStyles }}">
 
                 <slot></slot>
             </div>
             <div san-if="useLayerForClickAway" 
-                class="sm-layer-for-click {{ open | notOpen('list-hidden') }}" 
+                class="sm-layer-for-click {{ !open | yesToBe('list-hidden') }}" 
                 style="z-index:{{zIndex-1}}">
             </div>
         </div>

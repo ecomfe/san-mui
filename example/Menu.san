@@ -37,7 +37,7 @@
         </san-dropdownmenu>
 
         <p class="sm-menu-intro">Command版 Icon Menu -  <span>点击列表项不关闭MENU，选项内嵌icon</span></p>
-        <san-iconmenu icon="more_horiz" itemClickClose="false">
+        <san-iconmenu icon="more_horiz" itemClickClose="false" tooltip="操作">
             <san-menuitem title="MenuItem 1" />
             <san-menuitem title="MenuItem 2" />
             <san-divider />
