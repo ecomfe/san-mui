@@ -3,9 +3,9 @@
  *@author zhangsiyuan<zhangsiuan@baidu.com>
  */
 
-import san from 'san';
 import {create} from '../common/util/cx';
 import css from '../common/util/css';
+import Layer from '../Layer';
 
 const cx = create('toast');
 
@@ -35,9 +35,9 @@ const POSITION_TRANSLATE_MAP = {
     rightBottom: -1
 };
 
-export default san.defineComponent({
+export default class Toast extends Layer {
 
-    template: `
+    static template = `
         <div 
             class="{{computedClassName}}"
             style="{{wrapperStyle}}">
@@ -47,17 +47,19 @@ export default san.defineComponent({
                 style="{{contentStyle}}">
                 {{message}}
             </span>
+            <slot></slot>
         </div>
-    `,
+    `;
 
     initData() {
         return {
             open: false,
-            position: 'rightBottom'
+            position: 'rightBottom',
+            duration: 2000
         };
-    },
+    }
 
-    computed: {
+    static computed = {
         computedClassName() {
             let open = this.data.get('open');
             let position = this.data.get('position');
@@ -69,21 +71,19 @@ export default san.defineComponent({
                 .addVariants(position)
                 .build();
         },
-        wrapperStyle(){
+        wrapperStyle() {
             let open = this.data.get('open');
             let position = this.data.get('position');
             let visibility = open ? 'visible' : 'hidden';
             let transform = open ? `translate(0, ${POSITION_TRANSLATE_MAP[position] * 48}px)` : '';
             let opacity = open ? 1 : 0;
 
-            let style = css({
+            return css({
                 ...POSITION_BASE_MAP[position],
                 transform,
                 visibility,
                 opacity
             });
-            return style;
-
         },
         contentStyle() {
             let open = this.data.get('open');
@@ -92,10 +92,40 @@ export default san.defineComponent({
             return css({
                 opacity
             });
-
         }
+    };
+
+    attached() {
+        const duration = this.data.get('duration');
+        this.watch('open', open => {
+            if (open) {
+                const that = this;
+
+                // clickoutside触发的回调函数
+                let cb = function (e) {
+
+                    if (e.target !== that.el && !that.el.contains(e.target)) {
+                        that.data.set('open', false);
+                        document.body.removeEventListener('click', cb, true);
+                    }
+                };
+
+                // body添加clickoutside监听事件
+                document.body.addEventListener('click', cb, true);
+
+                // 移除之前存在的计时器 && 设置新的计时器，到时后改变open状态并移除clickoutside监听
+                if (this.data.get('toastTimer')) {
+                    clearTimeout(this.data.get('toastTimer'));
+                }
+                this.data.set('toastTimer', setTimeout(() => {
+                    this.data.set('open', false);
+                    document.body.removeEventListener('click', cb, true);
+                }, duration));
+
+            }
+        });
     }
-});
+}
 
 
 

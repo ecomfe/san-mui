@@ -24,6 +24,7 @@
         <san-toast
             message="稳住，我们能赢！"
             position="{{toastPosition}}"
+            duration="{{duration}}"
             open="{{toast}}"></san-toast>
 
         <h3>
@@ -47,12 +48,14 @@
             </san-button>
         </section>
 
-        <san-snackbar
-            message="snackbar is showed"
+        <san-toast
+            message="稳住，我们赢不了"
             position="{{snackbarPosition}}"
-            open="{{snackbar}}"
-            action="{{action}}"
-            on-actionClick="handleActionClick"></san-snackbar>
+            open="{{snackbar}}">
+            <san-button variants="primary" on-click="handleActionClick($event)">
+                {{action}}
+            </san-button>
+        </san-toast>
 
     </div>
 </template>
@@ -61,15 +64,12 @@
 
     import Button from '../src/Button';
     import Toast from '../src/Toast';
-    import Snackbar from '../src/Snackbar'
     import '../src/Button/Button.styl';
     import '../src/Toast/Toast.styl';
-    import '../src/Snackbar/Snackbar.styl';
 
     export default {
 
         components: {
-            'san-snackbar': Snackbar,
             'san-button': Button,
             'san-toast': Toast
         },
@@ -78,39 +78,23 @@
             return {
                 toastPosition: 'rightBottom',
                 snackbarPosition: 'rightTop',
-                toast: false,
-                snackbar: false,
-                action: '取消'
+                duration: 1000,
+                action: '投降'
             };
-        },
-        attached(){
-
         },
 
         showToast() {
             this.data.set('toast', true);
-            if (this.data.get('toastTimer')) {
-                clearTimeout(this.data.get('toastTimer'))
-            }
-            this.data.set('toastTimer', setTimeout(() => {
-                this.data.set('toast', false)
-
-            }, 2000))
 
         },
 
         showSnackbar() {
             this.data.set('snackbar', true);
-            if (this.data.get('snackbarTimer')) {
-                clearTimeout(this.data.get('snackbarTimer'))
-            }
-            this.data.set('snackbarTimer', setTimeout(() => {
-                this.data.set('snackbar', false)
-            }, 2000))
         },
 
         handleActionClick(){
             console.log('action is clicked');
+            this.data.set('snackbar', false);
         }
 
     }
