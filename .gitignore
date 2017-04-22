@@ -29,4 +29,6 @@ coverage
 
 .vscode/
 
-lib
+lib/
+dist/
+es/

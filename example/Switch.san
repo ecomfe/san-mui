@@ -10,6 +10,7 @@
 
 <script>
 import Switch from '../src/Switch';
+import '../src/Switch/Switch.styl';
 
 export default {
 

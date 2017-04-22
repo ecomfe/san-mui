@@ -33,11 +33,11 @@ export default san.defineComponent({
     },
 
     click(e) {
-        let {pageX, pageY} = e;
+        let {clientX, clientY} = e;
         let {top, left, width, height} = this.el.getBoundingClientRect();
         this.data.push('ripples', {
-            x: pageX - left,
-            y: pageY - top,
+            x: clientX - left,
+            y: clientY - top,
             width,
             height
         });

@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import './styles/textarea.styl';
 
 export default san.defineComponent({
     template: `
@@ -16,7 +15,8 @@ export default san.defineComponent({
                 on-focus="handleFocus($event)"
                 on-blur="handleBlur($event)"
                 placeholder="{{placeholder}}"
-                disabled="{{disabled}}"></textarea>
+                readonly="{{readOnly}}"
+                disabled="{{disabled}}"/>
         </div>
     `,
     initData() {

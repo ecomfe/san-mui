@@ -3,4 +3,6 @@
  * @author leon <ludafa@outlook.com>
  */
 
-export {default} from './ExpansionPanel';
+import ExpansionPanel from './ExpansionPanel';
+
+export default ExpansionPanel;

@@ -6,7 +6,6 @@
 import san from 'san';
 import './MenuItem.styl';
 import padStyles from '../filters/padStyles';
-import template from './MenuItem.tpl';
 import Icon from '../Icon';
 import {TouchRipple} from '../Ripple';
 
@@ -15,7 +14,23 @@ function getSelectedText(title, label) {
 }
 
 export default san.defineComponent({
-    template,
+    template: `
+        <div
+            on-click="select($event)"
+            class="sm-menuitem
+                    {{ selected | yesToBe(' selected') }}
+                    {{ hasLeft | yesToBe('has-left') }}"
+            value="{{value}}"
+            style="{{ style | padStyles }}"
+        >
+            <div class="sm-menuitem-left-icon"><slot name="leftIcon"></slot></div>
+            <p style="{{ titleStyle | padStyles }}">{{ title }}</p>
+            <div class="sm-menuitem-right-icon-group">
+                <slot name="rightIcon"></slot>
+            </div>
+            <san-touch-ripple />
+        </div>
+    `,
 
     components: {
         'san-icon': Icon,
@@ -30,11 +45,17 @@ export default san.defineComponent({
         }
     },
 
-    inited() {
-        this.data.set('rightIcons', (this.data.get('rightIcon') || '').split(','));
-    },
-
     attached() {
+        let slotChilds = this.slotChilds;
+        let hasLeft = true;
+
+        for (let slot of slotChilds) {
+            if (slot.name === 'leftIcon') {
+                hasLeft = false;
+                break;
+            }
+        }
+        this.data.set('hasLeft', hasLeft);
 
         // 改变其已选状态
         this.watch('selectValue', () => {

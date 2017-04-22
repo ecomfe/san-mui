@@ -8,35 +8,41 @@ import padStyles from '../filters/padStyles';
 import service from './service';
 
 export default san.defineComponent({
-
     defaultData() {
         return {
             open: false,
             disabled: false,
             multiple: false,
             autoWidth: true,
+            useLayerForClickAway: false,
             maxHeight: 500,
             scroller: 'window',
             className: 'menu-' + Date.now(),
             anchorOrigin: {
                 vertical: 'top',
                 horizontal: 'left'
-            }
+            },
+            zIndex: 101
         };
     },
-
     filters: {
         padStyles,
-
-        notOpen(open, className) {
-            return open ? '' : className;
-        },
-
-        disabled(disabled) {
-            return disabled ? 'disabled' : '';
+        yesToBe(value, className) {
+            return value ? className : '';
         }
     },
-
+    computed: {
+        menuStyleDefault() {
+            return {
+                'transform': this.data.get('transform'),
+                'transform-origin': this.data.get('transformOrigin'),
+                'left': this.data.get('left') + 'px',
+                'top': this.data.get('top') + 'px',
+                'max-height': this.data.get('maxHeight') + 'px',
+                'z-index': this.data.get('zIndex')
+            };
+        }
+    },
     inited() {
         this.data.set('open', service.propConvert(this.data.get('open'), 'b'));
         this.data.set('multiple', service.propConvert(this.data.get('multiple'), 'b'));
@@ -46,6 +52,10 @@ export default san.defineComponent({
         this.data.set('openImmediately', service.propConvert(this.data.get('openImmediately'), 'b'));
         this.data.set('useLayerForClickAway', service.propConvert(this.data.get('useLayerForClickAway'), 'b'));
 
+        if (!this.data.get('useLayerForClickAway')) {
+            this.data.set('zIndex', 1);
+        }
+
         let scrollerName = this.data.get('scroller');
         this.scroller = document.getElementsByTagName(scrollerName)[0]
             || document.getElementsByClassName(scrollerName)[0]
@@ -54,12 +64,10 @@ export default san.defineComponent({
 
         this.items = [];
     },
-
     created() {
         this.handleClickOff = this.handleClickOff.bind(this);
         this.handleMenuPos = this.handleMenuPos.bind(this);
     },
-
     messages: {
         'UI:menu-item-selected'(arg) {
             let value = arg.value.value;
@@ -99,18 +107,16 @@ export default san.defineComponent({
             // 触发owner的onChange
             this.fire('change', selectValue);
             // 收起menu
-            this.toggleMenu(true, 'ITEM', arg.value.evt);
+            this.toggleMenu(arg.value.evt, true, 'ITEM');
         },
-
         'UI:menu-item-selected-text'(arg) {
             this.data.set('text', arg.value);
         },
-
         'UI:menu-item-attached'(arg) {
             this.items.push(arg.target);
-            arg.target.data.set('selectValue', this.data.get('value'));
+            // 没有value默认填充第一个item的值
+            arg.target.data.set('selectValue', this.data.get('value') || this.items[0].data.get('value'));
         },
-
         'UI:menu-item-detached'(arg) {
             let len = this.items.length;
 
@@ -121,32 +127,39 @@ export default san.defineComponent({
             }
         }
     },
-
     /**
      * 事件绑定
      */
     bindEvent() {
 
         // 点击menu外位置隐藏menu
-        document.body.addEventListener('click', this.handleClickOff);
+        document.addEventListener('click', this.handleClickOff);
 
         // 页面滚动过程中调整menu位置
         this.scroller.addEventListener('scroll', this.handleMenuPos);
-    },
 
-    handleClickOff() {
-        if (typeof this.toggleAction === 'undefined') {
+        let menu = document.getElementsByClassName(this.rootClass.substr(1))[0];
+        menu.addEventListener('scroll', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    },
+    handleClickOff(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (!this.toggleAction) {
             return;
         }
-        if (this.toggleAction) {
-            this.toggleAction--;
-            return;
-        }
+        this.toggleAction--;
 
-        this.toggleMenu(true, 'BODY');
+        this.toggleMenu(null, true, 'BODY');
     },
-
     handleMenuPos() {
+        if (!this.data.get('open')) {
+            return;
+        }
+
         let lastMove = this.lastMove || document.body.scrollTop || document.documentElement.scrollTop;
         // 已滚动高度
         let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
@@ -158,10 +171,10 @@ export default san.defineComponent({
 
         // 当上边缘 到顶/底，hide
         if (scrollTop >= menuOffsetTop && downward) {
-            this.toggleMenu(true, 'POS');
+            this.toggleMenu(null, true, 'POS');
         }
         if (scrollTop + screen.availHeight <= menuOffsetTop && !downward) {
-            this.toggleMenu(true, 'POS');
+            this.toggleMenu(null, true, 'POS');
         }
 
         // 当下边缘 到底，切换origin，反弹
@@ -177,41 +190,41 @@ export default san.defineComponent({
             this.setPos(anchorOrigin, targetOrigin);
         }
 
-        lastMove = scrollTop;       
+        this.lastMove = scrollTop;       
     },
-
     /**
      * menu开关toggle
      *
+     * @param {Object} evt event
      * @param {boolean} toClose 是否关闭menu
      * @param {string} driver 开关驱动者
-     * @param {Object} evt event
      */
-    toggleMenu(toClose, driver, evt) {
+    toggleMenu(evt, toClose, driver) {
+        evt && evt.stopPropagation();
+
+        if (this.data.get('disabled')) {
+            return;
+        }
 
         let open = !this.data.get('open');
         if (typeof toClose !== 'undefined') {
             open = !toClose;
         }
 
-        open && (this.toggleAction = 1);
-
-        // 要求点击item不关闭
-        if (!open
-            && typeof this.data.get('itemClickClose') !== 'undefined'
-            && !this.data.get('itemClickClose')
-            && driver === 'ITEM'
-        ) {
-            evt.stopPropagation();
+        if (!open && driver === 'ITEM' && this.data.get('itemClickClose') === false) {
             return;
         }
+        else if (open) {
+            this.toggleAction = 1;
+        }
+
+        this.beforeToggleMenu && this.beforeToggleMenu();
 
         // toggle效果
         this.data.set('transform', 'scale(1, 0)');
 
         // hide
         if (!open) {
-            this.toggleAction--;
             this.data.set('open', false);
             this.fire('close');
             return;
@@ -224,7 +237,6 @@ export default san.defineComponent({
             this.data.set('transform', 'scale(1, 1)');
         }, 0);
     },
-
     setProperPos() {
         let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
 
@@ -252,7 +264,6 @@ export default san.defineComponent({
         this.data.set('transformOrigin', `${targetOrigin.horizontal} ${targetOrigin.vertical}`);
         this.setPos(anchorOrigin, targetOrigin);
     },
-
     /**
      * 根据anchorOrigin和targetOrigin调整menu的显示位置
      *
@@ -329,9 +340,8 @@ export default san.defineComponent({
         this.data.set('left', left);
         this.data.set('top', top);
     },
-
     disposed() {
-        document.body.removeEventListener('click', this.handleClickOff);
+        document.removeEventListener('click', this.handleClickOff);
         this.scroller.removeEventListener('scroll', this.handleMenuPos);
     }
 });

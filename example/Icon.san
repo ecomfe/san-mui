@@ -7,7 +7,7 @@
 </section>
 </template>
 <script>
-import icons from 'html!material-design-icons/iconfont/codepoints';
+import icons from 'html!../src/common/font/codepoints';
 import Icon from '../src/Icon';
 
 import '../src/Icon/Icon.styl'

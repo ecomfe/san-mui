@@ -1,18 +1,24 @@
 @require './common'
+@require '../css/variable.styl'
 
 .sm-iconmenu
     position: relative
-
-.sm-iconmenu-icon
-    display: inline-block
+    line-height: 0
     cursor: pointer
 
-    i
-        display: block
+.sm-iconmenu-tooltip
+    font-size: 10px
+    line-height: 22px
+    padding: 0 8px
+    color: #fff
+    text-align: center
+    width: 22px
+    border-radius: 2px
+    position: absolute
+    top: 36px
+    left: -7px
+    display: none
+    background: $md-colors.grey700
 
-.sm-layer-for-click
-    position: fixed
-    top: 0
-    bottom: 0
-    right: 0
-    left: 0
+    &.show
+        display: block

@@ -1,0 +1,93 @@
+@require '../css/variable.styl';
+
+$one-line-height = 48px
+$two-line-height = 72px
+$three-line-height = 88px
+$list-padding-horz = 16px
+$text-padding-left-with-icon = 72px
+
+.sm-list-item
+    position: relative
+    cursor: pointer
+
+    .sm-list-item-right,
+    .sm-list-item-left
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        right: $list-padding-horz
+        line-height: 0
+
+    .sm-list-item-left
+        left: $list-padding-horz
+        right: initial
+
+        .sm-checkbox
+            position: absolute
+            top: 50%
+            transform: translateY(-50%)
+
+    .sm-list-item-expand
+        position: absolute
+        top: 0
+        right: 0
+        width: $one-line-height
+        height: $one-line-height
+        border-radius: 100%
+        text-align: center
+
+        .sm-icon
+            line-height: 48px
+
+    .sm-list-item-content
+        position: relative
+        line-height: 1
+        padding: 16px
+        font-size: 16px
+
+    .sm-touch-ripple:hover
+        background: rgba(0, 0, 0, .1)
+
+    .sm-list-item-primary-text
+        font-size: 16px
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+
+    .sm-list-item-secondary-text
+        font-size: 14px
+        line-height: 18px
+        margin-top: 6px
+        color: $md-colors.grey500  
+        overflow: hidden
+        text-overflow: ellipsis
+        display: -webkit-box
+        -webkit-box-orient: vertical
+
+    .sm-list-right-control
+        position: absolute
+        right: 0
+        top: 16px
+
+    &.disabled
+        cursor: auto
+
+    &.inset
+        padding-left: 56px
+
+    &.selected>.sm-touch-ripple
+        background: rgba(0, 0, 0, .2)
+
+    &.three-lines
+        .sm-list-item-left,
+        .sm-list-item-right
+            top: 16px
+            transform: initial
+
+    .sm-list-item-nested
+        background: #fff
+        position: relative
+        z-index: 1
+
+.hide
+    display: none
