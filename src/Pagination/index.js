@@ -77,12 +77,6 @@ export default san.defineComponent({
     inited() {
         // 数据容错
         this.transNumber(totalKey);
-        let total = this.data.get(totalKey);
-
-        if (!total) {
-            console.error('Please provide total');
-            return;
-        }
 
         this.transBoolean(showSizeChangerKey);
         this.transNumber(currentKey, defaultCurrent);
@@ -110,10 +104,8 @@ export default san.defineComponent({
         if (!pageSizeOptions.includes(pageSize)) {
             this.setPageSize(pageSizeOptions[0]);
         }
-        let totalPage = this.getTotalPage();
-        this.data.set(totalPageKey, totalPage);
         // 如果给定current不在页码范围内，将设置为默认页码1
-        if (current > totalPage || current < defaultCurrent) {
+        if (current > this.data.get(totalPageKey) || current < defaultCurrent) {
             this.data.set(currentKey, defaultCurrent);
         }
 
@@ -164,7 +156,6 @@ export default san.defineComponent({
         let current = Math.ceil(((oldCurrent - 1) * oldPageSize + 1) / pageSize);
 
         this.setPageSize(pageSize);
-        this.data.set(totalPageKey, this.getTotalPage());
         me.setCurrentPage(current);
 
         this.fire('pageSizeChange', {
@@ -175,8 +166,10 @@ export default san.defineComponent({
         this.toggleSelectorPopup();
     },
 
-    getTotalPage() {
-        return Math.ceil(this.data.get(totalKey) / this.data.get(pageSizeKey));
+    computed: {
+        [totalPageKey]() {
+            return Math.ceil(this.data.get(totalKey) / this.data.get(pageSizeKey)) || 0;
+        }
     },
 
     /**
