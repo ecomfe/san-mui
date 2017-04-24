@@ -1,0 +1,44 @@
+/**
+ * @file Chip 样式
+ * @author zhangsiyuan (zhangsiyuan@baidu.com)
+ */
+
+@require '../css/variable.styl'
+@require '../css/func.styl'
+@require '../Icon/Icon.styl';
+
+textColor = #000
+alternateTextColor = invert(textColor)
+
+.{$san-class-prefix}-chip
+    border-radius 16px
+    line-height 32px
+    white-space nowrap
+    display: inline-flex
+    align-items center
+    padding 0 12px
+    padding
+    cursor default
+    color: rgba(textColor, 87%)
+    background-color: darken(alternateTextColor, 12%)
+
+    .sm-avatar:first-child
+        margin-left -12px
+        margin-right: 6px
+
+    .state-normal&:active
+        box-shadow: 0 1px 6px rgba(#000, 12%), 0 1px 4px rgba(#000, 12%)
+
+    .state-normal&:hover
+        background-color rgb(206, 206, 206, 24%)
+        cursor: pointer
+
+        .{$san-class-prefix}-chip-delete-icon
+            color: rgba(rgba(alternateTextColor, 54%), 40%)
+
+    &-delete-icon
+        color: rgba(alternateTextColor, 54%)
+        border-radius 10px
+        margin-right: -6px
+        margin-left 6px
+        background-color: darken(alternateTextColor, 36%)

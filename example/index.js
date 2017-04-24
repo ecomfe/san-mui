@@ -6,4 +6,4 @@ import './index.styl';
 
 import App from './App';
 
-new App().attach(document.querySelector('#root'))
+new App().attach(document.querySelector('#root'));

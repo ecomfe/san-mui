@@ -1,0 +1,26 @@
+<template>
+    <section>
+        <h4>Time Picker</h4>
+        <div>
+            <san-time-picker type="12hour" value="{=value1=}" />
+            <san-time-picker type="24hour" value="{=value1=}" />
+            <san-time-picker type="24hour" value="{=value1=}" disabled />
+            <san-time-picker type="24hour" value="{=value2=}" format="YYYY/MM/DD hh:mm a" />
+        </div>
+    </section>
+</template>
+<script>
+import TimePicker from '../src/TimePicker';
+import '../src/TimePicker/TimePicker.styl';
+export default {
+    components: {
+        'san-time-picker': TimePicker
+    },
+    initData() {
+        return {
+            value1: '2017-03-24 10:00',
+            value2: '2017-03-24 12:00'
+        };
+    }
+};
+</script>
