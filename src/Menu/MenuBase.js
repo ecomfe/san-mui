@@ -116,9 +116,6 @@ export default san.defineComponent({
             this.toggleMenu(null, !value.open, value.driver);
         }
     },
-    /**
-     * 事件绑定
-     */
     bindEvent() {
         // 点击menu外位置隐藏menu
         document.addEventListener('click', this.handleClickOff);
@@ -134,6 +131,7 @@ export default san.defineComponent({
 
         this.toggleMenu(null, true, 'BODY');
     },
+
     /**
      * menu开关toggle
      *

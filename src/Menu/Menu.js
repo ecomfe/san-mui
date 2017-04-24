@@ -19,7 +19,7 @@ export default san.defineComponent({
                 'transform': this.data.get('menuOpen') ? 'scale(1,1)' : 'scale(1,0)',
                 'left': this.data.get('left') + 'px',
                 'top': this.data.get('top') + 'px'
-            }
+            };
         }
     },
 
@@ -62,9 +62,7 @@ export default san.defineComponent({
             points: [
                 anchorOrigin || this.data.get('anchorOrigin'),
                 targetOrigin || this.data.get('targetOrigin')
-            ],
-            offset: [0, 0],
-            targetOffset: [0, 0],
+            ]
         });
     },
 
@@ -117,7 +115,7 @@ export default san.defineComponent({
         }
 
         driver === 'OPEN' && this.setPos(anchorOrigin, targetOrigin);
-        this.lastMove = scrollTop; 
+        this.lastMove = scrollTop;
     },
 
     domAlign(sourceNode, targetNode, alignConfig) {
@@ -135,24 +133,43 @@ export default san.defineComponent({
         menuT += document.body.scrollTop || document.documentElement.scrollTop;
 
         switch (anchorOrigin.horizontal) {
-            case 'left': left += 0;break;
-            case 'middle': left += clickerW / 2;break;
-            case 'right': left += clickerW;
+            case 'left':
+                left += 0;
+                break;
+            case 'middle':
+                left += clickerW / 2;
+                break;
+            case 'right':
+                left += clickerW;
         }
         switch (anchorOrigin.vertical) {
-            case 'top': top += 0;break;
-            case 'center': top += clickerH / 2;break;
+            case 'top':
+                top += 0;
+                break;
+            case 'center':
+                top += clickerH / 2;
+                break;
             case 'bottom': top += clickerH;
         }
         switch (targetOrigin.horizontal) {
-            case 'left': left -= 0;break;
-            case 'middle': left -= panelW / 2;break;
-            case 'right': left -= panelW;
+            case 'left':
+                left -= 0;
+                break;
+            case 'middle':
+                left -= panelW / 2;
+                break;
+            case 'right':
+                left -= panelW;
         }
         switch (targetOrigin.vertical) {
-            case 'top': top -= 0;break;
-            case 'center': top -= panelH / 2;break;
-            case 'bottom': top -= panelH;
+            case 'top':
+                top -= 0;
+                break;
+            case 'center':
+                top -= panelH / 2;
+                break;
+            case 'bottom':
+                top -= panelH;
         }
 
         this.data.set('left', left + menuL);
