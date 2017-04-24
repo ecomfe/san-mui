@@ -1,0 +1,112 @@
+<template>
+    <div>
+        <h3>
+            Toast
+        </h3>
+        <section class="demo-toast-row">
+            <label>位置</label>：
+            <select value="{=toastPosition=}">
+                <option value="leftTop">leftTop</option>
+                <option value="rightTop">rightTop</option>
+                <option value="leftBottom">leftBottom</option>
+                <option value="rightBottom">rightBottom</option>
+            </select>
+        </section>
+
+        <section class="demo-toast-row">
+            <san-button
+                variants="raised info"
+                on-click="showToast">
+                open Toast
+            </san-button>
+        </section>
+
+        <san-toast
+            message="稳住，我们能赢！"
+            position="{{toastPosition}}"
+            duration="{{duration}}"
+            open="{{toast}}"></san-toast>
+
+        <h3>
+            Snackbar
+        </h3>
+        <section class="demo-toast-row">
+            <label>位置</label>：
+            <select value="{=snackbarPosition=}">
+                <option value="leftTop">leftTop</option>
+                <option value="rightTop">rightTop</option>
+                <option value="leftBottom">leftBottom</option>
+                <option value="rightBottom">rightBottom</option>
+            </select>
+        </section>
+
+        <section class="demo-toast-row">
+            <san-button
+                variants="raised info"
+                on-click="showSnackbar">
+                open snackbar
+            </san-button>
+        </section>
+
+        <san-toast
+            message="稳住，我们赢不了"
+            position="{{snackbarPosition}}"
+            open="{{snackbar}}">
+            <san-button variants="primary" on-click="handleActionClick($event)">
+                {{action}}
+            </san-button>
+        </san-toast>
+
+    </div>
+</template>
+
+<script>
+
+    import Button from '../src/Button';
+    import Toast from '../src/Toast';
+    import '../src/Button/Button.styl';
+    import '../src/Toast/Toast.styl';
+
+    export default {
+
+        components: {
+            'san-button': Button,
+            'san-toast': Toast
+        },
+
+        initData() {
+            return {
+                toastPosition: 'rightBottom',
+                snackbarPosition: 'rightTop',
+                duration: 1000,
+                action: '投降'
+            };
+        },
+
+        showToast() {
+            this.data.set('toast', true);
+
+        },
+
+        showSnackbar() {
+            this.data.set('snackbar', true);
+        },
+
+        handleActionClick(){
+            console.log('action is clicked');
+            this.data.set('snackbar', false);
+        }
+
+    }
+
+</script>
+
+<style>
+    .demo-toast-row {
+        padding: 1rem 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+</style>

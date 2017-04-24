@@ -1,0 +1,35 @@
+/**
+ * @file Toast 样式
+ * @author zhangsiyuan(zhangsiyuan@baidu.com)
+ */
+
+@require '../css/variable.styl'
+@require '../css/func.styl'
+
+.{$san-class-prefix}-toast
+    position: fixed
+    padding: 14px 24px
+    color: $md-colors.white
+    z-index: $san-z-index.dialog
+    background-color: #323232
+    border-radius: 2px
+
+    transition: all .3s cubic-bezier(.25, .8, .25, 1);
+    display: flex
+    align-items: center
+    justify-content space-between
+
+    &-content
+        font-size 14px
+        transition: all .4s linear
+        min-width: 240px
+        max-width: 528px
+
+    &.state-open &-content
+        box-shadow: san-shadow('1')
+
+    .{$san-class-prefix}-button
+        margin-top: -7px
+        margin-bottom: -7px
+        margin-right: -14px
+        margin-left: 32px

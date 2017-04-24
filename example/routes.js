@@ -27,7 +27,9 @@ import Switch from './Switch.san';
 import SubHeader from './SubHeader.san';
 import Radio from './Radio.san';
 import ExpansionPanel from './ExpansionPanel.san';
+import Toast from './Toast.san';
 import TimePicker from './TimePicker.san';
+import Chip from './Chip.san';
 
 let routes = {
     '/': Main,
@@ -52,7 +54,10 @@ let routes = {
     '/Switch': Switch,
     '/SubHeader': SubHeader,
     '/ExpansionPanel': ExpansionPanel,
-    '/TimePicker': TimePicker
+    '/TimePicker': TimePicker,
+    '/Snackbar & Toast': Toast,
+    '/Chip': Chip
+
 };
 
 export default routes;
