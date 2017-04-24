@@ -25,7 +25,8 @@ import Switch from './Switch.san';
 import SubHeader from './SubHeader.san';
 import Radio from './Radio.san';
 import ExpansionPanel from './ExpansionPanel.san';
-import Toast from './Toast.san'
+import Toast from './Toast.san';
+import Chip from './Chip.san';
 
 let routes = {
     '/': Main,
@@ -50,7 +51,8 @@ let routes = {
     '/Switch': Switch,
     '/subHeader': SubHeader,
     '/ExpansionPanel': ExpansionPanel,
-    '/Snackbar & Toast': Toast
+    '/Snackbar & Toast': Toast,
+    '/Chip': Chip
 
 };
 
