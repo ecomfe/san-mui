@@ -26,6 +26,9 @@ import Switch from './Switch';
 import Table from './Table';
 import Tabs from './Tabs';
 import TextField from './TextField';
+import TimePicker from './TimePicker';
+import Chip from './Chip';
+import Toast from './Toast';
 
 export {
     AppBar,
@@ -49,5 +52,8 @@ export {
     Switch,
     Table,
     Tabs,
+    TimePicker,
+    Chip,
+    Toast,
     TextField
 };

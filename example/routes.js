@@ -3,6 +3,8 @@
  * @author junmer
  */
 
+/* eslint-disable fecs-export-on-declare */
+
 import Main from './Main';
 import Avatar from './Avatar.san';
 import Button from './Button.san';
@@ -25,30 +27,37 @@ import Switch from './Switch.san';
 import SubHeader from './SubHeader.san';
 import Radio from './Radio.san';
 import ExpansionPanel from './ExpansionPanel.san';
+import Toast from './Toast.san';
+import TimePicker from './TimePicker.san';
+import Chip from './Chip.san';
 
 let routes = {
     '/': Main,
-    '/avatar': Avatar,
-    '/button': Button,
-    '/textfield': TextField,
-    '/menu': Menu,
-    '/list': List,
-    '/tabs': Tabs,
-    '/pagination': Pagination,
-    '/popover': Popover,
-    '/drawer': Drawer,
-    '/divider': Divider,
-    '/progress': Progress,
-    '/datepicker': DatePicker,
-    '/dialog': Dialog,
-    '/table': Table,
-    '/ripple': Ripple,
+    '/Avatar': Avatar,
+    '/Button': Button,
+    '/TextField': TextField,
+    '/Menu': Menu,
+    '/List': List,
+    '/Tabs': Tabs,
+    '/Pagination': Pagination,
+    '/Popover': Popover,
+    '/Drawer': Drawer,
+    '/Divider': Divider,
+    '/Progress': Progress,
+    '/DatePicker': DatePicker,
+    '/Dialog': Dialog,
+    '/Table': Table,
+    '/Ripple': Ripple,
     '/Icon': Icon,
     '/Checkbox': Checkbox,
     '/Radio': Radio,
     '/Switch': Switch,
-    '/subHeader': SubHeader,
-    '/ExpansionPanel': ExpansionPanel
+    '/SubHeader': SubHeader,
+    '/ExpansionPanel': ExpansionPanel,
+    '/TimePicker': TimePicker,
+    '/Snackbar & Toast': Toast,
+    '/Chip': Chip
+
 };
 
 export default routes;

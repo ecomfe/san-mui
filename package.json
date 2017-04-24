@@ -1,6 +1,6 @@
 {
   "name": "san-mui",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.8",
   "description": "A Set of SAN Components that Implement Google's Material Design",
   "author": "ecomfe",
   "main": "./lib/index.js",
@@ -19,10 +19,13 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "moment": "^2.18.1",
+    "moment": "^2.18.1"
+  },
+  "peerDependencies": {
     "san": "^3.0.3-rc.25"
   },
   "devDependencies": {
+    "san": "^3.0.3-rc.25",
     "material-design-icons": "~3.0.1",
     "autoprefixer": "^6.6.1",
     "babel-cli": "^6.22.2",
