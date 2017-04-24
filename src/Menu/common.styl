@@ -24,7 +24,7 @@ p
     -webkit-margin-before: 0
     -webkit-margin-after: 0
 
-.list-hidden
+.hidden
     display: none
 
 .sm-menu-list
@@ -34,9 +34,8 @@ p
     margin: 0
     background-color: #fff
     overflow-y: scroll
-    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms
+    transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms
     transform: scale(1, 0)
-    transform-origin: left top
     min-width: 2 * $w-x
     z-index: 1
     box-shadow: san-shadow('2')

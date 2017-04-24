@@ -1,161 +1,74 @@
 /**
- * @file Menu Base
+ * @file Menu component
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
 import san from 'san';
-import padStyles from '../filters/padStyles';
-import service from './service';
 
 export default san.defineComponent({
-    defaultData() {
-        return {
-            open: false,
-            disabled: false,
-            multiple: false,
-            autoWidth: true,
-            useLayerForClickAway: false,
-            maxHeight: 500,
-            scroller: 'window',
-            className: 'menu-' + Date.now(),
-            anchorOrigin: {
-                vertical: 'top',
-                horizontal: 'left'
-            },
-            zIndex: 101
-        };
-    },
-    filters: {
-        padStyles,
-        yesToBe(value, className) {
-            return value ? className : '';
-        }
-    },
+    template: `
+        <div class="sm-menu-list" style="{{ menuListStyle }}">
+            <slot></slot>
+        </div>
+    `,
     computed: {
-        menuStyleDefault() {
+        menuListStyle() {
             return {
-                'transform': this.data.get('transform'),
+                'z-index': this.data.get('zIndex'),
                 'transform-origin': this.data.get('transformOrigin'),
+                'transform': this.data.get('menuOpen') ? 'scale(1,1)' : 'scale(1,0)',
                 'left': this.data.get('left') + 'px',
-                'top': this.data.get('top') + 'px',
-                'max-height': this.data.get('maxHeight') + 'px',
-                'z-index': this.data.get('zIndex')
-            };
+                'top': this.data.get('top') + 'px'
+            }
         }
     },
-    inited() {
-        this.data.set('open', service.propConvert(this.data.get('open'), 'b'));
-        this.data.set('multiple', service.propConvert(this.data.get('multiple'), 'b'));
-        this.data.set('disabled', service.propConvert(this.data.get('disabled'), 'b'));
-        this.data.set('autoWidth', service.propConvert(this.data.get('autoWidth'), 'b'));
-        this.data.set('itemClickClose', service.propConvert(this.data.get('itemClickClose'), 'b'));
-        this.data.set('openImmediately', service.propConvert(this.data.get('openImmediately'), 'b'));
-        this.data.set('useLayerForClickAway', service.propConvert(this.data.get('useLayerForClickAway'), 'b'));
 
-        if (!this.data.get('useLayerForClickAway')) {
-            this.data.set('zIndex', 1);
-        }
-
-        let scrollerName = this.data.get('scroller');
-        this.scroller = document.getElementsByTagName(scrollerName)[0]
-            || document.getElementsByClassName(scrollerName)[0]
-            || document.getElementById(scrollerName)
-            || window;
-
-        this.items = [];
-    },
     created() {
-        this.handleClickOff = this.handleClickOff.bind(this);
         this.handleMenuPos = this.handleMenuPos.bind(this);
     },
-    messages: {
-        'UI:menu-item-selected'(arg) {
-            let value = arg.value.value;
-            let selectValue = this.data.get('value');
-
-            // 多选
-            if (this.data.get('multiple')) {
-
-                let len = selectValue.length;
-                let hasSelected = false;
-
-                while (len--) {
-                    if (selectValue[len] === value) {
-                        selectValue.splice(len, 1);
-                        hasSelected = true;
-                        break;
-                    }
-                }
-
-                if (!hasSelected) {
-                    selectValue.push(value);
-                }
-            }
-            // 单选
-            else {
-                selectValue = value;
-            }
-
-            this.data.set('value', selectValue);
-
-            // 通过改变为每一个menu item的selectValue值，改变其已选状态
-            let len = this.items.length;
-            while (len--) {
-                this.items[len].data.set('selectValue', selectValue);
-            }
-
-            // 触发owner的onChange
-            this.fire('change', selectValue);
-            // 收起menu
-            this.toggleMenu(arg.value.evt, true, 'ITEM');
-        },
-        'UI:menu-item-selected-text'(arg) {
-            this.data.set('text', arg.value);
-        },
-        'UI:menu-item-attached'(arg) {
-            this.items.push(arg.target);
-            // 没有value默认填充第一个item的值
-            arg.target.data.set('selectValue', this.data.get('value') || this.items[0].data.get('value'));
-        },
-        'UI:menu-item-detached'(arg) {
-            let len = this.items.length;
-
-            while (len--) {
-                if (this.items[len] === arg.target) {
-                    this.items.splice(len, 1);
-                }
-            }
+    attached() {
+        if (this.el.parentNode !== document.body) {
+            document.body.appendChild(this.el);
         }
+
+        this.dispatch('UI:menu-panel-attached');
+
+        this.parentMenu = document.getElementsByClassName(this.parentMenu)[0];
+        this.sibClicker = this.parentMenu.children[0];
+
+        this.watch('open', () => {
+            if (this.data.get('open')) {
+                this.handleMenuPos('OPEN');
+            }
+
+            this.data.set('menuOpen', this.data.get('open'));
+        });
+
+        if (this.data.get('openImmediately')) {
+            // FIXME: 渲染过程中menu位置会改变
+            setTimeout(() => {
+                this.setPos();
+                this.dispatch('UI:menu-panel-status-changed', {
+                    open: true
+                });
+            }, 500);
+        }
+
+        window.addEventListener('scroll', this.handleMenuPos);
     },
-    /**
-     * 事件绑定
-     */
-    bindEvent() {
 
-        // 点击menu外位置隐藏menu
-        document.addEventListener('click', this.handleClickOff);
-
-        // 页面滚动过程中调整menu位置
-        this.scroller.addEventListener('scroll', this.handleMenuPos);
-
-        let menu = document.getElementsByClassName(this.rootClass.substr(1))[0];
-        menu.addEventListener('scroll', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+    setPos(anchorOrigin, targetOrigin) {
+        this.domAlign(this.el, this.sibClicker, {
+            points: [
+                anchorOrigin || this.data.get('anchorOrigin'),
+                targetOrigin || this.data.get('targetOrigin')
+            ],
+            offset: [0, 0],
+            targetOffset: [0, 0],
         });
     },
-    handleClickOff(e) {
-        e.stopPropagation();
-        e.preventDefault();
 
-        if (!this.toggleAction) {
-            return;
-        }
-        this.toggleAction--;
-
-        this.toggleMenu(null, true, 'BODY');
-    },
-    handleMenuPos() {
+    handleMenuPos(driver) {
         if (!this.data.get('open')) {
             return;
         }
@@ -165,183 +78,90 @@ export default san.defineComponent({
         let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
         // 上滑or下滑
         let downward = scrollTop - lastMove > 0;
-        // menu上下边缘的offset
-        let menuOffsetTop = document.querySelector(this.rootClass).offsetTop + (this.data.get('top') || 0);
-        let menuOffsetBottom = menuOffsetTop + service.getOffset(`${this.rootClass} .sm-menu-list`, 'height');
 
-        // 当上边缘 到顶/底，hide
-        if (scrollTop >= menuOffsetTop && downward) {
-            this.toggleMenu(null, true, 'POS');
-        }
-        if (scrollTop + screen.availHeight <= menuOffsetTop && !downward) {
-            this.toggleMenu(null, true, 'POS');
-        }
-
-        // 当下边缘 到底，切换origin，反弹
-        if (scrollTop + screen.availHeight <= menuOffsetBottom && !downward) {
-            let anchorOrigin = Object.assign({}, this.data.get('anchorOrigin'));
-            let targetOrigin = Object.assign({}, this.data.get('targetOrigin') || {
-                vertical: 'top',
-                horizontal: 'left'
-            });
-
-            anchorOrigin.vertical = 'bottom';
-            targetOrigin.vertical = 'bottom';
-            this.setPos(anchorOrigin, targetOrigin);
-        }
-
-        this.lastMove = scrollTop;       
-    },
-    /**
-     * menu开关toggle
-     *
-     * @param {Object} evt event
-     * @param {boolean} toClose 是否关闭menu
-     * @param {string} driver 开关驱动者
-     */
-    toggleMenu(evt, toClose, driver) {
-        evt && evt.stopPropagation();
-
-        if (this.data.get('disabled')) {
-            return;
-        }
-
-        let open = !this.data.get('open');
-        if (typeof toClose !== 'undefined') {
-            open = !toClose;
-        }
-
-        if (!open && driver === 'ITEM' && this.data.get('itemClickClose') === false) {
-            return;
-        }
-        else if (open) {
-            this.toggleAction = 1;
-        }
-
-        this.beforeToggleMenu && this.beforeToggleMenu();
-
-        // toggle效果
-        this.data.set('transform', 'scale(1, 0)');
-
-        // hide
-        if (!open) {
-            this.data.set('open', false);
-            this.fire('close');
-            return;
-        }
-
-        // show
-        this.data.set('open', true);
-        setTimeout(() => {
-            this.setProperPos();
-            this.data.set('transform', 'scale(1, 1)');
-        }, 0);
-    },
-    setProperPos() {
-        let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-
-        // menu上下边缘的offset
-        let menuOffsetTop = document.querySelector(this.rootClass).offsetTop;
-        let menuOffsetBottom = menuOffsetTop + service.getOffset(`${this.rootClass} .sm-menu-list`, 'height');
+        let menuOffsetTop = driver === 'OPEN' ? this.parentMenu.offsetTop : this.el.offsetTop;
+        let menuOffsetBottom = menuOffsetTop + this.el.offsetHeight;
 
         let anchorOrigin = Object.assign({}, this.data.get('anchorOrigin'));
-        let targetOrigin = Object.assign({}, this.data.get('targetOrigin') || {
-            vertical: 'top',
-            horizontal: 'left'
-        });
+        let targetOrigin = Object.assign({}, this.data.get('targetOrigin'));
 
-        // 当上边缘 到顶
+        // menu上边缘到顶
         if (scrollTop >= menuOffsetTop) {
-            anchorOrigin.vertical = 'top';
-            targetOrigin.vertical = 'top';
+            // open操作，调整menu位置
+            if (driver === 'OPEN') {
+                anchorOrigin.vertical = 'top';
+                targetOrigin.vertical = 'top';
+            }
+            // 上滑操作，hide menu
+            else if (downward) {
+                this.dispatch('UI:menu-panel-status-changed', {
+                    driver: 'POS',
+                    open: false
+                });
+            }
         }
-        // 当下边缘 到底
-        if (scrollTop + screen.availHeight <= menuOffsetBottom) {
-            anchorOrigin.vertical = 'bottom';
-            targetOrigin.vertical = 'bottom';
+        // 下滑操作致menu上边缘到底，hide menu
+        if (scrollTop + window.innerHeight <= menuOffsetTop && !downward) {
+            this.dispatch('UI:menu-panel-status-changed', {
+                driver: 'POS',
+                open: false
+            });
+        }
+        // menu下边缘到底，切换origin，反弹
+        if (scrollTop + window.innerHeight <= menuOffsetBottom) {
+            if (driver === 'OPEN' || (driver !== 'OPEN' && !downward)) {
+                anchorOrigin.vertical = 'bottom';
+                targetOrigin.vertical = 'bottom';
+                this.setPos(anchorOrigin, targetOrigin);
+            }
         }
 
-        this.data.set('transformOrigin', `${targetOrigin.horizontal} ${targetOrigin.vertical}`);
-        this.setPos(anchorOrigin, targetOrigin);
+        driver === 'OPEN' && this.setPos(anchorOrigin, targetOrigin);
+        this.lastMove = scrollTop; 
     },
-    /**
-     * 根据anchorOrigin和targetOrigin调整menu的显示位置
-     *
-     * @param {Object} anchorOrigin 组件内部操作时自定义的anchor
-     * @param {Object} targetOrigin 组件内部操作时自定义的target
-     */
-    setPos(anchorOrigin, targetOrigin) {
+
+    domAlign(sourceNode, targetNode, alignConfig) {
         let left = 0;
         let top = 0;
-        let root = this.rootClass;
-        let clicker = this.clickerClass;
+        let [anchorOrigin, targetOrigin] = alignConfig.points;
 
-        let {
-            horizontal: anchorHoriz,
-            vertical: anchorVerti
-        } = anchorOrigin || this.data.get('anchorOrigin') || {};
-
-        let {
-            horizontal: targetHoriz,
-            vertical: targetVerti
-        } = targetOrigin || this.data.get('targetOrigin') || {};
-
-        let [clickerW, clickerH, menuW, menuH] = [
-            service.getOffset(`${root} ${clicker}`, 'width'),
-            service.getOffset(`${root} ${clicker}`, 'height'),
-            service.getOffset(`${root} .sm-menu-list`, 'width'),
-            service.getOffset(`${root} .sm-menu-list`, 'height')
+        let [clickerW, clickerH, panelW, panelH] = [
+            targetNode.offsetWidth,
+            targetNode.offsetHeight,
+            sourceNode.offsetWidth,
+            sourceNode.offsetHeight
         ];
+        let {top: menuT, left: menuL} = this.parentMenu.getBoundingClientRect();
+        menuT += document.body.scrollTop || document.documentElement.scrollTop;
 
-        switch (anchorHoriz) {
-            case 'left':
-                left += 0;
-                break;
-            case 'center':
-                left += clickerW / 2;
-                break;
-            case 'right':
-                left += clickerW;
+        switch (anchorOrigin.horizontal) {
+            case 'left': left += 0;break;
+            case 'middle': left += clickerW / 2;break;
+            case 'right': left += clickerW;
+        }
+        switch (anchorOrigin.vertical) {
+            case 'top': top += 0;break;
+            case 'center': top += clickerH / 2;break;
+            case 'bottom': top += clickerH;
+        }
+        switch (targetOrigin.horizontal) {
+            case 'left': left -= 0;break;
+            case 'middle': left -= panelW / 2;break;
+            case 'right': left -= panelW;
+        }
+        switch (targetOrigin.vertical) {
+            case 'top': top -= 0;break;
+            case 'center': top -= panelH / 2;break;
+            case 'bottom': top -= panelH;
         }
 
-        switch (anchorVerti) {
-            case 'top':
-                top += 0;
-                break;
-            case 'middle':
-                top += clickerH / 2;
-                break;
-            case 'bottom':
-                top += clickerH;
-        }
-
-        switch (targetHoriz) {
-            case 'left':
-                left -= 0;
-                break;
-            case 'center':
-                left -= menuW / 2;
-                break;
-            case 'right':
-                left -= menuW;
-        }
-
-        switch (targetVerti) {
-            case 'top':
-                top -= 0;
-                break;
-            case 'middle':
-                top -= menuH / 2;
-                break;
-            case 'bottom':
-                top -= menuH;
-        }
-
-        this.data.set('left', left);
-        this.data.set('top', top);
+        this.data.set('left', left + menuL);
+        this.data.set('top', top + menuT);
+        this.data.set('transformOrigin', `${targetOrigin.horizontal} ${targetOrigin.vertical}`);
     },
+
     disposed() {
-        document.removeEventListener('click', this.handleClickOff);
-        this.scroller.removeEventListener('scroll', this.handleMenuPos);
+        window.removeEventListener('scroll', this.handleMenuPos);
     }
+
 });

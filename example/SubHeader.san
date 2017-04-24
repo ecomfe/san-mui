@@ -25,7 +25,7 @@
           <san-list>
               <san-sub-header>历史聊天记录</san-sub-header>
               <san-list-item primaryText="Huiquan Huang">
-                  <san-avatar slot="leftAvatar" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
+                  <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
                   <san-icon slot="right">chat_bubble</san-icon>
               </san-list-item>
           </san-list>
@@ -36,15 +36,15 @@
           <san-list>
               <san-sub-header inset="true">Folders</san-sub-header>
               <san-list-item primaryText="Photos">
-                  <san-avatar slot="leftAvatar" icon="folder"/>
+                  <san-avatar slot="left" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
               <san-list-item primaryText="Recipes">
-                  <san-avatar slot="leftAvatar" icon="folder"/>
+                  <san-avatar slot="left" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
               <san-list-item primaryText="Work">
-                  <san-avatar slot="leftAvatar" icon="folder"/>
+                  <san-avatar slot="left" icon="folder"/>
                   <san-icon slot="right">info</san-icon>
               </san-list-item>
           </san-list>

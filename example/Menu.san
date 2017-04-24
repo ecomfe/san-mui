@@ -19,7 +19,7 @@
         </san-dropdownmenu>
 
         <p class="sm-menu-intro">Disabled DropDown Menu</p>
-        <san-dropdownmenu value="{{ value }}" disabled="true" selectedMenuItemStyle="{{selectedMenuItemStyle}}">
+        <san-dropdownmenu value="{{ value }}" disabled="true">
             <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
             <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
             <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
@@ -57,8 +57,14 @@ targetOrigin: {horizontal: 'left',vertical: 'top'}</span></p>
             <san-menuitem title="MenuItem 1" />
             <san-menuitem title="MenuItem 2" />
             <san-divider />
-            <san-menuitem title="Download" on-change="download()" leftIcon="file_download" />
-            <san-menuitem title="MenuItem 4" on-change="openGroup()" rightIcon="chevron_right,subdirectory_arrow_right,notifications_off" />
+            <san-menuitem title="Download" on-change="download()">
+                <san-icon slot="leftIcon">file_download</san-icon>
+            </san-menuitem>
+            <san-menuitem title="MenuItem 4" on-change="openGroup()">
+                <san-icon slot="rightIcon">chevron_right</san-icon>
+                <san-icon slot="rightIcon">subdirectory_arrow_right</san-icon>
+                <san-icon slot="rightIcon">notifications_off</san-icon>
+            </san-menuitem>
         </san-iconmenu>
 
         <p class="sm-menu-intro">Icon Menu - MENU渲染在一个隐形层之上，防止触发其他对象的点击事件 <span></span></p>
@@ -118,24 +124,21 @@ export default {
             targetOrigin: {
                 horizontal: 'left',
                 vertical: 'top'
-            },
-            selectedMenuItemStyle: {
-                width: '200px'
             }
         };
     },
 
     dropDownChange(value) {
-        alert('value of dropdown menu changed to: ' + value);
+        console.log('value of dropdown menu changed to: ' + value);
     },
     dropDownClose() {
-        alert('menu closed');
+        console.log('menu closed');
     },
     download() {
-        alert('starting to download');
+        console.log('starting to download');
     },
     iconMenuMultipleChange(value) {
-        alert('iconmenu multiple values changed to: ' + JSON.stringify(value));
+        console.log('iconmenu multiple values changed to: ' + JSON.stringify(value));
     }
 
 }

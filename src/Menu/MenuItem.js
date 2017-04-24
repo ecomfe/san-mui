@@ -5,7 +5,6 @@
 
 import san from 'san';
 import './MenuItem.styl';
-import padStyles from '../filters/padStyles';
 import Icon from '../Icon';
 import {TouchRipple} from '../Ripple';
 
@@ -21,10 +20,10 @@ export default san.defineComponent({
                     {{ selected | yesToBe(' selected') }}
                     {{ hasLeft | yesToBe('has-left') }}"
             value="{{value}}"
-            style="{{ style | padStyles }}"
+            style="{{ menuItemstyle }}"
         >
             <div class="sm-menuitem-left-icon"><slot name="leftIcon"></slot></div>
-            <p style="{{ titleStyle | padStyles }}">{{ title }}</p>
+            <p style="{{ titleStyle }}">{{ title }}</p>
             <div class="sm-menuitem-right-icon-group">
                 <slot name="rightIcon"></slot>
             </div>
@@ -38,8 +37,6 @@ export default san.defineComponent({
     },
 
     filters: {
-        padStyles,
-
         yesToBe(prop, className) {
             return prop ? className : '';
         }

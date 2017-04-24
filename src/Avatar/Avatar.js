@@ -5,12 +5,11 @@
 
 import san from 'san';
 import Icon from '../Icon';
-import padStyles from '../filters/padStyles';
 
 export default san.defineComponent({
 
     template: `
-        <div class="sm-avatar {{ className }}" style="{{ avatarStyle | padStyles }}{{ style | padStyles }}">
+        <div class="sm-avatar {{ className }}" style="{{ avatarStyleDefault }}{{ avatarStyle }}">
             <san-icon san-if="{{ icon }}">{{ icon }}</san-icon>
             <slot></slot>
         </div>
@@ -20,25 +19,21 @@ export default san.defineComponent({
         'san-icon': Icon
     },
 
-    filters: {
-        padStyles
-    },
-
     computed: {
-        avatarStyle() {
+        avatarStyleDefault() {
             let size = this.data.get('size') + 'px';
             let style = {
-                backgroundColor: this.data.get('backgroundColor'),
-                color: this.data.get('color'),
-                fontSize: this.data.get('iconSize'),
-                width: size,
-                height: size,
-                lineHeight: size
+                'background-color': this.data.get('backgroundColor'),
+                'color': this.data.get('color'),
+                'font-size': this.data.get('iconSize'),
+                'width': size,
+                'height': size,
+                'line-height': size
             };
 
             if (this.data.get('src')) {
                 Object.assign(style, {
-                    backgroundImage: `url(${this.data.get('src')})`
+                    'background-image': `url(${this.data.get('src')})`
                 });
             }
 

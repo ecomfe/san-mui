@@ -5,47 +5,47 @@
 
 import san from 'san';
 import Icon from '../Icon';
+import MenuBase from './MenuBase';
 import Menu from './Menu';
 
 let IconMenu = san.defineComponent({
     template: `
-        <div class="sm-iconmenu {{ className }}" 
-            style="{{ style | padStyles }}"
-            on-mouseenter="handleMouseEnter($event)"
-            on-mouseleave="handleMouseLeave($event)">
-            <p class="sm-iconmenu-tooltip {{ tooltipShow | yesToBe('show') }}">{{ tooltip }}</p>
-            <san-icon on-click="toggleMenu($event)" className="sm-iconmenu-icon">{{ icon }}</san-icon>
-            <div class="sm-menu-list {{ !open | yesToBe('list-hidden') }}"
-                style="{{ menuStyleDefault | padStyles }}{{ menuStyle | padStyles }}">
-
+        <div class="sm-iconmenu {{ className }}" style="{{ iconMenuStyle }}">
+            <san-icon 
+                on-click="toggleMenu($event)" 
+                className="sm-iconmenu-icon"
+                on-mouseenter="handleMouseEnter($event)"
+                on-mouseleave="handleMouseLeave($event)"
+            >{{ icon }}</san-icon>
+            <san-menu 
+                open="{{ open }}" 
+                maxHeight="{{ maxHeight }}" 
+                zIndex="{{ zIndex }}" 
+                anchorOrigin="{{ anchorOrigin }}" 
+                targetOrigin="{{ targetOrigin }}"
+                >
                 <slot></slot>
-            </div>
+            </san-menu>
+            <p class="sm-iconmenu-tooltip {{ tooltipShow | yesToBe('show') }}">{{ tooltip }}</p>
             <div san-if="useLayerForClickAway" 
-                class="sm-layer-for-click {{ !open | yesToBe('list-hidden') }}" 
+                class="sm-layer-for-click {{ !open | yesToBe('hidden') }}" 
                 style="z-index:{{zIndex-1}}">
             </div>
         </div>
     `,
 
     components: {
-        'san-icon': Icon
+        'san-icon': Icon,
+        'san-menu': Menu
     },
 
     initData() {
         return Object.assign({
-            itemClickClose: true,
-            targetOrigin: {
-                horizontal: 'left',
-                vertical: 'top'
-            },
             tooltipShow: false
         }, this.defaultData());
     },
 
     attached() {
-        this.rootClass = '.' + this.data.get('className');
-        this.clickerClass = '.sm-iconmenu-icon';
-
         this.bindEvent();
 
         this.handleMouseEnter = this.handleMouseEnter.bind(this);
@@ -63,6 +63,6 @@ let IconMenu = san.defineComponent({
     }
 
 });
-san.inherits(IconMenu, Menu);
+san.inherits(IconMenu, MenuBase);
 
 export default IconMenu;

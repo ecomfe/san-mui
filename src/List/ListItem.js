@@ -6,22 +6,21 @@
 import san from 'san';
 import {TouchRipple, CenterRipple} from '../Ripple';
 import Icon from '../Icon';
-import padStyles from '../filters/padStyles';
 
 export default san.defineComponent({
 
     template: `
         <div class="sm-list-item {{listItemClass}}"
             on-click="toggleList($event)"
-            style="{{ style | padStyles }}"
+            style="{{ listItemStyle }}"
         >
-            <div class="sm-list-item-content" style="{{ itemContentStyle | padStyles }}">
+            <div class="sm-list-item-content" style="{{ itemContentStyle }}">
                 <div class="sm-list-item-left"><slot name="left"></slot></div>
                 <p class="sm-list-item-primary-text" 
                     san-if="primaryText"
                 >{{ primaryText }}</p>
                 <p class="sm-list-item-secondary-text" 
-                    style="{{ secondaryTextStyle | padStyles }}" 
+                    style="{{ secondaryTextStyle }}" 
                     san-if="secondaryText"
                 >{{ secondaryText | raw }}</p>
             </div>
@@ -34,7 +33,7 @@ export default san.defineComponent({
                 <san-icon>expand_{{ open | listOpenIcon }}</san-icon>
                 <san-center-ripple />
             </div>
-            <div class="sm-list-item-nested {{ open | listOpen }}" style="{{ nestedListStyle | padStyles }}">
+            <div class="sm-list-item-nested {{ open | listOpen }}" style="{{ nestedListStyle }}">
                 <slot name="nested"></slot>
             </div>
 
@@ -64,8 +63,6 @@ export default san.defineComponent({
     },
 
     filters: {
-        padStyles,
-
         listOpenIcon(open) {
             return open ? 'less' : 'more';
         },
@@ -86,9 +83,9 @@ export default san.defineComponent({
         },
         itemContentStyle() {
             return {
-                marginLeft: (this.data.get('nestedLevel') - 1) * 16 + 'px',
-                paddingLeft: this.data.get('hasLeft') ? '72px' : '16px',
-                paddingRight: this.data.get('hasRight') ? '56px' : '16px'
+                'margin-left': (this.data.get('nestedLevel') - 1) * 16 + 'px',
+                'padding-left': this.data.get('hasLeft') ? '72px' : '16px',
+                'padding-right': this.data.get('hasRight') ? '56px' : '16px'
             };
         },
         secondaryTextStyle() {

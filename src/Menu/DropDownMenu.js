@@ -4,34 +4,39 @@
  */
 
 import san from 'san';
-import Menu from './Menu';
+import MenuBase from './MenuBase';
 import {TouchRipple} from '../Ripple';
+import Menu from './Menu';
 
 let DropDownMenu = san.defineComponent({
     template: `
         <div
             class="{{ className }} sm-dropdown-menu {{ disabled | yesToBe('disabled') }}"
-            style="{{ style | padStyles }}"
+            style="{{ dropDownMenuStyle }}"
         >
 
             <div class="sm-dropdown-menu-selected" 
                 on-click="toggleMenu($event)" 
-                style="{{ selectedMenuItemStyle | padStyles }}"
+                style="{{ selectedMenuItemStyle }}"
             >
                 <p
                     class="sm-dropdown-menu-selected-label"
-                    style="{{ labelStyle | padStyles }}"
+                    style="{{ labelStyle }}"
                 >{{ text }}</p>
                 <slot name="iconButton"></slot>
-                <div class="sm-dropdown-menu-underline" style="{{ underlineStyle | padStyles }}"></div>
+                <div class="sm-dropdown-menu-underline" style="{{ underlineStyle }}"></div>
                 <san-touch-ripple />
             </div>
-
-            <div class="sm-menu-list {{ !open | yesToBe('list-hidden') }}"
-                style="{{menuStyleDefault | padStyles }}{{ menuStyle | padStyles }}">
-
+            <san-menu 
+                open="{{= open =}}" 
+                maxHeight="{{ maxHeight }}" 
+                zIndex="{{ zIndex }}" 
+                anchorOrigin="{{ anchorOrigin }}" 
+                targetOrigin="{{ targetOrigin }}"
+                openImmediately="{{ openImmediately }}"
+                >
                 <slot></slot>
-            </div>
+            </san-menu>
             <div san-if="useLayerForClickAway" 
                 class="sm-layer-for-click {{ !open | yesToBe('list-hidden') }}" 
                 style="z-index:{{zIndex-1}}">
@@ -40,7 +45,8 @@ let DropDownMenu = san.defineComponent({
     `,
 
     components: {
-        'san-touch-ripple': TouchRipple
+        'san-touch-ripple': TouchRipple,
+        'san-menu': Menu
     },
 
     initData() {
@@ -50,18 +56,10 @@ let DropDownMenu = san.defineComponent({
     },
 
     attached() {
-        if (this.data.get('openImmediately')) {
-            this.toggleMenu();
-        }
-
         this.data.set('text', this.data.get('text'));
-
-        this.rootClass = '.' + this.data.get('className');
-        this.clickerClass = '.sm-dropdown-menu-selected';
-
         this.bindEvent();
     }
 });
-san.inherits(DropDownMenu, Menu);
+san.inherits(DropDownMenu, MenuBase);
 
 export default DropDownMenu;
