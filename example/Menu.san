@@ -116,7 +116,7 @@ export default {
     initData() {
         return {
             value: 1,
-            multipleValues: [2,3],
+            multipleValues: [3,1],
             anchorOrigin: {
                 vertical: 'bottom',
                 horizontal: 'right'
