@@ -42,6 +42,7 @@ export default san.defineComponent({
         this.transBoolean('useLayerForClickAway');
 
         this.items = [];
+        this.values = [];
         this.name = 'menu';
     },
     created() {
@@ -85,7 +86,7 @@ export default san.defineComponent({
             }
 
             // 触发owner的onChange
-            this.fire('change', selectValue);
+            this.fire('change', this.sortValues());
             // 收起menu
             this.toggleMenu(arg.value.evt, true, 'ITEM');
         },
@@ -94,6 +95,7 @@ export default san.defineComponent({
         },
         'UI:menu-item-attached'(arg) {
             this.items.push(arg.target);
+            this.values.push(arg.target.data.get('value'));
             // 没有value默认填充第一个item的值
             arg.target.data.set('selectValue', this.data.get('value') || this.items[0].data.get('value'));
         },
@@ -148,7 +150,6 @@ export default san.defineComponent({
         if (typeof toClose !== 'undefined') {
             open = !toClose;
         }
-
         if (!open && driver === 'ITEM' && this.data.get('itemClickClose') === false) {
             return;
         }
@@ -159,7 +160,6 @@ export default san.defineComponent({
         this.beforeToggleMenu && this.beforeToggleMenu();
 
         this.data.set('open', open);
-
         if (!open) {
             this.fire('close');
         }
@@ -173,6 +173,25 @@ export default san.defineComponent({
     },
     close() {
         this.toggleMenu(null, true);
+    },
+    sortValues() {
+        let value = this.data.get('value');
+        if (!this.data.get('multiple')) {
+            return value;
+        }
+
+        let values = this.values.slice(0);
+        let selectValue = value || [];
+        let len = values.length;
+
+        while (len--) {
+            if (selectValue.indexOf(values[len]) === -1) {
+                values.splice(len, 1);
+            }
+        }
+
+        this.data.set('value', values);
+        return values;
     },
     transBoolean(key) {
         let value = this.data.get(key);
