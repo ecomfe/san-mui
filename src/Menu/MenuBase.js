@@ -42,9 +42,11 @@ export default san.defineComponent({
         this.transBoolean('useLayerForClickAway');
 
         this.items = [];
+        this.name = 'menu';
     },
     created() {
         this.handleClickOff = this.handleClickOff.bind(this);
+        this.close = this.close.bind(this);
     },
     messages: {
         'UI:menu-item-selected'(arg) {
@@ -157,9 +159,20 @@ export default san.defineComponent({
         this.beforeToggleMenu && this.beforeToggleMenu();
 
         this.data.set('open', open);
+
         if (!open) {
             this.fire('close');
         }
+        else {
+            for (let child of this.owner.childs) {
+                if (child.name === 'menu' && child.id !== this.id) {
+                    child.close();
+                }
+            }
+        }
+    },
+    close() {
+        this.toggleMenu(null, true);
     },
     transBoolean(key) {
         let value = this.data.get(key);
