@@ -28,6 +28,9 @@ p
 .hidden
     display: none
 
+body
+    overflow-x: hidden
+
 .sm-menu-list
     position: absolute
     top: 0
@@ -42,7 +45,7 @@ p
     box-shadow: san-shadow('2')
 
     &.on-layer
-        z-index: $san-z-index.menuLayer
+        z-index: $san-z-index.menuLayer + 1
 
 .sm-menu-list>.sm-divider
     margin:7px 0 8px

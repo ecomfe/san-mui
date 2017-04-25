@@ -12,13 +12,10 @@ let DropDownMenu = san.defineComponent({
     template: `
         <div
             class="{{ className }} sm-dropdown-menu {{ disabled | yesToBe('disabled') }}"
-            style="{{ dropDownMenuStyle }}"
-        >
-
+            style="{{ dropDownMenuStyle }}">
             <div class="sm-dropdown-menu-selected" 
                 on-click="toggleMenu($event)" 
-                style="{{ selectedMenuItemStyle }}"
-            >
+                style="{{ selectedMenuItemStyle }}">
                 <p
                     class="sm-dropdown-menu-selected-label"
                     style="{{ labelStyle }}"

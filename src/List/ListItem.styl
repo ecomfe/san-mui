@@ -18,6 +18,9 @@ $text-padding-left-with-icon = 72px
         right: $list-padding-horz
         line-height: 0
 
+    .sm-list-item-right .sm-iconmenu-icon-wrapper
+        margin-right: -12px
+
     .sm-list-item-left
         left: $list-padding-horz
         right: initial
@@ -26,6 +29,9 @@ $text-padding-left-with-icon = 72px
             position: absolute
             top: 50%
             transform: translateY(-50%)
+
+        .sm-iconmenu-icon-wrapper
+            margin-left: -12px
 
     .sm-list-item-expand
         position: absolute
@@ -63,11 +69,6 @@ $text-padding-left-with-icon = 72px
         text-overflow: ellipsis
         display: -webkit-box
         -webkit-box-orient: vertical
-
-    .sm-list-right-control
-        position: absolute
-        right: 0
-        top: 16px
 
     &.disabled
         cursor: auto

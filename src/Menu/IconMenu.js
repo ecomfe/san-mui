@@ -6,17 +6,21 @@
 import san from 'san';
 import Icon from '../Icon';
 import MenuBase from './MenuBase';
+import {CenterRipple} from '../Ripple';
 import Menu from './Menu';
 
 let IconMenu = san.defineComponent({
     template: `
         <div class="sm-iconmenu {{ className }}" style="{{ iconMenuStyle }}">
-            <san-icon 
+            <div class="sm-iconmenu-icon-wrapper"
                 on-click="toggleMenu($event)" 
                 className="sm-iconmenu-icon"
                 on-mouseenter="handleMouseEnter($event)"
                 on-mouseleave="handleMouseLeave($event)"
-            >{{ icon }}</san-icon>
+            >
+                <san-icon>{{ icon }}</san-icon>
+                <san-center-ripple />
+            </div>
             <san-menu 
                 open="{{ open }}" 
                 maxHeight="{{ maxHeight }}" 
@@ -35,7 +39,8 @@ let IconMenu = san.defineComponent({
 
     components: {
         'san-icon': Icon,
-        'san-menu': Menu
+        'san-menu': Menu,
+        'san-center-ripple': CenterRipple
     },
 
     initData() {
