@@ -20,7 +20,7 @@ let IconMenu = san.defineComponent({
             <san-menu 
                 open="{{ open }}" 
                 maxHeight="{{ maxHeight }}" 
-                zIndex="{{ zIndex }}" 
+                useLayerForClickAway="{{ useLayerForClickAway }}" 
                 anchorOrigin="{{ anchorOrigin }}" 
                 targetOrigin="{{ targetOrigin }}"
                 >
@@ -28,9 +28,8 @@ let IconMenu = san.defineComponent({
             </san-menu>
             <p class="sm-iconmenu-tooltip {{ tooltipShow | yesToBe('show') }}">{{ tooltip }}</p>
             <div san-if="useLayerForClickAway" 
-                class="sm-layer-for-click {{ !open | yesToBe('hidden') }}" 
-                style="z-index:{{zIndex-1}}">
-            </div>
+                class="sm-layer-for-click {{ !open | yesToBe('hidden') }}"
+            ></div>
         </div>
     `,
 

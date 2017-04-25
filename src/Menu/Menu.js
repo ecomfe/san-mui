@@ -7,14 +7,16 @@ import san from 'san';
 
 export default san.defineComponent({
     template: `
-        <div class="sm-menu-list" style="{{ menuListStyle }}">
+        <div class="sm-menu-list{{ menuListClass }}" style="{{ menuListStyle }}">
             <slot></slot>
         </div>
     `,
     computed: {
+        menuListClass() {
+            return this.data.get('useLayerForClickAway') ? ' on-layer' : '';
+        },
         menuListStyle() {
             return {
-                'z-index': this.data.get('zIndex'),
                 'transform-origin': this.data.get('transformOrigin'),
                 'transform': this.data.get('menuOpen') ? 'scale(1,1)' : 'scale(1,0)',
                 'left': this.data.get('left') + 'px',

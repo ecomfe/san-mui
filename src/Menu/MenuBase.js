@@ -41,10 +41,6 @@ export default san.defineComponent({
         this.transBoolean('openImmediately');
         this.transBoolean('useLayerForClickAway');
 
-        if (!this.data.get('useLayerForClickAway')) {
-            this.data.set('zIndex', 1);
-        }
-
         this.items = [];
     },
     created() {

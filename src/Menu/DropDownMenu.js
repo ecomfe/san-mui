@@ -30,7 +30,7 @@ let DropDownMenu = san.defineComponent({
             <san-menu 
                 open="{{= open =}}" 
                 maxHeight="{{ maxHeight }}" 
-                zIndex="{{ zIndex }}" 
+                useLayerForClickAway="{{ useLayerForClickAway }}" 
                 anchorOrigin="{{ anchorOrigin }}" 
                 targetOrigin="{{ targetOrigin }}"
                 openImmediately="{{ openImmediately }}"
@@ -39,8 +39,7 @@ let DropDownMenu = san.defineComponent({
             </san-menu>
             <div san-if="useLayerForClickAway" 
                 class="sm-layer-for-click {{ !open | yesToBe('list-hidden') }}" 
-                style="z-index:{{zIndex-1}}">
-            </div>
+            ></div>
         </div>
     `,
 
