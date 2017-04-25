@@ -4,10 +4,14 @@
  */
 
 import san from 'san';
+import FocusRipple from '../Ripple/FocusRipple';
+import {create} from '../common/util/cx';
+
+const cx = create('slider');
 
 export default san.defineComponent({
     template: `
-        <div class="sm-slider {{themeClass}} {{disable | yesToBe('sm-slider-disable')}}"
+        <div class="{{styleClassName}}" tabindex="0" 
             on-focus="handleFocus($event)"
             on-blur="handleBlur($event)"
             on-touchstart="handleTouchStart($event)"
@@ -16,186 +20,213 @@ export default san.defineComponent({
             on-mousedown="handleMouseDown($event)"
             on-mouseup="handleMouseUp($event)"
             on-mouseenter="handleMouseEnter($event)"
-            on-mouseleave="handleMouseLeave($event)"
-            on-click="handleClick($event)">
-            <div class="sm-slider-bg"></div>
-            <div class="sm-slider-fill" style="width: {{percent * 100 + '%'}}"></div>
-            <div class="sm-slider-thumb"
-                style="left: {{percent * 100 + '%'}}"
-                title="值：{{value}}；占比：{{percent * 100 + '%'}}">
+            on-mouseleave="handleMouseLeave($event)">
+            <input type="hidden" disabled="{{disabled ? ' disabled' : ''}}" name="{{name}}" value="{{value}}">
+            <div class="${cx.getPartClassName('bg')}"></div>
+            <div class="${cx.getPartClassName('fill')}" style="{{fillStyle}}"></div>
+            <div class="${cx.getPartClassName('thumb')}"
+                style="{{thumbStyle}}"
+                title="值：{{value}}；占比：{{percent + '%'}}">
+                <san-focus-ripple san-if="{{showRipple}}"></san-focus-ripple>
             </div>
         </div>
     `,
-    initData() {
-        let config = {
-            themeClass: '', // 主题
-            max: 0, // 最大值
-            min: 0, // 最小值
-            step: 0, // 最小步数
-            disable: 0, // 禁用
-            value: 0, // 当前值
-            percent: 0, // 百分比,
-            dragRunning: 0, // 正在拖拽
-            hasCounted: 0, // 是否计算过元素宽度和左視边距,
-            focused: 0, // 是否focus
-            hovered: 0 // 是否hover
-        };
 
-        return config;
+    components: {
+        'san-focus-ripple': FocusRipple
     },
-    test() {
+
+    initData() {
+        return {
+            max: 100, // 最大值
+            min: 0, // 最小值
+            step: 1, // 最小步数
+            value: 0, // 当前值
+
+            // 内部状态数据
+            dragRunning: false,
+            dragging: false, // 正在拖拽
+            active: 0, // 是否激活
+            focus: 0, // 是否focus
+            hover: 0 // 是否hover
+        };
     },
-    inited() {
+
+    computed: {
+        percent() {
+            let min = this.data.get('min');
+            let max = this.data.get('max');
+            let value = this.data.get('value');
+            let range = max - min;
+            let percentNum = range > 0
+                ? (value - min) / range * 100
+                : 0;
+
+            return percentNum > 100
+                ? 100
+                : (percentNum < 0 ? 0 : percentNum);
+        },
+
+        styleClassName() {
+            return cx(this).build();
+        },
+
+        fillStyle() {
+            return {
+                width: this.data.get('percent') + '%'
+            };
+        },
+
+        thumbStyle() {
+            return {
+                left: this.data.get('percent') + '%'
+            };
+        },
+
+        variants() {
+            let result = [];
+            if (this.data.get('value') <= this.data.get('min')) {
+                result.push('start');
+            }
+
+            if (this.data.get('active')) {
+                result.push('active');
+            }
+
+            return result;
+        },
+
+        showRipple() {
+            let data = this.data;
+            return (data.get('focus') || data.get('hover'))
+                && !data.get('active');
+        }
     },
-    compiled() {
-    },
+
     created() {
-        this.formatInitValue();
         this.handleDragMouseMove = this.handleDragMouseMove.bind(this);
         this.handleMouseEnd = this.handleMouseEnd.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
         this.handleTouchEnd = this.handleTouchEnd.bind(this);
     },
-    attached() {
-    },
-    detached() {
-    },
-    disposed() {
-    },
-    formatInitValue() {
-        let {max, min, percent, value, step} = this.getData();
-        if (min < 0) {
-            min = 0;
-        }
-        if (max < min) {
-            max = min;
-        }
-        if (step > max) {
-            step = max;
-        }
-        else if (step < 0) {
-            step = 1;
-        }
 
-        let minus = value - min;
-        if (minus <= 0) {
-            value = minus = min;
-        }
-        value = Math.floor(value / step) * step;
-        percent = (value - min) / (max - min);
-
-        let disable = +this.data.get('disable');
-        this.setData({max, min, value, step, percent, disable});
-        // console.log('max: '+ max + 'min: '+ min + 'step: '+ step + 'value:' +value + 'per:' + percent );
-    },
     getData() {
         const data = this.data;
         return {
             min: +data.get('min'),
             max: +data.get('max'),
             step: +data.get('step'),
-            value: +data.get('value'),
-            percent: +data.get('percent'),
-            left: +data.get('left'),
-            width: +data.get('width')
+            value: +data.get('value')
         };
     },
+
     setData(obj) {
         const data = this.data;
-        obj = obj || {};
-        for (var i in obj) {
+        for (let i in obj) {
             if (obj.hasOwnProperty(i)) {
                 data.set(i, obj[i]);
             }
         }
     },
-    handleClick(e) {
-        if (this.data.get('disabled')) {
-            return;
-        }
-        this.setValue(e);
-    },
+
     handleFocus(e) {
         if (this.data.get('disabled')) {
             return;
         }
-        this.data.set('focused', 1);
+        this.data.set('focus', 1);
     },
+
     handleBlur(e) {
         if (this.data.get('disabled')) {
             return;
         }
-        this.data.set('focused', 0);
+        this.data.set('focus', 0);
     },
+
     handleTouchStart(e) {
         if (this.data.get('disabled')) {
             return;
         }
         this.setValue(e.touches[0]);
 
-        var me = this;
+        let me = this;
         document.addEventListener('touchmove', me.handleTouchMove);
         document.addEventListener('touchup', me.handleTouchEnd);
         document.addEventListener('touchend', me.handleTouchEnd);
         document.addEventListener('touchcancel', me.handleTouchEnd);
+
         e.preventDefault();
         this.onDragStart(e);
     },
+
     handleTouchEnd(e) {
         if (this.data.get('disabled')) {
             return;
         }
 
-        var me = this;
+        let me = this;
         document.removeEventListener('touchmove', me.handleTouchMove);
         document.removeEventListener('touchup', me.handleTouchEnd);
         document.removeEventListener('touchend', me.handleTouchEnd);
         document.removeEventListener('touchcancel', me.handleTouchEnd);
+
         this.onDragStop(e);
     },
+
     handleTouchMove(e) {
         this.onDragUpdate(e.touches[0]);
     },
+
     handleMouseDown(e) {
         if (this.data.get('disabled')) {
             return;
         }
-        e.preventDefault();
-        var me = this;
+
+        this.setValue(e);
+
+        let me = this;
         document.addEventListener('mousemove', me.handleDragMouseMove);
         document.addEventListener('mouseup', me.handleMouseEnd);
 
+        e.preventDefault();
+        this.el.focus();
         this.onDragStart(e);
-
     },
+
     onDragStart(e) {
         this.data.set('dragging', 1);
         this.data.set('active', 1);
+
         this.fire('dragStart', e);
     },
+
     onDragStop(e) {
         this.data.set('dragging', 0);
         this.data.set('active', 0);
+
         this.fire('dragStop', e);
     },
+
     handleMouseEnd(e) {
-        var me = this;
+        let me = this;
         document.removeEventListener('mousemove', me.handleDragMouseMove);
         document.removeEventListener('mouseup', me.handleMouseEnd);
-        this.onDragStop(e);
 
+        this.onDragStop(e);
     },
+
     handleDragMouseMove(e) {
         this.onDragUpdate(e);
     },
+
     onDragUpdate(e) {
         const data = this.data;
         if (data.get('dragRunning')) {
             return;
         }
         data.set('dragRunning', 1);
-        var me = this;
 
+        let me = this;
         window.requestAnimationFrame(() => {
             data.set('dragRunning', 0);
             if (!data.get('disable')) {
@@ -203,38 +234,43 @@ export default san.defineComponent({
             }
         });
     },
+
     handleMouseUp(e) {
         if (this.data.get('disabled')) {
             return;
         }
+
+        this.data.set('active', 0);
     },
+
     handleMouseEnter(e) {
         if (this.data.get('disabled')) {
             return;
         }
-        this.data.set('hovered', 1);
+
+        this.data.set('hover', 1);
     },
+
     handleMouseLeave(e) {
         if (this.data.get('disabled')) {
             return;
         }
-        this.data.set('hovered', 0);
+
+        this.data.set('hover', 0);
     },
+
     setValue(e) {
-        const $el = this.el;
-        if (!this.data.get('hasCounted')) {
-            this.setData({
-                left: $el.getBoundingClientRect().left,
-                width: $el.offsetWidth
-            });
-            this.data.set('hasCounted', 1);
-        }
-        let {max, min, percent, value, step, left, width} = this.getData();
+        let el = this.el;
+        let {max, min, value, step} = this.getData();
+        let oldValue = value;
+        let elLeft = el.getBoundingClientRect().left;
+        let elWidth = el.offsetWidth;
+        let range = max - min;
 
-        value = (e.clientX - left) / width * (max - min);
-
+        value = elWidth && ((e.clientX - elLeft) / elWidth * range);
         value = Math.round(value / step) * step + min;
         value = parseFloat(value.toFixed(5));
+
         if (value > max) {
             value = max;
         }
@@ -242,9 +278,9 @@ export default san.defineComponent({
             value = min;
         }
 
-        percent = (value - min) / (max - min);
-        this.setData({value: value, percent: percent});
-        this.fire('change', value);
-
+        if (value !== oldValue) {
+            this.setData({value});
+            this.fire('change', value);
+        }
     }
 });

@@ -1,0 +1,52 @@
+<template>
+    <div>
+        <h3>简单使用</h3>
+        <san-slider value="{= value =}" min="0" max="100" on-change="handleChange($event)">
+        </san-slider>
+        <span>the slider value: {{value}}</span>
+
+        <h3>禁用 Slider</h3>
+        <san-slider name="mySlider" value="{= value2 =}" disabled on-change="handleChange2($event)">
+        </san-slider>
+        <span>the slider value: {{value2}}</span>
+    </div>
+</template>
+
+<script>
+
+import Slider from '../src/Slider';
+
+import '../src/Slider/Slider.styl';
+
+export default {
+
+    components: {
+        'san-slider': Slider
+    },
+
+    initData() {
+        return {
+            value: 0,
+            value2: 33
+        };
+    },
+
+    toggleMenu(e) {
+        alert('toggle menu');
+    },
+
+    handleChange(value) {
+        console.log('change: ', value);
+    },
+
+    handleChange2(value) {
+        console.log('change2: ', value);
+    }
+
+}
+
+</script>
+
+<style>
+
+</style>
