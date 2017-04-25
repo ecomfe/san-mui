@@ -4,16 +4,19 @@
  */
 
 import san from 'san';
+import {create} from '../common/util/cx';
+
+const cx = create('card-header');
 
 export default san.defineComponent({
     template: `
-        <div class="sm-card-header {{themeClass}}">
-            <slot name="before"></slot>
-            <div class="sm-card-title-block">
-                <div class="sm-card-title {{titleClass}}">
+        <div class="{{styleClass}}">
+            <slot name="avatar"></slot>
+            <div class="${cx.getPartClassName('title-wrap')}" san-if="title || subTitle">
+                <div class="${cx.getPartClassName('title')} {{titleClass}}">
                     {{title}}
                 </div>
-                <div class="sm-card-subtitle {{subTitleClass}}">
+                <div class="${cx.getPartClassName('sub-title')} {{subTitleClass}}" san-if="subTitle">
                     {{subTitle}}
                 </div>
                 <slot name="title-after"></slot>
@@ -21,29 +24,14 @@ export default san.defineComponent({
             <slot name="after"></slot>
         </div>
     `,
+
     initData() {
-        let config = {
-            themeClass: '', // 主题样式
+        return {
+            styleClass: cx(this).build(),
             title: '', // 标题
             subTitle: '', // 副标题
             titleClass: '', // 标题样式
             subTitleClass: '' // 副标题样式
         };
-
-        return config;
-    },
-    test() {
-    },
-    inited() {
-    },
-    compiled() {
-    },
-    created() {
-    },
-    attached() {
-    },
-    detached() {
-    },
-    disposed() {
     }
 });

@@ -1,0 +1,26 @@
+@import '../css/variable.styl'
+@require '../css/func.styl'
+
+$san-card-media-title-bg-color := $md-colors.lightBlack
+$san-card-media-title-color := $md-colors.darkWhite
+$san-card-media-sub-title-color := $md-colors.lightWhite
+
+.sm-card-media
+    position: relative
+    >img
+        display: block
+        width: 100%
+        max-width: 100%
+
+.sm-card-media-title-wrap
+    absolute: _ 0 0 0
+    padding: 16px
+    background-color: $san-card-media-title-bg-color
+
+    .sm-card-media-title
+        font-size: 24px
+        color: $san-card-media-title-color
+
+    .sm-card-media-sub-title
+        font-size: 14px
+        color: $san-card-media-sub-title-color
