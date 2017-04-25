@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-
+        <div class="nav-bar-bg"></div>
         <san-drawer
             position="left"
             open="{{openMenu}}"
@@ -156,17 +156,25 @@ export default {
 
 @require '../src/css/variable.styl'
 
+.nav-bar-bg
+    position: fixed
+    left: 0
+    right: 0
+    height: 4rem
+    background: $md-colors.blue500
+
 .example-drawer
-    width: 300px
     position: fixed
     top: 0
     bottom: 0
+    z-index: 11
     overflow: auto
 
 
 .example-drawer-appbar
     background: $md-colors.blue500
     color: #fff
+    font-size: 24px
 
 .example-drawer-content
     overflow: auto
@@ -185,6 +193,7 @@ export default {
     transition: all .3s cubic-bezier(.4, 0, .2, 1)
     background: $md-colors.blue500
     color: #fff
+    font-size: 24px
     z-index: 10
 
     &.hide-menu
