@@ -1,12 +1,17 @@
-@import '../css/variable'
+@import '../css/variable.styl'
+@require '../css/func.styl'
+
+$san-appbar-bgcolor := $san-primary-color
+$san-appbar-textcolor := $md-colors.white
 
 .sm-appbar
     display: flex
     height: rem(64px)
     line-height: rem(64px)
-    padding: 0 8px
-    // background-color: $md-colors.lightGreenA700
-    color: #fff
+    padding: 0 18px
+    background: $san-appbar-bgcolor
+    color: $san-appbar-textcolor
+
     .material-icons
         line-height: rem(64px)
 
@@ -16,7 +21,6 @@
     display: flex
     justify-content: flex-start
     align-items: center
-
 
 .sm-appbar-title
     flex: 2
