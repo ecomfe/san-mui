@@ -15,7 +15,8 @@ export default class IconButton extends BaseButton {
     static template = `
         <button
             class="{{computedClassName}}"
-            disabled="{{disabled}}">
+            disabled="{{disabled}}"
+            on-click="onClick">
             <san-icon icon="{{icon}}"><slot /></san-icon>
             <san-center-ripple />
         </button>
@@ -31,5 +32,11 @@ export default class IconButton extends BaseButton {
             return cx(this).addVariants('icon').build();
         }
     };
+
+    onClick(e) {
+        if (!this.data.get('disabled')) {
+            this.fire('click', e);
+        }
+    }
 
 }

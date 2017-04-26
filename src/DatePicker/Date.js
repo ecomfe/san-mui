@@ -11,7 +11,7 @@ const cx = create('date-picker-date');
 export default san.defineComponent({
 
     template: `
-        <div class="{{computedClassName}}">
+        <div class="{{computedClassName}}" on-click="click">
             <div class="${cx.getPartClassName('cell')}">
                 {{part ? '' : date }}
             </div>
@@ -32,6 +32,10 @@ export default san.defineComponent({
                     today
                 }).build();
         }
+    },
+
+    click() {
+        this.fire('pick');
     }
 
 });

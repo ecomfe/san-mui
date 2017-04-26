@@ -6,7 +6,7 @@
         <sm-radio label="自定义icon" name="group" nativeValue="simple3" class="demo-radio" uncheckIcon="favorite_border" checkedIcon="favorite"/> <br/>
         <sm-radio label="不可用" class="demo-radio" name="disabled" disabled nativeValue="dd"/> <br/>
         <sm-radio label="不可用" class="demo-radio" name="disabled" disabled inputValue="{= initValue =}" nativeValue="tt"/><br/>
-        <sm-radio label="文字在左边的" class="demo-radio" nativeValue="test" v-model="value2" labelLeft/><br/>
+        <sm-radio label="文字在左边的" class="demo-radio" nativeValue="test" labelLeft/><br/>
     </div>
 </template>
 

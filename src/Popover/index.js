@@ -67,7 +67,7 @@ export default san.defineComponent({
         this.compatErrorData(triggerOperationKey, triggerOperationType);
         this.compatErrorData(placementKey, placementType);
     },
-    created() {
+    attached() {
         document.body.appendChild(this.el);
         // 默认显示
         if (this.data.get(openKey)) {

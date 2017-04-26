@@ -17,6 +17,7 @@ export default class Button extends BaseButton {
 
     static template = `
         <button
+            on-click="click"
             class="{{computedClassName}}"
             disabled="{{disabled}}">
             <slot></slot>
@@ -29,6 +30,12 @@ export default class Button extends BaseButton {
             return cx(this).build();
         }
     };
+
+    click(e) {
+        if (!this.data.get('disabled')) {
+            this.fire('click', e);
+        }
+    }
 
 
 
