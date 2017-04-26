@@ -1,20 +1,9 @@
-@import '../css/variable'
+@import '../css/variable.styl'
+@require '../css/func.styl'
+
+$-card-bgcolor := $md-colors.white
 
 .sm-card
-    font-family: Roboto,Lato,sans-serif
-    font-size: 14px
-    line-height: 1.5
-    color: color3
-    .sm-card-title
-        font-size: 24px
-    .sm-card-subtitle 
-        color: color9
-    .sm-card-header
-    .sm-card-media
-    .sm-card-title-wrap
-    .sm-card-text
-    .sm-card-actions
-        padding: rem(16px)
-    .sm-card-header
-        .sm-card-title
-            font-size: 15px
+    border-raidus: 2px
+    background-color: $-card-bgcolor
+    box-shadow: san-shadow('1')

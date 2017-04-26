@@ -1,10 +1,15 @@
-
 @import '../css/variable'
+@require '../css/func.styl'
+@require '../Ripple/FocusRipple.styl'
 
 .sm-slider
     position: relative
     width: 100%
-    height: 30px
+    height: 24px
+    cursor: default
+    user-select:none
+    outline: none
+
 .sm-slider-bg
 .sm-slider-fill
 .sm-slider-thumb
@@ -13,16 +18,45 @@
     top: 50%
     width: 100%
     height: 2px
-    background-color: base-color
+    margin-top: (@height / 2) * -1
+
+.sm-slider-fill
+    background-color: $san-primary-color
+
+    .sm-slider.state-disabled &
+        background-color: $san-lighter-primary-color
+
 .sm-slider-bg
-    background-color: bg-color
+    background-color: $san-lighter-primary-color
+
 .sm-slider-thumb
     width: 12px
-    height: 12px
-    margin-top: -6px
-    border-radius: 6px
+    height: @width
+    border-radius: 50%
     cursor: pointer
-.sm-slider-disable
-    .sm-slider-fill
-    .sm-slider-thumb
-        background-color: bg-color
+    background-color: $san-primary-color
+    transform: translate(-50%, -50%)
+    transition: background 450ms $san-animation-ease-out, border-color 450ms $san-animation-ease-out, width 450ms $san-animation-ease-out, height 450ms $san-animation-ease-out
+
+    .sm-focus-ripple
+        width: 36px
+        height: @width
+        top: 50%
+        left: 50%
+        margin-top: (@width / 2) * -1
+        margin-left: @margin-top
+
+    .sm-slider.variant-active &
+        width: 20px
+        height: @width
+
+    .sm-slider.variant-start &,
+    .sm-slider.state-disabled &
+        border: 2px solid $san-lighter-primary-color
+        color: $san-lighter-primary-color
+        background-color: $md-colors.white
+
+    .sm-slider.state-disabled &
+        cursor: default
+
+

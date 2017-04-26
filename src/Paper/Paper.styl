@@ -1,0 +1,19 @@
+@require '../css/variable.styl'
+@require '../css/func.styl'
+
+$san-paper-text-color := $md-colors.darkBlack
+$san-paper-bg-color := $md-colors.white
+
+.sm-paper
+    color: $san-paper-text-color
+    background-color: $san-paper-bg-color
+
+.sm-paper-rounded
+    border-radius: 2px
+
+.sm-paper-circle
+    border-radius: 50%
+
+for depth in '1' '2' '3' '4' '5'
+    .sm-paper-{depth}
+        box-shadow: san-shadow(depth)

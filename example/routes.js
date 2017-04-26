@@ -30,16 +30,23 @@ import ExpansionPanel from './ExpansionPanel.san';
 import Toast from './Toast.san';
 import TimePicker from './TimePicker.san';
 import Chip from './Chip.san';
+import AppBar from './AppBar.san';
+import Paper from './Paper.san';
+import Card from './Card.san';
+import Slider from './Slider.san';
 
 let routes = {
     '/': Main,
+    '/AppBar': AppBar,
     '/Avatar': Avatar,
     '/Button': Button,
+    '/Card': Card,
     '/TextField': TextField,
     '/Menu': Menu,
     '/List': List,
     '/Tabs': Tabs,
     '/Pagination': Pagination,
+    '/Paper': Paper,
     '/Popover': Popover,
     '/Drawer': Drawer,
     '/Divider': Divider,
@@ -51,6 +58,7 @@ let routes = {
     '/Icon': Icon,
     '/Checkbox': Checkbox,
     '/Radio': Radio,
+    '/Slider': Slider,
     '/Switch': Switch,
     '/SubHeader': SubHeader,
     '/ExpansionPanel': ExpansionPanel,

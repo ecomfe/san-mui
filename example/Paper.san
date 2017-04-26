@@ -1,0 +1,69 @@
+<template>
+    <div>
+        <h3>简单使用</h3>
+        <p>通过 zDepth 控制阴影程度</p>
+        <div class="paper-wrap">
+            <san-paper class="my-paper none-shadow-paper" zDepth="0"></san-paper>
+            <san-paper class="my-paper" zDepth="1"></san-paper>
+            <san-paper class="my-paper" zDepth="2"></san-paper>
+            <san-paper class="my-paper" zDepth="3"></san-paper>
+            <san-paper class="my-paper" zDepth="4"></san-paper>
+            <san-paper class="my-paper" zDepth="5"></san-paper>
+        </div>
+
+        <h3>圆形的纸片</h3>
+        <div class="paper-wrap circle-paper-wrap">
+            <san-paper class="my-paper none-shadow-paper" circle="1" zDepth="0"></san-paper>
+            <san-paper class="my-paper" circle="1" zDepth="1"></san-paper>
+            <san-paper class="my-paper" circle="1" zDepth="2"></san-paper>
+            <san-paper class="my-paper" circle="1" zDepth="3"></san-paper>
+            <san-paper class="my-paper" circle="1" zDepth="4"></san-paper>
+            <san-paper class="my-paper" circle="1" zDepth="5"></san-paper>
+        </div>
+
+    </div>
+</template>
+
+<script>
+
+import Paper from '../src/Paper';
+
+import '../src/Paper/Paper.styl';
+import '../src/Button/Button.styl';
+
+export default {
+
+    components: {
+        'san-paper': Paper
+    },
+
+    initData() {
+        return {
+        };
+    }
+
+}
+
+</script>
+
+<style>
+.paper-wrap {
+    display: flex;
+    margin: 10px 0;
+}
+
+.my-paper {
+    flex: 1;
+    margin: 0 15px;
+    height: 100px;
+}
+
+.none-shadow-paper {
+    border: 1px solid #ccc;
+}
+
+.circle-paper-wrap .my-paper {
+    width: 100px;
+    flex: 0 1 auto;
+}
+</style>

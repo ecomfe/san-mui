@@ -4,32 +4,20 @@
  */
 
 import san from 'san';
+import {create} from '../common/util/cx';
+
+const cx = create('card');
 
 export default san.defineComponent({
     template: `
-        <div class="sm-card {{themeClass}}">
+        <div class="{{styleClass}}">
             <slot></slot>
         </div>
     `,
-    initData() {
-        let config = {
-            themeClass: '' // 主题样式
-        };
 
-        return config;
-    },
-    test() {
-    },
-    inited() {
-    },
-    compiled() {
-    },
-    created() {
-    },
-    attached() {
-    },
-    detached() {
-    },
-    disposed() {
+    initData() {
+        return {
+            styleClass: cx(this).build()
+        };
     }
 });
