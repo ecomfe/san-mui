@@ -33,6 +33,7 @@ export default san.defineComponent({
         }
     },
     inited() {
+        this.transBoolean('all');
         this.transBoolean('open');
         this.transBoolean('multiple');
         this.transBoolean('disabled');
@@ -119,6 +120,18 @@ export default san.defineComponent({
     bindEvent() {
         // 点击menu外位置隐藏menu
         document.addEventListener('click', this.handleClickOff);
+
+        this.watch('all', () => {
+            let selectValue = this.data.get('all') ? this.values : [];
+            this.data.set('value', selectValue);
+
+            let len = this.items.length;
+            while (len--) {
+                this.items[len].data.set('selectValue', selectValue);
+            }
+
+            this.fire('change', selectValue);            
+        });
     },
     handleClickOff(e) {
         e.stopPropagation();

@@ -25,7 +25,7 @@ let DropDownMenu = san.defineComponent({
                 <san-touch-ripple />
             </div>
             <san-menu 
-                open="{{= open =}}" 
+                open="{{ open }}" 
                 maxHeight="{{ maxHeight }}" 
                 useLayerForClickAway="{{ useLayerForClickAway }}" 
                 anchorOrigin="{{ anchorOrigin }}" 

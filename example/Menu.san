@@ -80,7 +80,8 @@ targetOrigin: {horizontal: 'left',vertical: 'top'}</span></p>
         <san-iconmenu
             icon="more_verti"
             value="{{ multipleValues }}"
-            multiple="true"
+            multiple 
+            all="{{ all }}"
             on-change="iconMenuMultipleChange($event)"
         >
             <san-menuitem value="{{ 1 }}" title="multiple 1" />
@@ -88,6 +89,7 @@ targetOrigin: {horizontal: 'left',vertical: 'top'}</span></p>
             <san-menuitem value="{{ 3 }}" title="multiple 3" />
             <san-menuitem value="{{ 4 }}" title="multiple 4" />
         </san-iconmenu>
+        <san-button on-click="toggleChooseAll($event)">toggle全选</san-button>
     </div>
 </template>
 
@@ -96,12 +98,14 @@ targetOrigin: {horizontal: 'left',vertical: 'top'}</span></p>
 import Icon from '../src/Icon';
 import {DropDownMenu, IconMenu, MenuItem} from '../src/Menu';
 import Divider from '../src/Divider';
+import {Button} from '../src/Button';
 import '../src/Menu/IconMenu.styl';
 import '../src/Menu/DropDownMenu.styl';
 import '../src/Menu/MenuItem.styl';
 import '../src/Icon/Icon.styl'
 import '../src/Ripple/TouchRipple.styl';
 import '../src/Divider/Divider.styl';
+import '../src/Button/Button.styl';
 
 export default {
 
@@ -110,13 +114,15 @@ export default {
         'san-dropdownmenu': DropDownMenu,
         'san-iconmenu': IconMenu,
         'san-menuitem': MenuItem,
-        'san-divider': Divider
+        'san-divider': Divider,
+        'san-button': Button
     },
 
     initData() {
         return {
             value: 1,
             multipleValues: [3,1],
+            all: false,
             anchorOrigin: {
                 vertical: 'bottom',
                 horizontal: 'right'
@@ -139,6 +145,9 @@ export default {
     },
     iconMenuMultipleChange(value) {
         console.log('iconmenu multiple values changed to: ' + JSON.stringify(value));
+    },
+    toggleChooseAll() {
+        this.data.set('all', !this.data.get('all'));
     }
 
 }
