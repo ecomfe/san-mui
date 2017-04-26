@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import './MenuItem.styl';
 import Icon from '../Icon';
 import {TouchRipple} from '../Ripple';
 
