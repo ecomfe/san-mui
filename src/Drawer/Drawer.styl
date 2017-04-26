@@ -10,10 +10,9 @@
 
     &-content
         position: fixed;
-        z-index: $san-z-index.dialog
+        z-index: $san-z-index.drawer
         background-color: #fff;
         transition: transform .3s cubic-bezier(.4, 0, .2, 1), box-shadow .3s linear
-
 
     &-mask
         position: fixed
@@ -22,7 +21,7 @@
         bottom: 0
         right: 0
         background-color: rgba(0, 0, 0, .54)
-        z-index: $san-z-index.mask
+        z-index: $san-z-index.drawer - 1
         transition: visibility 0s linear, opacity .3s cubic-bezier(.4, 0, .2, 1)
 
     &.state-open &-content
