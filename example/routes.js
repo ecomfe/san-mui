@@ -34,6 +34,7 @@ import AppBar from './AppBar.san';
 import Paper from './Paper.san';
 import Card from './Card.san';
 import Slider from './Slider.san';
+import Grid from './Grid.san';
 
 let routes = {
     '/': Main,
@@ -64,7 +65,8 @@ let routes = {
     '/ExpansionPanel': ExpansionPanel,
     '/TimePicker': TimePicker,
     '/Snackbar & Toast': Toast,
-    '/Chip': Chip
+    '/Chip': Chip,
+    '/Grid': Grid
 
 };
 
