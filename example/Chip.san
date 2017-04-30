@@ -1,7 +1,16 @@
 <template>
     <div class="chip-demo">
-        <san-chip disabled>default chip</san-chip>
-        <san-chip showDelete on-chipClick="handleClick" on-delete="handleDelete($event)">delete chip</san-chip>
+        <san-chip on-click="handleClick">default chip</san-chip>
+        <san-chip disabled on-click="handleClick">disabled chip</san-chip>
+
+        <san-chip
+            showDelete
+            on-click="handleClick"
+            on-delete="handleDelete($event)"
+            san-ref="chip">
+            delete chip
+        </san-chip>
+
         <san-chip>
             <san-avatar size="32" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"></san-avatar>
             avatar chip
@@ -14,33 +23,32 @@
             <san-avatar size="32" color="#f93" backgroundColor="#2c9eff">mb</san-avatar>
             custom chip
         </san-chip>
-
     </div>
-
 </template>
 
 <script>
-    import Avatar from '../src/Avatar';
-    import Chip from '../src/Chip';
+import Avatar from '../src/Avatar';
+import Chip from '../src/Chip';
 
-    import '../src/Avatar/Avatar.styl';
-    import '../src/Chip/Chip.styl';
+import '../src/Avatar/Avatar.styl';
+import '../src/Chip/Chip.styl';
 
-    export default {
-        components: {
-            'san-avatar': Avatar,
-            'san-chip': Chip,
-        },
+export default {
+    components: {
+        'san-avatar': Avatar,
+        'san-chip': Chip,
+    },
 
-        handleDelete(e) {
-            e.stopPropagation();
-            console.log('你点击了删除按钮')
-        },
-        handleClick() {
-            console.log('点击了chip')
-        }
-    };
-
+    handleDelete(e) {
+        e.stopPropagation();
+        console.log('你点击了删除按钮');
+        const chipDom = this.ref('chip').el;
+        chipDom.parentNode.removeChild(chipDom);
+    },
+    handleClick() {
+        console.log('点击了chip')
+    }
+};
 </script>
 
 <style>

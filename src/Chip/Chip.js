@@ -21,14 +21,17 @@ export default san.defineComponent({
             on-click="handleClick($event)">
 
             <slot></slot>
-
-            <san-icon
-                on-click="handleDelete($event)"
-                san-if=" showDelete && !this.data.get('disabled')"
-                class="${cx.getPartClassName('delete-icon')}"
-                size="20">
-                close
-            </san-icon>
+            <div 
+                class="${cx.getPartClassName('delete-icon-wrapper')}"
+                on-click="handleDelete($event)">
+                <san-icon
+                    
+                    san-if=" showDelete && !this.data.get('disabled')"
+                    class="${cx.getPartClassName('delete-icon')}"
+                    size="20">
+                    close
+                </san-icon>
+            </div>
         </div>
      `,
 
@@ -39,10 +42,14 @@ export default san.defineComponent({
         };
     },
     handleClick(e) {
-        this.fire('chipClick', e);
+        if (!this.data.get('disabled')) {
+            this.fire('click', e);
+        }
     },
     handleDelete(e) {
-        this.fire('delete', e);
+        if (!this.data.get('disabled')) {
+            this.fire('delete', e);
+        }
     },
     computed: {
         computedClassName() {
