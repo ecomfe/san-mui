@@ -14,10 +14,9 @@ export default san.defineComponent({
             <slot></slot>
         </div>
     `,
-
-    initData() {
-        return {
-            styleClass: cx(this).build()
-        };
+    computed: {
+        styleClass() {
+            return cx(this).build();
+        }
     }
 });

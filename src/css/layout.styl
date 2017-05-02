@@ -1,0 +1,47 @@
+make-row($gutter)
+    clearfix()
+
+    margin-left: ($gutter / -2)
+    margin-right: ($gutter / -2)
+    box-sizing: border-box
+
+float-columns($screen, $gridColNum)
+    colSelectors = ''
+    for idx in (1..$gridColNum)
+        colSelectors += ',' + $screen + '-span-' + idx
+
+    {colSelectors}
+        float: left
+        flex: 0 0 auto
+
+make-columns($screen, $gridColNum)
+    float-columns($screen, $gridColNum)
+
+    {$screen}-span-0
+        display: none
+
+    {$screen}-push-0
+        left: auto
+
+    {$screen}-pull-0
+        right: none
+
+    for idx in (1..$gridColNum)
+        {$screen}-span-{idx}
+            display: block
+            width: percentage(idx / $gridColNum)
+        {$screen}-push-{idx}
+            left: percentage(idx / $gridColNum)
+        {$screen}-pull-{idx}
+            right: percentage(idx / $gridColNum)
+        {$screen}-offset-{idx}
+            margin-left: percentage(idx / $gridColNum)
+        {$screen}-order-{idx}
+            order: idx
+
+make-grid($screen = '', $gridColNum)
+    if $screen
+        $screen = '-' + $screen
+    $screen = '.' + $san-class-prefix + '-col' + $screen
+
+    make-columns($screen, $gridColNum)

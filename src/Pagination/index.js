@@ -101,7 +101,7 @@ export default san.defineComponent({
             }
         }
         // 如果给定pageSize不在可选范围内，将设置为可选范围的第一个数据，若数据格式不符合要求，将设置为默认页码10
-        if (!pageSizeOptions.includes(pageSize)) {
+        if (this.data.get(showSizeChangerKey) && !pageSizeOptions.includes(pageSize)) {
             this.setPageSize(pageSizeOptions[0]);
         }
         // 如果给定current不在页码范围内，将设置为默认页码1

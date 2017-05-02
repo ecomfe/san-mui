@@ -67,7 +67,7 @@ export function create(prefix) {
         let variants = convertToVariants(component.data.get('variants'));
 
         let states = resolveStates(component);
-        let originClassName = component.data.get('className');
+        let originClassName = component.data.get('class');
         let getVariantClassName = addPrefix('variant');
         let getStateClassName = addPrefix('state');
 

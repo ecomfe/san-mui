@@ -16,18 +16,15 @@ export default san.defineComponent({
         </div>
     `,
 
-    initData() {
-        return {
-            styleClass: cx(this).build()
-        };
-    },
-
     computed: {
         circleStyle() {
             return {
                 color: this.data.get('color'),
                 opacity: this.data.get('opacity')
             };
+        },
+        styleClass() {
+            return cx(this).build();
         }
     }
 });

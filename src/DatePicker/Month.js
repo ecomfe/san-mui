@@ -5,12 +5,9 @@
 
 import {Component} from 'san';
 import moment from 'moment';
-import {create} from '../common/util/cx';
 import DatePickerDate from './Date';
 import Icon from '../Icon';
 import {CenterRipple} from '../Ripple';
-
-const cx = create('date-picker-month');
 
 const FORMAT = 'YYYY-MM-DD';
 
@@ -25,7 +22,7 @@ export default class Month extends Component {
                 active="{{date.active}}"
                 today="{{date.today}}"
                 part="{{date.part}}"
-                on-click="{{setDate(date.value)}}"/>
+                on-pick="{{setDate(date.value)}}"/>
         </div>
     `;
 

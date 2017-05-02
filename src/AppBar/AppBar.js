@@ -24,15 +24,18 @@ export default san.defineComponent({
     `,
 
     initData() {
-        let styleClass = cx(this).build();
-
         return {
             title: 'default', // 标题
-            styleClass,
             zDepth: 1, // 阴影深度，不显示阴影设为 0
             showLeftIcon: 1, // 默认显示左侧菜单
             showRightIcon: 1 // 默认展示右侧icon
         };
+    },
+
+    computed: {
+        styleClass() {
+            return cx(this).build();
+        }
     },
 
     inited() {

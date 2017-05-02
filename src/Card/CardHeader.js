@@ -25,9 +25,14 @@ export default san.defineComponent({
         </div>
     `,
 
+    computed: {
+        styleClass() {
+            return cx(this).build();
+        }
+    },
+
     initData() {
         return {
-            styleClass: cx(this).build(),
             title: '', // 标题
             subTitle: '', // 副标题
             titleClass: '', // 标题样式

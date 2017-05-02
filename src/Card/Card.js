@@ -15,9 +15,10 @@ export default san.defineComponent({
         </div>
     `,
 
-    initData() {
-        return {
-            styleClass: cx(this).build()
-        };
+    computed: {
+        styleClass() {
+            return cx(this).build();
+        }
     }
+
 });

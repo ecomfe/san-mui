@@ -1,0 +1,53 @@
+@require '../css/variable.styl'
+@require '../css/layout.styl'
+
+.sm-row
+    make-row($san-grid-gutter-width)
+
+    &-flex
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+
+        &:before,
+        &:after
+            display: flex
+
+        /* flex layout justify */
+        &-start
+            justify-content: flex-start
+        &-center
+            justify-content: center
+        &-end
+            justify-content: flex-end
+        &-space-between
+            justify-content: space-between
+        &-space-around
+            justify-content: space-around
+
+        /* flex layout align */
+        &-top
+            align-items: flex-start
+        &-middle
+            align-items: center
+        &-bottom
+            align-items: flex-end
+
+
+.sm-col
+    box-sizing: border-box
+
+make-grid('', $san-grid-columns)
+
+/* response layout support */
+//make-grid(xs)
+//
+//@media (min-width: $san-screen-sm-min)
+//    make-grid(sm)
+//
+//@media (min-width: $san-screen-md-min)
+//    make-grid(md)
+//
+//@media (min-width: $san-screen-lg-min)
+//    make-grid(lg)
+

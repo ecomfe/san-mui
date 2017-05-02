@@ -8,7 +8,10 @@
         </section>
         <h3> RaisedButton </h3>
         <section class="demo-buttion-row">
-            <san-button san-for="variant in variants" variants="raised {{variant}}" >
+            <san-button
+                san-for="variant in variants"
+                variants="raised {{variant}}"
+                on-click="onButtonClick(variant)">
                 {{variant}}
             </san-button>
         </section>
@@ -74,8 +77,8 @@ export default {
         };
     },
 
-    onDemoButtonClick(e) {
-        console.log('app get the click');
+    onButtonClick(e) {
+        console.log(e);
     }
 
 }

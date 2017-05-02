@@ -54,11 +54,17 @@ export default class Table extends san.Component {
         }
     };
 
+    static computed = {
+        className() {
+            return cx(this).build();
+        }
+    };
+
+
     initData() {
         return {
             // multi | single
             selectable: false,
-            className: cx(this).build()
         };
     }
 

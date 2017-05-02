@@ -38,10 +38,10 @@ const POSITION_TRANSLATE_MAP = {
 export default class Toast extends Layer {
 
     static template = `
-        <div 
+        <div
             class="{{computedClassName}}"
             style="{{wrapperStyle}}">
-            
+
             <span
                 class="${cx.getPartClassName('content')}"
                 style="{{contentStyle}}">
@@ -95,77 +95,68 @@ export default class Toast extends Layer {
         }
     };
 
-    attached() {
-        const duration = this.data.get('duration');
-        this.watch('open', open => {
-            if (open) {
-                const that = this;
+    onClickAway(e) {
 
-                // clickoutside触发的回调函数
-                let cb = function (e) {
+        let el = this.el;
 
-                    if (e.target !== that.el && !that.el.contains(e.target)) {
-                        that.data.set('open', false);
-                        document.body.removeEventListener('click', cb, true);
-                    }
-                };
+        if (e.target !== el && !el.contains(e.target)) {
+            this.data.set('open', false);
+            this.clearHideTimer();
+        }
 
-                // body添加clickoutside监听事件
-                document.body.addEventListener('click', cb, true);
-
-                // 移除之前存在的计时器 && 设置新的计时器，到时后改变open状态并移除clickoutside监听
-                if (this.data.get('toastTimer')) {
-                    clearTimeout(this.data.get('toastTimer'));
-                }
-                this.data.set('toastTimer', setTimeout(() => {
-                    this.data.set('open', false);
-                    document.body.removeEventListener('click', cb, true);
-                }, duration));
-
-            }
-        });
     }
+
+    bindToWindow() {
+        // 这里用 capture 模式方便一点
+        // 用冒泡模式需要停止向上冒泡
+        window.addEventListener('click', this.onClickAway, true);
+    }
+
+    unbindToWindow() {
+        window.removeEventListener('click', this.onClickAway, true);
+    }
+
+    clearHideTimer() {
+        if (this.hideTimer) {
+            clearTimeout(this.hideTimer);
+            this.hideTimer = null;
+        }
+    }
+
+    inited() {
+        this.onClickAway = this.onClickAway.bind(this);
+    }
+
+    attached() {
+
+        this.watch('open', open => {
+
+            if (!open) {
+                this.clearHideTimer();
+                this.unbindToWindow();
+                return;
+            }
+
+            this.bindToWindow();
+
+            // 移除之前存在的计时器 && 设置新的计时器，到时后改变open状态并移除clickoutside监听
+            this.clearHideTimer();
+
+            this.hideTimer = setTimeout(
+                () => {
+                    this.data.set('open', false);
+                    this.unbindToWindow();
+                },
+                this.data.get('duration')
+            );
+
+        });
+
+    }
+
+    detached() {
+        this.clearHideTimer();
+        this.unbindToWindow();
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
