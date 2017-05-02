@@ -48,7 +48,7 @@ export default san.defineComponent({
 
         if (this.data.get('openImmediately')) {
             // FIXME: 渲染过程中menu位置会改变
-            setTimeout(() => {
+            this.openTimer = setTimeout(() => {
                 this.setPos();
                 this.dispatch('UI:menu-panel-status-changed', {
                     open: true
@@ -181,6 +181,7 @@ export default san.defineComponent({
 
     disposed() {
         window.removeEventListener('scroll', this.handleMenuPos);
+        clearTimeout(this.openTimer);
     }
 
 });
