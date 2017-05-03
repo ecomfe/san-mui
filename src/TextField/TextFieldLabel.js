@@ -23,7 +23,7 @@ export default san.defineComponent({
         let float = this.data.get('float');
         let focus = this.data.get('focus');
         let focusClass = this.data.get('focusClass');
-        let labelClass = '';
+        let labelClass = this.data.get('normalClass');
         if (float) {
             labelClass = labelClass + ' float';
         }
