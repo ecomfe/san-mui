@@ -134,9 +134,6 @@ export default san.defineComponent({
         });
     },
     handleClickOff(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
         if (!this.toggleAction) {
             return;
         }

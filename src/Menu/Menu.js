@@ -174,7 +174,15 @@ export default san.defineComponent({
                 top -= panelH;
         }
 
-        this.data.set('left', left + menuL);
+        left += menuL;
+        if (left < 0) {
+            left = 0;
+        }
+        else if (left + panelW > document.body.clientWidth) {
+            left = document.body.clientWidth - panelW;
+        }
+
+        this.data.set('left', left);
         this.data.set('top', top + menuT);
         this.data.set('transformOrigin', `${targetOrigin.horizontal} ${targetOrigin.vertical}`);
     },
