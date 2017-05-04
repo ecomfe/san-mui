@@ -9,18 +9,11 @@ import TextFieldLabel from './TextFieldLabel';
 import TextFieldHint from './TextFieldHint';
 import EnhancedTextarea from './TextFieldEnhancedTextarea';
 import Icon from '../Icon';
-
+import classNames from 'classnames';
 
 export default san.defineComponent({
     template: `
-<div class="sm-text-field
-    {{focus ? 'focus-state' : ''}}
-    {{label ? 'has-label' : ''}}
-    {{errorText ? 'error' : ''}}
-    {{disabled ? 'disabled' : ''}}
-    {{fullWidth ? 'full-width' : ''}}
-    {{multiLine ? 'multi-line' : ''}}
-    {{icon ? 'has-icon' : ''}}"
+<div class="sm-text-field {{computedClass}}"
     style="{{errorColor ? 'color:' + errorColor : ''}}">
     <sm-icon san-if="{{icon}}" class="sm-text-field-icon">{{icon}}</sm-icon>
     <div on-click="handleLabelClick" class="sm-text-field-content">
@@ -143,6 +136,27 @@ export default san.defineComponent({
             return false;
         }
 
+    },
+
+    computed: {
+        computedClass() {
+            let focus = this.data.get('focus');
+            let label = this.data.get('label');
+            let errorText = this.data.get('errorText');
+            let disabled = this.data.get('disabled');
+            let fullWidth = this.data.get('fullWidth');
+            let multiLine = this.data.get('multiLine');
+            let icon = this.data.get('icon');
+            return classNames(
+                focus ? 'focus-state' : '',
+                label ? 'has-label' : '',
+                errorText ? 'error' : '',
+                disabled ? 'disabled' : '',
+                fullWidth ? 'full-width' : '',
+                multiLine ? 'multi-line' : '',
+                icon ? 'has-icon' : ''
+            );
+        }
     },
 
     inited() {
