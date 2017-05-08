@@ -59,7 +59,7 @@ export default san.defineComponent({
             let selectValue = this.data.get('selectValue');
             let selected = false;
 
-            if (!value) {
+            if (typeof value === 'undefined') {
                 return;
             }
 
