@@ -22,7 +22,7 @@
     "moment": "^2.18.1"
   },
   "peerDependencies": {
-    "san": "^3.0.3-rc.28"
+    "san": "^3.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
