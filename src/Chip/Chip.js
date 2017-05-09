@@ -41,6 +41,14 @@ export default san.defineComponent({
             disabled: false
         };
     },
+    inited(){
+        this.transBoolean('showDelete');
+        this.transBoolean('disabled');
+    },
+    transBoolean(key) {
+        let value = this.data.get(key);
+        this.data.set(key, value === 'false' ? false : !!value);
+    },
     handleClick(e) {
         if (!this.data.get('disabled')) {
             this.fire('click', e);
