@@ -26,7 +26,7 @@ export default san.defineComponent({
                 on-click="handleDelete($event)">
                 <san-icon
                     
-                    san-if=" showDelete && !this.data.get('disabled')"
+                    san-if=" showDelete && !disabled"
                     class="${cx.getPartClassName('delete-icon')}"
                     size="20">
                     close
