@@ -48,7 +48,8 @@ const webpackPluginList = [
 
 export default merge(baseWebpackConfig, {
     output: {
-        path: path.join(__dirname, '../public')
+        path: path.join(__dirname, '../public'),
+        publicPath: ''
     },
     entry: {
         index: './example/index'
