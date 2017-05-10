@@ -11,6 +11,13 @@ export default san.defineComponent({
             <slot></slot>
         </div>
     `,
+    initData() {
+        return {
+            left: 0,
+            top: 0,
+            transformOrigin: 'center center'
+        };
+    },
     computed: {
         menuListClass() {
             return this.data.get('useLayerForClickAway') ? ' on-layer' : '';
