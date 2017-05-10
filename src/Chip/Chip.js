@@ -26,7 +26,7 @@ export default san.defineComponent({
                 on-click="handleDelete($event)">
                 <san-icon
                     
-                    san-if=" showDelete && !this.data.get('disabled')"
+                    san-if=" showDelete && !disabled"
                     class="${cx.getPartClassName('delete-icon')}"
                     size="20">
                     close
@@ -40,6 +40,14 @@ export default san.defineComponent({
             showDelete: false,
             disabled: false
         };
+    },
+    inited(){
+        this.transBoolean('showDelete');
+        this.transBoolean('disabled');
+    },
+    transBoolean(key) {
+        let value = this.data.get(key);
+        this.data.set(key, value === 'false' ? false : !!value);
     },
     handleClick(e) {
         if (!this.data.get('disabled')) {
