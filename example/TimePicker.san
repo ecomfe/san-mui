@@ -1,12 +1,23 @@
 <template>
     <section>
-        <h4>Time Picker</h4>
-        <div>
-            <san-time-picker type="12hour" value="{=value1=}" />
-            <san-time-picker type="24hour" value="{=value1=}" />
-            <san-time-picker type="24hour" value="{=value1=}" disabled />
-            <san-time-picker type="24hour" value="{=value2=}" format="YYYY/MM/DD hh:mm a" />
-        </div>
+        <h4>空值</h4>
+        <p>空值会默认使用当前时间作为弹窗中的值</p>
+        <san-time-picker value="{=value0=}" />
+        <h4>24小时制</h4>
+        <san-time-picker type="24hour" value="{=value2=}" />
+        <h4>12小时制</h4>
+        <san-time-picker type="12hour" value="{=value1=}" />
+        <h4>禁用</h4>
+        <san-time-picker
+            value="{=value3=}"
+            disabled
+            hintText="被禁用的时间选择器" />
+        <h4>自定义日期格式</h4>
+        <p>可以通过制定 format 属性来调整 value 的格式</p>
+        <san-time-picker type="24hour" value="{=value4=}" format="HH点mm分" />
+        <p><b>format</b>是指<b>value</b>的格式，我们会按 format 所指定的格式来解析和更新 value</p>
+        <p>如果 value 不符合 format，那么首次打开弹窗时的选中值将是当前时间</p>
+        <san-time-picker type="24hour" value="{=value5=}" format="HH:mm" />
     </section>
 </template>
 <script>
@@ -18,8 +29,11 @@ export default {
     },
     initData() {
         return {
-            value1: '2017-03-24 10:00',
-            value2: '2017-03-24 12:00'
+            value0: '',
+            value1: '10:00 am',
+            value2: '13:00',
+            value4: '00点00分',
+            value5: '我是一个不能被正确解析的值'
         };
     }
 };

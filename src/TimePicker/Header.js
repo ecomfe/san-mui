@@ -41,7 +41,8 @@ export default class Header extends san.Component {
         /* eslint-disable fecs-camelcase */
         _hour() {
             let hour = this.data.get('hour');
-            return hour === '00' ? '12' : hour;
+            let type = this.data.get('type');
+            return type === '12hour' && +hour === 0 ? '12' : hour;
         }
         /* eslint-enable fecs-camelcase */
     };

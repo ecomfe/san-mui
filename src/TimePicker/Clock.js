@@ -47,7 +47,7 @@ export default class Clock extends san.Component {
         pointerStyle() {
             let type = this.data.get('type');
             let value = this.data.get('_value');
-            let round = value >= 12 ? 1 : 0;
+            let round = type === '24hour' && (value === 0 || value > 12) ? 1 : 0;
             let rate = type === 'minute' ? 60 : 12;
             return {
                 transform: `rotate(${Math.round(value / rate * 360 - 180) % 360}deg)`,
@@ -156,10 +156,23 @@ export default class Clock extends san.Component {
                     .apply(null, new Array(24))
                     .map((_, i) => {
 
-                        return {
-                            text: i === 0 ? 12 : (i === 12 ? '00' : i),
-                            value: i
-                        };
+                        switch (i) {
+                            case 0:
+                                return {
+                                    text: '12',
+                                    value: 12
+                                };
+                            case 12:
+                                return {
+                                    text: '00',
+                                    value: 0
+                                };
+                            default:
+                                return {
+                                    text: i,
+                                    value: i
+                                };
+                        }
 
                     });
 
@@ -189,40 +202,80 @@ export default class Clock extends san.Component {
     }
 
     onMouseMove(e) {
-
-        let {r, type} = this.data.get();
-
-        let {clientX, clientY} = e;
-        let {top, left} = e.target.getBoundingClientRect();
-        let x = clientX - left - r;
-        let y = clientY - top - r;
-        let max = getMaxValue(type);
-        let radius = Math.sqrt(x * x + y * y);
-        let rotate = 180 - (x > 0 ? 1 : -1) * Math.acos(y / radius) / Math.PI * 180;
-        let value = Math.round(rotate / 360 * max);
-
-        if (type === '24hour') {
-            value = value / 2 % 12 + (radius > 80 ? 0 : 12);
-        }
-        else {
-            value %= max;
-        }
-
-        this.data.set('_value', value);
-
+        this.updateValue(this.resolveMousePosition(e));
     }
 
     onMouseUp(e) {
 
-        // 处理 click
-        this.onMouseMove(e);
-
-        // 触发父组件更新 value
-        this.fire('change', this.data.get('_value'));
+        this.updateValue(this.resolveMousePosition(e));
 
         // 解除事件绑定
         this.unbindWindowEvents();
 
+        this.fire('confirm');
+
+    }
+
+    updateValue({rotate, radius}) {
+
+        let type = this.data.get('type');
+        let max = getMaxValue(type);
+        let value;
+
+        switch (type) {
+
+            case '24hour': {
+
+                // 先按 12 为一圈，计算出值
+                value = Math.round(rotate / 360 * 12) % 12;
+
+                let isInnerRound = radius < 87;
+
+                // 0 值的特殊处理：外圈 "0" 是 12，内圈 "0" 是 0
+                if (value === 0) {
+                    value = isInnerRound ? 0 : 12;
+                }
+                // 对内圈的值 +12
+                else if (isInnerRound) {
+                    value += 12;
+                }
+                break;
+            }
+
+            case '12hour': {
+                value = Math.round(rotate / 360 * max) % max;
+                if (value === 0) {
+                    value = 12;
+                }
+                break;
+            }
+
+            case 'minute': {
+                value = Math.round(rotate / 360 * max) % max;
+                break;
+            }
+
+        }
+
+        this.data.set('_value', value);
+
+        // 触发父组件更新 value
+        this.fire('change', value);
+
+    }
+
+    resolveMousePosition(e) {
+        let r = this.data.get('r');
+        let {clientX, clientY} = e;
+        let {top, left} = e.target.getBoundingClientRect();
+        let x = clientX - left - r;
+        let y = clientY - top - r;
+        let radius = Math.sqrt(x * x + y * y);
+        let rotate = 180 - (x > 0 ? 1 : -1) * Math.acos(y / radius) / Math.PI * 180;
+        return {
+            radius,
+            rotate
+        };
     }
 
     bindWindowEvents() {

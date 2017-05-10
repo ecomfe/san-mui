@@ -11,6 +11,8 @@ import TextField from '../TextField';
 import Clock from './Clock';
 import Header from './Header';
 
+const INTERNAL_FORMAT = 'HH:mm';
+
 export default class TimePicker extends Component {
 
     static template = `
@@ -58,7 +60,8 @@ export default class TimePicker extends Component {
                     type="{{panel}}"
                     value="{{clockValue}}"
                     meridiem="{{meridiem}}"
-                    on-change="onClockChange($event)" />
+                    on-change="onClockChange($event)"
+                    on-confirm="onClockConfirm" />
                 <footer slot="actions">
                     <san-button on-click="cancel" variants="info">取消</san-button>
                     <san-button on-click="confirm" variants="info">确认</san-button>
@@ -81,17 +84,9 @@ export default class TimePicker extends Component {
             let panel = this.data.get('panel');
             let date = this.data.get('date');
             let method = panel === 'minute' ? 'minute' : 'hour';
-            let value = moment(date, 'HH:mm')[method]();
+            let value = moment(date, INTERNAL_FORMAT)[method]();
 
-            if (date == null) {
-                return '';
-            }
-
-            let clockValue = panel === '12hour'
-                ? value % 12
-                : value;
-
-            return clockValue;
+            return panel === '12hour' ? value % 12 : value;
 
         },
         hour() {
@@ -102,7 +97,7 @@ export default class TimePicker extends Component {
                 return '';
             }
 
-            date = moment(date, 'HH:mm');
+            date = moment(date, INTERNAL_FORMAT);
 
             if (type === '12hour' && date.hour() >= 12) {
                 date.hour(date.hour() - 12);
@@ -113,18 +108,17 @@ export default class TimePicker extends Component {
         },
         minute() {
             let date = this.data.get('date');
-            return date == null ? '' : moment(date, 'HH:mm').format('mm');
+            return date == null ? '' : moment(date, INTERNAL_FORMAT).format('mm');
         }
     };
 
     initData() {
         /* eslint-disable fecs-properties-quote */
         return {
+
             // time picker props
             open: false,
-            type: '12hour',
-            panel: '12hour',
-            format: 'YYYY-MM-DD HH:mm',
+            type: '24hour',
             meridiem: 'ante',
 
             // text field props
@@ -132,7 +126,7 @@ export default class TimePicker extends Component {
             labelFloat: false,
             labelClass: '',
             labelFocusClass: '',
-            hintText: '选择日期',
+            hintText: '选择时间',
             hintTextClass: '',
             inputClass: '',
             errorText: '',
@@ -156,14 +150,35 @@ export default class TimePicker extends Component {
     }
 
     inited() {
-        let {value, format, type} = this.data.get();
-        let date = moment(value, format);
-        this.data.set('date', date.format('HH:mm'));
+
+        let {
+            value,
+            format,
+            type
+        } = this.data.get();
+
+        // 指定面板类型
         this.data.set('panel', type);
-        this.data.set('value', date.format(format));
+
+        // 如果没有明确指定 format，那么根据 type 推测出默认的 format
+        if (!format) {
+            format = type === '12hour' ? 'hh:mm a' : 'HH:mm';
+            this.data.set('format', format);
+        }
+
+        // 计算出内部使用的值 date
+        let date = moment(value, format);
+
+        if (!date.isValid()) {
+            date = moment();
+        }
+
+        this.data.set('date', date.format(INTERNAL_FORMAT));
+
         this.watch('type', type => {
             this.data.set('panel', type);
         });
+
     }
 
     openPicker() {
@@ -179,48 +194,61 @@ export default class TimePicker extends Component {
 
         let {date, panel} = this.data.get();
 
-        date = moment(date, 'HH:mm');
+        date = moment(date, INTERNAL_FORMAT);
 
         if (panel === 'minute') {
             date.minute(+value);
         }
         else {
             date.hour(+value);
-            this.timer = setTimeout(() => {
-                this.data.set('panel', 'minute');
-            }, 300);
         }
 
-        this.data.set('date', date.format('HH:mm'));
+        this.data.set('date', date.format(INTERNAL_FORMAT));
 
     }
 
+    onClockConfirm() {
+        this.data.set('panel', 'minute');
+    }
+
     onMeridiemChange(meridiem) {
-        let date = moment(this.data.get('date'), 'HH:mm');
+        let date = moment(this.data.get('date'), INTERNAL_FORMAT);
         let hour = date.hour();
         date.hour(hour % 12 + (meridiem === 'ante' ? 0 : 12));
-        console.log(date.format('HH:mm'));
-        this.data.set('date', date.format('HH:mm'));
+        this.data.set('date', date.format(INTERNAL_FORMAT));
         this.data.set('meridiem', meridiem);
     }
 
     cancel() {
+
+        // 关掉弹窗
         this.data.set('open', false);
+
+        // 切换回小时面板
+        this.data.set('panel', this.data.get('type'));
+
     }
 
     confirm() {
-        let {date, format, value} = this.data.get();
 
-        value = moment(value, format);
-        date = moment(date, 'HH:mm');
+        let {date, format} = this.data.get();
 
-        let nextValue = value.hour(date.hour()).minute(date.minute()).format(format);
+        date = moment(date, INTERNAL_FORMAT);
 
+        let nextValue = date.format(format);
+
+        // 更新值
         this.data.set('value', nextValue);
+
+        // 关掉弹窗
         this.data.set('open', false);
+
+        // 切换回小时面板
+        this.data.set('panel', this.data.get('type'));
+
     }
 
-    detach() {
+    detached() {
         if (this.timer) {
             clearTimeout(this.timer);
             this.timer = null;
