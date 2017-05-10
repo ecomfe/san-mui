@@ -1,204 +1,22 @@
 <template>
     <div class="wrapper">
-        <san-appbar
-            title="{= bar =}"
-            prop-themeClass="test"
-            showLeftIcon="1"
-            on-appbarlefticonclick="labelClicker($event)"
-            on-appbarrighticonclick="labelClicker($event)">
-            <span slot="appbarleft">
-                <icon
-                    value="{{isLeftIconOpen | yesOrNoToBe('close', 'menu')}}"
-                    font="24"
-                    color="white">
-                </icon>
-            </span>
-            <span slot="appbarright">
-                <icon
-                    san-if="!isMenuRightIcon"
-                    value="{{isRightIconOpen | yesOrNoToBe('expand_less', 'expand_more')}}">
-                </icon>
-                <icon
-                    san-if="isMenuRightIcon"
-                    value="more_vert">
-                </icon>
-            </span>
-        </san-appbar>
-        <san-card>
-            <slot>
-                <san-cardheader title="header title" subTitle="header subtitle">
-                </san-cardheader>
-                <san-cardmedia title="media title" subTitle="media subtitle">
-                </san-cardmedia>
-                <san-cardtitle title="title title" subTitle="title subtitle">
-                </san-cardtitle>
-                <san-cardtext>
-                    <slot>{{text}}</slot>
-                </san-cardtext>
-                <san-cardactions>
-                    <slot>
-                        <a href="#" class="san-card-click">点击</a>
-                    </slot>
-                </san-cardactions>
-            </slot>
-        </san-card>
-        <div class="san-slider-wrap">
-            <san-slider max="100" min="10" step="10" value="10">
-            </san-slider>
-            <san-slider max="100" min="1" step="1" value="4" disable="0">
-            </san-slider>
-        </div>
-
-        <san-dialog-btn on-click="open">
-        <slot>
-            <button class="sm-dialog-trigger-btn">点我有浮层</button>
-        </slot>
-        </san-dialog-btn>
-        <san-dialog
-            prop-open="{=dialog=}"
-            prop-showTitle="{=showTitle=}"
-            prop-showFooter="{=showFooter=}"
-            prop-contentClass="{{contentClass}}">
-            <span slot="title">{{title}}</span>
-            <slot><div>this is the content</div></slot>
-            <button slot="actions" on-click="close" class="sm-dialog-cancel">取消</button>
-            <button slot="actions" on-click="close" class="sm-dialog-sure">确定</button>
-        </san-dialog>
-        <san-mask prop-open="{=dialog=}"></san-mask>
-
-        <san-dialog-btn on-click="open2">
-        <slot>
-            <button class="sm-dialog-trigger-btn">你要点我哟</button>
-        </slot>
-        </san-dialog-btn>
-        <san-dialog
-            prop-open="{=dialog2=}"
-            prop-showTitle="{=showTitle=}"
-            prop-showFooter="{=showFooter=}"
-            prop-dialogClass="{{dialogClass}}">
-            <span slot="title">{{title}}</span>
-            <slot><div>{{content}}</div></slot>
-            <button slot="actions" on-click="close2" class="sm-dialog-cancel">取消</button>
-            <button slot="actions" on-click="close2" class="sm-dialog-sure">确定</button>
-        </san-dialog>
-        <san-mask prop-open="{=dialog2=}"></san-mask>
-
-        <san-mask prop-open="{=dialog2=}"></san-mask>
+        <markdown text="{{readme}}" />
     </div>
 </template>
 
 <script>
-import AppBar from '../src/AppBar';
-import {Card, CardHeader, CardMedia, CardTitle, CardText, CardActions} from '../src/Card';
-import Slider from '../src/Slider';
-import Icon from '../src/Icon';
-import {DropDownMenu, IconMenu, MenuItem, Divider} from '../src/Menu';
-import Popover from '../src/Popover';
-import TextField from '../src/TextField';
-import Pagination from '../src/Pagination';
-import {Dialog, DialogMask, DialogButton} from '../src/Dialog';
+
+import readme from 'raw-loader!../README.md';
+import Markdown from './Markdown.san';
 
 export default {
-    components: {
-        'san-appbar': AppBar,
-        'san-card': Card,
-        'san-cardheader': CardHeader,
-        'san-cardmedia': CardMedia,
-        'san-cardtitle': CardTitle,
-        'san-cardtext': CardText,
-        'san-cardactions': CardActions,
-        'san-slider': Slider,
-        'icon': Icon,
-        'san-text-field': TextField,
-        // 'san-switch': FormSwitch,
-        'san-dropdownmenu': DropDownMenu,
-        'san-iconmenu': IconMenu,
-        'san-menuitem': MenuItem,
-        'san-divider': Divider,
-        'san-dialog': Dialog,
-        'san-mask': DialogMask,
-        'san-dialog-btn': DialogButton
-    },
     initData() {
         return {
-            bar: 'Title',
-            text: '散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。 似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光， 找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光',
-            textValue: '默认值',
-            input: '',
-            inputErrorText: '',
-            multiLineInput: '',
-            multiLineInputErrorText: '',
-            defaultCheck: ['ON'],
-            defaultValue: 'ON',
-            dialog: false,
-            showTitle: true,
-            showFooter: true,
-            title: 'this is a new title',
-            dialogClass: 'dialog-class',
-            content: 'this is a new content in dialog',
-            contentClass: 'content-class'
-        }
+            readme: readme
+        };
     },
-
-    labelClicker(data) {
-        console.log(data);
-    },
-    handleInputOverflow (isOverflow) {
-        console.log(isOverflow);
-        this.data.set('inputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
-    },
-    handleMultiLineOverflow (isOverflow) {
-        this.data.set('multiLineInputErrorText', isOverflow === 'true' ? '超过啦！！！！' : '');
-    },
-    triggerDialog() {
-        this.data.set('open', true);
-    },
-    open() {
-        this.data.set('dialog', true);
-    },
-    open2() {
-        this.data.set('dialog2', true);
-    },
-    close() {
-        this.data.set('dialog', false);
-    },
-    close2() {
-        console.log(12321);
-        this.data.set('dialog2', false);
+    components: {
+        markdown: Markdown
     }
-}
+};
 </script>
-
-<style>
-.wrapper {
-    margin: 0 auto;
-    padding: 15px 0;
-    width: 60%;
-    margin-bottom: 200px;
-}
-.san-card-click {
-    display: inline-block;
-    width: 80px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    text-decoration: none;
-    background: rgba(0, 0, 0, .1);
-    color: #333;
-}
-.san-card-click:hover {
-    background: rgba(0, 0, 0, .2);
-    color: #333;
-}
-.san-appbar .material-icons {
-    line-height: 64px;
-}
-.sm-dialog-trigger-btn,
-.sm-dialog-cancel,
-.sm-dialog-sure {
-    margin: 5px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    outline: none;
-}
-</style>

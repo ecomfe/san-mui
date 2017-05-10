@@ -32,3 +32,4 @@ coverage
 lib/
 dist/
 es/
+public/
