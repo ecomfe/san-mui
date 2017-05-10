@@ -19,7 +19,7 @@ export default san.defineComponent({
     <div on-click="handleLabelClick" class="sm-text-field-content">
         <text-field-label
             san-if="{{label}}"
-            float="{{labelFloat|getFloatValue(focus, inputValue)}}"
+            float="{{getFloatValue}}"
             focus="{{focus}}"
             normalClass="{{labelClass}}"
             focusClass="{{labelFocusClass}}">
@@ -29,7 +29,7 @@ export default san.defineComponent({
             san-if="{{hintText}}"
             text="{{hintText}}"
             hintTextClass="{{hintTextClass}}"
-            show="{{focus|isHintShow(inputValue)}}">
+            show="{{isHintShow}}">
         </text-field-hint>
             <slot>
                 <input
@@ -109,34 +109,6 @@ export default san.defineComponent({
             icon: ''
         };
     },
-    filters: {
-        isHintShow(focus, inputValue) {
-            let labelFloat = this.data.get('labelFloat');
-            if ((!labelFloat || focus) && !inputValue && inputValue !== 0) {
-                return true;
-            }
-            return false;
-        },
-        isFieldLabelShow(labelFloat, focus, inputValue) {
-            if (labelFloat === 'false') {
-                labelFloat = false;
-            }
-            else {
-                labelFloat = !!labelFloat;
-            }
-            if ((!labelFloat || focus) && !inputValue && inputValue !== 0) {
-                return 'show';
-            }
-            return '';
-        },
-        getFloatValue(labelFloat, focus, inputValue) {
-            if (labelFloat && !focus && !inputValue && inputValue !== 0) {
-                return true;
-            }
-            return false;
-        }
-
-    },
 
     computed: {
         computedClass() {
@@ -156,6 +128,24 @@ export default san.defineComponent({
                 multiLine ? 'multi-line' : '',
                 icon ? 'has-icon' : ''
             );
+        },
+        isHintShow() {
+            let focus = this.data.get('focus');
+            let inputValue = this.data.get('inputValue');
+            let labelFloat = this.data.get('labelFloat');
+            if ((!labelFloat || focus) && !inputValue && inputValue !== 0) {
+                return true;
+            }
+            return false;
+        },
+        getFloatValue() {
+            let focus = this.data.get('focus');
+            let inputValue = this.data.get('inputValue');
+            let labelFloat = this.data.get('labelFloat');
+            if (labelFloat && !focus && !inputValue && inputValue !== 0) {
+                return true;
+            }
+            return false;
         }
     },
 

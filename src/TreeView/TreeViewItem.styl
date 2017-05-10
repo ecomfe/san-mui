@@ -1,0 +1,109 @@
+@require '../css/variable.styl';
+
+$one-line-height = 48px
+$tree-view-padding-horz = 16px
+$one-line-height-compact = 24px
+$tree-view-padding-horz-compact = 4px
+
+.sm-tree-view-item
+    position: relative
+    cursor: pointer
+
+    &.disabled
+        cursor: auto
+
+    .sm-tree-view-item-right,
+    .sm-tree-view-item-left
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        right: $tree-view-padding-horz
+
+    .sm-tree-view-item-left
+        left: $tree-view-padding-horz
+        right: initial
+
+        .sm-checkbox
+            position: absolute
+            top: 50%
+            transform: translateY(-50%)
+
+    .sm-tree-view-item-right
+        pointer-events: none
+
+    .sm-icon
+        display: block
+
+    .sm-tree-view-item-expand
+        position: absolute
+        top: 0
+        left: 0
+        width: $one-line-height
+        height: $one-line-height
+        border-radius: 100%
+        text-align: center
+
+        .sm-icon-close
+            transform: rotate(90deg);
+
+        .sm-icon
+            line-height: 48px
+
+    .sm-tree-view-item-content
+        position: relative
+        line-height: 1
+        padding: 16px
+        font-size: 16px
+        z-index: 1
+        background-color: transparent
+        pointer-events: none
+
+    &.nested .sm-touch-ripple
+        height: $one-line-height
+
+    .sm-touch-ripple
+        z-index: 0
+
+    .sm-touch-ripple:hover, .sm-touch-ripple.highlighted
+        background: rgba(0, 0, 0, .1)
+
+    .sm-tree-view-item-primary-text
+        font-size: 16px
+    .sm-tree-view-item-secondary-text
+        font-size: 14px
+        line-height: 18px
+        margin-top: 6px
+        color: $md-colors.grey500  
+        overflow: hidden
+        text-overflow: ellipsis
+        display: -webkit-box
+        -webkit-box-orient: vertical
+
+.show
+    display: block
+.hide
+    display: none
+
+.sm-tree-view-item.compact
+    .sm-tree-view-item-content
+        font-size: 1em
+    .sm-tree-view-item-primary-text
+        font-size: 1em
+    .sm-tree-view-item-secondary-text
+        font-size: .8em
+
+    .sm-tree-view-item-content
+        padding: 5px
+    .sm-tree-view-item-expand
+        width: $one-line-height-compact
+        height: $one-line-height-compact
+    &.nested .sm-touch-ripple
+        height: $one-line-height-compact
+
+    .sm-tree-view-item-expand
+        width: $one-line-height-compact
+        height: $one-line-height-compact
+        .sm-icon
+            line-height: 24px
+    .sm-tree-view-item-left
+        left: $tree-view-padding-horz-compact

@@ -1,0 +1,266 @@
+<template>
+    <div>
+        <p class="sm-list-demo-title">标准树形列表</p>
+        <div class="sm-tree-view-wrapper">
+            <san-tree-view
+                compact="false"
+                wholeLineHighlight="false"
+                alwaysHighlight="false"
+            >
+                <san-tree-view-item
+                    primaryText="Sent mail"
+                    on-click="click($event)">
+                </san-tree-view-item>
+                <san-tree-view-item primaryText="Drafts">
+                    <san-icon slot="right">drafts</san-icon>
+                </san-tree-view-item>
+                <san-divider />
+                <san-tree-view-item
+                    primaryText="Inbox" 
+                    toggleNested="true" 
+                    initiallyOpen 
+                    primaryTogglesNestedTreeView="false"
+                    on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
+                    on-highlightToggle="highlightToggle($event)"
+                    on-click="click($event)"
+                >
+                    <san-icon slot="left">inbox</san-icon>
+                    <san-tree-view-item slot="nested" primaryText="Starred">
+                        <san-icon slot="left">star</san-icon>
+                    </san-tree-view-item>
+                    <san-tree-view-item
+                        slot="nested"
+                        primaryText="Sent mail"
+                        toggleNested="true"
+                        disabled="false"
+                        primaryTogglesNestedTreeView
+                    >
+                        <san-tree-view-item
+                            primaryText="Drafts"
+                            slot="nested"
+                            toggleNested="true"
+                            primaryTogglesNestedTreeView
+                        >
+                            <san-icon slot="left">send</san-icon>
+                            <san-tree-view-item
+                                primaryText="Drafts"
+                                slot="nested"
+                            >
+                                <san-icon slot="left">drafts</san-icon>
+                            </san-tree-view-item>
+                        </san-tree-view-item>
+                    </san-tree-view-item>
+                    <san-tree-view-item
+                        slot="nested"
+                        primaryText="Inbox"
+                        toggleNested="true"
+                        primaryTogglesNestedTreeView
+                    >
+                        <san-icon slot="right">inbox</san-icon>
+                        <san-tree-view-item primaryText="Drafts" slot="nested">
+                            <san-icon slot="left">drafts</san-icon>
+                            <san-icon slot="right">drafts</san-icon>
+                        </san-tree-view-item>
+                    </san-tree-view-item>
+                </san-tree-view-item>
+            </san-tree-view>
+        </div>
+
+        <p class="sm-list-demo-title">紧凑型树形列表</p>
+        <div class="sm-tree-view-wrapper">
+            <san-tree-view
+                compact="true"
+                wholeLineHighlight="true"
+                alwaysHighlight="true"
+            >
+                <san-tree-view-item primaryText="Sent mail" plainText="true">
+                </san-tree-view-item>
+                <san-tree-view-item primaryText="Drafts">
+                    <san-icon slot="right">drafts</san-icon>
+                </san-tree-view-item>
+                <san-divider />
+                <san-tree-view-item
+                    primaryText="Inbox" 
+                    toggleNested="true" 
+                    initiallyOpen 
+                    primaryTogglesNestedTreeView="false"
+                    on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
+                    on-highlightToggle="highlightToggle($event)"
+                >
+                    <san-icon slot="left">inbox</san-icon>
+                    <san-tree-view-item slot="nested" primaryText="Starred">
+                        <san-icon slot="left">star</san-icon>
+                    </san-tree-view-item>
+                    <san-tree-view-item
+                        slot="nested"
+                        primaryText="Sent mail"
+                        toggleNested="true"
+                        disabled="false"
+                        primaryTogglesNestedTreeView
+                    >
+                        <san-tree-view-item
+                            primaryText="Drafts"
+                            slot="nested"
+                            toggleNested="true"
+                            primaryTogglesNestedTreeView
+                        >
+                            <san-icon slot="left">send</san-icon>
+                            <san-tree-view-item
+                                primaryText="Drafts"
+                                slot="nested"
+                            >
+                                <san-icon slot="left">drafts</san-icon>
+                            </san-tree-view-item>
+                        </san-tree-view-item>
+                    </san-tree-view-item>
+                    <san-tree-view-item
+                        slot="nested"
+                        primaryText="Inbox"
+                        toggleNested="true"
+                        primaryTogglesNestedTreeView
+                    >
+                        <san-icon slot="right">inbox</san-icon>
+                        <san-tree-view-item primaryText="Drafts" slot="nested">
+                            <san-icon slot="left">drafts</san-icon>
+                            <san-icon slot="right">drafts</san-icon>
+                        </san-tree-view-item>
+                    </san-tree-view-item>
+                </san-tree-view-item>
+            </san-tree-view>
+        </div>
+
+        <p class="sm-list-demo-title">自定义树形列表</p>
+        <div class="sm-tree-view-wrapper custom">
+            <san-tree-view
+                compact="true"
+                wholeLineHighlight="true"
+                alwaysHighlight="true"
+            >
+                <san-tree-view-item primaryText="Sent mail" plainText="true">
+                </san-tree-view-item>
+                <san-tree-view-item primaryText="Drafts">
+                    <san-icon slot="right">drafts</san-icon>
+                </san-tree-view-item>
+                <san-divider />
+                <san-tree-view-item
+                    primaryText="Inbox" 
+                    toggleNested="true" 
+                    initiallyOpen 
+                    primaryTogglesNestedTreeView="false"
+                    on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
+                    on-highlightToggle="highlightToggle($event)"
+                >
+                    <san-icon slot="left">inbox</san-icon>
+                    <san-tree-view-item slot="nested" primaryText="Starred">
+                        <san-icon slot="left">star</san-icon>
+                    </san-tree-view-item>
+                    <san-tree-view-item
+                        slot="nested"
+                        primaryText="Sent mail"
+                        toggleNested="true"
+                        disabled="true"
+                        primaryTogglesNestedTreeView
+                    >
+                        <san-tree-view-item
+                            primaryText="Drafts"
+                            slot="nested"
+                            toggleNested="true"
+                            primaryTogglesNestedTreeView
+                        >
+                            <san-icon slot="left">send</san-icon>
+                            <san-tree-view-item
+                                primaryText="Drafts"
+                                slot="nested"
+                            >
+                                <san-icon slot="left">drafts</san-icon>
+                            </san-tree-view-item>
+                        </san-tree-view-item>
+                    </san-tree-view-item>
+                    <san-tree-view-item
+                        slot="nested"
+                        primaryText="Inbox"
+                        toggleNested="true"
+                        primaryTogglesNestedTreeView
+                    >
+                        <san-icon slot="right">inbox</san-icon>
+                        <san-tree-view-item primaryText="Drafts" slot="nested">
+                            <san-icon slot="left">drafts</san-icon>
+                            <san-icon slot="right">drafts</san-icon>
+                        </san-tree-view-item>
+                    </san-tree-view-item>
+                </san-tree-view-item>
+            </san-tree-view>
+        </div>
+    </div>
+</template>
+
+<script>
+import Icon from '../src/Icon';
+import {TreeView, TreeViewItem} from '../src/TreeView';
+import Divider from '../src/Divider';
+
+import '../src/TreeView/index.styl';
+import '../src/Divider/Divider.styl';
+
+export default {
+
+    components: {
+        'san-icon': Icon,
+        'san-tree-view': TreeView,
+        'san-tree-view-item': TreeViewItem,
+        'san-divider': Divider
+    },
+
+    initData() {
+    },
+
+    nestedTreeViewToggle(value) {
+        console.log(value ? 'expanding' : 'collapsing');
+    },
+
+    highlightToggle(value) {
+        console.log(value ? 'highlighted' : 'unhighlighted');
+    },
+
+    click(evt) {
+        console.log('click', evt);
+    }
+}
+</script>
+
+<style>
+.sm-tree-view-demo-title {
+    margin: 20px 0 10px 0;
+    color: #666;
+    font-size: 18px;
+    font-weight: bold;
+}
+.sm-tree-view-wrapper {
+    border: 1px solid #e1e1e1;
+    max-width: 300px;
+}
+
+.custom .sm-tree-view-item.highlighted > .sm-tree-view-item-content.highlighted,
+.custom .sm-tree-view-item.highlighted > .sm-tree-view-item-content.highlighted > .sm-tree-view-item-left,
+.custom .sm-tree-view-item.highlighted > .sm-tree-view-item-content.highlighted > .sm-tree-view-item-right,
+.custom .sm-tree-view-item.highlighted > .sm-tree-view-item-expand {
+    color: white;
+}
+.custom .sm-tree-view-item.hover > .sm-tree-view-item-content,
+.custom .sm-tree-view-item.hover > .sm-tree-view-item-content > .sm-tree-view-item-left,
+.custom .sm-tree-view-item.hover > .sm-tree-view-item-content > .sm-tree-view-item-right,
+.custom .sm-tree-view-item.hover > .sm-tree-view-item-expand {
+    color: black !important;
+}
+.custom .sm-tree-view-item.disabled > *,
+.custom .sm-tree-view-item.hover.disabled > * {
+    color: #e0e0e0 !important;
+}
+
+.custom.sm-tree-view-wrapper .sm-touch-ripple.highlighted {
+    background-color: rgba(33, 150, 243, 0.75) !important;
+}
+.custom.sm-tree-view-wrapper .sm-touch-ripple:hover {
+    background-color: rgba(33, 150, 243, 0.25) !important;
+}
+</style>

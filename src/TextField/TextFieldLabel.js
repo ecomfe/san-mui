@@ -19,27 +19,25 @@ export default san.defineComponent({
         };
     },
 
-    computeClass() {
-        let float = this.data.get('float');
-        let focus = this.data.get('focus');
-        let focusClass = this.data.get('focusClass');
-        let labelClass = this.data.get('normalClass');
-        if (float) {
-            labelClass = labelClass + ' float';
+    computed: {
+        labelClass() {
+            let float = this.data.get('float');
+            let focus = this.data.get('focus');
+            let focusClass = this.data.get('focusClass');
+            let labelClass = this.data.get('normalClass');
+            if (float) {
+                labelClass = labelClass + ' float';
+            }
+            if (focus && focusClass) {
+                labelClass = labelClass + ' ' + focusClass;
+            }
+            return labelClass;
         }
-        if (focus && focusClass) {
-            labelClass = labelClass + ' ' + focusClass;
-        }
-        this.data.set('labelClass', labelClass);
     },
 
     created() {
-        this.watch('focus', val => {
-            this.computeClass();
-        });
     },
 
     attached() {
-        this.computeClass();
     }
 });
