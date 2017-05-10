@@ -1,11 +1,11 @@
 <template>
 <div>
+    <h3>无值</h3>
+    <san-date-picker value="{=date1=}" />
     <h3>默认的情况</h3>
     <san-date-picker value="{=date=}" />
     <h3>指定的格式</h3>
-    <san-date-picker
-        value="{=date2=}"
-        format="YYYY/MM/DD" />
+    <san-date-picker value="{=date2=}" format="YYYY/MM/DD" />
 </div>
 </template>
 <script>

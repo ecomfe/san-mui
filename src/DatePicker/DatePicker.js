@@ -83,6 +83,7 @@ export default class DatePicker extends Component {
     initData() {
         /* eslint-disable fecs-properties-quote */
         return {
+            value: '',
             open: false,
             yearPanelOpen: false,
             format: FORMAT,
@@ -118,8 +119,7 @@ export default class DatePicker extends Component {
     inited() {
 
         // 最终值
-        let value = this.data.get('value');
-        let format = this.data.get('format');
+        let {value, format} = this.data.get();
 
         // 以指定格式解析值
         let date = moment(value, format);
@@ -136,7 +136,28 @@ export default class DatePicker extends Component {
 
         this.watch('pickedDate', date => this.data.set('visualDate', date));
 
+        this.watch('value', value => {
+
+            let {format, visualDate, pickedDate} = this.data.get();
+
+            value = moment(value, format);
+
+            if (!value.isValid()) {
+                return;
+            }
+
+            if (!value.isSame(visualDate)) {
+                this.data.set('visualDate', value.format(FORMAT));
+            }
+
+            if (!value.isSame(pickedDate)) {
+                this.data.set('pickedDate', value.format(FORMAT));
+            }
+
+        });
+
     }
+
 
     openDialog() {
         this.data.set('open', true);
