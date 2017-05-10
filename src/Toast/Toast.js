@@ -128,7 +128,7 @@ export default class Toast extends Layer {
     }
 
     attached() {
-
+        super.attached();
         this.watch('open', open => {
 
             if (!open) {
