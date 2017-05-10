@@ -84,18 +84,30 @@ export default {
             navTitle: '组件',
             openMenu: true,
             menuVal: '#/',
-            menus: Object.keys(routes).map((path) => {
+            menus: Object
+                .keys(routes)
+                .map((path) => {
 
-                var title = (path === '/')
-                    ? 'Index'
-                    : path.slice(1, 2).toUpperCase() + path.slice(2);
+                    var title = (path === '/')
+                        ? 'Index'
+                        : path.slice(1, 2).toUpperCase() + path.slice(2);
 
-                return {
-                    value: '#' + path,
-                    title: title
-                }
+                    return {
+                        value: '#' + path,
+                        title: title
+                    }
 
-            })
+                })
+                .sort((a, b) => {
+
+                    // 首页前置
+                    if (a.title === 'Index') {
+                        return -1;
+                    }
+
+                    return a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1;
+
+                })
         }
     },
 

@@ -11,7 +11,7 @@ import Button from './Button.san';
 import TextField from './TextField.san';
 import Menu from './Menu.san';
 import List from './List.san';
-import TreeView from './TreeView.san'
+import TreeView from './TreeView.san';
 import Tabs from './Tabs.san';
 import Pagination from './Pagination.san';
 import Popover from './Popover.san';
