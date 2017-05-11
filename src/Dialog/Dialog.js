@@ -67,5 +67,9 @@ export default class Dialog extends Layer {
         }
     }
 
+    detached() {
+        this.data.set('open', false);
+    }
+
 
 }
