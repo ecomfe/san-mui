@@ -31,6 +31,7 @@ let DropDownMenu = san.defineComponent({
                 anchorOrigin="{{ anchorOrigin }}" 
                 targetOrigin="{{ targetOrigin }}"
                 openImmediately="{{ openImmediately }}"
+                menuStyle="{{ menuStyle }}"
                 >
                 <slot></slot>
             </san-menu>

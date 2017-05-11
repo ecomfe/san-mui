@@ -27,6 +27,7 @@ let IconMenu = san.defineComponent({
                 useLayerForClickAway="{{ useLayerForClickAway }}" 
                 anchorOrigin="{{ anchorOrigin }}" 
                 targetOrigin="{{ targetOrigin }}"
+                menuStyle="{{ menuStyle }}"
                 >
                 <slot></slot>
             </san-menu>

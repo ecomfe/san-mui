@@ -23,12 +23,12 @@ export default san.defineComponent({
             return this.data.get('useLayerForClickAway') ? ' on-layer' : '';
         },
         menuListStyle() {
-            return {
+            return Object.assign(this.data.get('menuStyle') || {}, {
                 'transform-origin': this.data.get('transformOrigin'),
                 'transform': this.data.get('menuOpen') ? 'scale(1,1)' : 'scale(1,0)',
                 'left': this.data.get('left') + 'px',
                 'top': this.data.get('top') + 'px'
-            };
+            });
         }
     },
 
