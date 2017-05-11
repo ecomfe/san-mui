@@ -5,11 +5,24 @@
 
 import san from 'san';
 import {Icon} from '../Icon';
+import TextField from '../TextField';
 
 export default san.defineComponent({
 
     template: `
         <div class="sm-tree-view {{treeViewClass}}">
+            <div
+                class="sm-tree-view-filter-bar {{treeViewClass}}"
+                san-if="filterBar"
+            >
+                <san-text-field
+                    hintText="{=filterBarHintText=}"
+                    inputValue="{=filterText=}"
+                    fullWidth
+                    on-input-keypress="doHighlight($event)"
+                    on-input-focus="captureFilterInput($event)"
+                />
+            </div>
             <slot></slot>
         </div>
     `,
@@ -17,56 +30,88 @@ export default san.defineComponent({
     defaultData() {
         return {
             compact: false,
-            wholeLineHighlight: false,
-            alwaysHighlight: false
+            wholeLineSelected: false,
+            keepingSelected: false,
+            filterBar: false,
+            filterBarHintText: ''
         };
     },
 
     components: {
-        'san-icon': Icon
+        'san-icon': Icon,
+        'san-text-field': TextField
     },
 
     inited() {
         this.transBoolean('compact');
-        this.data.set('compact', this.data.get('compact'));
-        this.transBoolean('wholeLineHighlight');
-        this.data.set('wholeLineHighlight',
-            this.data.get('wholeLineHighlight'));
-        this.transBoolean('alwaysHighlight');
-        this.data.set('alwaysHighlight',
-            this.data.get('alwaysHighlight'));
+        this.transBoolean('wholeLineSelected');
+        this.transBoolean('keepingSelected');
+        this.transBoolean('filterBar');
+        this.items = [];
+        this.highlightItems = [];
+        this.filterInput = null;
+    },
+
+    initData() {
+        return {
+            filterText: ''
+        };
     },
 
     attached() {
+        this.watch('filterText', (value) => {
+            this.filterItems(value);
+        });
     },
 
     messages: {
         'UI:tree-view-item-highlighted'(arg) {
             let highlightedItem = arg.value.highlighted;
         },
+        'UI:tree-view-item-attached'(arg) {
+            if (!arg.value) {
+                return;
+            }
+            this.items.push(arg.value);
+        },
+        'UI:tree-view-item-detached'(arg) {
+            if (!arg.value) {
+                return;
+            }
+            let index = this.items.indexOf(arg.value);
+            if (index > -1) {
+                this.items.splice(index, 1);
+            }
+        },
         'UI:query-compact-attribute'(arg) {
             let compact = this.data.get('compact');
             let target = arg.target;
-            target.data.set('compact', compact);
-            target.data.set('rippleMarginLeft', compact ? 16 : 32);
-            target.data.set('contentMarginLeft', compact ? 22 : 48);
+            target && target.data.set('compact', compact);
+            target && target.data.set('rippleMarginLeft', compact ? 16 : 32);
+            target && target.data.set('contentMarginLeft', compact ? 22 : 48);
         },
-        'UI:query-whole-line-highlight-attribute'(arg) {
-            arg.target.data.set('wholeLineHighlight',
-                this.data.get('wholeLineHighlight'));
+        'UI:query-whole-line-selected-attribute'(arg) {
+            arg.target && arg.target.data && arg.target.data.set(
+                'wholeLineSelected', this.data.get('wholeLineSelected'));
         },
-        'UI:query-always-highlight-attribute'(arg) {
-            arg.target.data.set('alwaysHighlight',
-                this.data.get('alwaysHighlight'));
+        'UI:query-keeping-selected-attribute'(arg) {
+            arg.target && arg.target.data && arg.target.data.set(
+                'keepingSelected', this.data.get('keepingSelected'));
         },
-        'UI:set-highlighted-item'(arg) {
-            this.data.set('highlightedItem', arg.target);
+        'UI:record-selected-item'(arg) {
+            this.data.set('selectedItem', arg.target);
         },
-        'UI:clear-highlighted-item'(arg) {
-            let highlightedItem = this.data.get('highlightedItem');
-            highlightedItem
-                && typeof highlightedItem.clearHighlightClass === 'function'
-                && highlightedItem.clearHighlightClass(false);
+        'UI:clear-selected-item'(arg) {
+            let selectedItem = this.data.get('selectedItem');
+            selectedItem && selectedItem.clearSelectedClass(false);
+        },
+        'UI:query-filter-bar-attribute'(arg) {
+            arg.target && arg.target.data && arg.target.data.set(
+                'filterBar', this.data.get('filterBar'));
+        },
+        'UI:query-filter-text-attribute'(arg) {
+            arg.target && arg.target.data && arg.target.data.set(
+                'filterText', this.data.get('filterText'));
         }
     },
 
@@ -75,7 +120,47 @@ export default san.defineComponent({
             return this.data.get('compact') ? 'compact ' : ''
         }
     },
-    
+
+    filterItems(value) {
+        let filterText = value.toLowerCase();
+        if (filterText === '' && this.highlightItems instanceof Array) {
+            this.highlightItems.forEach((item) => {
+                item.unhighlight(this.filterInput);
+            });
+        }
+        this.highlightItems.splice(0, this.highlightItems.length);
+        (this.items instanceof Array) && this.items.forEach((item) => {
+            let text = (item.data.get('primaryText')
+                + item.data.get('secondaryText')).toLowerCase();
+            if (text.indexOf(filterText) === -1 || item.data.get('disabled')) {
+                item.data.set('hidden', item.data.get('children') > 0
+                    ? true && item.data.get('hidden')
+                    : true);
+            } else {
+                item.data.set('hidden', false);
+                item.dispatch('UI:highlight-filter-text');
+                this.highlightItems.push(item);
+            }
+            item.dispatch('UI:tree-view-item-hidden');
+            item.dispatch('UI:expand-parent-tree-view-item');
+        });
+    },
+
+    doHighlight(evt) {
+        if (evt.keyCode !== 13 || !(this.highlightItems instanceof Array)) {
+            return;
+        }
+        let filterText = this.data.get('filterText');
+        this.highlightItems.forEach((item) => {
+            item.unhighlight(this.filterInput);
+            filterText !== '' && item.highlight(filterText, this.filterInput);
+        });
+    },
+
+    captureFilterInput(evt) {
+        !this.filterInput && (this.filterInput = evt.target);
+    },
+
     transBoolean(key) {
         let value = this.data.get(key);
         this.data.set(key, value === 'false' ? false : !!value);
