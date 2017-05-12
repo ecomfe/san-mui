@@ -6,20 +6,18 @@
 import san from 'san';
 import {TouchRipple} from '../Ripple';
 import Icon from '../Icon';
-//import padStyles from '../filters/padStyles';
+import {Highlight} from './highlight';
 
 export default san.defineComponent({
 
     template: `
-        <div class="sm-tree-view-item {{treeViewItemClass}} {{touchRippleClass}}
+        <div class="sm-tree-view-item {{treeViewItemClass}} {{selectedClass}}
                     {{hoverClass}}"
             on-click="toggleTreeView($event)"
-            on-mouseenter="handleMouseEnter($event)"
-            on-mouseleave="handleMouseLeave($event)"
             style="{{itemStyle}}"
         >
-            <div class="sm-tree-view-item-content {{touchRippleClass}}
-                        {{hoverClass}}"
+            <div class="sm-tree-view-item-content {{selectedClass}}
+                        {{hoverClass}} {{hiddenClass}}"
                 style="{{itemContentStyle}}"
             >
                 <div class="sm-tree-view-item-left">
@@ -38,11 +36,15 @@ export default san.defineComponent({
             </div>
             <san-touch-ripple san-if="!disableRipple && !disabled"
                 style="{{touchRippleStyle}}"
-                class="{{touchRippleClass}}"
+                class="{{selectedClass}} {{hiddenClass}} {{hoverClass}}"
                 on-click="toggleRipple()"
-            />
+                on-mouseenter="handleMouseEnter($event)"
+                on-mouseleave="handleMouseLeave($event)"
+           />
             
-            <div class="sm-tree-view-item-expand {{touchRippleClass}}" 
+            <div
+                class="sm-tree-view-item-expand {{selectedClass}}
+                       {{hiddenClass}}" 
                 san-if="toggleNested" 
                 on-click="toggleTreeView($event, 'EXPAND')"
                 style="{{expandStyle}}"
@@ -61,7 +63,8 @@ export default san.defineComponent({
     defaultData() {
         return {
             disabled: false,
-            highlighted: false,
+            hidden: false,
+            selected: false,
             hover: false,
             disableRipple: false,
             primaryTogglesNestedTreeView: true,
@@ -77,30 +80,38 @@ export default san.defineComponent({
     messages: {
         'UI:nested-counter'(arg) {
             let target = arg.value;
-
             target.set('nestedLevel', target.get('nestedLevel') + 1);
             this.dispatch('UI:nested-counter', target);
         },
-        'UI:child-hover'(arg) {
-            let hover = arg.value;
-            if (hover) {
-                this.data.set('hover', '');
-                this.dispatch('UI:child-hover', hover);
-            } else {
-                this.data.set('hover', 'hover');
-            }
+        'UI:tree-view-item-hidden'(arg) {
+            let childHidden = arg.value;
+            this.data.set('hidden', childHidden && this.data.get('hidden'));
+        },
+        'UI:expand-parent-tree-view-item'(arg) {
+            this.toggleTreeView(document.createEvent('MouseEvent'),
+                'EXPAND', true, false);
+            this.dispatch('UI:expand-parent-tree-view-item');
+        },
+        'UI:tree-view-item-attached'(arg) {
+            this.data.set('children', this.data.get('children') + 1);
+            this.dispatch('UI:tree-view-item-attached', arg.value);
+        },
+        'UI:tree-view-item-detached'(arg) {
+            this.data && this.data.set(
+                'children', this.data.get('children') - 1);
+            this.dispatch('UI:tree-view-item-detached', arg.value);
         }
     },
 
     initData() {
         return {
             nestedLevel: 1,
+            children: 0,
             secondaryTextLines: 1
         };
     },
 
     filters: {
-        //padStyles,
         treeViewOpenIcon(open) {
             return open ? 'down' : 'up';
         },
@@ -136,10 +147,10 @@ export default san.defineComponent({
         },
         touchRippleStyle() {
             let level = this.data.get('nestedLevel');
-            let leftNormal = this.data.get('wholeLineHighlight')
+            let leftNormal = this.data.get('wholeLineSelected')
                 ? ((1 - level) * this.data.get('rippleMarginLeft'))
                 : this.data.get('contentMarginLeft');
-            let leftCompact = this.data.get('wholeLineHighlight')
+            let leftCompact = this.data.get('wholeLineSelected')
                 ? ((1 - level) * this.data.get('rippleMarginLeft'))
                 : this.data.get('contentMarginLeft');
             if (!leftNormal || !leftCompact) {
@@ -152,11 +163,14 @@ export default san.defineComponent({
                     : leftNormal + 'px'
             }
         },
-        touchRippleClass() {
-            return this.data.get('highlighted') ? 'highlighted': '';
+        selectedClass() {
+            return this.data.get('selected') ? 'selected': '';
         },
         hoverClass() {
             return this.data.get('hover') ? 'hover' : '';
+        },
+        hiddenClass() {
+            return this.data.get('hidden') ? 'hidden' : '';
         },
         treeViewItemClass() {
             return (this.data.get('disabled') ? 'disabled ' : '')
@@ -172,6 +186,7 @@ export default san.defineComponent({
 
     inited() {
         this.transBoolean('disabled');
+        this.transBoolean('hidden');
         this.transBoolean('toggleNested');
         this.transBoolean('disableRipple');
         this.transBoolean('primaryTogglesNestedTreeView');
@@ -181,8 +196,8 @@ export default san.defineComponent({
         this.dispatch('UI:nested-counter', this.data);
 
         this.dispatch('UI:query-compact-attribute');
-        this.dispatch('UI:query-whole-line-highlight-attribute');
-        this.dispatch('UI:query-always-highlight-attribute');
+        this.dispatch('UI:query-whole-line-selected-attribute');
+        this.dispatch('UI:query-keeping-selected-attribute');
     },
 
     attached() {
@@ -197,28 +212,37 @@ export default san.defineComponent({
 
         this.data.set('hasLeft', hasLeft > 0);
 
-        this.watch('highlighted', () => {
-            this.fire('highlightToggle', this.data.get('highlighted'));
+        this.watch('selected', (value) => {
+            this.fire('selectedToggle', value);
         });
-        this.watch('hover', () => {
-            this.fire('hoverToggle', this.data.get('hover'));
+        this.watch('hover', (value) => {
+            this.fire('hoverToggle', value);
         });
-      },
+        this.watch('hidden', (value) => {
+            this.fire('hiddenToggle', value);
+        });
 
-    toggleTreeView(evt, driver) {
+        this.dispatch('UI:tree-view-item-attached', this);
+    },
+
+    detached() {
+        this.dispatch('UI:tree-view-item-detached', this);
+    },
+
+    toggleTreeView(evt, driver, openOrClose = false, forceHighlight = true) {
         evt.stopPropagation();
 
         if (this.data.get('disabled')) {
             return;
         }
-        (driver === 'EXPAND') && this.toggleRipple();
+        (driver === 'EXPAND') && forceHighlight && this.toggleRipple();
         if (driver !== 'EXPAND'
                 && !this.data.get('primaryTogglesNestedTreeView')) {
             return;
         }
 
         let open = this.data.get('open');
-        this.data.set('open', !open);
+        this.data.set('open', openOrClose ? openOrClose : !open);
 
         this.fire('nestedTreeViewToggle', open);
     },
@@ -226,27 +250,57 @@ export default san.defineComponent({
     handleMouseEnter(evt) {
         evt.stopPropagation();
         this.data.set('hover', 'hover');
-        this.dispatch('UI:child-hover', this.data.get('hover'));
     },
 
     handleMouseLeave(evt) {
         evt.stopPropagation();
         this.data.set('hover', '');
-        this.dispatch('UI:child-hover', this.data.get('hover'));
     },
 
-    clearHighlightClass(isSend) {
-        (this.data.get('highlighted') === true)
-            && this.data.set('highlighted', false);
-        isSend && this.dispatch('UI:clear-highlighted-item');
+    clearSelectedClass(isSend) {
+        (this.data.get('selected') === true)
+            && this.data.set('selected', false);
+        isSend && this.dispatch('UI:clear-selected-item');
     },
 
     toggleRipple() {
-        if (this.data.get('alwaysHighlight')) {
-            this.clearHighlightClass(true);
-            this.data.set('highlighted', true);
-            this.dispatch('UI:set-highlighted-item');
+        if (this.data.get('keepingSelected')) {
+            this.clearSelectedClass(true);
+            this.data.set('selected', true);
+            this.dispatch('UI:record-selected-item');
         }
+    },
+
+    highlight(word, input) {
+        let el = this.el;
+        if (!el) {
+            return;
+        }
+        const contentSelector = '.sm-tree-view-item-content';
+        const primaryTextSelector = 'p.sm-tree-view-item-primary-text';
+        const secondaryTextSelector = 'p.sm-tree-view-item-secondary-text';
+        let primary =
+            el.querySelector(contentSelector + '>' + primaryTextSelector);
+        Highlight.highlight(primary, word, 'yellow', input);
+        let secondary =
+            el.querySelector(contentSelector + '>' + secondaryTextSelector);
+        Highlight.highlight(secondary, word, 'yellow', input);
+    },
+
+    unhighlight(input) {
+        let el = this.el;
+        if (!el) {
+            return;
+        }
+        let contentSelector = '.sm-tree-view-item-content';
+        let primaryTextSelector = 'p.sm-tree-view-item-primary-text';
+        let secondaryTextSelector = 'p.sm-tree-view-item-secondary-text';
+        let primary =
+            el.querySelector(contentSelector + '>' + primaryTextSelector);
+        Highlight.unhighlight(primary, input);
+        let secondary =
+            el.querySelector(contentSelector + '>' + secondaryTextSelector);
+        Highlight.unhighlight(secondary, input);
     },
 
     transBoolean(key) {

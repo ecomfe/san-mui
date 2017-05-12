@@ -11,6 +11,10 @@ $tree-view-padding-horz-compact = 4px
 
     &.disabled
         cursor: auto
+    &.hidden
+        .sm-tree-view-item-content,
+        .sm-tree-view-item-expand
+            display: none
 
     .sm-tree-view-item-right,
     .sm-tree-view-item-left
@@ -64,7 +68,7 @@ $tree-view-padding-horz-compact = 4px
     .sm-touch-ripple
         z-index: 0
 
-    .sm-touch-ripple:hover, .sm-touch-ripple.highlighted
+    .sm-touch-ripple:hover, .sm-touch-ripple.selected
         background: rgba(0, 0, 0, .1)
 
     .sm-tree-view-item-primary-text

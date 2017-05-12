@@ -3,12 +3,12 @@
         <p class="sm-list-demo-title">标准树形列表</p>
         <div class="sm-tree-view-wrapper">
             <san-tree-view
-                compact="false"
-                wholeLineHighlight="false"
-                alwaysHighlight="false"
+                filterBar
+                filterBarHintText="Type to filter, Press enter to highlight"
             >
                 <san-tree-view-item
                     primaryText="Sent mail"
+                    secondaryText="Second second second second second second"
                     on-click="click($event)">
                 </san-tree-view-item>
                 <san-tree-view-item primaryText="Drafts">
@@ -17,11 +17,12 @@
                 <san-divider />
                 <san-tree-view-item
                     primaryText="Inbox" 
-                    toggleNested="true" 
+                    toggleNested
                     initiallyOpen 
                     primaryTogglesNestedTreeView="false"
                     on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
-                    on-highlightToggle="highlightToggle($event)"
+                    on-selectedToggle="selectedToggle($event)"
+                    on-hoverToggle="hoverToggle($event)"
                     on-click="click($event)"
                 >
                     <san-icon slot="left">inbox</san-icon>
@@ -31,14 +32,14 @@
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Sent mail"
-                        toggleNested="true"
-                        disabled="false"
+                        toggleNested
                         primaryTogglesNestedTreeView
+                        on-hoverToggle="hoverToggle($event)"
                     >
                         <san-tree-view-item
                             primaryText="Drafts"
                             slot="nested"
-                            toggleNested="true"
+                            toggleNested
                             primaryTogglesNestedTreeView
                         >
                             <san-icon slot="left">send</san-icon>
@@ -53,7 +54,7 @@
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Inbox"
-                        toggleNested="true"
+                        toggleNested
                         primaryTogglesNestedTreeView
                     >
                         <san-icon slot="right">inbox</san-icon>
@@ -69,11 +70,14 @@
         <p class="sm-list-demo-title">紧凑型树形列表</p>
         <div class="sm-tree-view-wrapper">
             <san-tree-view
-                compact="true"
-                wholeLineHighlight="true"
-                alwaysHighlight="true"
+                compact
+                wholeLineSelected
+                keepingSelected
             >
-                <san-tree-view-item primaryText="Sent mail" plainText="true">
+                <san-tree-view-item
+                    primaryText="Sent mail"
+                    secondaryText="Second second second second second second"
+                >
                 </san-tree-view-item>
                 <san-tree-view-item primaryText="Drafts">
                     <san-icon slot="right">drafts</san-icon>
@@ -81,11 +85,11 @@
                 <san-divider />
                 <san-tree-view-item
                     primaryText="Inbox" 
-                    toggleNested="true" 
+                    toggleNested
                     initiallyOpen 
                     primaryTogglesNestedTreeView="false"
                     on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
-                    on-highlightToggle="highlightToggle($event)"
+                    on-selectedToggle="selectedToggle($event)"
                 >
                     <san-icon slot="left">inbox</san-icon>
                     <san-tree-view-item slot="nested" primaryText="Starred">
@@ -94,14 +98,13 @@
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Sent mail"
-                        toggleNested="true"
-                        disabled="false"
+                        toggleNested
                         primaryTogglesNestedTreeView
                     >
                         <san-tree-view-item
                             primaryText="Drafts"
                             slot="nested"
-                            toggleNested="true"
+                            toggleNested
                             primaryTogglesNestedTreeView
                         >
                             <san-icon slot="left">send</san-icon>
@@ -116,7 +119,7 @@
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Inbox"
-                        toggleNested="true"
+                        toggleNested
                         primaryTogglesNestedTreeView
                     >
                         <san-icon slot="right">inbox</san-icon>
@@ -132,11 +135,16 @@
         <p class="sm-list-demo-title">自定义树形列表</p>
         <div class="sm-tree-view-wrapper custom">
             <san-tree-view
-                compact="true"
-                wholeLineHighlight="true"
-                alwaysHighlight="true"
+                compact
+                wholeLineSelected
+                keepingSelected
+                filterBar
+                filterBarHintText="Type to find, Press enter to highlight"
             >
-                <san-tree-view-item primaryText="Sent mail" plainText="true">
+                <san-tree-view-item
+                    primaryText="Sent mail"
+                    secondaryText="Second second second second second second"
+                >
                 </san-tree-view-item>
                 <san-tree-view-item primaryText="Drafts">
                     <san-icon slot="right">drafts</san-icon>
@@ -144,11 +152,11 @@
                 <san-divider />
                 <san-tree-view-item
                     primaryText="Inbox" 
-                    toggleNested="true" 
+                    toggleNested
                     initiallyOpen 
                     primaryTogglesNestedTreeView="false"
                     on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
-                    on-highlightToggle="highlightToggle($event)"
+                    on-selectedToggle="selectedToggle($event)"
                 >
                     <san-icon slot="left">inbox</san-icon>
                     <san-tree-view-item slot="nested" primaryText="Starred">
@@ -157,14 +165,14 @@
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Sent mail"
-                        toggleNested="true"
-                        disabled="true"
+                        toggleNested
+                        disabled
                         primaryTogglesNestedTreeView
                     >
                         <san-tree-view-item
                             primaryText="Drafts"
                             slot="nested"
-                            toggleNested="true"
+                            toggleNested
                             primaryTogglesNestedTreeView
                         >
                             <san-icon slot="left">send</san-icon>
@@ -179,7 +187,7 @@
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Inbox"
-                        toggleNested="true"
+                        toggleNested
                         primaryTogglesNestedTreeView
                     >
                         <san-icon slot="right">inbox</san-icon>
@@ -218,8 +226,12 @@ export default {
         console.log(value ? 'expanding' : 'collapsing');
     },
 
-    highlightToggle(value) {
-        console.log(value ? 'highlighted' : 'unhighlighted');
+    selectedToggle(value) {
+        console.log(value ? 'selected' : 'unselected');
+    },
+
+    hoverToggle(value) {
+        console.log(value ? 'hover' : 'leave');
     },
 
     click(evt) {
@@ -240,10 +252,10 @@ export default {
     max-width: 300px;
 }
 
-.custom .sm-tree-view-item.highlighted > .sm-tree-view-item-content.highlighted,
-.custom .sm-tree-view-item.highlighted > .sm-tree-view-item-content.highlighted > .sm-tree-view-item-left,
-.custom .sm-tree-view-item.highlighted > .sm-tree-view-item-content.highlighted > .sm-tree-view-item-right,
-.custom .sm-tree-view-item.highlighted > .sm-tree-view-item-expand {
+.custom .sm-tree-view-item.selected > .sm-tree-view-item-content.selected,
+.custom .sm-tree-view-item.selected > .sm-tree-view-item-content.selected > .sm-tree-view-item-left,
+.custom .sm-tree-view-item.selected > .sm-tree-view-item-content.selected > .sm-tree-view-item-right,
+.custom .sm-tree-view-item.selected > .sm-tree-view-item-expand {
     color: white;
 }
 .custom .sm-tree-view-item.hover > .sm-tree-view-item-content,
@@ -257,7 +269,23 @@ export default {
     color: #e0e0e0 !important;
 }
 
-.custom.sm-tree-view-wrapper .sm-touch-ripple.highlighted {
+.custom .sm-tree-view-item > .sm-tree-view-item-content > .sm-tree-view-item-secondary-text,
+.custom .sm-tree-view-item.hover.selected > .sm-tree-view-item-content > .sm-tree-view-item-secondary-text {
+    position: absolute;
+    right: 10px;
+    top: -5px;
+    padding: 3px 4px;
+    border-radius: 6px;
+    color: white;
+    background-color: rgba(33, 150, 243, 0.5);
+    max-width: 100px;
+}
+.custom .sm-tree-view-item.selected > .sm-tree-view-item-content > .sm-tree-view-item-secondary-text {
+    background-color: white;
+    color: rgba(33, 150, 243, 0.5);
+}
+
+.custom.sm-tree-view-wrapper .sm-touch-ripple.selected {
     background-color: rgba(33, 150, 243, 0.75) !important;
 }
 .custom.sm-tree-view-wrapper .sm-touch-ripple:hover {
