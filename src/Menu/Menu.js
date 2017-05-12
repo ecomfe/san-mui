@@ -27,7 +27,8 @@ export default san.defineComponent({
                 'transform-origin': this.data.get('transformOrigin'),
                 'transform': this.data.get('menuOpen') ? 'scale(1,1)' : 'scale(1,0)',
                 'left': this.data.get('left') + 'px',
-                'top': this.data.get('top') + 'px'
+                'top': this.data.get('top') + 'px',
+                'max-height': this.data.get('maxHeight') + 'px'
             });
         }
     },
