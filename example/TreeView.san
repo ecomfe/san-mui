@@ -11,7 +11,7 @@
                     secondaryText="Second second second second second second"
                     on-click="click($event)">
                 </san-tree-view-item>
-                <san-tree-view-item primaryText="Drafts">
+                <san-tree-view-item primaryText="Drafts" disabled>
                     <san-icon slot="right">drafts</san-icon>
                 </san-tree-view-item>
                 <san-divider />
@@ -19,10 +19,8 @@
                     primaryText="Inbox" 
                     toggleNested
                     initiallyOpen 
-                    primaryTogglesNestedTreeView="false"
                     on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
                     on-selectedToggle="selectedToggle($event)"
-                    on-hoverToggle="hoverToggle($event)"
                     on-click="click($event)"
                 >
                     <san-icon slot="left">inbox</san-icon>
@@ -34,7 +32,6 @@
                         primaryText="Sent mail"
                         toggleNested
                         primaryTogglesNestedTreeView
-                        on-hoverToggle="hoverToggle($event)"
                     >
                         <san-tree-view-item
                             primaryText="Drafts"
@@ -87,7 +84,6 @@
                     primaryText="Inbox" 
                     toggleNested
                     initiallyOpen 
-                    primaryTogglesNestedTreeView="false"
                     on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
                     on-selectedToggle="selectedToggle($event)"
                 >
@@ -120,6 +116,7 @@
                         slot="nested"
                         primaryText="Inbox"
                         toggleNested
+                        disabled
                         primaryTogglesNestedTreeView
                     >
                         <san-icon slot="right">inbox</san-icon>
@@ -154,7 +151,6 @@
                     primaryText="Inbox" 
                     toggleNested
                     initiallyOpen 
-                    primaryTogglesNestedTreeView="false"
                     on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
                     on-selectedToggle="selectedToggle($event)"
                 >
@@ -210,6 +206,8 @@ import Divider from '../src/Divider';
 import '../src/TreeView/index.styl';
 import '../src/Divider/Divider.styl';
 
+import '../src/TreeView/custom.styl';
+
 export default {
 
     components: {
@@ -230,10 +228,6 @@ export default {
         console.log(value ? 'selected' : 'unselected');
     },
 
-    hoverToggle(value) {
-        console.log(value ? 'hover' : 'leave');
-    },
-
     click(evt) {
         console.log('click', evt);
     }
@@ -250,45 +244,5 @@ export default {
 .sm-tree-view-wrapper {
     border: 1px solid #e1e1e1;
     max-width: 300px;
-}
-
-.custom .sm-tree-view-item.selected > .sm-tree-view-item-content.selected,
-.custom .sm-tree-view-item.selected > .sm-tree-view-item-content.selected > .sm-tree-view-item-left,
-.custom .sm-tree-view-item.selected > .sm-tree-view-item-content.selected > .sm-tree-view-item-right,
-.custom .sm-tree-view-item.selected > .sm-tree-view-item-expand {
-    color: white;
-}
-.custom .sm-tree-view-item.hover > .sm-tree-view-item-content,
-.custom .sm-tree-view-item.hover > .sm-tree-view-item-content > .sm-tree-view-item-left,
-.custom .sm-tree-view-item.hover > .sm-tree-view-item-content > .sm-tree-view-item-right,
-.custom .sm-tree-view-item.hover > .sm-tree-view-item-expand {
-    color: black !important;
-}
-.custom .sm-tree-view-item.disabled > *,
-.custom .sm-tree-view-item.hover.disabled > * {
-    color: #e0e0e0 !important;
-}
-
-.custom .sm-tree-view-item > .sm-tree-view-item-content > .sm-tree-view-item-secondary-text,
-.custom .sm-tree-view-item.hover.selected > .sm-tree-view-item-content > .sm-tree-view-item-secondary-text {
-    position: absolute;
-    right: 10px;
-    top: -5px;
-    padding: 3px 4px;
-    border-radius: 6px;
-    color: white;
-    background-color: rgba(33, 150, 243, 0.5);
-    max-width: 100px;
-}
-.custom .sm-tree-view-item.selected > .sm-tree-view-item-content > .sm-tree-view-item-secondary-text {
-    background-color: white;
-    color: rgba(33, 150, 243, 0.5);
-}
-
-.custom.sm-tree-view-wrapper .sm-touch-ripple.selected {
-    background-color: rgba(33, 150, 243, 0.75) !important;
-}
-.custom.sm-tree-view-wrapper .sm-touch-ripple:hover {
-    background-color: rgba(33, 150, 243, 0.25) !important;
 }
 </style>

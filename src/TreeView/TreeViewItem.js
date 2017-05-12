@@ -11,14 +11,19 @@ import {Highlight} from './highlight';
 export default san.defineComponent({
 
     template: `
-        <div class="sm-tree-view-item {{treeViewItemClass}} {{selectedClass}}
-                    {{hoverClass}}"
+        <div class="sm-tree-view-item {{treeViewItemClass}} {{selectedClass}}"
             on-click="toggleTreeView($event)"
             style="{{itemStyle}}"
         >
+            <san-touch-ripple san-if="!disableRipple && !disabled"
+                style="{{touchRippleStyle}}"
+                class="{{selectedClass}} {{hiddenClass}}"
+            ></san-touch-ripple>
             <div class="sm-tree-view-item-content {{selectedClass}}
-                        {{hoverClass}} {{hiddenClass}}"
+                        {{hiddenClass}}"
                 style="{{itemContentStyle}}"
+                on-mouseenterq="handleMouseEnter($event)"
+                on-mouseleave1="handleMouseLeave($event)"
             >
                 <div class="sm-tree-view-item-left">
                     <slot name="left"></slot>
@@ -34,19 +39,11 @@ export default san.defineComponent({
                     <slot name="right"></slot>
                 </div>
             </div>
-            <san-touch-ripple san-if="!disableRipple && !disabled"
-                style="{{touchRippleStyle}}"
-                class="{{selectedClass}} {{hiddenClass}} {{hoverClass}}"
-                on-click="toggleRipple()"
-                on-mouseenter="handleMouseEnter($event)"
-                on-mouseleave="handleMouseLeave($event)"
-           />
-            
             <div
                 class="sm-tree-view-item-expand {{selectedClass}}
                        {{hiddenClass}}" 
                 san-if="toggleNested" 
-                on-click="toggleTreeView($event, 'EXPAND')"
+                on-click="toggleTreeView($event, 'EXPAND', false, true)"
                 style="{{expandStyle}}"
             >
                 <san-icon>arrow_drop_{{ open | treeViewOpenIcon }}</san-icon>
@@ -65,7 +62,6 @@ export default san.defineComponent({
             disabled: false,
             hidden: false,
             selected: false,
-            hover: false,
             disableRipple: false,
             primaryTogglesNestedTreeView: true,
             initiallyOpen: false
@@ -88,9 +84,14 @@ export default san.defineComponent({
             this.data.set('hidden', childHidden && this.data.get('hidden'));
         },
         'UI:expand-parent-tree-view-item'(arg) {
-            this.toggleTreeView(document.createEvent('MouseEvent'),
-                'EXPAND', true, false);
-            this.dispatch('UI:expand-parent-tree-view-item');
+            if (typeof arg.value === 'object') {
+                if (arg.value.old === ''
+                    && this.data.get('lastExpandingState') === null) {
+                    this.data.set('lastExpandingState', this.data.get('open'));
+                }
+            }
+            this.toggleTreeView(document.createEvent('MouseEvent'), '',
+                true, false);
         },
         'UI:tree-view-item-attached'(arg) {
             this.data.set('children', this.data.get('children') + 1);
@@ -107,7 +108,8 @@ export default san.defineComponent({
         return {
             nestedLevel: 1,
             children: 0,
-            secondaryTextLines: 1
+            secondaryTextLines: 1,
+            lastExpandingState: null
         };
     },
 
@@ -166,9 +168,6 @@ export default san.defineComponent({
         selectedClass() {
             return this.data.get('selected') ? 'selected': '';
         },
-        hoverClass() {
-            return this.data.get('hover') ? 'hover' : '';
-        },
         hiddenClass() {
             return this.data.get('hidden') ? 'hidden' : '';
         },
@@ -215,9 +214,6 @@ export default san.defineComponent({
         this.watch('selected', (value) => {
             this.fire('selectedToggle', value);
         });
-        this.watch('hover', (value) => {
-            this.fire('hoverToggle', value);
-        });
         this.watch('hidden', (value) => {
             this.fire('hiddenToggle', value);
         });
@@ -229,65 +225,43 @@ export default san.defineComponent({
         this.dispatch('UI:tree-view-item-detached', this);
     },
 
-    toggleTreeView(evt, driver, openOrClose = false, forceHighlight = true) {
+    toggleTreeView(evt, driver, forceOpen = false, forceSelected = true) {
         evt.stopPropagation();
 
         if (this.data.get('disabled')) {
             return;
         }
-        (driver === 'EXPAND') && forceHighlight && this.toggleRipple();
-        if (driver !== 'EXPAND'
+        (driver === 'EXPAND' || forceSelected) && this.toggleRipple();
+        if (driver !== 'EXPAND' && !forceOpen
                 && !this.data.get('primaryTogglesNestedTreeView')) {
             return;
         }
 
         let open = this.data.get('open');
-        this.data.set('open', openOrClose ? openOrClose : !open);
+        this.data.set('open', forceOpen ? true : !open);
 
         this.fire('nestedTreeViewToggle', open);
     },
 
-    handleMouseEnter(evt) {
-        evt.stopPropagation();
-        this.data.set('hover', 'hover');
-    },
-
-    handleMouseLeave(evt) {
-        evt.stopPropagation();
-        this.data.set('hover', '');
-    },
-
-    clearSelectedClass(isSend) {
+    clearSelectedClass(send) {
         (this.data.get('selected') === true)
             && this.data.set('selected', false);
-        isSend && this.dispatch('UI:clear-selected-item');
+        send && this.dispatch('UI:clear-selected-item');
     },
 
     toggleRipple() {
         if (this.data.get('keepingSelected')) {
+            if (this.data.get('selected')
+                && !this.data.get('primaryTogglesNestedTreeView')) {
+                return;
+            }
             this.clearSelectedClass(true);
             this.data.set('selected', true);
             this.dispatch('UI:record-selected-item');
         }
     },
 
-    highlight(word, input) {
-        let el = this.el;
-        if (!el) {
-            return;
-        }
-        const contentSelector = '.sm-tree-view-item-content';
-        const primaryTextSelector = 'p.sm-tree-view-item-primary-text';
-        const secondaryTextSelector = 'p.sm-tree-view-item-secondary-text';
-        let primary =
-            el.querySelector(contentSelector + '>' + primaryTextSelector);
-        Highlight.highlight(primary, word, 'yellow', input);
-        let secondary =
-            el.querySelector(contentSelector + '>' + secondaryTextSelector);
-        Highlight.highlight(secondary, word, 'yellow', input);
-    },
-
-    unhighlight(input) {
+    highlight(word, input, backColor = 'coral', foreColor = 'white') {
         let el = this.el;
         if (!el) {
             return;
@@ -297,14 +271,20 @@ export default san.defineComponent({
         let secondaryTextSelector = 'p.sm-tree-view-item-secondary-text';
         let primary =
             el.querySelector(contentSelector + '>' + primaryTextSelector);
-        Highlight.unhighlight(primary, input);
         let secondary =
             el.querySelector(contentSelector + '>' + secondaryTextSelector);
-        Highlight.unhighlight(secondary, input);
+
+        if (typeof word === 'string' && word !== '') {
+            Highlight.highlight(primary, word, input, backColor, foreColor);
+            Highlight.highlight(secondary, word, input, backColor, foreColor);
+        } else {
+            Highlight.unhighlight(primary, input);
+            Highlight.unhighlight(secondary, input);
+        }
     },
 
     transBoolean(key) {
         let value = this.data.get(key);
-        this.data.set(key, value === 'false' ? false : !!value);
+        this.data.set(key, value !== undefined);
     }
 });
