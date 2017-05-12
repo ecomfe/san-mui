@@ -54,13 +54,15 @@ export default san.defineComponent({
 
     initData() {
         return {
-            filterText: ''
+            filterText: '',
+            lastFilterText: '',
         };
     },
 
     attached() {
-        this.watch('filterText', (value) => {
-            this.filterItems(value);
+        this.watch('filterText', (value, obj) => {
+            this.filterItems(value, this.data.get('lastFilterText'));
+            this.data.set('lastFilterText', value);
         });
     },
 
@@ -121,38 +123,50 @@ export default san.defineComponent({
         }
     },
 
-    filterItems(value) {
+    filterItems(value, oldValue) {
         let filterText = value.toLowerCase();
-        if (filterText === '' && this.highlightItems instanceof Array) {
+        if (filterText === '') {
             this.highlightItems.forEach((item) => {
-                item.unhighlight(this.filterInput);
+                item.highlight(null, this.filterInput);
             });
+            this.items.forEach((item) => {
+                item.data.set('hidden', false);
+                if (value === '') {
+                    item.data.set('open', item.data.get('lastExpandingState'));
+                    item.data.set('lastExpandingState', null);
+                }
+            });
+            return;
         }
         this.highlightItems.splice(0, this.highlightItems.length);
-        (this.items instanceof Array) && this.items.forEach((item) => {
+        this.items.forEach((item) => {
             let text = (item.data.get('primaryText')
                 + item.data.get('secondaryText')).toLowerCase();
-            if (text.indexOf(filterText) === -1 || item.data.get('disabled')) {
+            if (text.indexOf(filterText) === -1 || (item.data.get('disabled') && filterText !== '')) {
                 item.data.set('hidden', item.data.get('children') > 0
                     ? true && item.data.get('hidden')
                     : true);
             } else {
                 item.data.set('hidden', false);
-                item.dispatch('UI:highlight-filter-text');
                 this.highlightItems.push(item);
             }
-            item.dispatch('UI:tree-view-item-hidden');
-            item.dispatch('UI:expand-parent-tree-view-item');
+            if (filterText !== '') {
+                item.dispatch('UI:tree-view-item-hidden');
+                item.dispatch('UI:expand-parent-tree-view-item', {
+                    new: filterText, 
+                    old: oldValue
+                });
+            }
         });
     },
 
     doHighlight(evt) {
-        if (evt.keyCode !== 13 || !(this.highlightItems instanceof Array)) {
+        if (evt.keyCode !== 13) {
             return;
         }
         let filterText = this.data.get('filterText');
         this.highlightItems.forEach((item) => {
-            item.unhighlight(this.filterInput);
+            item.highlight(null, this.filterInput);
             filterText !== '' && item.highlight(filterText, this.filterInput);
         });
     },
@@ -163,6 +177,6 @@ export default san.defineComponent({
 
     transBoolean(key) {
         let value = this.data.get(key);
-        this.data.set(key, value === 'false' ? false : !!value);
+        this.data.set(key, value !== undefined);
     }
 });
