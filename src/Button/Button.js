@@ -19,9 +19,9 @@ export default class Button extends BaseButton {
         <button
             on-click="click"
             class="{{computedClassName}}"
-            disabled="{{disabled}}">
-            <slot></slot>
-            <san-touch-ripple />
+            disabled="{{disabled ? 'disabled' : ''}}">
+            <slot />
+            <san-touch-ripple san-if="!disabled" />
         </button>
     `;
 
@@ -31,12 +31,16 @@ export default class Button extends BaseButton {
         }
     };
 
+    initData() {
+        return {
+            disabled: false
+        };
+    }
+
     click(e) {
         if (!this.data.get('disabled')) {
             this.fire('click', e);
         }
     }
-
-
 
 }

@@ -146,11 +146,26 @@ san-button-swatch($swatches, $revert = false)
     &.variant-icon
         width: 36px;
         height: @width;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
         padding: 0
         border-radius: 50%
+
+    &.state-disabled
+        color: rgba(0,0,0,.38);
+        cursor: not-allowed;
+        background-color: transparent
+
+
+    &.variant-raised.state-disabled
+        color: rgba(0,0,0,.3);
+        background-color: rgba(0, 0, 0, .3);
+
+        &:hover
+            background-color: rgba(0, 0, 0, .3);
+            color: rgba(0,0,0,.3);
+
 
 @require '../Ripple/TouchRipple.styl'
 @require '../Ripple/CenterRipple.styl'
