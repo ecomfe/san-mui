@@ -64,7 +64,7 @@ let _makeEditableAndHighlight = function (backColor, foreColor) {
     sel.removeAllRanges();
 }
 
-let _doHighlight = function (backColor = 'yellow', foreColor = 'brown') {
+let _doHighlight = function (backColor, foreColor) {
     let range, sel;
     if (window.getSelection) {
         try {
@@ -84,7 +84,7 @@ let _doUnhighlight = function () {
     _doHighlight('transparent');
 }
 
-let highlight = function (el, keyword, color, input) {
+let highlight = function (el, keyword, input, backColor, foreColor) {
     if (!el || !el.innerText || !keyword) {
         return;
     }
@@ -96,7 +96,7 @@ let highlight = function (el, keyword, color, input) {
     while (start > -1) {
         let end = start + len;
         _setSelectionRange(el, start, end);
-        _doHighlight(color);
+        _doHighlight(backColor, foreColor);
         start = text.indexOf(keyword, start + 1);
     }
     input && input.focus();

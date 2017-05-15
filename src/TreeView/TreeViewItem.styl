@@ -1,4 +1,5 @@
 @require '../css/variable.styl';
+@require '../css/colors.styl';
 
 $one-line-height = 48px
 $tree-view-padding-horz = 16px
@@ -10,7 +11,8 @@ $tree-view-padding-horz-compact = 4px
     cursor: pointer
 
     &.disabled
-        cursor: auto
+        cursor: not-allowed
+        color: $md-colors.grey300
     &.hidden
         .sm-tree-view-item-content,
         .sm-tree-view-item-expand
