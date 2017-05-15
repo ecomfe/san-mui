@@ -6,7 +6,7 @@
 /* eslint-disable fecs-export-on-declare */
 
 import Main from '../README.md';
-import Avatar from './Avatar.san';
+import Avatar from './Avatar.md';
 import Button from './Button.md';
 import TextField from './TextField.san';
 import Menu from './Menu.san';

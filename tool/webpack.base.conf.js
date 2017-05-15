@@ -8,7 +8,6 @@
 import path from 'path';
 import autoprefixer from 'autoprefixer';
 import rider from 'rider';
-
 import config from './config';
 import {assetsPath} from './util';
 import webpack from 'webpack';
@@ -88,6 +87,44 @@ export default {
             {
                 test: /\.md$/,
                 loader: 'san-markdown-loader'
+            }
+        ]
+    },
+    sanMarkdown: {
+        use: [
+            function (md) {
+                let renderer = md.renderer;
+                let renderAttrs = renderer.renderAttrs;
+
+                md.renderer.renderAttrs = function (token) {
+
+                    if (token.nesting === -1) {
+                        return '';
+                    }
+
+                    let attrs = token.attrs;
+
+                    if (!attrs) {
+                        attrs = token.attrs = [];
+                    }
+
+                    let hasClassName = false;
+                    for (let i = 0, len = attrs.length; i < len; i++) {
+                        if (attrs[i][0] === 'class') {
+                            attrs[i][1] += ' md';
+                            hasClassName = true;
+                            break;
+                        }
+                    }
+
+
+                    if (!hasClassName) {
+                        attrs.push(['class', 'md']);
+                    }
+
+                    return renderAttrs.call(renderer, token);
+
+                };
             }
         ]
     },

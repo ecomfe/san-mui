@@ -2,7 +2,7 @@
 
 ### Flat Button
 
-Flat Buttons 用于通用功能和减少分层在屏幕上,使其更具可读性。
+`Flat Buttons` 用于通用功能和减少分层在屏幕上,使其更具可读性。
 
 #### 示例
 
@@ -64,7 +64,7 @@ export default {
 
 ### Icon Button
 
-Icon Button 可以在按钮内放置一个图标，点击效果呈圆形从中心点扩散。
+`Icon Button` 可以在按钮内放置一个图标，点击效果呈圆形从中心点扩散。
 
 ### 示例
 
@@ -104,3 +104,63 @@ export default {
 };
 </script>
 ```
+
+### 用做于链接使用
+
+`FlatButton`、`RaisedButton` 和 `IconButton` 都可以用做 `<a>` 来使用。只需要添加 `href` 即可。同时，在指定了 `href`时，`target` 也是支持的。
+
+```san 作为链接使用
+<template>
+    <section>
+        <div class="button-icon-row">
+            <san-button
+                target="_blank"
+                href="https://github.com/ecomfe/san-mui"
+                variants="primary">
+                san-mui
+            </san-button>
+            <san-button
+                target="_blank"
+                href="https://github.com/ecomfe/san-mui"
+                variants="secondery raised">
+                keyboard_arrow_left
+            </san-button>
+            <san-icon-button
+                target="_blank"
+                href="https://github.com/ecomfe/san-mui"
+                variants="danger">
+                keyboard_arrow_right
+            </san-button>
+        </div>
+    </section>
+</template>
+<style>
+.button-icon-row {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center
+}
+.button-icon-row>.sm-button {
+    margin-right: 1rem
+}
+</style>
+<script>
+import {Button, IconButton} from '../src/Button';
+export default {
+    components: {
+        'san-button': Button,
+        'san-icon-button': IconButton
+    }
+};
+</script>
+```
+
+## API
+
+### Props
+
+| 名称 | 类型 | 默认值 | 描述|
+| --- | --- | --- | --- |
+| disabled | boolean | false | 禁用 |
+| href | string? | null | 用做链接使用，点击时跳转地址 |
+| variants | Array<string> | | 样式变种，预置了 `primary` `secondary` `danger` `warning` `success` `info` |

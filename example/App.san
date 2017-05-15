@@ -49,7 +49,7 @@
         </san-appbar>
 
         <div class="example-content {{openMenu ? '': 'hide-menu'}}">
-            <div id="example"></div>
+            <div id="example" class="markdown-body"></div>
         </div>
 
     </div>
