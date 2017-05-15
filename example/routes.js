@@ -5,9 +5,9 @@
 
 /* eslint-disable fecs-export-on-declare */
 
-import Main from './Main';
+import Main from '../README.md';
 import Avatar from './Avatar.san';
-import Button from './Button.san';
+import Button from './Button.md';
 import TextField from './TextField.san';
 import Menu from './Menu.san';
 import List from './List.san';

@@ -3,12 +3,15 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
+/* eslint-disable fecs-no-require */
+
 import path from 'path';
 import autoprefixer from 'autoprefixer';
 import rider from 'rider';
 
 import config from './config';
 import {assetsPath} from './util';
+import webpack from 'webpack';
 
 const EXAMPLE_ROOT = path.resolve(__dirname, '../example');
 const SRC_ROOT = path.resolve(__dirname, '../src');
@@ -38,15 +41,16 @@ export default {
     stylus: {
         use: [rider()]
     },
+    plugins: [
+        new webpack.WatchIgnorePlugin([
+            /\.cache/
+        ])
+    ],
     module: {
         loaders: [
             {
                 test: /\.san$/,
-                loader: 'san-loader',
-                include: [
-                    EXAMPLE_ROOT,
-                    SRC_ROOT
-                ]
+                loader: 'san-loader'
             },
             {
                 test: /\.js?$/,
@@ -55,8 +59,7 @@ export default {
                     EXAMPLE_ROOT,
                     SRC_ROOT,
                     path.resolve(__dirname) // for dev-client.js es6 syntax
-                ],
-                exclude: /node_modules/ 
+                ]
             },
             {
                 test: /\.json$/,
@@ -81,6 +84,10 @@ export default {
             {
                 test: /\.(html|tpl)(\?.*)?$/,
                 loader: 'html-loader'
+            },
+            {
+                test: /\.md$/,
+                loader: 'san-markdown-loader'
             }
         ]
     },
