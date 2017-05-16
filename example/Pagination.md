@@ -25,7 +25,7 @@ export default {
 
 ```
 
-```san 2、指定当前页码、总条数、页长、显示页长切换器、页长选项、页码变换回调、页长变换回调
+```san 2、指定当前页码、总条数、页长、显示页长切换器、页长选项、上下翻页显示文字、页码变换回调、页长变换回调
 <template>
     <div>
         <san-pagination
@@ -34,6 +34,8 @@ export default {
             pageSize="13"
             showSizeChanger="false"
             pageSizeOptions="[5, 10, 20]"
+            nextPageText="下一页"
+            lastPageText="上一页"
             on-pageChange="onPageChange($event)"
             on-pageSizeChange="onPageSizeChange($event)">
         </san-pagination>
@@ -59,3 +61,25 @@ export default {
 </script>
 
 ```
+
+
+## API
+
+### Props
+
+| 名称 | 类型 | 默认值 | 描述|
+| --- | --- | --- | --- |
+| pageSize | number | 10 | 页长（每页显示条数）当显示了 pageSize 选择框 pageSize 只能是可选项里的数字 |
+| current | number | 1 | 默认第一页 |
+| total | number | | 数据总数 |
+| showSizeChanger | boolean | true | 是否显示 pageSize 选择框 |
+| pageSizeOptions | Array | [5, 10, 20, 50] | pageSize 选择器可选页长 |
+| nextPageText | string | | 上一页按钮显示文字 |
+| lastPageText | string | | 下一页按钮显示文字 |
+
+### Events
+
+| 名称 | 描述|
+| --- | --- |
+| pageChange | 当页码改变的时候触发 |
+| pageSizeChange | 当pageSize改变的时候触发 |
