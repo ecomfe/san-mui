@@ -18,7 +18,7 @@ import Popover from './Popover.md';
 import Drawer from './Drawer.san';
 import Dialog from './Dialog.san';
 import Divider from './Divider.md';
-import Progress from './Progress.san';
+import Progress from './Progress.md';
 import DatePicker from './DatePicker.san';
 import Table from './Table.san';
 import Ripple from './Ripple.san';
