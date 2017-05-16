@@ -81,7 +81,7 @@
     "rimraf": "^2.5.4",
     "san": "^3.0.3",
     "san-loader": "^0.0.4",
-    "san-markdown-loader": "^1.0.0-alpha.6",
+    "san-markdown-loader": "^1.0.0-alpha.7",
     "san-router": "^1.0.0",
     "shx": "^0.2.2",
     "style-loader": "^0.13.1",
