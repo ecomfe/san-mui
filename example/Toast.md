@@ -1,3 +1,17 @@
+
+## Snackbar & Toast
+
+`Snackbar` 是一种针对操作的轻量级反馈机制，常以一个小的弹出框的形式，出现在手机屏幕下方或者桌面左下方。它们出现在屏幕所有层的最上方，包括浮动操作按钮。
+
+它们会在超时或者用户在屏幕其他地方点击之后自动消失。当它们出现时，不会阻碍用户在屏幕上的输入，并且也不支持输入。
+
+`Toast` 同 `Snackbar` 非常相似，但是 `Toast` 并不包含操作。
+
+
+
+#### 示例
+
+```san Snackbar & Toast
 <template>
     <div>
         <h3>
@@ -110,3 +124,23 @@
         justify-content: flex-start;
     }
 </style>
+```
+
+## API
+
+### Props
+
+| 名称 | 类型 | 默认值 | 描述|
+| --- | --- | --- | --- |
+| message | String |  | 提示的信息 |
+| open | Boolean | false | 提示框的状态，打开还是关闭 |
+| action | String |  | 动作按钮上的文字 |
+| duration | Number | 2000 | 延迟消失的毫秒值 |
+| position | String | rigntBottom | 出现的位置，包括rightBottom，rightTop，leftBottom，leftTop |
+ 
+### Slots
+
+| 名称 | 描述|
+| --- |   --- |
+| default |   用于放置动作按钮，常用Flat Button |
+
