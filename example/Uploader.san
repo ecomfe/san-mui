@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3>使用示例</h3>
-        <sm-upload/>
+        <uploader opt="{{ initOpt }}"/>
     </div>
 </template>
 
@@ -12,11 +12,14 @@ import '../src/Uploader/Uploader.styl';
 export default {
 
     components: {
-        'sm-upload': Uploader,
+        'uploader': Uploader,
     },
 
     initData() {
         return {
+            initOpt: {
+                action: '/v1/disk/uploadfile'
+            }
         };
     },
 
