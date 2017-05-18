@@ -18,7 +18,11 @@ export default {
     initData() {
         return {
             initOpt: {
-                action: '/v1/disk/uploadfile'
+                action: '/v1/disk/uploadfile',
+                multiple: true,
+                headers: {
+                    Host: 'nemo bug'
+                }
             }
         };
     },

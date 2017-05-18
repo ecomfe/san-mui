@@ -9,19 +9,25 @@ export default san.defineComponent({
     template: `
         <div class="upload sm-button variant-info variant-raised">
         	上传
-        	<input type="file" on-change="reciveFile($event)"/>
+        	<input san-if="{{ !multiple }}" type="file" on-change="reciveFile($event)"/>
+        	<input san-if="{{ multiple }}" type="file" on-change="reciveFile($event)" multiple/>
         </div>
     `,
     components: {
         
     },
+    computed: {
+    	multiple: function() {
+    		return this.data.get('opt').multiple
+    	}
+    },
     inited() {
     	console.log(this.data.get('opt'))
     },
     reciveFile(event) {
-    	var opt = this.data.get('opt')
-    	var xhr = new XMLHttpRequest()
-    	var formData = new FormData();
+    	let opt = this.data.get('opt')
+    	let xhr = new XMLHttpRequest()
+    	let formData = new FormData();
     	formData.append('file', event.target.files[0])
     	xhr.onreadystatechange = function(state) {
     		console.log(state)
