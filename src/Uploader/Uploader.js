@@ -24,7 +24,7 @@ export default san.defineComponent({
 	        	<input san-if="multiple" type="file" on-change="reciveFile($event)" multiple/>
 	        </div>
 	        <div san-if="showFileList">
-		        <span san-for="file in fileList">{{ file.name }}</span>
+		        <span san-for="file, index in fileList" on-click="fileListClick(index)">{{ file.name }}</span>
 	        </div>
 	    </div>
     `,
@@ -47,6 +47,9 @@ export default san.defineComponent({
     inited() {
     	console.log(this.data.get('opt'))
     },
+    fileListClick(index) {
+    	typeof opt['on-preview'] === 'function' && opt['on-preview'](fileList[index])
+    },
     reciveFile(event) {
     	let self = this
     	let opt = this.data.get('opt')
@@ -54,13 +57,25 @@ export default san.defineComponent({
 			let xhr = new XMLHttpRequest()
 	    	let formData = new FormData();
 
+	    	let fileIndex = fileList.push(file)
+	    	self.data.set('fileList', fileList)
+
 	    	opt.data[opt.name || 'file'] = file
 			_method.repeatSet(opt.data, formData.append.bind(formData))
 
+			xhr.upload.onprogress = function(e) {
+			    let percentage = 0;
+
+			    if ( e.lengthComputable ) {
+			        percentage = e.loaded / e.total
+			    }
+
+			    console.log(percentage)
+			};
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState === 4 && /20/.test(xhr.status)) {
-					fileList.push(file)
-					self.data.set('fileList', fileList)
+					fileList[fileIndex]['response'] = JSON.parse(xhr.response)
+					typeof opt['on-success'] === 'function' && opt['on-success'](JSON.parse(xhr.response), file, fileList)
 				}
 			}
 			xhr.open('POST', opt.action)

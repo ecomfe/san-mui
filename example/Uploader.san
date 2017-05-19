@@ -19,7 +19,7 @@ export default {
         return {
             initOpt: {
                 action: 'https://jsonplaceholder.typicode.com/posts/',
-                multiple: false,
+                multiple: true,
                 headers: {
                     test: 'my headers'
                 },
@@ -28,7 +28,13 @@ export default {
                 },
                 name: 'filename',
                 'with-credentials': true,
-                'show-file-list': true
+                'show-file-list': true,
+                'on-success': function(response, file, fileList) {
+                    console.log(response, file, fileList)
+                },
+                'on-preview': function(file) {
+                    console.log(file)
+                }
             }
         };
     },
