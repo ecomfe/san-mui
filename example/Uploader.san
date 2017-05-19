@@ -19,10 +19,16 @@ export default {
         return {
             initOpt: {
                 action: 'https://jsonplaceholder.typicode.com/posts/',
-                multiple: true,
+                multiple: false,
                 headers: {
                     test: 'my headers'
-                }
+                },
+                data:{
+                    test: 'extra data'
+                },
+                name: 'filename',
+                'with-credentials': true,
+                'show-file-list': true
             }
         };
     },
