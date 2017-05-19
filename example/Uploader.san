@@ -18,10 +18,10 @@ export default {
     initData() {
         return {
             initOpt: {
-                action: '/v1/disk/uploadfile',
+                action: 'https://jsonplaceholder.typicode.com/posts/',
                 multiple: true,
                 headers: {
-                    Host: 'nemo bug'
+                    test: 'my headers'
                 }
             }
         };

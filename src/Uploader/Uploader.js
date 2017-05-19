@@ -5,6 +5,15 @@
 
 import san from 'san';
 
+const _method = {
+	setHeader: function(xhr, obj) {
+		console.log(obj)
+		for (let i in obj) {
+			xhr.setRequestHeader(i, obj[i])
+		}
+	}
+}
+
 export default san.defineComponent({
     template: `
         <div class="upload sm-button variant-info variant-raised">
@@ -34,6 +43,7 @@ export default san.defineComponent({
     	}
     	xhr.open('POST', opt.action)
     	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    	_method.setHeader(xhr, opt.headers)
         xhr.send(formData);
     }
 });
