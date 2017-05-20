@@ -51,6 +51,7 @@ export default san.defineComponent({
 	        <div san-if="showFileList">
 	        	<span  class="file-list" san-for="file, index in fileList" on-click="fileListClick(index)">
 	        		{{ file.name }}
+	        		<span class="close" on-click="removeFile(index)">+</span>
 					<span class="progress" style="{{ file.progressCss }}"></span>
 	        	</span>
 	        </div>
@@ -84,6 +85,11 @@ export default san.defineComponent({
     },
     excuteUpload() {
     	xhrList.forEach(one => one())
+    },
+    removeFile(index) {
+    	let file = fileList.splice(index, 1)
+    	this.data.get('opt')['on-remove'](file, fileList)
+    	this.data.set('fileList', fileList)
     },
     reciveFile(event) {
     	let self = this
