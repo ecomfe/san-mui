@@ -102,6 +102,7 @@ export default san.defineComponent({
 	    	self.data.set('fileList', fileList)
 
 	    	opt.data[opt.name] = file
+	    	opt['on-change'](file, fileList)
 			_method.repeatSet(opt.data, formData.append.bind(formData))
 
 			xhr.upload.onprogress = function(e) {
@@ -125,6 +126,7 @@ export default san.defineComponent({
 					} else {
 						opt['on-error']('error', file, fileList)
 					}
+					opt['on-change'](file, fileList)
 				}
 			}
 
