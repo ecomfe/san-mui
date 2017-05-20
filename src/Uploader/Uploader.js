@@ -13,7 +13,30 @@ const _method = {
 	}
 }
 
+let initOpts = {
+	action: '',
+	headers: {},
+	multiple: false,
+	data: {},
+	name: 'file',
+	'with-credentials': false,
+	'show-file-list': true,
+	drag: false,
+	accept: '',
+	'on-preview': function() {},
+	'on-remove': function() {},
+	'on-success': function() {},
+	'on-error': function() {},
+	'on-progress': function() {},
+	'on-change': function() {},
+	'before-upload': function() { return true },
+	'list-type': 'text',
+	'auto-upload': true
+}
+
 let fileList = [];
+let xhrList = [];
+let progressList = [];
 
 export default san.defineComponent({
     template: `
@@ -24,7 +47,10 @@ export default san.defineComponent({
 	        	<input san-if="multiple" type="file" on-change="reciveFile($event)" multiple/>
 	        </div>
 	        <div san-if="showFileList">
-		        <span san-for="file, index in fileList" on-click="fileListClick(index)">{{ file.name }}</span>
+	        	<span  class="file-list" san-for="file, index in fileList" on-click="fileListClick(index)">
+	        		{{ file.name }}
+					<span class="progress" style="{{ file.progressCss }}"></span>
+	        	</span>
 	        </div>
 	    </div>
     `,
@@ -33,7 +59,8 @@ export default san.defineComponent({
     },
     initData() {
     	return {
-    		fileList: fileList
+    		fileList: fileList,
+
     	}
     },
     computed: {
@@ -41,14 +68,14 @@ export default san.defineComponent({
     		return this.data.get('opt').multiple
     	},
     	showFileList: function() {
-    		return this.data.get('opt')['show-file-list'] === true
+    		return this.data.get('opt')['show-file-list']
     	}
     },
     inited() {
-    	console.log(this.data.get('opt'))
+    	this.data.set('opt', Object.assign(initOpts, this.data.get('opt')))
     },
     fileListClick(index) {
-    	typeof opt['on-preview'] === 'function' && opt['on-preview'](fileList[index])
+    	this.data.get('opt')['on-preview'](fileList[index])
     },
     reciveFile(event) {
     	let self = this
@@ -57,10 +84,10 @@ export default san.defineComponent({
 			let xhr = new XMLHttpRequest()
 	    	let formData = new FormData();
 
-	    	let fileIndex = fileList.push(file)
+	    	let fileIndex = fileList.push(file) - 1
 	    	self.data.set('fileList', fileList)
 
-	    	opt.data[opt.name || 'file'] = file
+	    	opt.data[opt.name] = file
 			_method.repeatSet(opt.data, formData.append.bind(formData))
 
 			xhr.upload.onprogress = function(e) {
@@ -69,21 +96,34 @@ export default san.defineComponent({
 			    if ( e.lengthComputable ) {
 			        percentage = e.loaded / e.total
 			    }
-
-			    console.log(percentage)
+			    opt['on-progress'](e, file, fileList)
+			    file.progressCss = {width: 100 * percentage + '%'}
+			    self.data.set('fileList', fileList)
+		
 			};
 			xhr.onreadystatechange = function() {
-				if (xhr.readyState === 4 && /20/.test(xhr.status)) {
-					fileList[fileIndex]['response'] = JSON.parse(xhr.response)
-					typeof opt['on-success'] === 'function' && opt['on-success'](JSON.parse(xhr.response), file, fileList)
+				if (xhr.readyState === 4) {
+					if (/20/.test(xhr.status)) {
+						fileList[fileIndex]['response'] = JSON.parse(xhr.response)
+						opt['on-success'](JSON.parse(xhr.response), file, fileList)
+						file.progressCss = {width: '100%'}
+						self.data.set('fileList', fileList)
+					} else {
+						opt['on-error']('error', file, fileList)
+					}
 				}
 			}
-			xhr.open('POST', opt.action)
 
-			_method.repeatSet(Object.assign({'Content-Type': 'application/x-www-form-urlencoded'}, opt.headers), xhr.setRequestHeader.bind(xhr))
-		    xhr.withCredentials = opt['with-credentials'] || false
-		    xhr.send(formData);
+			xhr.withCredentials = opt['with-credentials']
+		    xhrList.push(function() {
+		    	if (opt['before-upload'](file)) {
+					xhr.open('POST', opt.action)
+					_method.repeatSet(Object.assign({'Content-Type': 'application/x-www-form-urlencoded'}, opt.headers), xhr.setRequestHeader.bind(xhr))
+		    		xhr.send(formData)
+		    	}
+		    })
     	})
+    	opt['auto-upload'] && xhrList.forEach(one => one())
     }
 });
 
