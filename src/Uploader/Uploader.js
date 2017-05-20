@@ -42,10 +42,12 @@ export default san.defineComponent({
     template: `
     	<div>
 	        <div class="upload sm-button variant-info variant-raised">
-	        	上传
+	        	<span  san-if="autoUpload">上传</span>
+	        	<span  san-if="!autoUpload">选取文件</span>
 	        	<input san-if="!multiple" type="file" on-change="reciveFile($event)"/>
 	        	<input san-if="multiple" type="file" on-change="reciveFile($event)" multiple/>
 	        </div>
+	        <div  san-if="!autoUpload" class="upload sm-button variant-info variant-raised" on-click="excuteUpload()">开始上传</div>
 	        <div san-if="showFileList">
 	        	<span  class="file-list" san-for="file, index in fileList" on-click="fileListClick(index)">
 	        		{{ file.name }}
@@ -64,11 +66,14 @@ export default san.defineComponent({
     	}
     },
     computed: {
-    	multiple: function() {
+    	multiple() {
     		return this.data.get('opt').multiple
     	},
-    	showFileList: function() {
+    	showFileList() {
     		return this.data.get('opt')['show-file-list']
+    	},
+    	autoUpload() {
+    		return this.data.get('opt')['auto-upload']
     	}
     },
     inited() {
@@ -76,6 +81,9 @@ export default san.defineComponent({
     },
     fileListClick(index) {
     	this.data.get('opt')['on-preview'](fileList[index])
+    },
+    excuteUpload() {
+    	xhrList.forEach(one => one())
     },
     reciveFile(event) {
     	let self = this
