@@ -83,7 +83,8 @@ let initOpts = {
 	'on-change': function() {},
 	'before-upload': function() { return true },
 	'list-type': 'text',
-	'auto-upload': true
+	'auto-upload': true,
+	disabled: false
 }
 
 
@@ -93,8 +94,8 @@ export default san.defineComponent({
 	        <div san-if="!drag" class="upload sm-button variant-info variant-raised">
 	        	<span san-if="autoUpload">上传</span>
 	        	<span san-if="!autoUpload">选取文件</span>
-	        	<input san-if="!multiple" type="file" on-change="reciveFile($event)" accept="{{accept}}"/>
-	        	<input san-if="multiple" type="file" on-change="reciveFile($event)" accept="{{accept}}" multiple/>
+	        	<input san-if="!multiple && !disabled" type="file" on-change="reciveFile($event)" accept="{{accept}}"/>
+	        	<input san-if="multiple && !disabled" type="file" on-change="reciveFile($event)" accept="{{accept}}" multiple/>
 	        </div>
 	        <div san-if="!autoUpload && !drag" class="upload sm-button variant-info variant-raised" on-click="excuteUpload()">开始上传</div>
 	        <div san-if="drag" class="upload-drag" on-drop="dropFile($event)" on-dragenter="dragEnter($event)" on-dragover="dragOver($event)"></div>
@@ -131,6 +132,9 @@ export default san.defineComponent({
     	},
     	drag() {
     		return this.data.get('opt')['drag']
+    	},
+    	disabled() {
+    		return this.data.get('opt')['disabled']
     	}
     },
     inited() {
@@ -158,7 +162,7 @@ export default san.defineComponent({
     dropFile(event) {
     	event.preventDefault();
     	event.stopPropagation();
-    	Array.prototype.slice.call(event.dataTransfer.files).forEach(file => {
+    	!this.data.get('opt').disabled && Array.prototype.slice.call(event.dataTransfer.files).forEach(file => {
 			_method.initXHR.call(this, file)
     	})
     	xhrList.forEach(one => one())

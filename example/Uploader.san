@@ -26,13 +26,14 @@ export default {
                 data:{
                     test: 'extra data'
                 },
-                drag: true,
+                drag: false,
                 name: 'filename',
                 'with-credentials': true,
                 'show-file-list': true,
                 'on-success': function(response, file, fileList) {
                     console.log(response, file, fileList)
                 },
+                disabled: false,
                 'on-preview': function(file) {
                     console.log(file)
                 },
