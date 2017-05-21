@@ -44,8 +44,8 @@ export default san.defineComponent({
 	        <div class="upload sm-button variant-info variant-raised">
 	        	<span  san-if="autoUpload">上传</span>
 	        	<span  san-if="!autoUpload">选取文件</span>
-	        	<input san-if="!multiple" type="file" on-change="reciveFile($event)" accept={{accept}}/>
-	        	<input san-if="multiple" type="file" on-change="reciveFile($event)" accept={{accept}} multiple/>
+	        	<input san-if="!multiple" type="file" on-change="reciveFile($event)" accept="{{accept}}"/>
+	        	<input san-if="multiple" type="file" on-change="reciveFile($event)" accept="{{accept}}" multiple/>
 	        </div>
 	        <div  san-if="!autoUpload" class="upload sm-button variant-info variant-raised" on-click="excuteUpload()">开始上传</div>
 	        <div san-if="showFileList">
@@ -68,6 +68,7 @@ export default san.defineComponent({
     },
     computed: {
     	multiple() {
+    		console.log(this.data.get('opt').multiple)
     		return this.data.get('opt').multiple
     	},
     	showFileList() {
@@ -78,6 +79,9 @@ export default san.defineComponent({
     	},
     	accept() {
     		return this.data.get('opt')['accept']
+    	},
+    	drag() {
+    		return this.data.get('opt')['drag']
     	}
     },
     inited() {

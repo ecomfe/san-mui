@@ -19,13 +19,14 @@ export default {
         return {
             initOpt: {
                 action: 'https://jsonplaceholder.typicode.com/posts/',
-                multiple: true,
+                multiple: false,
                 headers: {
                     test: 'my headers'
                 },
                 data:{
                     test: 'extra data'
                 },
+                drag: true,
                 name: 'filename',
                 'with-credentials': true,
                 'show-file-list': true,
@@ -38,7 +39,7 @@ export default {
                 'on-progress': function(event, file, fileList) {
 
                 },
-                'auto-upload': false 
+                'auto-upload': true 
             }
         };
     },
