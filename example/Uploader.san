@@ -38,8 +38,7 @@ export default {
                 },
                 'on-progress': function(event, file, fileList) {
 
-                },
-                'auto-upload': true 
+                } 
             }
         };
     },

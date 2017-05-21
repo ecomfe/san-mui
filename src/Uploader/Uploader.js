@@ -5,11 +5,63 @@
 
 import san from 'san';
 
+
+let fileList = [];
+let xhrList = [];
+let progressList = [];
+
 const _method = {
 	repeatSet: function(obj, fn) {
 		for (let i in obj) {
 			fn(i, obj[i])
 		}
+	},
+	initXHR: function(file) {
+		let self = this
+		let xhr = new XMLHttpRequest()
+    	let formData = new FormData()
+
+    	let fileIndex = fileList.push(file) - 1
+    	self.data.set('fileList', fileList)
+
+		let opt = self.data.get('opt')
+    	opt.data[opt.name] = file
+    	opt['on-change'](file, fileList)
+		_method.repeatSet(opt.data, formData.append.bind(formData))
+
+		xhr.upload.onprogress = function(e) {
+		    let percentage = 0;
+
+		    if ( e.lengthComputable ) {
+		        percentage = e.loaded / e.total
+		    }
+		    opt['on-progress'](e, file, fileList)
+		    file.progressCss = {width: 100 * percentage + '%'}
+		    self.data.set('fileList', fileList)
+	
+		};
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === 4) {
+				if (/20/.test(xhr.status)) {
+					fileList[fileIndex]['response'] = JSON.parse(xhr.response)
+					opt['on-success'](JSON.parse(xhr.response), file, fileList)
+					file.progressCss = {width: '100%'}
+					self.data.set('fileList', fileList)
+				} else {
+					opt['on-error']('error', file, fileList)
+				}
+				opt['on-change'](file, fileList)
+			}
+		}
+
+		xhr.withCredentials = opt['with-credentials']
+	    xhrList.push(function() {
+	    	if (opt['before-upload'](file)) {
+				xhr.open('POST', opt.action)
+				_method.repeatSet(Object.assign({'Content-Type': 'application/x-www-form-urlencoded'}, opt.headers), xhr.setRequestHeader.bind(xhr))
+	    		xhr.send(formData)
+	    	}
+	    })
 	}
 }
 
@@ -34,20 +86,18 @@ let initOpts = {
 	'auto-upload': true
 }
 
-let fileList = [];
-let xhrList = [];
-let progressList = [];
 
 export default san.defineComponent({
     template: `
     	<div>
-	        <div class="upload sm-button variant-info variant-raised">
-	        	<span  san-if="autoUpload">上传</span>
-	        	<span  san-if="!autoUpload">选取文件</span>
+	        <div san-if="!drag" class="upload sm-button variant-info variant-raised">
+	        	<span san-if="autoUpload">上传</span>
+	        	<span san-if="!autoUpload">选取文件</span>
 	        	<input san-if="!multiple" type="file" on-change="reciveFile($event)" accept="{{accept}}"/>
 	        	<input san-if="multiple" type="file" on-change="reciveFile($event)" accept="{{accept}}" multiple/>
 	        </div>
-	        <div  san-if="!autoUpload" class="upload sm-button variant-info variant-raised" on-click="excuteUpload()">开始上传</div>
+	        <div san-if="!autoUpload && !drag" class="upload sm-button variant-info variant-raised" on-click="excuteUpload()">开始上传</div>
+	        <div san-if="drag" class="upload-drag" on-drop="dropFile($event)" on-dragenter="dragEnter($event)" on-dragover="dragOver($event)"></div>
 	        <div san-if="showFileList">
 	        	<span  class="file-list" san-for="file, index in fileList" on-click="fileListClick(index)">
 	        		{{ file.name }}
@@ -68,7 +118,6 @@ export default san.defineComponent({
     },
     computed: {
     	multiple() {
-    		console.log(this.data.get('opt').multiple)
     		return this.data.get('opt').multiple
     	},
     	showFileList() {
@@ -98,55 +147,27 @@ export default san.defineComponent({
     	this.data.get('opt')['on-remove'](file, fileList)
     	this.data.set('fileList', fileList)
     },
-    reciveFile(event) {
-    	let self = this
-    	let opt = this.data.get('opt')
-    	Array.prototype.slice.call(event.target.files).forEach(file => {
-			let xhr = new XMLHttpRequest()
-	    	let formData = new FormData();
-
-	    	let fileIndex = fileList.push(file) - 1
-	    	self.data.set('fileList', fileList)
-
-	    	opt.data[opt.name] = file
-	    	opt['on-change'](file, fileList)
-			_method.repeatSet(opt.data, formData.append.bind(formData))
-
-			xhr.upload.onprogress = function(e) {
-			    let percentage = 0;
-
-			    if ( e.lengthComputable ) {
-			        percentage = e.loaded / e.total
-			    }
-			    opt['on-progress'](e, file, fileList)
-			    file.progressCss = {width: 100 * percentage + '%'}
-			    self.data.set('fileList', fileList)
-		
-			};
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState === 4) {
-					if (/20/.test(xhr.status)) {
-						fileList[fileIndex]['response'] = JSON.parse(xhr.response)
-						opt['on-success'](JSON.parse(xhr.response), file, fileList)
-						file.progressCss = {width: '100%'}
-						self.data.set('fileList', fileList)
-					} else {
-						opt['on-error']('error', file, fileList)
-					}
-					opt['on-change'](file, fileList)
-				}
-			}
-
-			xhr.withCredentials = opt['with-credentials']
-		    xhrList.push(function() {
-		    	if (opt['before-upload'](file)) {
-					xhr.open('POST', opt.action)
-					_method.repeatSet(Object.assign({'Content-Type': 'application/x-www-form-urlencoded'}, opt.headers), xhr.setRequestHeader.bind(xhr))
-		    		xhr.send(formData)
-		    	}
-		    })
+    dragEnter(event) {
+    	event.preventDefault();
+    	event.stopPropagation();
+    },
+    dragOver(event) {
+    	event.preventDefault();
+    	event.stopPropagation();
+    },
+    dropFile(event) {
+    	event.preventDefault();
+    	event.stopPropagation();
+    	Array.prototype.slice.call(event.dataTransfer.files).forEach(file => {
+			_method.initXHR.call(this, file)
     	})
-    	opt['auto-upload'] && xhrList.forEach(one => one())
+    	xhrList.forEach(one => one())
+    },
+    reciveFile(event) {
+    	Array.prototype.slice.call(event.target.files).forEach(file => {
+			_method.initXHR.call(this, file)
+    	})
+    	this.data.get('opt')['auto-upload'] && xhrList.forEach(one => one())
     }
 });
 
