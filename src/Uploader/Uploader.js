@@ -119,7 +119,7 @@ export default san.defineComponent({
     },
     computed: {
     	multiple() {
-    		return this.data.get('opt').multiple
+    		return this.data.get('opt')['multiple']
     	},
     	showFileList() {
     		return this.data.get('opt')['show-file-list']
