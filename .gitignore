@@ -33,3 +33,4 @@ lib/
 dist/
 es/
 public/
+src/Uploader/electron
