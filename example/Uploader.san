@@ -1,7 +1,12 @@
 <template>
     <div>
         <h3>使用示例</h3>
-        <uploader opt="{{ initOpt }}"/>
+        <h4>自动上传</h4>
+        <uploader opt="{{ initOpt1 }}"/>
+        <h4>手动上传</h4>
+        <uploader opt="{{ initOpt2 }}"/>
+        <h4>自动上传</h4>
+        <uploader opt="{{ initOpt3 }}"/>
     </div>
 </template>
 
@@ -17,29 +22,37 @@ export default {
 
     initData() {
         return {
-            initOpt: {
+            initOpt1: {
                 action: 'https://jsonplaceholder.typicode.com/posts/',
-                multiple: false,
                 headers: {
-                    test: 'my headers'
+                    myheader: 'my-headers'
                 },
-                data:{
-                    test: 'extra data'
+                multiple: true,
+                data: {
+                    mydata: 'my-data'
                 },
-                drag: false,
                 name: 'filename',
-                'with-credentials': true,
+                'with-credentials': false,
                 'show-file-list': true,
-                'on-success': function(response, file, fileList) {
-                    console.log(response, file, fileList)
-                },
-                disabled: false,
-                'on-preview': function(file) {
-                    console.log(file)
-                },
-                'on-progress': function(event, file, fileList) {
-
-                } 
+                drag: false,
+                accept: '',
+                'on-preview': function() {},
+                'on-remove': function() {},
+                'on-success': function() {},
+                'on-error': function() {},
+                'on-progress': function() {},
+                'on-change': function() {},
+                'before-upload': function() { return true },
+                'auto-upload': true,
+                disabled: false
+            },
+            initOpt2: {
+                action: 'https://jsonplaceholder.typicode.com/posts/',
+                'auto-upload': false
+            },
+            initOpt3: {
+                action: 'https://jsonplaceholder.typicode.com/posts/',
+                drag: true
             }
         };
     },

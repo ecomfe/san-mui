@@ -5,11 +5,6 @@
 
 import san from 'san';
 
-
-let fileList = [];
-let xhrList = [];
-let progressList = [];
-
 const _method = {
 	repeatSet: function(obj, fn) {
 		for (let i in obj) {
@@ -21,12 +16,12 @@ const _method = {
 		let xhr = new XMLHttpRequest()
     	let formData = new FormData()
 
-    	let fileIndex = fileList.push(file) - 1
-    	self.data.set('fileList', fileList)
+    	let fileIndex = self.fileList.push(file) - 1
+    	self.data.set('fileList', self.fileList)
 
 		let opt = self.data.get('opt')
     	opt.data[opt.name] = file
-    	opt['on-change'](file, fileList)
+    	opt['on-change'](file, self.fileList)
 		_method.repeatSet(opt.data, formData.append.bind(formData))
 
 		xhr.upload.onprogress = function(e) {
@@ -35,32 +30,35 @@ const _method = {
 		    if ( e.lengthComputable ) {
 		        percentage = e.loaded / e.total
 		    }
-		    opt['on-progress'](e, file, fileList)
+		    opt['on-progress'](e, file, self.fileList)
 		    file.progressCss = {width: 100 * percentage + '%'}
-		    self.data.set('fileList', fileList)
+		    self.data.set('fileList', self.fileList)
 	
 		};
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4) {
 				if (/20/.test(xhr.status)) {
-					fileList[fileIndex]['response'] = JSON.parse(xhr.response)
-					opt['on-success'](JSON.parse(xhr.response), file, fileList)
+					self.fileList[fileIndex]['response'] = JSON.parse(xhr.response)
+					opt['on-success'](JSON.parse(xhr.response), file, self.fileList)
 					file.progressCss = {width: '100%'}
-					self.data.set('fileList', fileList)
+					self.data.set('fileList', self.fileList)
 				} else {
-					opt['on-error']('error', file, fileList)
+					opt['on-error']('error', file, self.fileList)
 				}
-				opt['on-change'](file, fileList)
+				opt['on-change'](file, self.fileList)
 			}
 		}
 
 		xhr.withCredentials = opt['with-credentials']
-	    xhrList.push(function() {
-	    	if (opt['before-upload'](file)) {
-				xhr.open('POST', opt.action)
-				_method.repeatSet(Object.assign({'Content-Type': 'application/x-www-form-urlencoded'}, opt.headers), xhr.setRequestHeader.bind(xhr))
-	    		xhr.send(formData)
-	    	}
+	    self.xhrList.push({
+	    	fn: function() {
+		    	if (opt['before-upload'](file)) {
+					xhr.open('POST', opt.action)
+					_method.repeatSet(Object.assign({'Content-Type': 'application/x-www-form-urlencoded'}, opt.headers), xhr.setRequestHeader.bind(xhr))
+		    		xhr.send(formData)
+		    	}
+		    },
+		    xhr: xhr
 	    })
 	}
 }
@@ -82,7 +80,6 @@ let initOpts = {
 	'on-progress': function() {},
 	'on-change': function() {},
 	'before-upload': function() { return true },
-	'list-type': 'text',
 	'auto-upload': true,
 	disabled: false
 }
@@ -113,8 +110,7 @@ export default san.defineComponent({
     },
     initData() {
     	return {
-    		fileList: fileList,
-
+    		fileList: []
     	}
     },
     computed: {
@@ -135,21 +131,27 @@ export default san.defineComponent({
     	},
     	disabled() {
     		return this.data.get('opt')['disabled']
+    	},
+    	fileList() {
+    		return this.fileList
     	}
     },
     inited() {
+		this.fileList = []
+		this.xhrList = []
     	this.data.set('opt', Object.assign(initOpts, this.data.get('opt')))
     },
     fileListClick(index) {
-    	this.data.get('opt')['on-preview'](fileList[index])
+    	this.data.get('opt')['on-preview'](this.fileList[index])
     },
     excuteUpload() {
-    	xhrList.forEach(one => one())
+    	this.xhrList.forEach(one => one.fn())
     },
     removeFile(index) {
-    	let file = fileList.splice(index, 1)
-    	this.data.get('opt')['on-remove'](file, fileList)
-    	this.data.set('fileList', fileList)
+    	this.xhrList[index].xhr.abort()
+    	let file = this.fileList.splice(index, 1)
+    	this.data.get('opt')['on-remove'](file, this.fileList)
+    	this.data.set('fileList', this.fileList)
     },
     dragEnter(event) {
     	event.preventDefault();
@@ -165,13 +167,14 @@ export default san.defineComponent({
     	!this.data.get('opt').disabled && Array.prototype.slice.call(event.dataTransfer.files).forEach(file => {
 			_method.initXHR.call(this, file)
     	})
-    	xhrList.forEach(one => one())
+    	this.xhrList.forEach(one => one.fn())
     },
     reciveFile(event) {
     	Array.prototype.slice.call(event.target.files).forEach(file => {
 			_method.initXHR.call(this, file)
     	})
-    	this.data.get('opt')['auto-upload'] && xhrList.forEach(one => one())
+    	console.log(this.data.get('opt'))
+    	this.data.get('opt')['auto-upload'] && this.xhrList.forEach(one => one.fn())
     }
 });
 
