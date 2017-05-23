@@ -139,7 +139,7 @@ export default san.defineComponent({
     inited() {
 		this.fileList = []
 		this.xhrList = []
-    	this.data.set('opt', Object.assign(initOpts, this.data.get('opt')))
+    	this.data.set('opt', Object.assign({}, initOpts, this.data.get('opt')))
     },
     fileListClick(index) {
     	this.data.get('opt')['on-preview'](this.fileList[index])
