@@ -79,12 +79,7 @@ export default san.defineComponent({
             }
 
             this.data.set('value', selectValue);
-
-            // 通过改变为每一个menu item的selectValue值，改变其已选状态
-            let len = this.items.length;
-            while (len--) {
-                this.items[len].data.set('selectValue', selectValue);
-            }
+            this.broadcast(selectValue);
 
             // 触发owner的onChange
             this.fire('change', this.sortValues());
@@ -123,15 +118,26 @@ export default san.defineComponent({
 
         this.watch('all', () => {
             let selectValue = this.data.get('all') ? this.values : [];
+
             this.data.set('value', selectValue);
-
-            let len = this.items.length;
-            while (len--) {
-                this.items[len].data.set('selectValue', selectValue);
-            }
-
+            this.broadcast(selectValue);
             this.fire('change', selectValue);            
         });
+
+        this.watch('value', () => {
+            this.broadcast(this.data.get('value'));         
+        });
+    },
+    /**
+     * 通过改变为每一个menu item的selectValue值，改变其已选状态
+     *
+     * @param {string} selectValue selectValue
+     */
+    broadcast(selectValue) {
+        let len = this.items.length;
+        while (len--) {
+            this.items[len].data.set('selectValue', selectValue);
+        }
     },
     handleClickOff(e) {
         if (!this.toggleAction) {
