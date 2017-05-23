@@ -110,6 +110,9 @@ export default san.defineComponent({
         'UI:menu-panel-status-changed'(arg) {
             let value = arg.value;
             this.toggleMenu(null, !value.open, value.driver);
+        },
+        'UI:menu-open'(arg) {
+            arg.value && (this.toggleAction = 1);
         }
     },
     bindEvent() {
@@ -168,9 +171,6 @@ export default san.defineComponent({
         }
         if (!open && driver === 'ITEM' && this.data.get('itemClickClose') === false) {
             return;
-        }
-        else if (open) {
-            this.toggleAction = 1;
         }
 
         this.beforeToggleMenu && this.beforeToggleMenu();

@@ -25,7 +25,7 @@ export default san.defineComponent({
         menuListStyle() {
             return Object.assign(this.data.get('menuStyle') || {}, {
                 'transform-origin': this.data.get('transformOrigin'),
-                'transform': this.data.get('menuOpen') ? 'scale(1,1)' : 'scale(1,0)',
+                'transform': this.data.get('open') ? 'scale(1,1)' : 'scale(1,0)',
                 'left': this.data.get('left') + 'px',
                 'top': this.data.get('top') + 'px',
                 'max-height': this.data.get('maxHeight') + 'px'
@@ -47,11 +47,8 @@ export default san.defineComponent({
         this.sibClicker = this.parentMenu.children[0];
 
         this.watch('open', () => {
-            if (this.data.get('open')) {
-                this.handleMenuPos('OPEN');
-            }
-
-            this.data.set('menuOpen', this.data.get('open'));
+            this.data.get('open') && this.handleMenuPos('OPEN');
+            this.dispatch('UI:menu-open', this.data.get('open'));
         });
 
         if (this.data.get('openImmediately')) {
