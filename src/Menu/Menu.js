@@ -84,7 +84,9 @@ export default san.defineComponent({
         // 上滑or下滑
         let downward = scrollTop - lastMove > 0;
 
-        let menuOffsetTop = driver === 'OPEN' ? this.parentMenu.offsetTop : this.el.offsetTop;
+        // let menuOffsetTop = driver === 'OPEN' ? this.parentMenu.offsetTop : this.el.offsetTop;
+        driver === 'OPEN' && this.setPos();
+        let menuOffsetTop = this.data.get('top');
         let menuOffsetBottom = menuOffsetTop + this.el.offsetHeight;
 
         let anchorOrigin = Object.assign({}, this.data.get('anchorOrigin'));
