@@ -32,7 +32,7 @@ export default {
             current="3"
             total="200"
             pageSize="13"
-            showSizeChanger="false"
+            showSizeChanger="true"
             pageSizeOptions="[5, 10, 20]"
             nextPageText="下一页"
             lastPageText="上一页"
