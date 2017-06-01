@@ -15,7 +15,7 @@ export default san.defineComponent({
             itemClickClose: true,
             useLayerForClickAway: false,
             maxHeight: 500,
-            className: 'menu-' + Date.now(),
+            className: 'menu-' + Math.floor(Math.random() * Date.now() + 1),
             anchorOrigin: {
                 vertical: 'top',
                 horizontal: 'left'
@@ -105,7 +105,7 @@ export default san.defineComponent({
             }
         },
         'UI:menu-panel-attached'(arg) {
-            arg.target.parentMenu = this.data.get('className');
+            arg.target.parentMenu = `${this.data.get('className')} sm-${this.data.get('type')}-menu`;
         },
         'UI:menu-panel-status-changed'(arg) {
             let value = arg.value;

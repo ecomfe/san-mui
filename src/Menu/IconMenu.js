@@ -11,14 +11,13 @@ import Menu from './Menu';
 
 let IconMenu = san.defineComponent({
     template: `
-        <div class="sm-iconmenu {{ className }}" style="{{ iconMenuStyle }}">
+        <div class="sm-icon-menu {{ className }}" style="{{ iconMenuStyle }}">
             <div class="sm-iconmenu-icon-wrapper"
                 on-click="toggleMenu($event)" 
-                className="sm-iconmenu-icon"
                 on-mouseenter="handleMouseEnter($event)"
                 on-mouseleave="handleMouseLeave($event)"
             >
-                <san-icon>{{ icon }}</san-icon>
+                <san-icon className="sm-iconmenu-icon">{{ icon }}</san-icon>
                 <san-center-ripple />
             </div>
             <san-menu 
@@ -28,6 +27,7 @@ let IconMenu = san.defineComponent({
                 anchorOrigin="{{ anchorOrigin }}" 
                 targetOrigin="{{ targetOrigin }}"
                 menuStyle="{{ menuStyle }}"
+                className="{{ className }}"
                 >
                 <slot></slot>
             </san-menu>
@@ -46,6 +46,7 @@ let IconMenu = san.defineComponent({
 
     initData() {
         return Object.assign({
+            type: 'icon',
             tooltipShow: false
         }, this.defaultData());
     },

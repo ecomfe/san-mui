@@ -7,7 +7,7 @@ import san from 'san';
 
 export default san.defineComponent({
     template: `
-        <div class="sm-menu-list{{ menuListClass }}" style="{{ menuListStyle }}">
+        <div class="{{ className }} sm-menu-list{{ menuListClass }}" style="{{ menuListStyle }}">
             <slot></slot>
         </div>
     `,
