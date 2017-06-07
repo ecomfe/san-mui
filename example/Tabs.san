@@ -3,7 +3,7 @@
         <h3>
             Tabs
         </h3>
-        <section class="demo-buttion-row">
+        <section class="demo-tabs-row">
             <san-tabs value="{=currentTab=}" on-change="change($event)">
                 <san-tab
                     san-for="tab, index in tabs"
@@ -13,7 +13,7 @@
                 </san-tab>
             </san-tabs>
         </section>
-        <section class="demo-buttion-row">
+        <section class="demo-tabs-row">
             <san-tabs value="{=currentTab=}">
                 <san-tab
                     san-for="tab, index in tabs"
@@ -22,7 +22,7 @@
                 </san-tab>
             </san-tabs>
         </section>
-        <section class="demo-buttion-row">
+        <section class="demo-tabs-row">
             <san-tabs value="{=currentTab=}">
                 <san-tab
                     san-for="tab, index in tabs"
@@ -33,6 +33,12 @@
         </section>
     </div>
 </template>
+
+<style>
+.demo-tabs-row {
+    margin: 2rem;
+}
+</style>
 
 <script>
 
@@ -68,7 +74,7 @@ export default {
                     value: 'message'
                 }
             ],
-            currentTab: 'phone'
+            currentTab: 'favorite'
         };
     },
 
