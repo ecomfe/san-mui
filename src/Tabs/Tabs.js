@@ -92,7 +92,6 @@ export default san.defineComponent({
         },
         [TAB_ACTIVE]({target}) {
             let currentValue = target.data.get('value');
-            this.setActiveTab(currentValue);
             this.data.set('value', currentValue);
             this.fire('change', currentValue);
         },
