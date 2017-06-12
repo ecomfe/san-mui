@@ -102,6 +102,7 @@ export default class Carousel extends san.Component {
     }
     detached() {
         this.data.set('activeIndex', 0);
+        clearInterval(this.timer);
     }
     messages = {
         'UI:carousel-item-attached'(arg) {
