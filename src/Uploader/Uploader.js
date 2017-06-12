@@ -16,7 +16,7 @@ const _method = {
 		let xhr = new XMLHttpRequest()
     	let formData = new FormData()
 
-    	let fileIndex = self.fileList.push(file) - 1
+    	self.fileList.push(file)
     	self.data.set('fileList', self.fileList)
 
 		let opt = self.data.get('opt')
@@ -38,7 +38,7 @@ const _method = {
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4) {
 				if (/20/.test(xhr.status)) {
-					self.fileList[fileIndex]['response'] = JSON.parse(xhr.response)
+					file['response'] = JSON.parse(xhr.response)
 					opt['on-success'](JSON.parse(xhr.response), file, self.fileList)
 					file.progressCss = {width: '100%'}
 					self.data.set('fileList', self.fileList)
