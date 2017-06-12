@@ -32,7 +32,6 @@ let fileUploader = function(params) {
 	this.file = params.file
 	this.fileList = params.fileList
 	this.viewUpdate = params.viewUpdate
-	return this
 }
 fileUploader.prototype.init = function() {
 	this.xhr = new XMLHttpRequest()
@@ -40,7 +39,7 @@ fileUploader.prototype.init = function() {
 	this.opt.data[this.opt.name] = this.file
 	_method.repeatSet(this.opt.data, this.formData.append.bind(this.formData))
 
-	this.opt['on-change'](this.file, this.fileList)
+	this.opt['on-change'](this.file, this.fileList.map(one => one.file))
 
 	this.xhr.upload.onprogress = e => {
 	    let percentage = 0;
@@ -48,7 +47,7 @@ fileUploader.prototype.init = function() {
 	    if ( e.lengthComputable ) {
 	        percentage = e.loaded / e.total
 	    }
-	    this.opt['on-progress'](e, this.file, this.fileList)
+	    this.opt['on-progress'](e, this.file, this.fileList.map(one => one.file))
 	    this.file.progressCss = {width: 100 * percentage + '%'}
 	    this.viewUpdate()
 	};
@@ -56,14 +55,14 @@ fileUploader.prototype.init = function() {
 		if (this.xhr.readyState === 4) {
 			if (/20/.test(this.xhr.status)) {
 				this.file['response'] = JSON.parse(this.xhr.response)
-				this.opt['on-success'](JSON.parse(this.xhr.response), this.file, this.fileList)
+				this.opt['on-success'](JSON.parse(this.xhr.response), this.file, this.fileList.map(one => one.file))
 				this.file.progressCss = {width: '100%'}
 				this.viewUpdate()
 			} else {
-				this.opt['on-error']('error', this.file, this.fileList)
+				this.opt['on-error']('error', this.file, this.fileList.map(one => one.file))
 			}
 			this.file.uploaded = true
-			this.opt['on-change'](this.file, this.fileList)
+			this.opt['on-change'](this.file, this.fileList.map(one => one.file))
 		}
 	}
 	this.xhr.withCredentials = this.opt['with-credentials']
@@ -158,7 +157,7 @@ export default san.defineComponent({
     	this.data.set('opt', Object.assign({}, initOpts, this.data.get('opt')))
     },
     fileListClick(index) {
-    	this.data.get('opt')['on-preview'](this.fileList[index])
+    	this.data.get('opt')['on-preview'](this.fileList[index].file)
     },
     excuteUpload() {
     	this.fileList.forEach(one => one.upload())
@@ -166,7 +165,7 @@ export default san.defineComponent({
     removeFile(index) {
     	this.fileList[index].abort()
     	let file = this.fileList.splice(index, 1)
-    	this.data.get('opt')['on-remove'](file, this.fileList)
+    	this.data.get('opt')['on-remove'](file[0].file, this.fileList.map(one => one.file))
     	this.data.set('fileList', this.fileList)
     },
     dragEnter(event) {
