@@ -23,10 +23,21 @@ export default san.defineComponent({
     },
 
     inited() {
+
         this.items = [];
+
+        // 当 value 变化时，需要同步给 items
+        this.watch('value', value => this.setActiveTab(value));
+
+    },
+
+    attached() {
+        // 启动时自动同步
+        this.setActiveTab(this.data.get('value'));
     },
 
     disposed() {
+        this.items.length = 0;
         this.items = null;
     },
 
@@ -64,23 +75,26 @@ export default san.defineComponent({
         }
     },
 
+    /**
+     * 同步当前的激活 tab
+     *
+     * @param {string} value 值
+     */
+    setActiveTab(value) {
+        this.items.forEach(item => {
+            item.data.set('active', item.data.get('value') === value);
+        });
+    },
+
     messages: {
         [TAB_INIT]({target}) {
             this.addItem(target);
         },
-
         [TAB_ACTIVE]({target}) {
-            this.items.forEach(tab => {
-                let active = tab === target;
-                tab.data.set('active', active);
-                if (active) {
-                    let currentValue = target.data.get('value');
-                    this.data.set('value', currentValue);
-                    this.fire('change', currentValue);
-                }
-            });
+            let currentValue = target.data.get('value');
+            this.data.set('value', currentValue);
+            this.fire('change', currentValue);
         },
-
         [TAB_DISPOSE]({target}) {
             this.removeItem(target);
         }
