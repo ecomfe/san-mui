@@ -15,7 +15,7 @@ export default san.defineComponent({
             itemClickClose: true,
             useLayerForClickAway: false,
             maxHeight: 500,
-            className: 'menu-' + Date.now(),
+            className: 'menu-' + Math.floor(Math.random() * Date.now() + 1),
             anchorOrigin: {
                 vertical: 'top',
                 horizontal: 'left'
@@ -79,12 +79,7 @@ export default san.defineComponent({
             }
 
             this.data.set('value', selectValue);
-
-            // 通过改变为每一个menu item的selectValue值，改变其已选状态
-            let len = this.items.length;
-            while (len--) {
-                this.items[len].data.set('selectValue', selectValue);
-            }
+            this.broadcast(selectValue);
 
             // 触发owner的onChange
             this.fire('change', this.sortValues());
@@ -110,11 +105,14 @@ export default san.defineComponent({
             }
         },
         'UI:menu-panel-attached'(arg) {
-            arg.target.parentMenu = this.data.get('className');
+            arg.target.parentMenu = `${this.data.get('className')} sm-${this.data.get('type')}-menu`;
         },
         'UI:menu-panel-status-changed'(arg) {
             let value = arg.value;
             this.toggleMenu(null, !value.open, value.driver);
+        },
+        'UI:menu-open'(arg) {
+            arg.value && (this.toggleAction = 1);
         }
     },
     bindEvent() {
@@ -123,15 +121,26 @@ export default san.defineComponent({
 
         this.watch('all', () => {
             let selectValue = this.data.get('all') ? this.values : [];
+
             this.data.set('value', selectValue);
-
-            let len = this.items.length;
-            while (len--) {
-                this.items[len].data.set('selectValue', selectValue);
-            }
-
+            this.broadcast(selectValue);
             this.fire('change', selectValue);            
         });
+
+        this.watch('value', () => {
+            this.broadcast(this.data.get('value'));         
+        });
+    },
+    /**
+     * 通过改变为每一个menu item的selectValue值，改变其已选状态
+     *
+     * @param {string} selectValue selectValue
+     */
+    broadcast(selectValue) {
+        let len = this.items.length;
+        while (len--) {
+            this.items[len].data.set('selectValue', selectValue);
+        }
     },
     handleClickOff(e) {
         if (!this.toggleAction) {
@@ -162,9 +171,6 @@ export default san.defineComponent({
         }
         if (!open && driver === 'ITEM' && this.data.get('itemClickClose') === false) {
             return;
-        }
-        else if (open) {
-            this.toggleAction = 1;
         }
 
         this.beforeToggleMenu && this.beforeToggleMenu();

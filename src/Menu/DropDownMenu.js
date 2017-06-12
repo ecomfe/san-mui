@@ -32,6 +32,7 @@ let DropDownMenu = san.defineComponent({
                 targetOrigin="{{ targetOrigin }}"
                 openImmediately="{{ openImmediately }}"
                 menuStyle="{{ menuStyle }}"
+                className="{{ className }}"
                 >
                 <slot></slot>
             </san-menu>
@@ -48,6 +49,7 @@ let DropDownMenu = san.defineComponent({
 
     initData() {
         return Object.assign({
+            type: 'dropdown',
             openImmediately: false
         }, this.defaultData());
     },

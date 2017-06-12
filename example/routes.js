@@ -36,6 +36,8 @@ import Paper from './Paper.san';
 import Card from './Card.san';
 import Slider from './Slider.san';
 import Grid from './Grid.san';
+import Uploader from './Uploader.san';
+import Carousel from './Carousel.md';
 
 let routes = {
     '/': Main,
@@ -68,7 +70,9 @@ let routes = {
     '/TimePicker': TimePicker,
     '/Snackbar & Toast': Toast,
     '/Chip': Chip,
-    '/Grid': Grid
+    '/Grid': Grid,
+    '/Uploader': Uploader,
+    '/Carousel': Carousel
 
 };
 

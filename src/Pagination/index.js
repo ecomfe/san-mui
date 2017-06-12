@@ -30,7 +30,7 @@ export default san.defineComponent({
 
                     <span class="page-num first-page{{ current === 1 ? ' current' : '' }}" on-click="setCurrentPage(1)">1</span>
 
-                    <span san-if="current >= pageGroupLen" class="pre-group" on-click="setCurrentPage(current - pageGroupLen, 1)">...</span>
+                    <span san-if="current >= pageGroupLen" class="pre-group" on-click="setCurrentPage(current - pageGroupLen)">...</span>
 
                     <span class="page-num" san-if="current - 2 >= 2 && current - 2 < totalPage" on-click="setCurrentPage(current - 2)">{{ current - 2 }}</span>
                     <span class="page-num" san-if="current - 1 >= 2 && current - 1 < totalPage" on-click="setCurrentPage(current - 1)">{{ current - 1 }}</span>
@@ -38,7 +38,7 @@ export default san.defineComponent({
                     <span class="page-num" san-if="current + 1 >= 2 && current + 1 < totalPage" on-click="setCurrentPage(current + 1)">{{ current + 1 }}</span>
                     <span class="page-num" san-if="current + 2 >= 3 && current + 2 < totalPage" on-click="setCurrentPage(current + 2)">{{ current + 2 }}</span>
 
-                    <span san-if="totalPage - current - 1 >= pageGroupLen" class="next-group" on-click="setCurrentPage(current + pageGroupLen, 1)">...</span>
+                    <span san-if="totalPage - current - 1 >= pageGroupLen" class="next-group" on-click="setCurrentPage(current + pageGroupLen)">...</span>
 
                     <span san-if="totalPage > 1" class="page-num last-page{{ current === totalPage ? ' current' : '' }}" on-click="setCurrentPage(totalPage)">{{ totalPage }}</span>
 
@@ -117,18 +117,22 @@ export default san.defineComponent({
         }
     },
 
-    setCurrentPage(pageNum, canOverflow) {
+    /**
+     * 设置page
+     *
+     * @param {number} pageNum 页码
+     * @param {boolean} silence 是否静默更新，如为true则不触发事件
+     */
+    setCurrentPage(pageNum, silence) {
 
         let current = parseInt(pageNum, 10);
         let totalPage = this.data.get(totalPageKey);
 
-        if (canOverflow) {
-            if (current > totalPage) {
-                current = totalPage;
-            }
-            if (current < defaultCurrent) {
-                current = defaultCurrent;
-            }
+        if (current > totalPage) {
+            current = totalPage;
+        }
+        if (current < defaultCurrent) {
+            current = defaultCurrent;
         }
 
         if (
@@ -137,10 +141,12 @@ export default san.defineComponent({
             && current !== this.data.get(currentKey)
         ) {
             this.data.set(currentKey, current);
-            this.fire('pageChange', {
-                pageNum: current,
-                pageSize: this.data.get(pageSizeKey)
-            });
+            if (!silence) {
+                this.fire('pageChange', {
+                    pageNum: current,
+                    pageSize: this.data.get(pageSizeKey)
+                });
+            }
         }
     },
 
@@ -156,7 +162,7 @@ export default san.defineComponent({
         let current = Math.ceil(((oldCurrent - 1) * oldPageSize + 1) / pageSize);
 
         this.setPageSize(pageSize);
-        me.setCurrentPage(current);
+        me.setCurrentPage(current, true);
 
         this.fire('pageSizeChange', {
             pageSize,

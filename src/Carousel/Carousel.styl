@@ -1,0 +1,83 @@
+/**
+ * @file san-mui/Carousel
+ * @author sunwei11 
+ */
+ 
+@require '../css/variable.styl'
+@require '../css/func.styl'
+
+.{$san-class-prefix}-carousel
+    position: relative
+    width: 100%
+    overflow: hidden
+    &-container
+        position: relative
+        text-align: center
+        background: $md-colors.transparent
+        .is-active
+            z-index: 2
+            visibility: visible
+    &-arrow-left
+        position: absolute
+        left: 16px
+        top: 50%
+        margin-top: -18px
+        color: $md-colors.fullWhite
+        background: $md-colors.minBlack
+        z-index: 5
+        cursor: pointer
+        &:hover
+           background: $md-colors.lightBlack
+           color: $md-colors.fullWhite
+    &-arrow-right
+        position: absolute
+        right: 16px
+        top: 50%
+        margin-top: -18px
+        color: $md-colors.fullWhite
+        background: $md-colors.minBlack
+        z-index: 5
+        cursor: pointer
+        &:hover
+           background: $md-colors.lightBlack 
+           color: $md-colors.fullWhite
+    &-item
+        position: absolute
+        left: 0
+        width: 100%
+        height: 100%
+        transition: all .4s ease-in-out
+        -webkit-transition: all .4s ease-in-out
+        visibility: hidden
+        overflow: hidden
+        z-index: 0
+        
+        
+
+    &-indicators
+        position: absolute
+        list-style: none
+        bottom: 0
+        left: 50%
+        transform: translateX(-50%)
+        margin: 0
+        padding: 0
+        z-index: 3
+        .is-active
+            background: $md-colors.blue600
+            
+    &-indicator
+        background: $md-colors.fullWhite
+        width: 20px
+        height: 2px
+        float: left
+        margin: 10px 5px
+        cursor: pointer
+        button
+            height: 0
+            
+        &:hover 
+            background: $md-colors.blue600
+               
+        
+
