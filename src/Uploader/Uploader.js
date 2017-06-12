@@ -45,6 +45,7 @@ const _method = {
 				} else {
 					opt['on-error']('error', file, self.fileList)
 				}
+				file.uploaded = true
 				opt['on-change'](file, self.fileList)
 			}
 		}
@@ -52,7 +53,7 @@ const _method = {
 		xhr.withCredentials = opt['with-credentials']
 	    self.xhrList.push({
 	    	fn: function() {
-		    	if (opt['before-upload'](file)) {
+		    	if (opt['before-upload'](file) && !file.uploaded) {
 					xhr.open('POST', opt.action)
 					_method.repeatSet(Object.assign({'Content-Type': 'application/x-www-form-urlencoded'}, opt.headers), xhr.setRequestHeader.bind(xhr))
 		    		xhr.send(formData)
@@ -173,7 +174,7 @@ export default san.defineComponent({
     	Array.prototype.slice.call(event.target.files).forEach(file => {
 			_method.initXHR.call(this, file)
     	})
-    	console.log(this.data.get('opt'))
+    	event.target.value = ''
     	this.data.get('opt')['auto-upload'] && this.xhrList.forEach(one => one.fn())
     }
 });
