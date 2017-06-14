@@ -17,7 +17,7 @@ export default class Button extends BaseButton {
 
     static template = `
         <button
-            on-click="click"
+            on-click="click($event)"
             class="{{computedClassName}}"
             disabled="{{disabled ? 'disabled' : ''}}">
             <slot />
