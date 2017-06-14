@@ -20,7 +20,6 @@ export default san.defineComponent({
         this.items = [];
     },
     attached() {
-        let currentValue = this.data.get('value');
         this.watch('value', function (value) {
             this.setSelectValue(value);
             this.fire('change', value);
