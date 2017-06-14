@@ -16,7 +16,7 @@ export default class IconButton extends BaseButton {
         <button
             class="{{computedClassName}}"
             disabled="{{disabled}}"
-            on-click="onClick">
+            on-click="onClick($event)">
             <san-icon icon="{{icon}}"><slot /></san-icon>
             <san-center-ripple />
         </button>
