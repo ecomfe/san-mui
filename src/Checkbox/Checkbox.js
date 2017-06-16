@@ -27,8 +27,11 @@ export default san.defineComponent({
                     <svg class="sm-checkbox-icon-checked sm-checkbox-svg-icon {{iconClass}}" san-if="!uncheckIcon" viewBox="0 0 24 24">
                         <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
-                <sm-icon san-if="uncheckIcon" class="sm-checkbox-icon-uncheck {{iconClass}}">{{uncheckIcon}}</sm-icon>
-                <sm-icon san-if="checkedIcon" class="sm-checkbox-icon-checked {{iconClass}}">{{checkedIcon}}</sm-icon>
+                    <svg class="sm-checkbox-icon-indeterminate sm-checkbox-svg-icon {{iconClass}}" san-if="indeterminateIcon" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"/>
+                    </svg>
+                    <sm-icon san-if="uncheckIcon" class="sm-checkbox-icon-uncheck {{iconClass}}">{{uncheckIcon}}</sm-icon>
+                    <sm-icon san-if="checkedIcon" class="sm-checkbox-icon-checked {{iconClass}}">{{checkedIcon}}</sm-icon>
                 </div>
                 <div class="sm-checkbox-label {{labelClass}}" san-if="label && !labelLeft">{{label}}</div>
                 </div>
@@ -48,6 +51,7 @@ export default san.defineComponent({
             labelClass: '',
             uncheckIcon: '',
             checkedIcon: '',
+            indeterminateIcon: 'icon',
             iconClass: '',
             inputValue: ''
         };
@@ -65,5 +69,19 @@ export default san.defineComponent({
         this.fire('change', inputValue);
     },
     attached() {
+        let input = null;
+        if (this.el) {
+            input = this.el.querySelector('input');
+            if (input) {
+                input.indeterminate = !!this.data.get('indeterminate');
+            }
+        }
+
+        this.watch('inputValue', value => {
+            this.data.set('indeterminate', false);
+        });
+        this.watch('indeterminate', value => {
+            input && (input.indeterminate = !!value);
+        });
     }
 });

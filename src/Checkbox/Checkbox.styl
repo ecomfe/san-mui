@@ -12,19 +12,37 @@ $easeOutFunction = cubic-bezier(0.23, 1, 0.32, 1)
     input[type="checkbox"]
         display: none
         &:checked ~ .sm-checkbox-wrapper
+        &:indeterminate ~ .sm-checkbox-wrapper
             .sm-checkbox-icon-uncheck
                 opacity: 0
                 transition: opacity 650ms $easeOutFunction 150ms
                 color: $md-colors.lightBlue500
 
+            .sm-checkbox-ripple-wrapper
+                .sm-ripple
+                    background-color: $md-colors.lightBlue500
+
+        &:checked:not(:indeterminate) ~ .sm-checkbox-wrapper
             .sm-checkbox-icon-checked
                 opacity: 1
                 transform: scale(1)
                 transition: opacity 0ms $easeOutFunction, transform 800ms $easeOutFunction
 
-            .sm-checkbox-ripple-wrapper
-                .sm-ripple
-                    background-color: $md-colors.lightBlue500
+            .sm-checkbox-icon-indeterminate
+                opacity: 0
+                transition: opacity 650ms $easeOutFunction 150ms
+                color: $md-colors.lightBlue500
+
+        &:indeterminate ~ .sm-checkbox-wrapper
+            .sm-checkbox-icon-indeterminate
+                opacity: 1
+                transform: scale(1)
+                transition: opacity 0ms $easeOutFunction, transform 800ms $easeOutFunction
+
+            .sm-checkbox-icon-checked
+                opacity: 0
+                transition: opacity 650ms $easeOutFunction 150ms
+                color: $md-colors.lightBlue500
 
     *
         pointer-events: none
@@ -86,6 +104,7 @@ $easeOutFunction = cubic-bezier(0.23, 1, 0.32, 1)
 
 
 .sm-checkbox-icon-checked
+.sm-checkbox-icon-indeterminate
     position: absolute
     left: 0
     top: 0
