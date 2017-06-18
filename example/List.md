@@ -485,44 +485,61 @@ export default {
 
 ```san Selectable List
 <template>
-  <div class="sm-list-wrapper">
-    <san-list value="{{ 3 }}" selectable="{{!0}}" on-change="listItemSelect($event)">
-        <san-list-item 
-            primaryText="Junmer" 
-            toggleNested="{{!0}}" 
-            initiallyOpen="{{!0}}" 
-            value="{{ 1 }}"
-        >
-            <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
-            <san-list-item primaryText="Leon Lu" value="{{ 2 }}" slot="nested">
+    <div>
+        <div class="sm-list-wrapper">
+        <san-list value="{{ value }}" selectable="{{!0}}" on-change="listItemSelect($event)">
+            <san-list-item 
+                primaryText="Junmer" 
+                toggleNested="{{!0}}" 
+                initiallyOpen="{{!0}}" 
+                value="{{ 1 }}"
+            >
+                <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
+                <san-list-item primaryText="Leon Lu" value="{{ 2 }}" slot="nested">
+                    <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
+                </san-list-item>
+            </san-list-item>
+            <san-list-item primaryText="CK Yau" value="{{ 3 }}">
                 <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
             </san-list-item>
-        </san-list-item>
-        <san-list-item primaryText="CK Yau" value="{{ 3 }}">
-            <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
-        </san-list-item>
-        <san-list-item primaryText="Zhiqiang Zhang" value="{{ 4 }}">
-            <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
-        </san-list-item>
-        <san-list-item primaryText="Huiquan Huang" value="{{ 5 }}">
-            <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
-        </san-list-item>
-    </san-list>
-  </div>
+            <san-list-item primaryText="Zhiqiang Zhang" value="{{ 4 }}">
+                <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
+            </san-list-item>
+            <san-list-item primaryText="Huiquan Huang" value="{{ 5 }}">
+                <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
+            </san-list-item>
+        </san-list>
+        
+        </div>
+        <san-button
+            variants="info"
+            on-click="setValue($event)">点我会选中第一个</san-button>
+    </div>
 </template>
 <script>
 import {List, ListItem} from '../src/List';
 import Avatar from '../src/Avatar';
+import Button from '../src/Button';
 import '../src/Avatar/Avatar.styl';
 import '../src/List/index.styl';
 export default {
     components: {
         'san-list': List,
         'san-list-item': ListItem,
-        'san-avatar': Avatar
+        'san-avatar': Avatar,
+        'san-button': Button
+    },
+    initData() {
+
+        return {
+            value: 3
+        };
     },
     listItemSelect(value) {
         console.log('selected item value : ', value);
+    },
+    setValue() {
+       this.data.set('value', 1); 
     }
 }
 </script>

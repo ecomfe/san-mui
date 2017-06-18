@@ -1,11 +1,12 @@
 <template>
     <div>
         <h3>使用示例</h3>
-        <sm-checkbox label="最简单的" nativeValue="{{value}}" class="demo-checkbox"/> <br/>
+        <sm-checkbox label="最简单的" nativeValue="{{value}}" class="demo-checkbox" inputValue="{=inputValue=}"/> <sm-button variants="raised info" on-click="click($event)">Toggle checked</sm-button><br/>
         <sm-checkbox label="自定义icon" class="demo-checkbox" uncheckIcon="favorite_border" checkedIcon="favorite"/> <br/>
         <sm-checkbox label="不同的图形的icon" class="demo-checkbox" uncheckIcon="visibility_off" checkedIcon="visibility"/><br/>
         <sm-checkbox label="不可用" class="demo-checkbox" disabled/> <br/>
         <sm-checkbox label="不可用" nativeValue="{{value}}" class="demo-checkbox" disabled inputValue="{=inputValue=}"/><br/>
+        <sm-checkbox label="不确定" nativeValue="{{value}}" class="demo-checkbox" inputValue="{=inputValue2=}" indeterminate="{=indeterminate=}"/> <sm-button variants="raised info" on-click="click2($event)">Toggle indeterminate</sm-button><br />
         <sm-checkbox label="文字在左边的" class="demo-checkbox" labelLeft/><br/>
     </div>
 </template>
@@ -13,17 +14,22 @@
 <script>
 import Checkbox from '../src/Checkbox';
 import '../src/Checkbox/Checkbox.styl';
+import Button from '../src/Button';
+import '../src/Button/Button.styl';
 
 export default {
 
     components: {
         'sm-checkbox': Checkbox,
+        'sm-button': Button
     },
 
     initData() {
         return {
             value: 'ON',
-            inputValue: ['ON']
+            inputValue: ['ON'],
+            inputValue2: [''],
+            indeterminate: true,
         };
     },
 
@@ -31,7 +37,20 @@ export default {
         this.watch('inputValue', val => {
             console.log(val);
         });
-    }
+        this.watch('inputValue2', val => {
+            this.data.set('indeterminate', false);
+        });
+    },
+
+    click() {
+        let v = this.data.get('inputValue');
+        this.data.set('inputValue', !v || v.length === 0 || v[0] === '' ? [this.data.get('value')] : ['']);
+    },
+
+    click2() {
+        this.data.set('indeterminate', !this.data.get('indeterminate'));
+    },
+
 }
 
 </script>
