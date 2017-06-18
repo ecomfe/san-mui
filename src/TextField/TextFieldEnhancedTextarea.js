@@ -30,6 +30,7 @@ export default san.defineComponent({
         };
     },
     resizeTextarea() {
+        console.log(456);
         let element = null;
         let textareas = document.getElementsByClassName('sm-text-field-textarea');
         Array.prototype.forEach.call(textareas, item => {
@@ -59,6 +60,7 @@ export default san.defineComponent({
         pd = +pd.replace(/[^\d]*/g, '');
         let rows = this.data.get('rows') || 0;
         let rowsMax = this.data.get('rowsMax') || 0;
+        console.log(rowsMax);
         let minHeight = pd + pt + lineHeight * rows;
         let maxHeight = pd + pt + lineHeight * rowsMax;
         let height = hiddenEl.scrollHeight;
@@ -79,9 +81,6 @@ export default san.defineComponent({
     attached() {
         this.resizeTextarea();
         this.watch('value', value => {
-            if (value === this.data.get('value')) {
-                return;
-            }
             setTimeout(() => {
                 this.resizeTextarea();
             }, 1);
