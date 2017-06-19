@@ -60,7 +60,6 @@ export default san.defineComponent({
         pd = +pd.replace(/[^\d]*/g, '');
         let rows = this.data.get('rows') || 0;
         let rowsMax = this.data.get('rowsMax') || 0;
-        console.log(rowsMax);
         let minHeight = pd + pt + lineHeight * rows;
         let maxHeight = pd + pt + lineHeight * rowsMax;
         let height = hiddenEl.scrollHeight;
