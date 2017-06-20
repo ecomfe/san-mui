@@ -27,10 +27,11 @@ export default san.defineComponent({
                     <svg class="sm-checkbox-icon-checked sm-checkbox-svg-icon {{iconClass}}" san-if="!uncheckIcon" viewBox="0 0 24 24">
                         <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
-                    <svg class="sm-checkbox-icon-indeterminate sm-checkbox-svg-icon {{iconClass}}" san-if="indeterminateIcon" viewBox="0 0 24 24">
+                    <svg class="sm-checkbox-icon-indeterminate sm-checkbox-svg-icon {{iconClass}}" san-if="!checkedIcon && !uncheckIcon" viewBox="0 0 24 24">
                         <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"/>
                     </svg>
                     <sm-icon san-if="uncheckIcon" class="sm-checkbox-icon-uncheck {{iconClass}}">{{uncheckIcon}}</sm-icon>
+                    <sm-icon san-if="indeterminateIcon" class="sm-checkbox-icon-indeterminate {{iconClass}}">{{indeterminateIcon}}</sm-icon>
                     <sm-icon san-if="checkedIcon" class="sm-checkbox-icon-checked {{iconClass}}">{{checkedIcon}}</sm-icon>
                 </div>
                 <div class="sm-checkbox-label {{labelClass}}" san-if="label && !labelLeft">{{label}}</div>
@@ -65,23 +66,61 @@ export default san.defineComponent({
     handleTouchEnd() {
     },
     handleChange() {
+        let canClickToSwitchToIndeterminate =
+            typeof this.data.get('canClickToSwitchToIndeterminate')
+                !== 'undefined';
+        // 修改表单元素的默认行为属性，使其可以在 click 时可以切换至 indeterminate 状态。
+        if (canClickToSwitchToIndeterminate) {
+            let that = this;
+            let switcher = function () {
+                that.indeterminateIndex =
+                    ++[that.indeterminateIndex |= 0][0] % 3;
+                that.data.set('inputValue', that.indeterminateIndex !== 0
+                    ? [that.data.get('nativeValue')]
+                        : []);
+                that.data.set('indeterminate', that.indeterminateIndex === 1);
+                that.fire('change', that.indeterminateIndex);
+            }
+            // FIXME:
+            // 防止我们设置的属性值某些情况下被浏览器的默认行为覆盖，不能立即执行这段代码。
+            // 由于 iOS 下通过 MutationObserver 的 callback 并不能迫使函数在默认行为
+            // 之后执行，所以暂时先用 setTimeout。
+            setTimeout(switcher, 0);
+            return;
+        }
+
         let inputValue = this.data.get('inputValue');
         this.fire('change', inputValue);
     },
     attached() {
         let input = null;
-        if (this.el) {
-            input = this.el.querySelector('input');
-            if (input) {
-                input.indeterminate = !!this.data.get('indeterminate');
-            }
-        }
 
         this.watch('inputValue', value => {
             this.data.set('indeterminate', false);
         });
         this.watch('indeterminate', value => {
+            // FIXME:
+            // https://www.w3.org/TR/html5/forms.html#dom-input-indeterminate
+            // 由于 INPUT 元素的 DOM indeterminate property 并无对应的 HTML
+            // attribute，暂时需要获取 INPUT 元素的实际 DOM 对象。
             input && (input.indeterminate = !!value);
         });
+
+        // 初始化 indeterminate 状态。
+        if (this.el) {
+            input = this.el.querySelector('input');
+            if (input) {
+                input.indeterminate = !!this.data.get('indeterminate');
+                if (!input.checked && !input.indeterminate) {
+                    this.indeterminateIndex = 0;
+                }
+                if (input.checked && input.indeterminate) {
+                    this.indeterminateIndex = 1;
+                }
+                if (input.checked && !input.indeterminate) {
+                    this.indeterminateIndex = 2;
+                }
+            }
+        }
     }
 });

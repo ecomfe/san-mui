@@ -7,6 +7,10 @@
         <sm-checkbox label="不可用" class="demo-checkbox" disabled/> <br/>
         <sm-checkbox label="不可用" nativeValue="{{value}}" class="demo-checkbox" disabled inputValue="{=inputValue=}"/><br/>
         <sm-checkbox label="不确定" nativeValue="{{value}}" class="demo-checkbox" inputValue="{=inputValue2=}" indeterminate="{=indeterminate=}"/> <sm-button variants="raised info" on-click="click2($event)">Toggle indeterminate</sm-button><br />
+        <sm-checkbox label="可以点击切换不确定" nativeValue="{{value}}" class="demo-checkbox" inputValue="{=inputValue3=}" indeterminate="{=indeterminate2=}" canClickToSwitchToIndeterminate on-change="change($event)"/><br />
+        <sm-checkbox label="自定义包含不确定状态的icon  {{state}}" class="demo-checkbox" uncheckIcon="alarm_off" indeterminateIcon="alarm" checkedIcon="alarm_on" canClickToSwitchToIndeterminate on-change="change2($event)"/> <br/>
+        <sm-checkbox label="自定义包含不确定状态的icon2 - {{state2}}" class="demo-checkbox" uncheckIcon="battery_alert" indeterminateIcon="battery_unknown" checkedIcon="battery_charging_full" canClickToSwitchToIndeterminate on-change="change3($event)" nativeValue="{{value}}" inputValue="{=inputValue4=}"/> <br/>
+        <sm-checkbox label="自定义包含不确定状态的icon3" class="demo-checkbox" uncheckIcon="sentiment_very_dissatisfied" indeterminateIcon="sentiment_neutral" checkedIcon="sentiment_very_satisfied" canClickToSwitchToIndeterminate disabled="{=disabled=}"/> <sm-button variants="raised info" on-click="click3($event)">Toggle disabled</sm-button><br/>
         <sm-checkbox label="文字在左边的" class="demo-checkbox" labelLeft/><br/>
     </div>
 </template>
@@ -29,16 +33,21 @@ export default {
             value: 'ON',
             inputValue: ['ON'],
             inputValue2: [''],
+            inputValue3: ['ON'],
             indeterminate: true,
+            indeterminate2: true,
+            state: 'unchecked',
+            state2: 'full',
+            inputValue4: ['ON'],
+            states: ['unchecked', 'indeterminate', 'checked'],
+            states2: ['alert', 'unknown', 'full'],
+            disabled: true
         };
     },
 
     attached() {
         this.watch('inputValue', val => {
             console.log(val);
-        });
-        this.watch('inputValue2', val => {
-            this.data.set('indeterminate', false);
         });
     },
 
@@ -51,6 +60,21 @@ export default {
         this.data.set('indeterminate', !this.data.get('indeterminate'));
     },
 
+    click3() {
+        this.data.set('disabled', !this.data.get('disabled'));
+    },
+
+    change(index) {
+        console.log(this.data.get('states')[index]);
+    },
+
+    change2(index) {
+        this.data.set('state', this.data.get('states')[index]);
+    },
+
+    change3(index) {
+        this.data.set('state2', this.data.get('states2')[index]);
+    }
 }
 
 </script>
