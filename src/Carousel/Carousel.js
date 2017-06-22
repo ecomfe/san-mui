@@ -6,7 +6,6 @@
 import san from 'san';
 import {create} from '../common/util/cx';
 import {IconButton, Button} from '../Button';
-import Icon from '../Icon';
 import './carousel.styl';
 import {throttle} from '../common/util/throttle';
 
@@ -25,14 +24,14 @@ export default class Carousel extends san.Component {
                     class="${cx.getPartClassName('arrow')} ${cx.getPartClassName('arrow-left')}"
                     san-if="arrow === 'hover' || 'always'"
                     on-click="throttledArrowClick(activeIndex - 1)">
-                    <ui-icon>{{prevIcon}}</ui-icon>
+                    {{prevIcon}}
                 </san-icon-button>
 
                 <san-icon-button
                     class="${cx.getPartClassName('arrow')} ${cx.getPartClassName('arrow-right')}"
                     san-if="arrow === 'hover' || 'always'"
                     on-click="throttledArrowClick(activeIndex + 1)">
-                    <ui-icon>{{nextIcon}}</ui-icon>
+                    {{nextIcon}}
                 </san-icon-button>
 
                 <slot></slot>
@@ -55,8 +54,7 @@ export default class Carousel extends san.Component {
 
     static components = {
         'san-button': Button,
-        'san-icon-button': IconButton,
-        'san-icon': Icon
+        'san-icon-button': IconButton
     };
 
     static computed = {
@@ -76,7 +74,8 @@ export default class Carousel extends san.Component {
             interval: 3000,
             indicator: false,
             trigger: 'hover',
-            arrow: 'always'
+            arrow: 'always',
+            isCycle: true
         };
     }
 
@@ -88,22 +87,24 @@ export default class Carousel extends san.Component {
         });
         this.throttledIndicatorHover = throttle(index => {
             this.handleIndicatorHover(index);
-        }, 400);        
+        }, 400);
     }
 
     attached() {
 
         this.watch('activeIndex', function (index) {
             this.resetItemPosition();
-            this.fire('change', index);        
+            this.fire('change', index);
         });
         this.startTimer();
-        
+
     }
+
     detached() {
         this.data.set('activeIndex', 0);
         clearInterval(this.timer);
     }
+
     messages = {
         'UI:carousel-item-attached'(arg) {
             this.items.push(arg.target);
@@ -126,11 +127,12 @@ export default class Carousel extends san.Component {
 
         index = Number(index);
         let length = this.items.length;
+        let isCycle = this.data.get('isCycle');
         if (index < 0) {
-            this.data.set('activeIndex', length - 1);
+            isCycle ? this.data.set('activeIndex', length - 1) : this.data.set('activeIndex', 0);
         }
         else if (index >= length) {
-            this.data.set('activeIndex', 0);
+            isCycle ? this.data.set('activeIndex', 0) : this.data.set('activeIndex', length - 1);
         }
         else {
             this.data.set('activeIndex', index);
@@ -142,15 +144,16 @@ export default class Carousel extends san.Component {
         this.data.set('arrow', 'hover');
         this.pauseTimer();
     }
-    
+
     handleMouseLeave() {
         this.data.set('arrow', 'never');
         this.startTimer();
     }
+
     handleIndicatorClick(index) {
         this.data.set('activeIndex', index);
     }
-    
+
     handleIndicatorHover(index) {
         if (this.data.get('trigger') === 'hover' && index !== this.data.get('activeIndex')) {
             this.data.set('activeIndex', index);
@@ -172,27 +175,24 @@ export default class Carousel extends san.Component {
         item.data.set('active', index === activeIndex);
         item.data.set('translate', parentWidth * (index - activeIndex));
         item.data.set('ready', true);
-
-
-
     }
 
     resetIndex(item, index, activeIndex, length) {
         if (activeIndex === 0 && index === length - 1) {
             return -1;
-        } 
+        }
         else if (activeIndex === length - 1 && index === 0) {
             return length;
-        } 
+        }
         else if (index < activeIndex - 1 && activeIndex - index >= length / 2) {
             return length + 1;
-        } 
+        }
         else if (index > activeIndex + 1 && index - activeIndex >= length / 2) {
             return -2;
         }
         return index;
     }
-    
+
     pauseTimer() {
         clearInterval(this.timer);
     }
@@ -203,12 +203,12 @@ export default class Carousel extends san.Component {
             this.playSlides();
         }, this.data.get('interval'));
     }
-    
+
     playSlides() {
         let activeIndex = this.data.get('activeIndex');
         if (activeIndex < this.items.length - 1) {
             this.data.set('activeIndex', activeIndex + 1);
-        } 
+        }
         else {
             this.data.set('activeIndex', 0);
         }
