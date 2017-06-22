@@ -50,8 +50,7 @@ export default function (config) {
                 extensions: ['', '.js', '.san'],
                 fallback: [path.join(__dirname, '../node_modules')],
                 alias: {
-                    src: SRC_ROOT,
-                    san: 'san/src/main'
+                    src: SRC_ROOT
                 }
             },
             module: {

@@ -1,6 +1,6 @@
 /**
  * @file san-mui/Carousel
- * @author sunwei11 
+ * @author sunwei11
  */
 
 import Carousel from './Carousel';
