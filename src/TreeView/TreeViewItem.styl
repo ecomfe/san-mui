@@ -2,8 +2,10 @@
 @require '../css/colors.styl';
 
 $one-line-height = 48px
+$two-line-height = 72px
 $tree-view-padding-horz = 16px
 $one-line-height-compact = 24px
+$two-line-height-compact = 48px
 $tree-view-padding-horz-compact = 4px
 
 .sm-tree-view-item
@@ -17,6 +19,9 @@ $tree-view-padding-horz-compact = 4px
         .sm-tree-view-item-content,
         .sm-tree-view-item-expand
             display: none
+    &.hasSecondary
+        .sm-touch-ripple
+            height: $two-line-height
 
     .sm-tree-view-item-right,
     .sm-tree-view-item-left
@@ -58,12 +63,28 @@ $tree-view-padding-horz-compact = 4px
     .sm-tree-view-item-content
         position: relative
         line-height: 1
-        padding: 16px
+        padding: 12px
         font-size: 16px
         z-index: 1
         background-color: transparent
         pointer-events: none
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
 
+        .sm-checkbox
+            pointer-events: auto
+            vertical-align: middle
+            zoom: 1
+
+        .sm-tree-view-item-primary-text
+            display: inline-block
+            vertical-align: middle
+            height: 24px
+            line-height: 24px
+
+    .sm-touch-ripple
     &.nested .sm-touch-ripple
         height: $one-line-height
 
@@ -75,6 +96,7 @@ $tree-view-padding-horz-compact = 4px
 
     .sm-tree-view-item-primary-text
         font-size: 16px
+
     .sm-tree-view-item-secondary-text
         font-size: 14px
         line-height: 18px
@@ -82,8 +104,12 @@ $tree-view-padding-horz-compact = 4px
         color: $md-colors.grey500  
         overflow: hidden
         text-overflow: ellipsis
-        display: -webkit-box
+        white-space: nowrap
         -webkit-box-orient: vertical
+
+    &.hasSecondaryText
+        .sm-touch-ripple
+            height: $two-line-height
 
 .show
     display: block
@@ -92,17 +118,25 @@ $tree-view-padding-horz-compact = 4px
 
 .sm-tree-view-item.compact
     .sm-tree-view-item-content
-        font-size: 1em
+        font-size: .9em
     .sm-tree-view-item-primary-text
-        font-size: 1em
+        font-size: .9em
+        height: 18px
+        line-height: 18px
     .sm-tree-view-item-secondary-text
         font-size: .8em
+    &.hasSecondaryText
+        .sm-touch-ripple
+            height: $two-line-height-compact
 
     .sm-tree-view-item-content
-        padding: 5px
+        padding: 3px
+        .sm-checkbox
+            zoom: .75
     .sm-tree-view-item-expand
         width: $one-line-height-compact
         height: $one-line-height-compact
+    .sm-touch-ripple
     &.nested .sm-touch-ripple
         height: $one-line-height-compact
 
