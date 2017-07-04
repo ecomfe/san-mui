@@ -12,7 +12,7 @@ import Avatar from './Avatar.md';
 import Button from './Button.md';
 import Card from './Card.md';
 import Carousel from './Carousel.md';
-import Checkbox from './Checkbox.san';
+import Checkbox from './Checkbox.md';
 import Chip from './Chip.md';
 import Drawer from './Drawer.san';
 import Dialog from './Dialog.san';
