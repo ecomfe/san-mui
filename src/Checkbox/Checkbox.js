@@ -6,6 +6,7 @@
 import san from 'san';
 import icon from '../Icon';
 import {CenterRipple} from '../Ripple';
+import cx from 'classnames';
 
 export default san.defineComponent({
     template: `
@@ -88,23 +89,14 @@ export default san.defineComponent({
     },
     computed: {
         mainClass() {
-
-            let classes = ['sm-checkbox'];
-
-            if (this.data.get('labelLeft')) {
-                classes.push('label-left');
-            }
-
-            if (this.data.get('disabled')) {
-                classes.push('disabled');
-            }
-
-            if (!this.data.get('label')) {
-                classes.push('no-label');
-            }
-
-            return classes.join(' ');
-
+            return cx(
+                'sm-checkbox',
+                {
+                    'label-left': this.data.get('labelLeft'),
+                    'disabled': this.data.get('disabled'),
+                    'no-label': !this.data.get('label')
+                }
+            );
         }
     },
     handleClick(e) {
