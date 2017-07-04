@@ -16,6 +16,7 @@
         <san-carousel
             data="{{detail}}"
             height="{{height}}"
+            isCycle="{{isCycle}}"
             autoplay="{{autoplay}}">
             <san-carousel-item
                 class="ui-news-atlas-wrapper"
@@ -47,6 +48,7 @@ export default {
         return {
             height: 600,
             activeIndex: 0,
+            isCycle: false,
             detail: [
                 {
                     'content': '欢乐颂五美美美美，友情赞赞赞',
@@ -165,6 +167,7 @@ export default {
 | interval | number | 3000| 自动切换的时间间隔，单位为毫秒|
 | trigger | string | hover | 指示器的触发方式 |
 | arrow | string | hover | 切换箭头的显示时机 hover/never |
+|isCycle| boolean | true | 图集预览功能时到边界时是否循环预览|
 
 ### Carousel Events
 | 事件名称 | 说明 | 回调参数|

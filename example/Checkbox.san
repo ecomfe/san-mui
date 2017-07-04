@@ -1,11 +1,16 @@
 <template>
     <div>
         <h3>使用示例</h3>
-        <sm-checkbox label="最简单的" nativeValue="{{value}}" class="demo-checkbox"/> <br/>
+        <sm-checkbox label="最简单的" nativeValue="{{value}}" class="demo-checkbox" inputValue="{=inputValue=}"/> <sm-button variants="raised info" on-click="click($event)">Toggle checked</sm-button><br/>
         <sm-checkbox label="自定义icon" class="demo-checkbox" uncheckIcon="favorite_border" checkedIcon="favorite"/> <br/>
         <sm-checkbox label="不同的图形的icon" class="demo-checkbox" uncheckIcon="visibility_off" checkedIcon="visibility"/><br/>
         <sm-checkbox label="不可用" class="demo-checkbox" disabled/> <br/>
         <sm-checkbox label="不可用" nativeValue="{{value}}" class="demo-checkbox" disabled inputValue="{=inputValue=}"/><br/>
+        <sm-checkbox label="不确定" nativeValue="{{value}}" class="demo-checkbox" inputValue="{=inputValue2=}" indeterminate="{=indeterminate=}"/> <sm-button variants="raised info" on-click="click2($event)">Toggle indeterminate</sm-button><br />
+        <sm-checkbox label="可以点击切换不确定" nativeValue="{{value}}" class="demo-checkbox" inputValue="{=inputValue3=}" indeterminate="{=indeterminate2=}" canClickToSwitchToIndeterminate on-change="change($event)"/><br />
+        <sm-checkbox label="自定义包含不确定状态的icon  {{state}}" class="demo-checkbox" uncheckIcon="alarm_off" indeterminateIcon="alarm" checkedIcon="alarm_on" canClickToSwitchToIndeterminate on-change="change2($event)"/> <br/>
+        <sm-checkbox label="自定义包含不确定状态的icon2 - {{state2}}" class="demo-checkbox" uncheckIcon="battery_alert" indeterminateIcon="battery_unknown" checkedIcon="battery_charging_full" canClickToSwitchToIndeterminate on-change="change3($event)" nativeValue="{{value}}" inputValue="{=inputValue4=}"/> <br/>
+        <sm-checkbox label="自定义包含不确定状态的icon3" class="demo-checkbox" uncheckIcon="sentiment_very_dissatisfied" indeterminateIcon="sentiment_neutral" checkedIcon="sentiment_very_satisfied" canClickToSwitchToIndeterminate disabled="{=disabled=}"/> <sm-button variants="raised info" on-click="click3($event)">Toggle disabled</sm-button><br/>
         <sm-checkbox label="文字在左边的" class="demo-checkbox" labelLeft/><br/>
     </div>
 </template>
@@ -13,17 +18,30 @@
 <script>
 import Checkbox from '../src/Checkbox';
 import '../src/Checkbox/Checkbox.styl';
+import Button from '../src/Button';
+import '../src/Button/Button.styl';
 
 export default {
 
     components: {
         'sm-checkbox': Checkbox,
+        'sm-button': Button
     },
 
     initData() {
         return {
             value: 'ON',
-            inputValue: ['ON']
+            inputValue: ['ON'],
+            inputValue2: [''],
+            inputValue3: ['ON'],
+            indeterminate: true,
+            indeterminate2: true,
+            state: 'unchecked',
+            state2: 'full',
+            inputValue4: ['ON'],
+            states: ['unchecked', 'indeterminate', 'checked'],
+            states2: ['alert', 'unknown', 'full'],
+            disabled: true
         };
     },
 
@@ -31,6 +49,31 @@ export default {
         this.watch('inputValue', val => {
             console.log(val);
         });
+    },
+
+    click() {
+        let v = this.data.get('inputValue');
+        this.data.set('inputValue', !v || v.length === 0 || v[0] === '' ? [this.data.get('value')] : ['']);
+    },
+
+    click2() {
+        this.data.set('indeterminate', !this.data.get('indeterminate'));
+    },
+
+    click3() {
+        this.data.set('disabled', !this.data.get('disabled'));
+    },
+
+    change(index) {
+        console.log(this.data.get('states')[index]);
+    },
+
+    change2(index) {
+        this.data.set('state', this.data.get('states')[index]);
+    },
+
+    change3(index) {
+        this.data.set('state2', this.data.get('states2')[index]);
     }
 }
 

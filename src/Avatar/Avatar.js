@@ -19,6 +19,16 @@ export default san.defineComponent({
         'san-icon': Icon
     },
 
+    initData() {
+        return {
+            'size': 40,
+            'iconSize': 20,
+            'background-color': '#bdbdbd',
+            'color': '#f93',
+            'src': ''
+        };
+    },
+
     computed: {
         avatarStyleDefault() {
             let size = this.data.get('size') + 'px';

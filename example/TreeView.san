@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="sm-list-demo-title">标准树形列表</p>
+        <p class="sm-tree-view-demo-title">标准树形列表</p>
         <div class="sm-tree-view-wrapper">
             <san-tree-view
                 filterBar
@@ -9,6 +9,7 @@
                 <san-tree-view-item
                     primaryText="Sent mail"
                     secondaryText="Second second second second second second"
+                    checked="true"
                     on-click="click($event)">
                 </san-tree-view-item>
                 <san-tree-view-item primaryText="Drafts" disabled>
@@ -18,7 +19,8 @@
                 <san-tree-view-item
                     primaryText="Inbox" 
                     toggleNested
-                    initiallyOpen 
+                    initiallyOpen
+                    checked="true"
                     on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
                     on-selectedToggle="selectedToggle($event)"
                     on-click="click($event)"
@@ -32,6 +34,7 @@
                         primaryText="Sent mail"
                         toggleNested
                         primaryTogglesNestedTreeView
+                        checked="false"
                     >
                         <san-tree-view-item
                             primaryText="Drafts"
@@ -64,7 +67,7 @@
             </san-tree-view>
         </div>
 
-        <p class="sm-list-demo-title">紧凑型树形列表</p>
+        <p class="sm-tree-view-demo-title">紧凑型树形列表</p>
         <div class="sm-tree-view-wrapper">
             <san-tree-view
                 compact
@@ -76,7 +79,7 @@
                     secondaryText="Second second second second second second"
                 >
                 </san-tree-view-item>
-                <san-tree-view-item primaryText="Drafts">
+                <san-tree-view-item primaryText="Drafts" checked="true">
                     <san-icon slot="right">drafts</san-icon>
                 </san-tree-view-item>
                 <san-divider />
@@ -129,7 +132,7 @@
             </san-tree-view>
         </div>
 
-        <p class="sm-list-demo-title">自定义树形列表</p>
+        <p class="sm-tree-view-demo-title">自定义树形列表</p>
         <div class="sm-tree-view-wrapper custom">
             <san-tree-view
                 compact
@@ -137,6 +140,7 @@
                 keepingSelected
                 filterBar
                 filterBarHintText="Type to find, Press enter to highlight"
+                checked="false"
             >
                 <san-tree-view-item
                     primaryText="Sent mail"
@@ -195,6 +199,67 @@
                 </san-tree-view-item>
             </san-tree-view>
         </div>
+
+        <p class="sm-tree-view-demo-title">
+            纯数据生成树形列表
+            <san-button
+                variants="primary raised"
+                on-click="changeTreeData($event)"
+            >
+                修改数据
+            </san-button>
+        </p>
+        <div class="sm-tree-view-wrapper custom">
+            <san-tree-view
+                treeData="{{treeData}}"
+                compact
+                wholeLineSelected
+                keepingSelected
+                filterBar
+                filterBarHintText="Type to find component, Enter to highlight"
+                initiallyOpen
+                primaryTogglesNestedTreeView
+                initFromData
+                on-nestedItemToggle="nestedItemToggle($event)"
+            >
+                <san-tree-view-item
+                    san-for="item in treeData"
+                    initiallyOpen
+                    primaryTogglesNestedTreeView
+                    treeData="{{item}}"
+
+                >
+                </san-tree-view-item>
+            </san-tree-view>
+        </div>
+
+        <p class="sm-tree-view-demo-title">
+            异步数据加载树形列表
+        </p>
+        <div class="sm-tree-view-wrapper custom">
+            <san-tree-view
+                compact
+                wholeLineSelected
+                keepingSelected
+                filterBar
+                filterBarHintText="Type to find component, Enter to highlight"
+                initiallyOpen
+                on-nestedItemToggle="asyncNestedItemToggle($event)"
+            >
+                <san-tree-view-item
+                    primaryText="A"
+                    toggleNested
+                    initFromData
+                >
+                </san-tree-view-item>
+                <san-tree-view-item
+                    primaryText="B"
+                    toggleNested
+                    initFromData
+                >
+                </san-tree-view-item>
+            </san-tree-view>
+        </div>
     </div>
 </template>
 
@@ -202,9 +267,11 @@
 import Icon from '../src/Icon';
 import {TreeView, TreeViewItem} from '../src/TreeView';
 import Divider from '../src/Divider';
+import Button from '../src/Button';
 
 import '../src/TreeView/index.styl';
 import '../src/Divider/Divider.styl';
+import '../src/Button/Button.styl';
 
 import '../src/TreeView/custom.styl';
 
@@ -214,14 +281,95 @@ export default {
         'san-icon': Icon,
         'san-tree-view': TreeView,
         'san-tree-view-item': TreeViewItem,
-        'san-divider': Divider
+        'san-divider': Divider,
+        'san-button': Button
+    },
+
+    inited() {
+        
     },
 
     initData() {
+        return {
+            treeData: [
+                { text: 'a', checked: true, treeData: [
+                    { text: 'a1', secondaryText: 'a1_desc' }
+                ] },
+                { text: 'b' , treeData: [] },
+                { text: 'c', treeData: [
+                    { text: 'c1' },
+                    { text: 'c2' },
+                ]},
+                { text: 'd', checked: true },
+                { text: 'e', checked: false, treeData: [
+                    { text: 'e1', checked: null },
+                    { text: 'e2' },
+                    { text: 'e3', checked: false, treeData: [
+                        { text: 'e31' },
+                        { text: 'e32', checked: false }
+                    ]},
+                    { text: 'e4' }
+                ]},
+                { text: 'f', checked: false }
+            ],
+            asyncTreeData: {
+                'A': {
+                    treeData: [
+                        { text: 'a1', checked: true, treeData: [
+                            { text: 'a11' },
+                            { text: 'a12', checked: false }
+                        ]}
+                    ]
+                },
+                'B': {
+                    treeData: [
+                        { text: 'b1' },
+                        { text: 'b2' }
+                    ]
+                }
+            }
+        }
+    },
+
+    changeTreeData(evt) {
+        this.data.set('treeData[1].text', 'changed-b');
+
+        this.data.set('treeData[2].text', 'changed-ccc')
+        this.data.splice('treeData[4].treeData', [1, 2]);
+        this.data.push('treeData[4].treeData', {
+            text: 'e5',
+            checked: true
+        });
+
+        this.data.set('treeData[2].treeData[0].text', 'changed-c1')
+        this.data.set('treeData[5]',
+            { text: "changed-f", treeData: [{ text: 'f1' }] });
+        this.data.unshift('treeData[5].treeData', {text:'f0'})
+        this.data.push('treeData', { text: 'g' });
+        console.log(JSON.stringify(this.data.get('treeData')));
     },
 
     nestedTreeViewToggle(value) {
-        console.log(value ? 'expanding' : 'collapsing');
+        console.log(value ? 'expanding' : 'collapsing', arguments);
+    },
+
+    nestedItemToggle(target) {
+        let treeData = target.data.get('treeData');
+        if (typeof treeData === 'object' 
+            && typeof treeData.treeData === 'object'
+            && treeData.treeData.length === 0) {
+            target.data.set('treeData.treeData', [{'text': 'dynamic'}]);
+        }
+    },
+
+    asyncNestedItemToggle(target) {
+        if (target.data.get('treeData.treeData')) {
+            return;
+        }
+        let text = target.data.get('primaryText');
+        let data = this.data.get('asyncTreeData')[text];
+        (typeof data === 'object') && (data.text = text);
+        target.data.set('treeData', this.data.get('asyncTreeData')[text]);
     },
 
     selectedToggle(value) {
@@ -230,6 +378,12 @@ export default {
 
     click(evt) {
         console.log('click', evt);
+    },
+
+    messages: {
+        'UI:item-clicked'(arg) {
+            console.log('item-clicked', arg.value, arg.value.comp.data.get('primaryText'));
+        }
     }
 }
 </script>

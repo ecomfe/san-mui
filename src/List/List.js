@@ -19,7 +19,12 @@ export default san.defineComponent({
 
         this.items = [];
     },
-
+    attached() {
+        this.watch('value', function (value) {
+            this.setSelectValue(value);
+            this.fire('change', value);
+        });
+    },
     messages: {
         'UI:list-item-attached'(arg) {
             if (!this.data.get('selectable')) {
@@ -39,12 +44,13 @@ export default san.defineComponent({
 
             this.data.set('value', newSelectValue);
 
-            let len = this.items.length;
-            while (len--) {
-                this.items[len].data.set('selectValue', newSelectValue);
-            }
-
-            this.fire('change', newSelectValue);
+            this.setSelectValue(newSelectValue);
         }
+    },
+    setSelectValue(value) {
+        let len = this.items.length;
+        while (len--) {
+            this.items[len].data.set('selectValue', value);
+        }        
     }
 });

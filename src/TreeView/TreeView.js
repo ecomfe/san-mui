@@ -33,7 +33,8 @@ export default san.defineComponent({
             wholeLineSelected: false,
             keepingSelected: false,
             filterBar: false,
-            filterBarHintText: ''
+            filterBarHintText: '',
+            initFromData: false
         };
     },
 
@@ -66,9 +67,18 @@ export default san.defineComponent({
         });
     },
 
+    created() {
+        this.dispatch('UI:tree-view-created', this);
+    },
+
     messages: {
         'UI:tree-view-item-highlighted'(arg) {
             let highlightedItem = arg.value.highlighted;
+        },
+        'UI:nested-item-toggle'(arg) {
+            if (arg.value) {
+                this.fire('nestedItemToggle', arg.value);
+            }
         },
         'UI:tree-view-item-attached'(arg) {
             if (!arg.value) {
@@ -84,6 +94,7 @@ export default san.defineComponent({
             if (index > -1) {
                 this.items.splice(index, 1);
             }
+            //this.data.set('selectedItem', null);
         },
         'UI:query-compact-attribute'(arg) {
             let compact = this.data.get('compact');
@@ -105,7 +116,8 @@ export default san.defineComponent({
         },
         'UI:clear-selected-item'(arg) {
             let selectedItem = this.data.get('selectedItem');
-            selectedItem && selectedItem.clearSelectedClass(false);
+            selectedItem && selectedItem.data
+                && selectedItem.clearSelectedClass(false);
         },
         'UI:query-filter-bar-attribute'(arg) {
             arg.target && arg.target.data && arg.target.data.set(
@@ -114,6 +126,19 @@ export default san.defineComponent({
         'UI:query-filter-text-attribute'(arg) {
             arg.target && arg.target.data && arg.target.data.set(
                 'filterText', this.data.get('filterText'));
+        },
+        'UI:query-checkbox-attribute'(arg) {
+            let target = arg.target;
+            let targetChecked = target.data.get('checked');
+            if (this.data.get('hasCheckbox')) {
+                target.data.set('hasCheckbox', true);
+            }
+        },
+        'UI:query-init-from-data'(arg) {
+            let target = arg.target;
+            if (target.data.get('initFromData') === undefined) {
+                target.data.set('initFromData', this.data.get('initFromData'));
+            }
         }
     },
 
@@ -142,7 +167,8 @@ export default san.defineComponent({
         this.items.forEach((item) => {
             let text = (item.data.get('primaryText')
                 + item.data.get('secondaryText')).toLowerCase();
-            if (text.indexOf(filterText) === -1 || (item.data.get('disabled') && filterText !== '')) {
+            if (text.indexOf(filterText) === -1
+                || (item.data.get('disabled') && filterText !== '')) {
                 item.data.set('hidden', item.data.get('children') > 0
                     ? true && item.data.get('hidden')
                     : true);
@@ -173,6 +199,10 @@ export default san.defineComponent({
 
     captureFilterInput(evt) {
         !this.filterInput && (this.filterInput = evt.target);
+    },
+
+    rebuildItems() {
+        this.items.splice(0, this.items.length);
     },
 
     transBoolean(key) {
