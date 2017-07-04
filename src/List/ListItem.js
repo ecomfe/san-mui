@@ -16,18 +16,18 @@ export default san.defineComponent({
         >
             <div class="sm-list-item-content" style="{{ itemContentStyle }}">
                 <div class="sm-list-item-left"><slot name="left"></slot></div>
-                <p class="sm-list-item-primary-text" 
+                <p class="sm-list-item-primary-text"
                     san-if="primaryText"
                 >{{ primaryText }}</p>
-                <p class="sm-list-item-secondary-text" 
-                    style="{{ secondaryTextStyle }}" 
+                <p class="sm-list-item-secondary-text"
+                    style="{{ secondaryTextStyle }}"
                     san-if="secondaryText"
                 >{{ secondaryText | raw }}</p>
             </div>
             <san-touch-ripple san-if="!disableRipple && !disabled" />
             <div class="sm-list-item-right" san-if="!toggleNested"><slot name="right"></slot></div>
-            <div class="sm-list-item-expand" 
-                san-if="toggleNested" 
+            <div class="sm-list-item-expand"
+                san-if="toggleNested"
                 on-click="toggleList($event, 'EXPAND')"
             >
                 <san-icon>expand_{{ open | listOpenIcon }}</san-icon>
@@ -109,21 +109,24 @@ export default san.defineComponent({
     },
 
     attached() {
+
         let slotChilds = this.slotChilds;
-        let hasLeft = true;
-        let hasRight = true;
+
+        let hasLeft = false;
+        let hasRight = false;
 
         for (let slot of slotChilds) {
             if (slot.name === 'left') {
-                hasLeft = false;
+                hasLeft = true;
             }
             if (slot.name === 'right') {
-                hasRight = false;
+                hasRight = true;
             }
         }
 
         this.data.set('hasLeft', hasLeft);
         this.data.set('hasRight', hasRight);
+
     },
 
     toggleList(evt, driver) {
