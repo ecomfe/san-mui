@@ -5,41 +5,60 @@
 
 import {create} from '../common/util/cx';
 import Layer from '../Layer/Layer';
-import * as Mask from '../Mask';
-import css from '../common/util/css';
+import Mask from '../Mask';
 
 const cx = create('dialog');
 
 export default class Dialog extends Layer {
 
     static template = `
-        <div
-            class="{{computedClassName}}"
-            style="{{style}}">
-            <h3 class="${cx.getPartClassName('title')}">
-                <slot name="title">{{title}}</slot>
-            </h3>
-            <div class="${cx.getPartClassName('body')}">
-                <slot></slot>
+        <div class="{{computedClassName}}" style="{{mainStyle}}">
+            <div class="${cx.getPartClassName('content')}" style="{{contentStyle}}">
+                <div class="${cx.getPartClassName('scroller')}" style="{{scrollerStyle}}">
+                    <h3 class="${cx.getPartClassName('title')}">
+                        <slot name="title">{{title}}</slot>
+                    </h3>
+                    <div class="${cx.getPartClassName('body')}">
+                        <slot></slot>
+                    </div>
+                </div>
+                <div class="${cx.getPartClassName('actions')}">
+                    <slot name="actions"></slot>
+                </div>
             </div>
-            <div class="${cx.getPartClassName('actions')}">
-                <slot name="actions"></slot>
-            </div>
+            <sm-mask
+                s-if="useMask"
+                on-close="onMaskClick"
+                open={{open}}
+                z-index="{{-1}}" />
         </div>
     `;
 
-    static computed = {
-        style() {
-            return css({
-                display: this.data.get('open') ? 'block' : 'none',
-                width: `${this.data.get('width')}px`
-            });
-        },
+    static components = {
+        'sm-mask': Mask
+    };
 
+    static computed = {
+        mainStyle() {
+            return this.data.get('open') ? null : {display: 'none'};
+        },
+        contentStyle() {
+            return {
+                width: `${this.data.get('width')}px`
+            };
+        },
         computedClassName() {
             return cx(this).build();
+        },
+        scrollerStyle() {
+            let maxHeight = this.data.get('maxHeight');
+            return maxHeight == null
+                ? null
+                : {
+                    'max-height': maxHeight,
+                    'overflow': 'auto'
+                };
         }
-
     };
 
     initData() {
@@ -51,14 +70,19 @@ export default class Dialog extends Layer {
         };
     }
 
+    lockBodyScroll(locked) {
+        document.body.style.overflow = locked ? 'hidden' : '';
+    }
+
     attached() {
-        super.attached();
-        let onMaskClick = this.onMaskClick = this.onMaskClick.bind(this);
         this.watch('open', open => {
-            if (this.data.get('useMask')) {
-                open ? Mask.show(onMaskClick) : Mask.hide();
-            }
+            this.lockBodyScroll(open);
         });
+        this.lockBodyScroll(this.data.get('open'));
+    }
+
+    detached() {
+        this.lockBodyScroll(false);
     }
 
     onMaskClick() {
@@ -66,10 +90,5 @@ export default class Dialog extends Layer {
             this.data.set('open', false);
         }
     }
-
-    detached() {
-        this.data.set('open', false);
-    }
-
 
 }

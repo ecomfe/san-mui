@@ -10,15 +10,21 @@
 
 .sm-dialog
     position: fixed
-    left: 50%
-    top: 50%
-    width: 75%
-    max-width: 768px
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: $san-z-index.dialog
-    -webkit-transform: translate3d(-50%, -50%, 0)
-    transform: translate3d(-50%, -50%, 0)
-    box-shadow: san-shadow('2')
-    background-color: #fff
+
+    &-content
+        width: 75%
+        max-width: 768px
+        box-shadow: san-shadow('2')
+        background-color: #fff
 
     &-title
         display: flex

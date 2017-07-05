@@ -12,13 +12,25 @@ export class Mask extends Component {
     static template = `
         <div
             class="sm-mask"
-            style="display: {{open ? 'block' : 'none'}}"
+            style="{{mainStyle}}"
             on-click="onRequestClose" />
     `;
 
+    static computed = {
+        mainStyle() {
+            let open = this.data.get('open');
+            let zIndex = this.data.get('zIndex');
+            return {
+                'display': open ? 'block' : 'none',
+                'z-index': zIndex
+            };
+        }
+    };
+
     initData() {
         return {
-            open: false
+            open: false,
+            zIndex: 10
         };
     }
 
