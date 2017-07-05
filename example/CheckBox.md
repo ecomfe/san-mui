@@ -136,7 +136,7 @@ export default {
 
 ## API
 
-### Props
+### 属性
 
 |名称|类型|必须|默认值|描述|
 |:---|:---:|---|---|:---|
@@ -154,6 +154,12 @@ export default {
 |indeterminate|boolean|false|false|是否有不确定状态|
 |canClickToSwitchToIndeterminate|boolean|false|false|不定状态是否参与点击交互|
 
-### Slots
+### 事件
+
+|名称|描述|
+|---|---|
+|change|与 `input[type=checkbox]` 元素的change事件一致，参数为新的value值|
+
+### 插槽
 
 无
