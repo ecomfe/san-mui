@@ -19,7 +19,7 @@ import TextField from '../TextField';
 export default class DatePicker extends Component {
 
     static template = `
-        <div class="{{computedClassName}}" ref="anchor">
+        <div class="sm-date-picker" ref="anchor">
             <san-text-field
                 label="{{label}}"
                 labelFloat="{{labelFloat}}"
