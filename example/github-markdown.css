@@ -253,6 +253,7 @@
 }
 
 .markdown-body table.md {
+    table-layout: fixed;
     border-spacing: 0;
     border-collapse: collapse;
 }
@@ -568,7 +569,6 @@
 }
 
 .markdown-body table.md {
-    display: block;
     width: 100%;
     overflow: auto;
 }
