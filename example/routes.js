@@ -7,7 +7,7 @@
 
 import Main from '../README.md';
 
-import AppBar from './AppBar.san';
+import AppBar from './AppBar.md';
 import Avatar from './Avatar.md';
 import Button from './Button.md';
 import Card from './Card.md';
