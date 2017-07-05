@@ -15,7 +15,7 @@ import Carousel from './Carousel.md';
 import Checkbox from './Checkbox.md';
 import Chip from './Chip.md';
 import DatePicker from './DatePicker.md';
-import Dialog from './Dialog.san';
+import Dialog from './Dialog.md';
 import Divider from './Divider.md';
 import Drawer from './Drawer.san';
 import ExpansionPanel from './ExpansionPanel.md';
