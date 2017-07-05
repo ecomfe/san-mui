@@ -1,4 +1,4 @@
-## Button
+## Popover
 
 ### 弹层组件
 
@@ -135,10 +135,10 @@ export default {
 
 ## API
 
-### Props
+### 属性
 
 | 名称 | 类型 | 默认值 | 描述|
-| --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | triggerEleId | string | | 触发 popover 浮层显示的元素id，需要根据此元素的位置计算弹出的位置 |
 | triggerOperation | string | click | 定义如何触发弹出框，支持 “click”、 “focus” 两种类型 |
 | showArrow | boolean | true | 是否显示浮层小箭头 |
@@ -147,7 +147,7 @@ export default {
 | open | boolean | false | 浮层是否直接显示出来 |
 
 
-### Events
+### 事件
 
 | 名称 | 描述|
 | --- | --- |
@@ -155,17 +155,17 @@ export default {
 | hide | 当浮层隐藏的时候触发 |
 
 
-### Slots
+### 插槽
 
 | 名称 | 描述|
 | --- | --- |
 | default | 内容部分 |
 
 
-### Function
+### 方法
 
 | 名称 | 描述|
-| --- | --- |
+| --- | :--- |
 | show | 显示浮层 |
 | hide | 隐藏浮层 |
 | toggle | 显示/隐藏浮层 |

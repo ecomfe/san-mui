@@ -40,7 +40,7 @@ function getOffset(ele) {
 export default san.defineComponent({
 
     template: `
-        <div class="sm-popover {{ placement }}{{ !open ? ' hide' : '' }}{{ open ? ' show' : '' }}{{ animation ? ' animation' : '' }}{{ !showArrow ? ' no-arrow' : '' }}"
+        <div class="sm-popover {{ placement }}{{ !open ? ' hide-popover' : '' }}{{ open ? ' show' : '' }}{{ animation ? ' animation' : '' }}{{ !showArrow ? ' no-arrow' : '' }}"
             style="left: {{ posLeft }}px; top: {{ posTop }}px;">
             <div san-if="{{ showArrow }}" class="arrow arrow-{{ placement }}"></div>
             <div class="inner">

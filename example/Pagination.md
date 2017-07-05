@@ -1,4 +1,4 @@
-## Button
+## Pagination
 
 ### 分页组件
 
@@ -65,10 +65,10 @@ export default {
 
 ## API
 
-### Props
+### 属性
 
 | 名称 | 类型 | 默认值 | 描述|
-| --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | pageSize | number | 10 | 页长（每页显示条数）当显示了 pageSize 选择框 pageSize 只能是可选项里的数字 |
 | current | number | 1 | 默认第一页 |
 | total | number | | 数据总数 |
@@ -77,9 +77,13 @@ export default {
 | nextPageText | string | | 上一页按钮显示文字 |
 | lastPageText | string | | 下一页按钮显示文字 |
 
-### Events
+### 事件
 
 | 名称 | 描述|
 | --- | --- |
 | pageChange | 当页码改变的时候触发 |
 | pageSizeChange | 当pageSize改变的时候触发 |
+
+### 插槽
+
+无
