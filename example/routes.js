@@ -17,7 +17,7 @@ import Chip from './Chip.md';
 import DatePicker from './DatePicker.md';
 import Dialog from './Dialog.md';
 import Divider from './Divider.md';
-import Drawer from './Drawer.san';
+import Drawer from './Drawer.md';
 import ExpansionPanel from './ExpansionPanel.md';
 import Grid from './Grid.san';
 import Icon from './Icon.md';
