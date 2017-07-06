@@ -48,7 +48,7 @@ export default {
     initData() {
         return {
             value: 'ON',
-            inputValue: []
+            inputValue: ['ON']
         };
     },
     click(e) {
@@ -162,7 +162,7 @@ export default {
 
 |名称|描述|
 |---|---|
-|change|与 `input[type=checkbox]` 元素的change事件一致，参数change事件的事件对象|
+|change|与 `input[type=checkbox]` 元素的change事件一致，参数为change事件的事件对象|
 |input-change|当`inputValue`发生改变的时候触发的事件，参数为 inputValue 的值|
 
 ### 插槽

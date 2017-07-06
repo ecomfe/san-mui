@@ -75,7 +75,7 @@ export default san.defineComponent({
     initData() {
         return {
             name: '',
-            value: '',
+            value: 'ON',
             label: '',
             labelLeft: false,
             labelClass: '',
