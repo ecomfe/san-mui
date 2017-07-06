@@ -104,7 +104,9 @@ export default {
 ```
 
 
-### API
+## API
+
+### 属性
 
 | 名称 | 类型 | 必须 | 默认值 | 描述|
 |---|---|---|---|---|
@@ -112,3 +114,13 @@ export default {
 |position|string|false|left|抽屉的位置，可选值为 `left` `right` `top` `bottom`|
 |useMask|boolean|false|true|在抽屉打开时是否使用遮罩层；点击遮罩层会收起抽屉|
 |open|boolean|false|false|是否打开抽屉|
+
+### 事件
+
+无
+
+### 插槽
+
+|名称|描述|
+|---|---|
+|default|抽屉内容|
