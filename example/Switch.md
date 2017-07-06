@@ -6,10 +6,19 @@
 <template>
     <div>
         <div class="switch-row">
-            <sm-switch label="开关" onValue="{{value}}" class="demo-switch" on-input-change="handleChange($event)"/>
-            <sm-switch label="默认为 true" value="{= inputValue =}" class="demo-switch"/>
-            <sm-switch label="不可用" disabled class="demo-switch"/>
-            <sm-switch label="文字在左边" labelLeft class="demo-switch"/>
+            <sm-switch
+                label="开关"
+                onValue="{{value}}"
+                on-input-change="handleChange($event)" />
+            <sm-switch
+                label="默认为 true"
+                value="{= inputValue =}" />
+            <sm-switch
+                label="不可用"
+                disabled />
+            <sm-switch
+                label="文字在左边"
+                labelLeft />
         </div>
     </div>
 </template>
