@@ -6,14 +6,14 @@
 import san from 'san';
 import {create} from '../common/util/cx';
 import {IconButton, Button} from '../Button';
-import './carousel.styl';
+import './Carousel.styl';
 import {throttle} from '../common/util/throttle';
 
 const cx = create('carousel');
 export default class Carousel extends san.Component {
 
     static template = `
-        <div 
+        <div
             class="{{computedClassName}}"
             on-mouseenter="handleMouseEnter"
             on-mouseleave="handleMouseLeave">
@@ -37,11 +37,11 @@ export default class Carousel extends san.Component {
                 <slot></slot>
 
             </div>
-            <ul 
+            <ul
                 class="${cx.getPartClassName('indicators')}"
                 san-if="indicator">
-                <li 
-                    class="${cx.getPartClassName('indicator')} 
+                <li
+                    class="${cx.getPartClassName('indicator')}
                     {{index === activeIndex ? 'is-active' : '' }}"
                     san-for="item, index in data"
                     on-mouseenter="throttledIndicatorHover(index)"
