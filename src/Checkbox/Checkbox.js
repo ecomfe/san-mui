@@ -16,9 +16,9 @@ export default san.defineComponent({
             <input type="checkbox"
                 disabled="{{disabled}}"
                 name="{{name}}"
-                value="{{nativeValue}}"
-                on-change="handleChange"
-                checked="{=inputValue=}">
+                value="{{value}}"
+                on-change="handleChange($event)"
+                checked="{=checked=}">
             <div class="sm-checkbox-wrapper">
                 <div
                     class="sm-checkbox-label {{labelClass}}"
@@ -76,7 +76,6 @@ export default san.defineComponent({
         return {
             name: '',
             value: '',
-            nativeValue: '',
             label: '',
             labelLeft: false,
             labelClass: '',
@@ -84,7 +83,7 @@ export default san.defineComponent({
             checkedIcon: '',
             indeterminateIcon: 'icon',
             iconClass: '',
-            inputValue: ''
+            checked: ['-1']
         };
     },
     computed: {
@@ -105,7 +104,7 @@ export default san.defineComponent({
             this.ref('ripple').click();
         }
     },
-    handleChange() {
+    handleChange(e) {
 
         // 修改表单元素的默认行为属性，使其可以在 click 时可以切换至 indeterminate 状态。
         if (this.data.get('canClickToSwitchToIndeterminate')) {
@@ -117,9 +116,9 @@ export default san.defineComponent({
             setTimeout(() => {
                 this.indeterminateIndex = ++[this.indeterminateIndex |= 0][0] % 3;
                 this.data.set(
-                    'inputValue',
+                    'checked',
                     this.indeterminateIndex !== 0
-                        ? [this.data.get('nativeValue')]
+                        ? [this.data.get('value')]
                         : []
                 );
                 this.data.set('indeterminate', this.indeterminateIndex === 1);
@@ -130,15 +129,14 @@ export default san.defineComponent({
 
         }
 
-        let inputValue = this.data.get('inputValue');
-        this.fire('change', inputValue);
+        this.fire('change', e);
 
     },
     attached() {
         let input = null;
-
-        this.watch('inputValue', value => {
+        this.watch('checked', value => {
             this.data.set('indeterminate', false);
+            this.fire('input-change', value);
         });
         this.watch('indeterminate', value => {
             // FIXME:

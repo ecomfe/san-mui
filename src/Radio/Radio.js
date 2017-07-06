@@ -6,16 +6,17 @@
 import san from 'san';
 import icon from '../Icon';
 import {CenterRipple} from '../Ripple';
+import cx from 'classnames';
 
 export default san.defineComponent({
     template: `
-        <label class="sm-radio {{labelLeft ? 'label-left' : '')}} {{disabled ? 'disabled' : ''}} {{!label ? 'no-label' : ''}}" on-click="handleClick($event)">
+        <label class="{{mainClass}}" on-click="handleClick($event)">
             <input type="radio"
                 disabled="{{disabled}}"
                 name="{{name}}"
-                value="{{nativeValue}}"
+                value="{{value}}"
                 on-change="handleChange"
-                checked="{= inputValue =}">
+                checked="{= checked =}">
             <div class="sm-radio-wrapper">
                 <div class="sm-radio-label {{labelClass}}" san-if="label && labelLeft">{{label}}</div>
                 <div class="sm-radio-icon">
@@ -37,32 +38,48 @@ export default san.defineComponent({
         'sm-icon': icon,
         'sm-center-ripple': CenterRipple
     },
+    computed: {
+        mainClass() {
+            return cx(
+                'sm-radio',
+                {
+                    'label-left': this.data.get('labelLeft'),
+                    'disabled': this.data.get('disabled'),
+                    'no-label': !this.data.get('label')
+                }
+            );
+        }
+    },
     initData() {
         return {
             name: '',
             value: '',
-            nativeValue: '',
             label: '',
             labelLeft: false,
             labelClass: '',
             uncheckIcon: '',
             checkedIcon: '',
             iconClass: '',
-            inputValue: ''
+            checked: ''
         };
     },
     handleClick(e) {
         // 阻止事件冒泡，放置外部控制的时候触发两次 click
-        this.ref('ripple').click();
+        if (!this.data.get('disabled')) {
+            this.ref('ripple').click();
+        }
     },
     handleTouchStart(event) {
     },
     handleTouchEnd() {
     },
     handleChange() {
-        let inputValue = this.data.get('inputValue');
-        this.fire('change', inputValue);
+        let checked = this.data.get('checked');
+        this.fire('change', checked);
     },
     attached() {
+        this.watch('checked', val => {
+            this.fire('input-change', val);
+        });
     }
 });

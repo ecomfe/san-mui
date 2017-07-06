@@ -8,9 +8,10 @@
         <div class="checkbox-row">
             <sm-checkbox
                 label="最简单的"
-                nativeValue="{{value}}"
+                value="{{value}}"
                 class="demo-checkbox"
-                inputValue="{=inputValue=}"/>
+                on-input-change="handleChange($event)"
+                checked="{=inputValue=}"/>
             <sm-checkbox
                 label="自定义icon"
                 class="demo-checkbox"
@@ -30,7 +31,7 @@
                 nativeValue="{{value}}"
                 class="demo-checkbox"
                 disabled
-                inputValue="{=inputValue=}"/>
+                checked="{=inputValue=}"/>
             <sm-checkbox label="文字在左边的" class="demo-checkbox" labelLeft/>
         </div>
     </div>
@@ -47,7 +48,7 @@ export default {
     initData() {
         return {
             value: 'ON',
-            inputValue: ['ON']
+            inputValue: []
         };
     },
     click(e) {
@@ -56,6 +57,9 @@ export default {
             'inputValue',
             !v || v.length === 0 || v[0] === '' ? [this.data.get('value')] : ['']
         );
+    },
+    handleChange(e) {
+        console.log(e);
     }
 };
 </script>
@@ -88,7 +92,7 @@ export default {
             label="不确定"
             nativeValue="{{value}}"
             class="demo-checkbox"
-            inputValue="{=inputValue=}"
+            checked="{=inputValue=}"
             indeterminate="{=indeterminate=}"/>
         <sm-button
             variants="raised info"
@@ -141,8 +145,8 @@ export default {
 |名称|类型|必须|默认值|描述|
 |:---|:---:|---|---|:---|
 |name|string|false||表单名|
-|value|string|false||值|
-|nativeValue|string|false||native input值|
+|value|string|false||input 值|
+|disabled|boolean|false||禁止|
 |label|string|false||标签|
 |labelLeft|boolean|false|false|标签是否显示在左侧|
 |labelClass|string|false||额外的标签样式类名|
@@ -150,7 +154,7 @@ export default {
 |checkedIcon|string|false||自定义已勾选icon|
 |indeterminateIcon|string|false||自定义不确定icon|
 |iconClass|string|false||额外的icon样式类名|
-|inputValue|string|false||输入值|
+|checked|string|false||控件值|
 |indeterminate|boolean|false|false|是否有不确定状态|
 |canClickToSwitchToIndeterminate|boolean|false|false|不定状态是否参与点击交互|
 
@@ -158,7 +162,8 @@ export default {
 
 |名称|描述|
 |---|---|
-|change|与 `input[type=checkbox]` 元素的change事件一致，参数为新的value值|
+|change|与 `input[type=checkbox]` 元素的change事件一致，参数change事件的事件对象|
+|input-change|当`inputValue`发生改变的时候触发的事件，参数为 inputValue 的值|
 
 ### 插槽
 
