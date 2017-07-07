@@ -24,7 +24,7 @@ import Icon from './Icon.md';
 import List from './List.md';
 import Menu from './Menu.md';
 import Radio from './Radio.md';
-import Paper from './Paper.san';
+import Paper from './Paper.md';
 import Pagination from './Pagination.md';
 import Popover from './Popover.md';
 import Progress from './Progress.md';
