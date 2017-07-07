@@ -6,11 +6,34 @@
 
 **系统图标** 代表一个命令、文件、设备、目录或一般性操作。
 
+示例：
+
+```san 简单的使用
+<template>
+<section class="icon-demo" style="justify-content: space-around;">
+    <sm-icon size="32">account_box</sm-icon>
+    <sm-icon size="32">access_alarm</sm-icon>
+    <sm-icon size="32">add_box</sm-icon>
+    <sm-icon size="32" style="color: rgb(0, 159, 147)">airplay</sm-icon>
+</section>
+</template>
+<script>
+import icons from 'html!../src/common/font/codepoints';
+import Icon from '../src/Icon';
+import '../src/Icon/Icon.styl'
+export default {
+    components: {
+        'sm-icon': Icon
+    }
+};
+</script>
+```
+
 ```san 所有的 Icon
 <template>
 <section class="icon-demo">
     <div class="icon" san-for="icon in icons">
-        <san-icon size="32">{{icon}}</san-icon>
+        <sm-icon size="32">{{icon}}</sm-icon>
         <p>{{icon}}</p>
     </div>
 </section>
@@ -23,7 +46,7 @@ import '../src/Icon/Icon.styl'
 
 export default {
     components: {
-        'san-icon': Icon
+        'sm-icon': Icon
     },
     initData() {
         return {
@@ -58,3 +81,21 @@ export default {
 
 </style>
 ```
+
+## API
+
+### 属性
+
+| 名称 | 类型 | 必须 | 默认值 | 描述|
+|---|---|---|---|---|
+|size|string\|number|false|无|icon 的大小，单位 px|
+
+### 事件
+
+无
+
+### 插槽
+
+|名称|描述|
+|---|---|
+|default|icon名|
