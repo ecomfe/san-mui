@@ -19,7 +19,7 @@ import Dialog from './Dialog.md';
 import Divider from './Divider.md';
 import Drawer from './Drawer.md';
 import ExpansionPanel from './ExpansionPanel.md';
-import Grid from './Grid.san';
+import Grid from './Grid.md';
 import Icon from './Icon.md';
 import List from './List.md';
 import Menu from './Menu.md';
