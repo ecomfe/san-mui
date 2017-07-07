@@ -17,52 +17,52 @@ import '../src/Uploader/Uploader.styl';
 export default {
 
     components: {
-        'uploader': Uploader,
+        uploader: Uploader
     },
 
     initData() {
         return {
             initOpt1: {
-                action: 'https://jsonplaceholder.typicode.com/posts/', // 上传地址
-                headers: {
+                'action': 'https://jsonplaceholder.typicode.com/posts/', // 上传地址
+                'headers': {
                     myheader: 'my-headers' // 上传自定义请求头options
                 },
-                multiple: true,
-                data: {
+                'multiple': true,
+                'data': {
                     mydata: 'my-data' // 上传表单中除文件额外数据
                 },
-                name: 'filename',  // 上传表单中文件字段key 默认file
+                'name': 'filename',  // 上传表单中文件字段key 默认file
                 'with-credentials': false, // 上传credentials，默认false
                 'show-file-list': true, // 是否展示文件列表，默认展示
-                drag: false, // 是否开启拖拽上传，开启后拖拽文件自动上传，默认false
-                accept: '', // 接受文件类型，参考input accept属性 默认无
-                'on-preview': function(file) {
+                'drag': false, // 是否开启拖拽上传，开启后拖拽文件自动上传，默认false
+                'accept': '', // 接受文件类型，参考input accept属性 默认无
+                'on-preview'(file) {
                     // 点击查看文件信息
                 },
-                'on-remove': function(file, fileList) {
+                'on-remove'(file, fileList) {
                     // 点击小叉关闭文件时触发
                 },
-                'on-success': function(response, file, fileList) {
+                'on-success'(response, file, fileList) {
                     // 文件上传成功回调
                 },
-                'on-error': function(err, file, fileList) {
+                'on-error'(err, file, fileList) {
                     // 文件上传失败触发
                 },
-                'on-progress': function(event, file, fileList) {
+                'on-progress'(event, file, fileList) {
                     // 文件上传进度改变时触发
                 },
-                'on-change': function(file, fileList) {
+                'on-change'(file, fileList) {
                     // 文件状态发生改变时触发
                 },
-                'before-upload': function(file) {
+                'before-upload'(file) {
                     // 文件上传之前触发，返回true则文件继续上传
-                    return true 
+                    return true;
                 },
                 'auto-upload': true, // 是否自动上传，默认true
-                disabled: false // 是否禁用，默认false
+                'disabled': false // 是否禁用，默认false
             },
             initOpt2: {
-                action: 'https://jsonplaceholder.typicode.com/posts/',
+                'action': 'https://jsonplaceholder.typicode.com/posts/',
                 'auto-upload': false
             },
             initOpt3: {
@@ -74,7 +74,7 @@ export default {
 
     attached() {
     }
-}
+};
 
 </script>
 
