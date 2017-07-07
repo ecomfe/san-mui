@@ -29,7 +29,7 @@ import Pagination from './Pagination.md';
 import Popover from './Popover.md';
 import Progress from './Progress.md';
 import Ripple from './Ripple.md';
-import Slider from './Slider.san';
+import Slider from './Slider.md';
 import Switch from './Switch.md';
 import SubHeader from './SubHeader.md';
 import Table from './Table.san';

@@ -11,7 +11,7 @@ const cx = create('slider');
 
 export default san.defineComponent({
     template: `
-        <div class="{{styleClassName}}" tabindex="0" 
+        <div class="{{styleClassName}}" tabindex="0"
             on-focus="handleFocus($event)"
             on-blur="handleBlur($event)"
             on-touchstart="handleTouchStart($event)"
@@ -122,11 +122,13 @@ export default san.defineComponent({
 
     setData(obj) {
         const data = this.data;
+        /* eslint-disable fecs-use-for-of */
         for (let i in obj) {
             if (obj.hasOwnProperty(i)) {
                 data.set(i, obj[i]);
             }
         }
+        /* eslint-enable fecs-use-for-of */
     },
 
     handleFocus(e) {
