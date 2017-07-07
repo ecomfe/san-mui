@@ -150,7 +150,9 @@ export default {
 
 ## API
 
-### Props
+### Linear Progress
+
+#### 属性
 
 | 名称 | 类型 | 默认值 | 描述|
 | --- | --- | --- | --- |
@@ -161,3 +163,33 @@ export default {
 | value | number | 0 | 进度值 |
 | size | number | 32 | 环型进度指示器的半径 |
 | strokeWidth | number | 2 | 环型进度指示器的线条粗细 |
+
+#### 事件
+
+无
+
+#### 插槽
+
+无
+
+### Circular Progress
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 描述|
+| --- | --- | --- | --- |
+| value | number | 0 | 当前进度值 |
+| mode | string | indeterminate | 是否使用 value 来控制进度值 |
+| max | number | 100 | 最大值 |
+| min | number | 0 | 最小值 |
+| value | number | 0 | 进度值 |
+| size | number | 32 | 环型进度指示器的半径 |
+| strokeWidth | number | 2 | 环型进度指示器的线条粗细 |
+
+#### 事件
+
+无
+
+#### 插槽
+
+无

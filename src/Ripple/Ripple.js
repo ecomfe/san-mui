@@ -4,7 +4,6 @@
  */
 
 import san from 'san';
-import css from '../common/util/css';
 import {create} from '../common/util/cx';
 
 const cx = create('ripple');
@@ -25,7 +24,8 @@ export default san.defineComponent({
             steps: 40,
             opacity: [0.1, 0],
             scale: [0, 2],
-            animating: false
+            animating: false,
+            color: null
         };
     },
 
@@ -41,18 +41,18 @@ export default san.defineComponent({
             let left = this.data.get('left');
             let width = this.data.get('width');
             let height = this.data.get('height');
+            let color = this.data.get('color');
             let radius = Math.max(width, height);
 
-            let style = css({
-                top: `${top - radius}px`,
-                left: `${left - radius}px`,
-                width: `${radius * 2}px`,
-                height: `${radius * 2}px`,
-                transform: `scale(${scale}, ${scale})`,
-                opacity
-            });
-
-            return style;
+            return {
+                'top': `${top - radius}px`,
+                'left': `${left - radius}px`,
+                'width': `${radius * 2}px`,
+                'height': `${radius * 2}px`,
+                'transform': `scale(${scale}, ${scale})`,
+                'opacity': opacity,
+                'background-color': color
+            };
 
         }
     },

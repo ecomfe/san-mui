@@ -28,7 +28,7 @@ import Paper from './Paper.md';
 import Pagination from './Pagination.md';
 import Popover from './Popover.md';
 import Progress from './Progress.md';
-import Ripple from './Ripple.san';
+import Ripple from './Ripple.md';
 import Slider from './Slider.san';
 import Switch from './Switch.md';
 import SubHeader from './SubHeader.md';
