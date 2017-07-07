@@ -1,4 +1,6 @@
 @import '../css/variable'
+@import '../Checkbox/Checkbox.styl';
+@import '../Radio/Radio.styl';
 
 .sm-table
     background: $md-colors.white
@@ -35,8 +37,13 @@
         background: $md-colors.faintBlack
 
     .sm-table-col-select
-        width: 20px;
+        width: 2rem;
+        text-align: center;
         padding: 0 10px
+
+        >.sm-checkbox,
+        >.sm-radio
+            vertical-align: middle;
 
 
 .sm-table-hoverable
