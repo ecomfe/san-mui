@@ -1,36 +1,64 @@
+/**
+ * @file 表格
+ * @author errorrik<errorrik@gmail.com>
+ * @author jinzhubaofu <leonlu@outlook.com>
+ */
 
 import san from 'san';
 import TD from './TD';
 import TH from './TH';
-
+import Checkbox from '../Checkbox';
+import Radio from '../Radio';
 
 export default class TR extends san.Component {
     static components = {
-        'ui-td': TD,
-        'ui-th': TH
+        'sm-td': TD,
+        'sm-th': TH,
+        'sm-checkbox': Checkbox,
+        'sm-radio': Radio
     };
 
-    static template = `<tr class="{{selected && pos === 'tbody' ? 'sm-table-row-selected' : ''}}">
-        <ui-th san-if="tableSelectable === 'multi' && pos === 'thead'" class="sm-table-col-select">
-            <input type="checkbox" on-click="selectAll($event)">
-        </ui-th>
+    static template = `
+        <tr class="{{selected && pos === 'tbody' ? 'sm-table-row-selected' : ''}}">
+            <sm-th
+                san-if="tableSelectable === 'multi'"
+                class="sm-table-col-select">
+                <sm-checkbox
+                    s-if="tableSelectable"
+                    checked="{{checked}}"
+                    value="ON"
+                    on-input-change="select($event)" />
+            </sm-th>
+            <sm-th
+                san-if="tableSelectable === 'single'"
+                class="sm-table-col-select">
+                <sm-radio
+                    s-if="tableSelectable && pos === 'tbody'"
+                    checked="{{checked}}"
+                    value="ON"
+                    on-input-change="select($event)" />
+            </sm-th>
+            <slot></slot>
+        </tr>
+    `;
 
-        <ui-th san-if="tableSelectable === 'single' && pos === 'thead'" class="sm-table-col-select">
-        </ui-th>
-
-        <ui-td san-if="tableSelectable === 'multi' && pos === 'tbody'" class="sm-table-col-select">
-            <input type="checkbox" on-click="selectItem($event)">
-        </ui-td>
-
-        <ui-td san-if="tableSelectable === 'single' && pos === 'tbody'" class="sm-table-col-select">
-            <input type="radio" on-click="selectItem($event)">
-        </ui-td>
-        <slot></slot>
-    </tr>`;
+    static computed = {
+        checked() {
+            let selected = this.data.get('selected');
+            let tableSelectable = this.data.get('tableSelectable');
+            switch (tableSelectable) {
+                case 'single':
+                    return selected ? 'ON' : '';
+                case 'multi':
+                    return selected ? ['ON'] : [];
+            }
+        }
+    };
 
     initData() {
         return {
-            pos: 'tbody'
+            pos: 'tbody',
+            selected: false
         };
     }
 
@@ -38,25 +66,30 @@ export default class TR extends san.Component {
         this.dispatch('UI:tr-inited');
     }
 
-    selectAll(e) {
-        this.dispatch('UI:table-select-all', e.target.checked);
+    /**
+     * 选中
+     *
+     * @note 这里把数据变化丢给 table，table 会更新 tr 的 selected 值
+     * @param  {Array<string>} checked checkbox的当前选中值
+     */
+    select(checked) {
+
+
+        let {selected, pos} = this.data.get();
+        let nextSelected = !!checked.length;
+
+        if (selected === nextSelected) {
+            return;
+        }
+
+        this.data.set('selected', nextSelected, {silent: true});
+
+        this.dispatch(
+            `UI:table-select-${pos === 'tbody' ? 'item' : 'head'}`,
+            nextSelected
+        );
+
     }
 
-    selectItem(e) {
-        this.data.set('selected', e.target.checked);
-        this.dispatch('UI:table-select-item', e.target.checked);
-    }
 
-    attached() {
-        this.watch('selected', function (value) {
-            let input = this.getSelectableInput();
-            if (input){
-                input.checked = !!value;
-            }
-        });
-    }
-
-    getSelectableInput() {
-        return this.el.getElementsByTagName('input')[0];
-    }
 }
