@@ -1,10 +1,15 @@
+/**
+ * @file 表格
+ * @author errorrik<errorrik@gmail.com>
+ * @author jinzhubaofu <leonlu@outlook.com>
+ */
 
-import Table from './Table'
-import THead from './THead'
-import TBody from './TBody'
-import TR from './TR'
-import TD from './TD'
-import TH from './TH'
+import Table from './Table';
+import THead from './THead';
+import TBody from './TBody';
+import TR from './TR';
+import TD from './TD';
+import TH from './TH';
 
 export default class ConfigurableTable extends Table {
     static components = {

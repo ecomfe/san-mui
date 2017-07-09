@@ -44,7 +44,7 @@ export default class Table extends san.Component {
             if (this.thead) {
                 this.thead.updateSelectAllState(this.isAllSelected());
             }
-            this.fire('select');
+            this.fire('select', e.value);
         }
     };
 

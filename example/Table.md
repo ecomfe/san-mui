@@ -278,3 +278,177 @@ export default {
 };
 </script>
 ```
+
+除了通过编写 template 的方式，你还可以通过指定数据的方式来使用 `table`:
+
+```san Configurable Table
+<template>
+    <div>
+        <sm-table
+            data="{{persons}}"
+            fields="{{fields}}"
+            selectable="multi"
+            on-select="select($event)" />
+    </div>
+</template>
+<script>
+import {ConfigurableTable} from '../src/Table';
+import '../src/Table/Table.styl';
+export default {
+    components: {
+        'sm-table': ConfigurableTable
+    },
+    select(selected) {
+        console.log(selected);
+    },
+    initData() {
+        return {
+            persons: [
+                {
+                    name: 'erik',
+                    birthday: '1984-01-01',
+                    city: 'BeiJing',
+                    selected: false
+                },
+                {
+                    name: 'otakustay',
+                    birthday: '1986-04-04',
+                    city: 'ShangHai',
+                    selected: false
+                },
+                {
+                    name: 'firede',
+                    birthday: '1987-02-02',
+                    city: 'BeiJing',
+                    selected: false
+                },
+                {
+                    name: 'leon',
+                    birthday: '1989-03-03',
+                    city: 'ShenZhen',
+                    selected: true
+                }
+            ],
+            fields: [
+                {
+                    title: '名字',
+                    prop: 'name'
+                },
+                {
+                    title: '城市',
+                    prop: 'city'
+                },
+                {
+                    title: '生日',
+                    prop: 'birthday',
+                    content: function (item) {
+                        return item.birthday.replace(/-/g, '/');
+                    }
+                }
+            ]
+        };
+    }
+};
+</script>
+```
+
+## API
+
+### Table
+
+#### 属性
+
+|名称|类型|必须|默认值|描述|
+|:---|:---:|---|---|:---|
+|selectable|string\|boolean|false|false|表格是否可选，可以设定为 false 表示不可选；或者设定为 `single` 单选；或者设定为 `multi` 多选|
+
+#### 事件
+
+|名称|描述|
+|:---|:---|
+|select|当表格可选时，选中行发生变化时触发，带有当月选中行序号，例如: [0, 2, 3]|
+
+#### 插槽
+
+|名称|描述|
+|:---|:---|:---|
+|default|默认内容，一般是 TBody|
+|header|表头，一般是 THead|
+|footer|表脚，一般是 TFoot|
+
+### THead / TFoot
+
+#### 属性
+无
+
+#### 事件
+无
+
+#### 插槽
+
+|名称|描述|
+|:---|:---|
+|default|默认插槽，一般为 TR|
+
+### TBody
+
+#### 属性
+无
+
+#### 事件
+无
+
+#### 插槽
+
+|名称|描述|
+|:---|:---|
+|default|默认内容，一般为多个 TR|
+
+### TR
+
+#### 属性
+
+|名称|类型|必须|默认值|描述|
+|:---|:---:|---|---|:---|
+|selected|boolean|false|false|当前列是否被选中，仅当 table 的 selectable 为 single 或 multi 时有效）|
+
+#### 事件
+无
+
+#### 插槽
+
+|名称|描述|
+|:---|:---|
+|default|内容插槽，一般为多个 TH 或 TD|
+
+### TH / TD
+
+#### 属性
+无
+
+#### 事件
+无
+
+#### 插槽
+|名称|描述|
+|:---|:---|
+|default|内容插槽|
+
+### ConfigurableTable
+
+#### 属性
+
+|名称|类型|必须|默认值|描述|
+|:---|:---:|---|---|:---|
+|fields|Array\<Object\>|true|无|表格的列配置，数组中每项都代表一列；每列必须添加 `title` / `prop` 属性，可选添加 `content` 属性，自定义单元格的渲染|
+|selectable|string\|boolean|false|false|表格是否可选，可以设定为 false 表示不可选；或者设定为 `single` 单选；或者设定为 `multi` 多选|
+|data|Array<*>|true|无|表格数据|
+
+#### 事件
+
+|名称|描述|
+|:---|:---|
+|select|当表格可选时，选中行发生变化时触发，带有当月选中行序号，例如: [0, 2, 3]|
+
+#### 插槽
+无
