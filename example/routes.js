@@ -35,7 +35,7 @@ import SubHeader from './SubHeader.md';
 import Table from './Table.san';
 import Tabs from './Tabs.san';
 import TreeView from './TreeView.san';
-import TextField from './TextField.san';
+import TextField from './TextField.md';
 import TimePicker from './TimePicker.san';
 import Toast from './Toast.md';
 import Uploader from './Uploader.san';
