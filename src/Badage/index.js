@@ -1,5 +1,5 @@
 /**
- * @file Badage 
+ * @file Badage
  * @author malingyang(malingyang@baidu.com)
  */
 

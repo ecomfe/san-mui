@@ -1,6 +1,6 @@
 /**
- * @file Badage 
- * @author malingyang(malingyang@baidu.com)
+ * @file Badage
+ ** @author malingyang(malingyang@baidu.com)
  */
 
 import {create} from '../common/util/cx';
@@ -34,7 +34,7 @@ export default san.defineComponent({
             hidden: false,
             max: undefined,
             color: ''
-        }
+        };
     },
 
     computed: {
@@ -42,16 +42,16 @@ export default san.defineComponent({
             return cx(this).build();
         },
         computedContent() {
-           let max = this.data.get('max');
-           let content = this.data.get('content');
-           if (isNaN(max) || isNaN(content)) {
-              return content; 
-           } 
-           if (content > max) {
-               return max + '+';
-           } else {
-               return content; 
-           }
+            let max = this.data.get('max');
+            let content = this.data.get('content');
+            if (isNaN(max) || isNaN(content)) {
+                return content;
+            }
+            if (content > max) {
+                return max + '+';
+            } else {
+                return content;
+            }
         },
         computedStyleDefault() {
             let color = this.data.get('color');
@@ -59,7 +59,7 @@ export default san.defineComponent({
             return {
                 'background-color': color,
                 'display': ifShow
-            } 
+            };
         },
         computedStyleIcon() {
             let color = this.data.get('color');
@@ -67,7 +67,7 @@ export default san.defineComponent({
             return {
                 'color': color,
                 'display': ifShow
-            } 
+            };
         }
     }
 
