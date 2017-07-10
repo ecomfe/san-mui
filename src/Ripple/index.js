@@ -5,8 +5,10 @@
 
 import TouchRipple from './TouchRipple';
 import CenterRipple from './CenterRipple';
+import FocusRipple from './FocusRipple';
 
 export {
     CenterRipple,
-    TouchRipple
+    TouchRipple,
+    FocusRipple
 };

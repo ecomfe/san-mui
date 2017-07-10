@@ -15,6 +15,7 @@ export default class IconButton extends BaseButton {
     static template = `
         <button
             class="{{computedClassName}}"
+            type="{{type}}"
             disabled="{{disabled}}"
             on-click="onClick($event)">
             <san-icon icon="{{icon}}"><slot /></san-icon>

@@ -12,5 +12,6 @@ import IconButton from './IconButton';
 export {
     IconButton,
     Button,
-    Button as default
+    Button as default,
+    Button as FlatButton
 };

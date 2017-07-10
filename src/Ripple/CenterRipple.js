@@ -22,6 +22,7 @@ export default san.defineComponent({
                 top="{{ripple.y}}"
                 width="{{ripple.width}}"
                 height="{{ripple.height}}"
+                color="{{color}}"
                 on-animate-end="onRippleAnimateEnd(index)" />
         </div>
     `,

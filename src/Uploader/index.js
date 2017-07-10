@@ -1,6 +1,6 @@
 /**
  * @file Upload
- * @author luoxincheng(luoxincheng@baidu.com)
+ * @author nemo (<474021406@qq.com>)
  */
 
 export default from './Uploader';
