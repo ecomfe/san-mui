@@ -36,7 +36,7 @@ import Table from './Table.md';
 import Tabs from './Tabs.md';
 import TreeView from './TreeView.san';
 import TextField from './TextField.san';
-import TimePicker from './TimePicker.san';
+import TimePicker from './TimePicker.md';
 import Toast from './Toast.md';
 import Uploader from './Uploader.san';
 
