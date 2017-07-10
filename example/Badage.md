@@ -25,7 +25,7 @@
             content="23"
         >
             <sm-button variants="info">
-                assignment
+                按钮
             </sm-button>
         </sm-badage>
         <sm-badage
