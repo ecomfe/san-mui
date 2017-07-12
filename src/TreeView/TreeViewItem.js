@@ -22,7 +22,7 @@ export default san.defineComponent({
                 style="{{touchRippleStyle}}"
                 class="{{selectedClass}} {{hiddenClass}}"
             ></san-touch-ripple>
-                
+
             <div class="sm-tree-view-item-content {{selectedClass}}
                         {{hiddenClass}}"
                 style="{{itemContentStyle}}"
@@ -40,11 +40,11 @@ export default san.defineComponent({
                     on-change="checkboxChanged($event)"
                     on-click="checkboxClicked($event)"
                 />
-                <p class="sm-tree-view-item-primary-text" 
+                <p class="sm-tree-view-item-primary-text"
                     san-if="primaryText"
                 >{{ treeData ? treeData.text : primaryText }}</p>
-                <p class="sm-tree-view-item-secondary-text" 
-                    style="{{secondaryTextStyle}}" 
+                <p class="sm-tree-view-item-secondary-text"
+                    style="{{secondaryTextStyle}}"
                     san-if="secondaryText"
                 >{{ treeData ? treeData.secondaryText : secondaryText | raw }}
                 </p>
@@ -54,8 +54,8 @@ export default san.defineComponent({
             </div>
             <div
                 class="sm-tree-view-item-expand {{selectedClass}}
-                       {{hiddenClass}}" 
-                san-if="toggleNested" 
+                       {{hiddenClass}}"
+                san-if="toggleNested"
                 on-click="toggleTreeView($event, 'EXPAND', false, true)"
                 style="{{expandStyle}}"
             >
@@ -263,11 +263,11 @@ export default san.defineComponent({
 
     attached() {
         let slotChilds = this.slotChilds;
-        let hasLeft = 1;
+        let hasLeft = 0;
 
         for (let slot of slotChilds) {
             if (slot.name === 'left' || slot.name === 'leftAvatar') {
-                hasLeft--;
+                hasLeft++;
             }
         }
 
