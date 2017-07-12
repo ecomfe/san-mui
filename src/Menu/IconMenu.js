@@ -36,10 +36,6 @@ export default class IconMenu extends Component {
     };
 
     static messages = {
-        [C.MENU_ITEM_INITED]({target}) {
-            target.data.set('type', 'command');
-            this.items.push(target);
-        },
         [C.MENU_COLLAPSE]() {
             this.data.set('open', false);
         }
@@ -52,10 +48,6 @@ export default class IconMenu extends Component {
             anchorOrigin: 'tl',
             targetOrigin: 'tl'
         };
-    }
-
-    inited() {
-        this.items = [];
     }
 
     getAnchor() {
