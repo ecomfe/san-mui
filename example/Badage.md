@@ -184,17 +184,17 @@ export default {
 ```san 隐藏badage
 <template>
     <section class="badage-demo">
-        <sm-badage
+        <san-badage
             content="新通知"
             hidden="{{hidden}}"
         >
-            <sm-button
+            <san-button
                 variants="info"
                 on-click="handleClick"
             >
                 点击按钮以隐藏通知
-            </sm-button>
-        </sm-badage>
+            </san-button>
+        </san-badage>
     </section> 
 </template>
 
@@ -207,9 +207,9 @@ import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'sm-badage': Badage,
-        'sm-icon-button': IconButton,
-        'sm-button': Button
+        'san-badage': Badage,
+        'san-icon-button': IconButton,
+        'san-button': Button
     },
     initData() {
         return {
