@@ -7,35 +7,35 @@
 ```san 基础用法
 <template>
     <section class="badage-demo">
-        <sm-badage
+        <san-badage
             content="23"
         >
-            <sm-icon>
+            <san-icon>
                 assignment
-            </sm-icon>
-        </sm-badage>
-        <sm-badage
+            </san-icon>
+        </san-badage>
+        <san-badage
             content="23"
         >
-            <sm-icon-button>
+            <san-icon-button>
                 assignment
-            </sm-icon-button>
-        </sm-badage>
-        <sm-badage
+            </san-icon-button>
+        </san-badage>
+        <san-badage
             content="23"
         >
-            <sm-button variants="info">
+            <san-button variants="info">
                 按钮
-            </sm-button>
-        </sm-badage>
-        <sm-badage
+            </san-button>
+        </san-badage>
+        <san-badage
             content="新通知"
             color="#ff9800"
         >
-            <sm-button variants="info">
+            <san-button variants="info">
                 按钮
-            </sm-button>
-        </sm-badage>
+            </san-button>
+        </san-badage>
     </section> 
 </template>
 
@@ -50,10 +50,10 @@ import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'sm-badage': Badage,
-        'sm-icon-button': IconButton,
-        'sm-icon': Icon,
-        'sm-button': Button
+        'san-badage': Badage,
+        'san-icon-button': IconButton,
+        'san-icon': Icon,
+        'san-button': Button
     }
 }
 </script>
@@ -73,22 +73,22 @@ export default {
 ```san 最大值
 <template>
     <section class="badage-demo">
-        <sm-badage
+        <san-badage
             content="{{content}}"
             max="{{maxOne}}"
         >
-            <sm-icon-button>
+            <san-icon-button>
                 assignment
-            </sm-icon-button>
-        </sm-badage>
-        <sm-badage
+            </san-icon-button>
+        </san-badage>
+        <san-badage
             content="{{content}}"
             max="{{maxTwo}}"
         >
-            <sm-icon-button>
+            <san-icon-button>
                 assignment
-            </sm-icon-button>
-        </sm-badage>
+            </san-icon-button>
+        </san-badage>
     </section> 
 </template>
 
@@ -101,8 +101,8 @@ import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'sm-badage': Badage,
-        'sm-icon-button': IconButton
+        'san-badage': Badage,
+        'san-icon-button': IconButton
     },
     initData() {
         return {
@@ -129,24 +129,24 @@ export default {
 ```san 自定义形状
 <template>
     <section class="badage-demo">
-        <sm-badage>
-            <sm-icon slot="content">
+        <san-badage>
+            <san-icon slot="content">
                 star
-            </sm-icon>
-            <sm-icon-button>
+            </san-icon>
+            <san-icon-button>
                 assignment
-            </sm-icon-button>
-        </sm-badage>
-        <sm-badage
+            </san-icon-button>
+        </san-badage>
+        <san-badage
             color="#f00"
         >
-            <sm-icon slot="content">
+            <san-icon slot="content">
                 notifications
-            </sm-icon>
-            <sm-button variants="info">
+            </san-icon>
+            <san-button variants="info">
                 按钮
-            </sm-button>
-        </sm-badage>
+            </san-button>
+        </san-badage>
     </section> 
 </template>
 
@@ -161,10 +161,10 @@ import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'sm-badage': Badage,
-        'sm-icon-button': IconButton,
-        'sm-icon': Icon,
-        'sm-button': Button
+        'san-badage': Badage,
+        'san-icon-button': IconButton,
+        'san-icon': Icon,
+        'san-button': Button
     }
 }
 </script>
