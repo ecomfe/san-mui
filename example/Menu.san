@@ -1,0 +1,65 @@
+<template>
+    <div style="display: flex; align-items: flex-start">
+        <sm-dropdown-menu  value="{=value=}">
+            <sm-menu-item value="1" title="星期一"/>
+            <sm-menu-item value="2" title="星期二"/>
+            <sm-menu-item value="3" title="星期三"/>
+            <sm-menu-item value="4" title="星期四"/>
+            <sm-menu-item value="5" title="星期五"/>
+            <sm-divider />
+            <sm-menu-item value="6" title="星期六"/>
+            <sm-menu-item value="7" title="星期日"/>
+        </sm-dropdown-menu>
+        <sm-dropdown-menu
+            value="{{value2}}"
+            on-change="change($event)"
+            style="margin-left: 1rem">
+            <sm-menu-item value="1" title="星期一"/>
+            <sm-menu-item value="2" title="星期二"/>
+            <sm-menu-item value="3" title="星期三"/>
+            <sm-menu-item value="4" title="星期四"/>
+            <sm-menu-item value="5" title="星期五"/>
+            <sm-menu-item value="6" title="星期六"/>
+            <sm-menu-item value="7" title="星期日"/>
+        </sm-dropdown-menu>
+        <sm-dropdown-menu
+            value="{{value2}}"
+            on-change="change($event)"
+            disabled
+            style="margin-left: 1rem">
+            <sm-menu-item value="1" title="星期一"/>
+            <sm-menu-item value="2" title="星期二"/>
+            <sm-menu-item value="3" title="星期三"/>
+            <sm-menu-item value="4" title="星期四"/>
+            <sm-menu-item value="5" title="星期五"/>
+            <sm-menu-item value="6" title="星期六"/>
+            <sm-menu-item value="7" title="星期日"/>
+        </sm-dropdown-menu>
+    </div>
+</template>
+<script>
+import {MenuItem, DropDownMenu} from '../src/Menu';
+import Icon from '../src/Icon';
+import Divider from '../src/Divider';
+import '../src/Menu/index.styl';
+import '../src/Icon/Icon.styl';
+import '../src/Divider/Divider.styl';
+
+export default {
+    components: {
+        'sm-dropdown-menu': DropDownMenu,
+        'sm-menu-item': MenuItem,
+        'sm-icon': Icon,
+        'sm-divider': Divider
+    },
+    initData() {
+        return {
+            value: '',
+            value2: '1'
+        };
+    },
+    change(value) {
+        this.data.set('value2', value);
+    }
+};
+</script>

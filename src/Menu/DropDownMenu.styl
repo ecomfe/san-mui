@@ -1,36 +1,22 @@
-@require './common'
 @require '../Ripple/TouchRipple.styl'
 @require './MenuItem.styl'
-
-.sm-dropdown-menu-selected
-    line-height: $line-height
-    display: inline-block
-    position: relative
-
-    i
-        float: right
-        position: relative
-        top: 12px
-
-.sm-dropdown-menu-selected-label
-    display: inline-block
-    font-size: $label-fontSize
-    cursor: pointer
-
-.sm-dropdown-menu-underline
-    width: 100%
-    border-top: 1px solid $grey
-    absolute: _ 0 1px 0
-    margin: -1px 0
+@require '../Popover';
+@require '../TextField/index.styl';
 
 .sm-dropdown-menu
-    position: relative
-    color: $black
-    font-family: Roboto,Lato,sans-serif
-    font-size: $font-size
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
 
-    &.disabled
-        cursor: not-allowed
+    &-icon
+        position: absolute;
+        top: .5rem;
+        bottom: .75rem;
+        right: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
 
-        .sm-dropdown-menu-selected
-            color: $grey
+
+    &.state-disabled
+        cursor: not-allowed;

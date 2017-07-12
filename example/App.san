@@ -16,11 +16,11 @@
                 <!-- menu list 似乎有问题 先手动 -->
                 <div class="menu-list">
                     <san-menu-item
-                        san-for="menuItem in menus"
-                        selectValue="{{menuVal}}"
-                        title="{{menuItem.title}}"
-                        value="{{menuItem.value}}">
-                    </san-menu-item>
+                        san-for="component in menus"
+                        type="option"
+                        selected="{{component.value === menuVal}}"
+                        title="{{component.title}}"
+                        on-change="route(component)" />
                 </div>
 
             </div>
@@ -120,19 +120,6 @@ export default {
         }
     },
 
-    messages: {
-        'UI:menu-item-selected': function(e) {
-
-            var itemVal = e.value;
-
-            var menuPath = itemVal.value;
-
-            location.href = menuPath;
-
-            this.data.set('menuVal', menuPath);
-
-        }
-    },
 
     toggleMenu() {
         var openMenu = this.data.get('openMenu');
@@ -147,7 +134,6 @@ export default {
             target: '#example'
         }));
 
-
         // hack do route
         var doRoute = router.doRoute.bind(router);
         router.doRoute = (routeItem, e) => {
@@ -157,6 +143,11 @@ export default {
 
         router.start();
 
+    },
+
+    route(componentRoute) {
+        this.data.set('menuVal', componentRoute.value);
+        location.href = componentRoute.value;
     }
 
 

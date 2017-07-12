@@ -3,72 +3,67 @@
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
-import san from 'san';
-import Icon from '../Icon';
-import MenuBase from './MenuBase';
-import {CenterRipple} from '../Ripple';
-import Menu from './Menu';
+import {Component} from 'san';
+import IconButton from '../Button/IconButton';
+import Paper from '../Paper';
+import Popover from '../Popover';
+import * as C from './constant';
 
-let IconMenu = san.defineComponent({
-    template: `
-        <div class="sm-icon-menu {{ className }}" style="{{ iconMenuStyle }}">
-            <div class="sm-iconmenu-icon-wrapper"
-                on-click="toggleMenu($event)" 
-                on-mouseenter="handleMouseEnter($event)"
-                on-mouseleave="handleMouseLeave($event)"
-            >
-                <san-icon className="sm-iconmenu-icon">{{ icon }}</san-icon>
-                <san-center-ripple />
-            </div>
-            <san-menu 
-                open="{{ open }}" 
-                maxHeight="{{ maxHeight }}" 
-                useLayerForClickAway="{{ useLayerForClickAway }}" 
-                anchorOrigin="{{ anchorOrigin }}" 
-                targetOrigin="{{ targetOrigin }}"
-                menuStyle="{{ menuStyle }}"
-                className="{{ className }}"
-                >
-                <slot></slot>
-            </san-menu>
-            <p class="sm-iconmenu-tooltip {{ tooltipShow | yesToBe('show') }}">{{ tooltip }}</p>
-            <div san-if="useLayerForClickAway" 
-                class="sm-layer-for-click {{ !open | yesToBe('hidden') }}"
-            ></div>
+export default class IconMenu extends Component {
+    static template = `
+        <div class="{{className}}">
+            <sm-popover
+                open="{=open=}"
+                anchorOrigin="{{anchorOrigin}}"
+                targetOrigin="{{targetOrigin}}"
+                getAnchor="{{getAnchor}}">
+                <sm-paper>
+                    <slot />
+                </sm-paper>
+            </sm-popover>
+            <sm-icon-button
+                on-click="togglePopover"
+                disabled="{{disabled}}">
+                <slot name="icon">{{icon}}</slot>
+            </sm-icon-button>
         </div>
-    `,
+    `;
 
-    components: {
-        'san-icon': Icon,
-        'san-menu': Menu,
-        'san-center-ripple': CenterRipple
-    },
+    static components = {
+        'sm-icon-button': IconButton,
+        'sm-popover': Popover,
+        'sm-paper': Paper
+    };
+
+    static messages = {
+        [C.MENU_ITEM_INITED]({target}) {
+            target.data.set('type', 'command');
+            this.items.push(target);
+        },
+        [C.MENU_COLLAPSE]() {
+            this.data.set('open', false);
+        }
+    };
 
     initData() {
-        return Object.assign({
-            type: 'icon',
-            tooltipShow: false
-        }, this.defaultData());
-    },
-
-    attached() {
-        this.bindEvent();
-
-        this.handleMouseEnter = this.handleMouseEnter.bind(this);
-        this.handleMouseLeave = this.handleMouseLeave.bind(this);
-    },
-
-    beforeToggleMenu() {
-        this.data.set('tooltipShow', false);
-    },
-    handleMouseEnter(evt) {
-        this.data.set('tooltipShow', true);
-    },
-    handleMouseLeave(evt) {
-        this.data.set('tooltipShow', false);
+        return {
+            open: false,
+            getAnchor: this.getAnchor.bind(this),
+            anchorOrigin: 'tl',
+            targetOrigin: 'tl'
+        };
     }
 
-});
-san.inherits(IconMenu, MenuBase);
+    inited() {
+        this.items = [];
+    }
 
-export default IconMenu;
+    getAnchor() {
+        return this.el;
+    }
+
+    togglePopover() {
+        this.data.set('open', !this.data.get('open'));
+    }
+
+}

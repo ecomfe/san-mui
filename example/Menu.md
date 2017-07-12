@@ -2,310 +2,504 @@
 
 Menu 可选择的菜单组件
 
-#### 示例
+示例
 
-限高DropDown Menu
-
-```san DropDown Menu
+```san 简单使用
 <template>
     <div>
-        <san-dropdownmenu value="{{ 1 }}" maxHeight="120">
-            <san-menuitem value="{{ 1 }}" title="MenuItem 1" />
-            <san-menuitem value="{{ 2 }}" title="MenuItem 2" />
-            <san-menuitem value="{{ 3 }}" title="MenuItem 3" />
-            <san-menuitem value="{{ 4 }}" title="MenuItem 4" />
-            <san-icon slot="iconButton">arrow_drop_down</san-icon>
-        </san-dropdownmenu>
+        <sm-paper>
+            <sm-menu>
+                <sm-menu-item title="MenuItem 1" />
+                <sm-menu-item title="MenuItem 2" />
+                <sm-menu-item title="MenuItem 3" />
+                <sm-divider />
+                <sm-menu-item title="MenuItem 4" />
+            </sm-menu>
+        </sm-paper>
     </div>
 </template>
 <script>
+import {MenuItem, Menu} from '../src/Menu';
 import Icon from '../src/Icon';
-import {DropDownMenu, MenuItem} from '../src/Menu';
-import '../src/Menu/DropDownMenu.styl';
-import '../src/Menu/MenuItem.styl';
-import '../src/Icon/Icon.styl';
-export default {
-    components: {
-        'san-icon': Icon,
-        'san-dropdownmenu': DropDownMenu,
-        'san-menuitem': MenuItem
-    }
-};
-</script>
-```
-
-带label值DropDown Menu - 绑定了change、close事件
-
-```san DropDown Menu
-<template>
-    <div>
-        <san-dropdownmenu on-change="dropDownChange($event)" on-close="dropDownClose()" value="{{ 2 }}">
-            <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
-            <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
-            <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
-            <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
-            <san-icon slot="iconButton">arrow_drop_down</san-icon>
-        </san-dropdownmenu>
-    </div>
-</template>
-<script>
-import Icon from '../src/Icon';
-import {DropDownMenu, MenuItem} from '../src/Menu';
-import '../src/Menu/DropDownMenu.styl';
-import '../src/Menu/MenuItem.styl';
-import '../src/Icon/Icon.styl';
-export default {
-    components: {
-        'san-icon': Icon,
-        'san-dropdownmenu': DropDownMenu,
-        'san-menuitem': MenuItem
-    },
-    dropDownChange(value) {
-        console.log('value of dropdown menu changed to: ' + value);
-    },
-    dropDownClose() {
-        console.log('menu closed');
-    }
-};
-</script>
-```
-
-
-Disabled DropDown Menu
-
-```san Disabled DropDown Menu
-<template>
-    <div>
-        <san-dropdownmenu value="{{ 3 }}" disabled>
-            <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
-            <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
-            <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
-            <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
-            <san-icon slot="iconButton">arrow_drop_down</san-icon>
-        </san-dropdownmenu>
-    </div>
-</template>
-<script>
-import Icon from '../src/Icon';
-import {DropDownMenu, MenuItem} from '../src/Menu';
-import '../src/Menu/DropDownMenu.styl';
-import '../src/Menu/MenuItem.styl';
-import '../src/Icon/Icon.styl';
-export default {
-    components: {
-        'san-icon': Icon,
-        'san-dropdownmenu': DropDownMenu,
-        'san-menuitem': MenuItem
-    }
-};
-</script>
-```
-
-自动展开 DropDown Menu
-
-```san OpenImmediately DropDown Menu
-<template>
-    <div>
-        <san-dropdownmenu value="{{ 1 }}" openImmediately="{{!0}}">
-            <san-menuitem value="{{ 1 }}" label="MenuItem 1" title="No.1" />
-            <san-menuitem value="{{ 2 }}" label="MenuItem 2" title="No.2" />
-            <san-menuitem value="{{ 3 }}" label="MenuItem 3" title="No.3" />
-            <san-menuitem value="{{ 4 }}" label="MenuItem 4" title="No.4" />
-            <san-icon slot="iconButton">arrow_drop_down</san-icon>
-        </san-dropdownmenu>
-    </div>
-</template>
-<script>
-import Icon from '../src/Icon';
-import {DropDownMenu, MenuItem} from '../src/Menu';
-import '../src/Menu/DropDownMenu.styl';
-import '../src/Menu/MenuItem.styl';
-import '../src/Icon/Icon.styl';
-export default {
-    components: {
-        'san-icon': Icon,
-        'san-dropdownmenu': DropDownMenu,
-        'san-menuitem': MenuItem
-    }
-};
-</script>
-```
-
-Icon Menu - 点击列表项不关闭MENU，选项内嵌icon
-
-```san Command Icon Menu 
-<template>
-    <div>
-        <san-iconmenu icon="more_horiz" itemClickClose="{{!1}}" tooltip="操作">
-            <san-menuitem title="MenuItem 1" />
-            <san-menuitem title="MenuItem 2" />
-            <san-divider />
-            <san-menuitem title="Download" on-change="download()">
-                <san-icon slot="leftIcon">file_download</san-icon>
-            </san-menuitem>
-            <san-menuitem title="MenuItem 4">
-                <san-icon slot="rightIcon">chevron_right</san-icon>
-                <san-icon slot="rightIcon">subdirectory_arrow_right</san-icon>
-                <san-icon slot="rightIcon">notifications_off</san-icon>
-            </san-menuitem>
-        </san-iconmenu>
-    </div>
-</template>
-<script>
-import Icon from '../src/Icon';
-import {IconMenu, MenuItem} from '../src/Menu';
+import Paper from '../src/Paper';
 import Divider from '../src/Divider';
-import '../src/Menu/IconMenu.styl';
-import '../src/Menu/MenuItem.styl';
-import '../src/Icon/Icon.styl'
+import '../src/Menu/Menu.styl';
+import '../src/Icon/Icon.styl';
+import '../src/Paper/Paper.styl';
 import '../src/Divider/Divider.styl';
+
 export default {
     components: {
-        'san-icon': Icon,
-        'san-iconmenu': IconMenu,
-        'san-menuitem': MenuItem,
-        'san-divider': Divider
-    },
-    download() {
-        console.log('starting to download');
+        'sm-menu': Menu,
+        'sm-menu-item': MenuItem,
+        'sm-icon': Icon,
+        'sm-paper': Paper,
+        'sm-divider': Divider
     }
 };
 </script>
 ```
 
+你可以结合 `Icon` 一起使用
 
-Icon Menu - 调整menu位置 ``anchorOrigin: {vertical: 'bottom',horizontal: 'right'},
-targetOrigin: {horizontal: 'left',vertical: 'top'}``
-
-```san Icon Menu 
+```san 结合 Icon 一起使用
 <template>
-    <div>
-        <san-iconmenu icon="more_horiz" anchorOrigin="{{anchorOrigin}}" targetOrigin="{{targetOrigin}}">
-            <san-menuitem title="MenuItem 1" />
-            <san-menuitem title="MenuItem 2" />
-            <san-divider />
-            <san-menuitem title="Download" on-change="download()">
-                <san-icon slot="leftIcon">file_download</san-icon>
-            </san-menuitem>
-            <san-menuitem title="MenuItem 4">
-                <san-icon slot="rightIcon">chevron_right</san-icon>
-                <san-icon slot="rightIcon">subdirectory_arrow_right</san-icon>
-                <san-icon slot="rightIcon">notifications_off</san-icon>
-            </san-menuitem>
-        </san-iconmenu>
+    <div style="display: flex; align-items: flex-start">
+        <sm-paper>
+            <sm-menu>
+                <sm-menu-item title="播放" on-click="command('play')">
+                    <sm-icon slot="leftIcon">play_arrow</sm-icon>
+                </sm-menu-item>
+                <sm-menu-item title="下一首" on-click="command('next')">
+                    <sm-icon slot="leftIcon">skip_next</sm-icon>
+                </sm-menu-item>
+                <sm-menu-item title="上一首" on-click="command('previous')">
+                    <sm-icon slot="leftIcon">skip_previous</sm-icon>
+                </sm-menu-item>
+                <sm-divider />
+                <sm-menu-item title="反馈" />
+            </sm-menu>
+        </sm-paper>
+        <sm-paper style="margin-left: 1rem">
+            <sm-menu>
+                <sm-menu-item title="用户">
+                    <sm-icon slot="rightIcon">face</sm-icon>
+                </sm-menu-item>
+                <sm-menu-item title="喜欢">
+                    <sm-icon slot="rightIcon">favorite</sm-icon>
+                </sm-menu-item>
+                <sm-menu-item title="标签">
+                    <sm-icon slot="rightIcon">label</sm-icon>
+                </sm-menu-item>
+                <sm-menu-item title="支付">
+                    <sm-icon slot="rightIcon">payment</sm-icon>
+                </sm-menu-item>
+                <sm-divider />
+                <sm-menu-item title="反馈">
+                    <sm-icon slot="rightIcon">feedback</sm-icon>
+                </sm-menu-item>
+            </sm-menu>
+        </sm-paper>
     </div>
 </template>
 <script>
+import {MenuItem, Menu} from '../src/Menu';
 import Icon from '../src/Icon';
-import {IconMenu, MenuItem} from '../src/Menu';
 import Divider from '../src/Divider';
-import '../src/Menu/IconMenu.styl';
-import '../src/Menu/MenuItem.styl';
-import '../src/Icon/Icon.styl'
+import Paper from '../src/Paper';
+import '../src/Menu';
+import '../src/Icon/Icon.styl';
 import '../src/Divider/Divider.styl';
+import '../src/Paper/Paper.styl';
+
 export default {
     components: {
-        'san-icon': Icon,
-        'san-iconmenu': IconMenu,
-        'san-menuitem': MenuItem,
-        'san-divider': Divider
+        'sm-menu': Menu,
+        'sm-menu-item': MenuItem,
+        'sm-paper': Paper,
+        'sm-icon': Icon,
+        'sm-divider': Divider
+    },
+    command(type) {
+        console.log(`command: ${type}`);
+    }
+};
+</script>
+```
+
+> 请注意：Menu 中只要任意一个 MenuItem 带有 `leftIcon`，那么此 Menu 中的所有的 MenuItem 都会有左侧缩进
+
+我们在右侧不仅可以放置 Icon，还可以放置文本，一般用于快捷的标识：
+
+```san 使用属性 subTitle 设置右侧文本
+<template>
+    <div style="display: flex; align-items: flex-start">
+        <sm-paper>
+            <sm-menu style="min-width: 10rem">
+                <sm-menu-item
+                    title="播放"
+                    on-click="command('play')"
+                    subTitle="⌘p" />
+                <sm-menu-item
+                    title="下一首"
+                    on-click="command('next')"
+                    subTitle="⌘→" />
+                <sm-menu-item
+                    title="上一首"
+                    on-click="command('previous')"
+                    subTitle="⌘←" />
+                <sm-divider />
+                <sm-menu-item title="反馈" />
+            </sm-menu>
+        </sm-paper>
+    </div>
+</template>
+<script>
+import {MenuItem, Menu} from '../src/Menu';
+import Icon from '../src/Icon';
+import Divider from '../src/Divider';
+import Paper from '../src/Paper';
+import '../src/Menu';
+import '../src/Icon/Icon.styl';
+import '../src/Divider/Divider.styl';
+import '../src/Paper/Paper.styl';
+
+export default {
+    components: {
+        'sm-menu': Menu,
+        'sm-menu-item': MenuItem,
+        'sm-paper': Paper,
+        'sm-icon': Icon,
+        'sm-divider': Divider
+    },
+    command(type) {
+        console.log(`command: ${type}`);
+    }
+};
+</script>
+```
+
+`MenuItem` 可以根据情况设定是否可以点击：
+
+```san 禁用项
+<template>
+    <div style="display: flex; align-items: flex-start">
+        <sm-paper>
+            <sm-menu style="min-width: 10rem">
+                <sm-menu-item
+                    title="播放"
+                    on-click="command('play')"
+                    disabled
+                    subTitle="⌘p" />
+                <sm-menu-item
+                    title="下一首"
+                    on-click="command('next')"
+                    subTitle="⌘→" />
+                <sm-menu-item
+                    title="上一首"
+                    on-click="command('previous')"
+                    subTitle="⌘←" />
+                <sm-divider />
+                <sm-menu-item title="反馈" />
+            </sm-menu>
+        </sm-paper>
+    </div>
+</template>
+<script>
+import {MenuItem, Menu} from '../src/Menu';
+import Icon from '../src/Icon';
+import Divider from '../src/Divider';
+import Paper from '../src/Paper';
+import '../src/Menu';
+import '../src/Icon/Icon.styl';
+import '../src/Divider/Divider.styl';
+import '../src/Paper/Paper.styl';
+
+export default {
+    components: {
+        'sm-menu': Menu,
+        'sm-menu-item': MenuItem,
+        'sm-paper': Paper,
+        'sm-icon': Icon,
+        'sm-divider': Divider
+    },
+    command(type) {
+        console.log(`command: ${type}`);
+    }
+};
+</script>
+```
+
+多选与单选菜单
+
+```san 单选与复选
+<template>
+    <div>
+        <sm-paper>
+            <sm-menu style="min-width: 20rem">
+                <sm-menu-item
+                    title="复选1"
+                    type="checkbox"
+                    checked="{=value1=}"
+                    value="checkbox1" />
+                <sm-menu-item
+                    title="复选3"
+                    type="checkbox"
+                    checked="{=value1=}"
+                    value="checkbox2" />
+                <sm-menu-item
+                    title="复选3"
+                    type="checkbox"
+                    checked="{=value1=}"
+                    value="checkbox3" />
+                <sm-divider />
+                <sm-menu-item
+                    title="单选1"
+                    type="radio"
+                    checked="{=value2=}"
+                    value="radio1" />
+                <sm-menu-item
+                    title="单选3"
+                    type="radio"
+                    checked="{=value2=}"
+                    value="radio2" />
+                <sm-menu-item
+                    title="单选3"
+                    type="radio"
+                    checked="{=value2=}"
+                    value="radio3" />
+            </sm-menu>
+        </sm-paper>
+    </div>
+</template>
+<script>
+import {MenuItem, Menu} from '../src/Menu';
+import Icon from '../src/Icon';
+import Paper from '../src/Paper';
+import Divider from '../src/Divider';
+import '../src/Menu/Menu.styl';
+import '../src/Icon/Icon.styl';
+import '../src/Paper/Paper.styl';
+import '../src/Divider/Divider.styl';
+
+export default {
+    components: {
+        'sm-menu': Menu,
+        'sm-menu-item': MenuItem,
+        'sm-icon': Icon,
+        'sm-paper': Paper,
+        'sm-divider': Divider
     },
     initData() {
         return {
-            anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'right'
-            },
-            targetOrigin: {
-                horizontal: 'left',
-                vertical: 'top'
-            }
+            value1: ['checkbox2'],
+            value2: 'radio3'
         };
-    },
-    download() {
-        console.log('starting to download');
     }
 };
 </script>
 ```
 
-Icon Menu - MENU渲染在一个隐形层之上，防止触发其他对象的点击事件
+菜单可以支持多级嵌套：
 
-```san Icon Menu useLayerForClickAway
+> 给 `MenuItem` 设置 `cascade` 属性，并在插入 `submenu` 插槽
+
+```san 多级嵌套
 <template>
-    <div>
-        <san-iconmenu icon="more_horiz" useLayerForClickAway="{{!0}}">
-            <san-menuitem title="MenuItem 1" />
-            <san-menuitem title="MenuItem 2" />
-            <san-divider />
-            <san-menuitem title="MenuItem 3" />
-            <san-menuitem title="MenuItem 4" />
-        </san-iconmenu>
+    <div style="display: flex; align-items: flex-start">
+        <sm-paper>
+            <sm-menu style="min-width: 15rem">
+                <sm-menu-item title="开发者" cascade>
+                    <sm-menu slot="submenu" style="min-width: 15rem">
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" cascade>
+                            <sm-menu slot="submenu" style="min-width: 15rem">
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                            </sm-menu>
+                        </sm-menu-item>
+                        <sm-menu-item title="JavaScript 控制台" cascade>
+                            <sm-menu slot="submenu" style="min-width: 15rem">
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                            </sm-menu>
+                        </sm-menu-item>
+                    </sm-menu>
+                </sm-menu-item>
+                <sm-menu-item title="开发者" cascade>
+                    <sm-menu slot="submenu" style="min-width: 15rem">
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" cascade>
+                            <sm-menu slot="submenu" style="min-width: 15rem">
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                            </sm-menu>
+                        </sm-menu-item>
+                        <sm-menu-item title="JavaScript 控制台" cascade>
+                            <sm-menu slot="submenu" style="min-width: 15rem">
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                            </sm-menu>
+                        </sm-menu-item>
+                    </sm-menu>
+                </sm-menu-item>
+            </sm-menu>
+        </sm-paper>
     </div>
 </template>
 <script>
+import {MenuItem, Menu} from '../src/Menu';
 import Icon from '../src/Icon';
-import {IconMenu, MenuItem} from '../src/Menu';
 import Divider from '../src/Divider';
-import '../src/Menu/IconMenu.styl';
-import '../src/Menu/MenuItem.styl';
-import '../src/Icon/Icon.styl'
+import Paper from '../src/Paper';
+import '../src/Menu/index.styl';
+import '../src/Icon/Icon.styl';
 import '../src/Divider/Divider.styl';
+import '../src/Paper/Paper.styl';
+
 export default {
     components: {
-        'san-icon': Icon,
-        'san-iconmenu': IconMenu,
-        'san-menuitem': MenuItem,
-        'san-divider': Divider
+        'sm-menu': Menu,
+        'sm-menu-item': MenuItem,
+        'sm-paper': Paper,
+        'sm-icon': Icon,
+        'sm-divider': Divider
     }
 };
 </script>
 ```
 
-多选Icon Menu
 
-```san Multiple Icon Menu
+## DropDownMenu
+
+`DropDownMenu` 组件实现的是 material design 规范中的 [Textfield dropdown](https://material.io/guidelines/components/text-fields.html#text-fields-layout).
+
+
+```san 基本使用
 <template>
-    <div>
-        <san-iconmenu
-            icon="more_verti"
-            value="{{ multipleValues }}"
-            multiple 
-            all="{{ all }}"
-            on-change="iconMenuMultipleChange($event)"
-        >
-            <san-menuitem value="{{ 1 }}" title="multiple 1" />
-            <san-menuitem value="{{ 2 }}" title="multiple 2" />
-            <san-menuitem value="{{ 3 }}" title="multiple 3" />
-            <san-menuitem value="{{ 4 }}" title="multiple 4" />
-        </san-iconmenu>
-        <san-button on-click="toggleChooseAll($event)">toggle全选</san-button>
+<section>
+    <div style="display: flex; align-items: flex-start">
+        <sm-dropdown-menu  value="{=value=}">
+            <sm-menu-item value="1" title="星期一"/>
+            <sm-menu-item value="2" title="星期二"/>
+            <sm-menu-item value="3" title="星期三"/>
+            <sm-menu-item value="4" title="星期四"/>
+            <sm-menu-item value="5" title="星期五"/>
+            <sm-divider />
+            <sm-menu-item value="6" title="星期六"/>
+            <sm-menu-item value="7" title="星期日"/>
+        </sm-dropdown-menu>
+        <sm-dropdown-menu
+            value="{{value2}}"
+            on-change="change($event)"
+            style="margin-left: 1rem">
+            <sm-menu-item value="1" title="星期一"/>
+            <sm-menu-item value="2" title="星期二"/>
+            <sm-menu-item value="3" title="星期三"/>
+            <sm-menu-item value="4" title="星期四"/>
+            <sm-menu-item value="5" title="星期五"/>
+            <sm-menu-item value="6" title="星期六"/>
+            <sm-menu-item value="7" title="星期日"/>
+        </sm-dropdown-menu>
+        <sm-dropdown-menu
+            value="{{value2}}"
+            on-change="change($event)"
+            disabled
+            style="margin-left: 1rem">
+            <sm-menu-item value="1" title="星期一"/>
+            <sm-menu-item value="2" title="星期二"/>
+            <sm-menu-item value="3" title="星期三"/>
+            <sm-menu-item value="4" title="星期四"/>
+            <sm-menu-item value="5" title="星期五"/>
+            <sm-menu-item value="6" title="星期六"/>
+            <sm-menu-item value="7" title="星期日"/>
+        </sm-dropdown-menu>
     </div>
+    <h4>可以通过指定 autoWidth=false，使浮层宽度与输入框体一致</h4>
+    <sm-dropdown-menu value="{=value=}" autoWidth="{{!1}}">
+        <sm-menu-item value="1" title="星期一"/>
+        <sm-menu-item value="2" title="星期二"/>
+        <sm-menu-item value="3" title="星期三"/>
+        <sm-menu-item value="4" title="星期四"/>
+        <sm-menu-item value="5" title="星期五"/>
+        <sm-divider />
+        <sm-menu-item value="6" title="星期六"/>
+        <sm-menu-item value="7" title="星期日"/>
+    </sm-dropdown-menu>
+    <h4>禁用某一个选项</h4>
+    <sm-dropdown-menu value="{=value=}" autoWidth="{{!1}}">
+        <sm-menu-item value="1" title="星期一" disabled />
+        <sm-menu-item value="2" title="星期二"/>
+        <sm-menu-item value="3" title="星期三"/>
+        <sm-menu-item value="4" title="星期四"/>
+        <sm-menu-item value="5" title="星期五"/>
+        <sm-divider />
+        <sm-menu-item value="6" title="星期六"/>
+        <sm-menu-item value="7" title="星期日"/>
+    </sm-dropdown-menu>
+</section>
 </template>
 <script>
+import {MenuItem, DropDownMenu} from '../src/Menu';
 import Icon from '../src/Icon';
-import {IconMenu, MenuItem} from '../src/Menu';
-import {Button} from '../src/Button';
-import '../src/Menu/IconMenu.styl';
-import '../src/Menu/MenuItem.styl';
-import '../src/Button/Button.styl';
+import Divider from '../src/Divider';
+import '../src/Menu/index.styl';
+import '../src/Icon/Icon.styl';
+import '../src/Divider/Divider.styl';
+
 export default {
     components: {
-        'san-iconmenu': IconMenu,
-        'san-menuitem': MenuItem,
-        'san-button': Button
+        'sm-dropdown-menu': DropDownMenu,
+        'sm-menu-item': MenuItem,
+        'sm-icon': Icon,
+        'sm-divider': Divider
     },
     initData() {
         return {
-            multipleValues: [3,1],
-            all: false
+            value: '',
+            value2: '1'
         };
     },
-    iconMenuMultipleChange(value) {
-        console.log('iconmenu multiple values changed to: ' + JSON.stringify(value));
-    },
-    toggleChooseAll() {
-        this.data.set('all', !this.data.get('all'));
+    change(value) {
+        this.data.set('value2', value);
+    }
+};
+</script>
+```
+
+### IconMenu
+
+[Icon Menus](https://www.google.com/design/spec/components/menus.html#menus-usage) 是一种点击图标而打开的菜单。它们可以设置相关的图标，并且只占用最少的空间。
+
+```san IconMenu
+<template>
+<section>
+    <div style="display: flex; align-items: flex-start">
+        <sm-icon-menu icon="more_vert">
+            <sm-menu-item title="刷新">
+                <sm-icon slot="leftIcon">refresh</sm-icon>
+            </sm-menu-item>
+            <sm-menu-item title="推出">
+                <sm-icon slot="leftIcon">eject</sm-icon>
+            </sm-menu-item>
+            <sm-divider />
+            <sm-menu-item title="喜欢" >
+                <sm-icon slot="leftIcon">favorite</sm-icon>
+            </sm-menu-item>
+        </sm-dropdown-menu>
+    </div>
+</section>
+</template>
+<script>
+import {MenuItem, IconMenu} from '../src/Menu';
+import Icon from '../src/Icon';
+import Divider from '../src/Divider';
+import '../src/Menu/index.styl';
+import '../src/Icon/Icon.styl';
+import '../src/Divider/Divider.styl';
+
+export default {
+    components: {
+        'sm-icon-menu': IconMenu,
+        'sm-menu-item': MenuItem,
+        'sm-icon': Icon,
+        'sm-divider': Divider
     }
 };
 </script>
