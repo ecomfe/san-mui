@@ -22,7 +22,9 @@ import ExpansionPanel from './ExpansionPanel.md';
 import Grid from './Grid.md';
 import Icon from './Icon.md';
 import List from './List.md';
-import Menu from './Menu.md';
+import Menu from './Menu/Menu.md';
+import IconMenu from './Menu/IconMenu.md';
+import DropdownMenu from './Menu/DropdownMenu.md';
 import Radio from './Radio.md';
 import Paper from './Paper.md';
 import Pagination from './Pagination.md';
@@ -40,41 +42,153 @@ import TimePicker from './TimePicker.md';
 import Toast from './Toast.md';
 import Uploader from './Uploader.san';
 
-let routes = {
-    '/': Main,
-    '/AppBar': AppBar,
-    '/Avatar': Avatar,
-    '/Button': Button,
-    '/Card': Card,
-    '/TextField': TextField,
-    '/Menu': Menu,
-    '/List': List,
-    '/TreeView': TreeView,
-    '/Tabs': Tabs,
-    '/Pagination': Pagination,
-    '/Paper': Paper,
-    '/Popover': Popover,
-    '/Drawer': Drawer,
-    '/Divider': Divider,
-    '/Progress': Progress,
-    '/DatePicker': DatePicker,
-    '/Dialog': Dialog,
-    '/Table': Table,
-    '/Ripple': Ripple,
-    '/Icon': Icon,
-    '/Checkbox': Checkbox,
-    '/Radio': Radio,
-    '/Slider': Slider,
-    '/Switch': Switch,
-    '/SubHeader': SubHeader,
-    '/ExpansionPanel': ExpansionPanel,
-    '/TimePicker': TimePicker,
-    '/Snackbar & Toast': Toast,
-    '/Chip': Chip,
-    '/Grid': Grid,
-    '/Uploader': Uploader,
-    '/Carousel': Carousel
-
-};
+let routes = [
+    {
+        path: '/',
+        name: 'Main',
+        component: Main
+    },
+    {
+        name: 'Memu',
+        components: [
+            {
+                name: 'Menu',
+                component: Menu
+            },
+            {
+                name: 'IconMenu',
+                component: IconMenu
+            },
+            {
+                name: 'DropdownMenu',
+                component: DropdownMenu
+            }
+        ]
+    },
+    {
+        name: 'AppBar',
+        component: AppBar
+    },
+    {
+        name: 'Avatar',
+        component: Avatar
+    },
+    {
+        name: 'Button',
+        component: Button
+    },
+    {
+        name: 'Card',
+        component: Card
+    },
+    {
+        name: 'TextField',
+        component: TextField
+    },
+    {
+        name: 'List',
+        component: List
+    },
+    {
+        name: 'TreeView',
+        component: TreeView
+    },
+    {
+        name: 'Tabs',
+        component: Tabs
+    },
+    {
+        name: 'Pagination',
+        component: Pagination
+    },
+    {
+        name: 'Paper',
+        component: Paper
+    },
+    {
+        name: 'Popover',
+        component: Popover
+    },
+    {
+        name: 'Drawer',
+        component: Drawer
+    },
+    {
+        name: 'Divider',
+        component: Divider
+    },
+    {
+        name: 'Progress',
+        component: Progress
+    },
+    {
+        name: 'DatePicker',
+        component: DatePicker
+    },
+    {
+        name: 'Dialog',
+        component: Dialog
+    },
+    {
+        name: 'Table',
+        component: Table
+    },
+    {
+        name: 'Ripple',
+        component: Ripple
+    },
+    {
+        name: 'Icon',
+        component: Icon
+    },
+    {
+        name: 'Checkbox',
+        component: Checkbox
+    },
+    {
+        name: 'Radio',
+        component: Radio
+    },
+    {
+        name: 'Slider',
+        component: Slider
+    },
+    {
+        name: 'Switch',
+        component: Switch
+    },
+    {
+        name: 'SubHeader',
+        component: SubHeader
+    },
+    {
+        name: 'ExpansionPanel',
+        component: ExpansionPanel
+    },
+    {
+        name: 'TimePicker',
+        component: TimePicker
+    },
+    {
+        name: 'Toast',
+        component: Toast
+    },
+    {
+        name: 'Chip',
+        component: Chip
+    },
+    {
+        name: 'Grid',
+        component: Grid
+    },
+    {
+        name: 'Uploader',
+        component: Uploader
+    },
+    {
+        name: 'Carousel',
+        component: Carousel
+    }
+];
 
 export default routes;
