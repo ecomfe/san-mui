@@ -18,11 +18,10 @@ export default san.defineComponent({
             on-click="toggleTreeView($event)"
             style="{{itemStyle}}"
         >
-            <san-touch-ripple san-if="!disableRipple && !disabled"
+            <san-touch-ripple s-if="!disableRipple && !disabled"
                 style="{{touchRippleStyle}}"
                 class="{{selectedClass}} {{hiddenClass}}"
             ></san-touch-ripple>
-
             <div class="sm-tree-view-item-content {{selectedClass}}
                         {{hiddenClass}}"
                 style="{{itemContentStyle}}"
@@ -31,31 +30,31 @@ export default san.defineComponent({
                     <slot name="left"></slot>
                 </div>
                 <san-checkbox
-                    san-if="hasCheckbox"
-                    san-ref="checkbox"
+                    s-if="checked === true || checked === false"
+                    s-ref="checkbox"
                     nativeValue="{{checkboxValue}}"
                     disabled="{{disabled}}"
-                    inputValue="{=checkboxInputValue=}"
+                    checked="{=checkboxInputValue=}"
                     indeterminate="{=checkboxIndeterminate=}"
                     on-change="checkboxChanged($event)"
                     on-click="checkboxClicked($event)"
                 />
                 <p class="sm-tree-view-item-primary-text"
-                    san-if="primaryText"
+                    s-if="primaryText"
                 >{{ treeData ? treeData.text : primaryText }}</p>
-                <p class="sm-tree-view-item-secondary-text"
-                    style="{{secondaryTextStyle}}"
-                    san-if="secondaryText"
+                <p class="sm-tree-view-item-secondary-text" 
+                    style="{{secondaryTextStyle}}" 
+                    s-if="secondaryText"
                 >{{ treeData ? treeData.secondaryText : secondaryText | raw }}
                 </p>
-                <div class="sm-tree-view-item-right" san-if="!toggleNested">
+                <div class="sm-tree-view-item-right" s-if="!toggleNested">
                     <slot name="right"></slot>
                 </div>
             </div>
             <div
                 class="sm-tree-view-item-expand {{selectedClass}}
                        {{hiddenClass}}"
-                san-if="toggleNested"
+                s-if="toggleNested"
                 on-click="toggleTreeView($event, 'EXPAND', false, true)"
                 style="{{expandStyle}}"
             >
@@ -65,13 +64,14 @@ export default san.defineComponent({
             <div class="sm-tree-view-item-nested {{ open | treeViewOpen }}"
                 style="{{nestedTreeViewStyle}}"
             >
-                <slot name="nested" san-if="!initFromData"></slot>
+                <slot name="nested" s-if="dataSource!=='JSON'"></slot>
                 <san-tree-view-item
-                    san-else
-                    san-for="item in treeData.treeData"
-                    treeData="{{item}}"
+                    s-else
+                    s-for="item, index in treeData.treeData"
+                    s-ref="item_{{index}}"
+                    treeData="{=item=}"
                     initiallyOpen="{{initiallyOpen}}"
-                    initFromData
+                    dataSource="JSON"
                 >
                 </san-tree-view-item>
             </div>
@@ -80,16 +80,24 @@ export default san.defineComponent({
 
     defaultData() {
         return {
-            itemIndex: 0,
+            // 是否可用
             disabled: false,
+            // 是否隐藏（高亮过滤时启用）
             hidden: false,
+            // 是否选中
             selected: false,
+            // 是否取消波纹效果
             disableRipple: false,
+            // 点击时优先展开/折叠子项
             primaryTogglesNestedTreeView: true,
+            // 初始展开状态
             initiallyOpen: false,
+            // 复选框状态
+            //（null：禁用，undefined：由父项决定，true：选中，false：未选中）
             checked: null,
-            hasCheckbox: false,
-            initFromData: false
+            // 数据源
+            //（ATTRIBUTE：属性定义（静态），JSON：传入 treeData 数据定义（动态））
+            dataSource: 'ATTRIBUTE'
         };
     },
 
@@ -121,21 +129,38 @@ export default san.defineComponent({
             this.toggleTreeView(document.createEvent('MouseEvent'), '',
                 true, false);
         },
-        'UI:query-checkbox-attribute'(arg) {
+        'UI:tree-view-item-attached'(arg) {
+            this.data.set('children', this.data.get('children') + 1);
+            this.dispatch('UI:tree-view-item-attached', arg.value);
+
+        },
+        'UI:tree-view-item-detached'(arg) {
+            this.data && this.data.set(
+                'children', this.data.get('children') - 1);
+            this.dispatch('UI:tree-view-item-detached', arg.value);
+        },
+        'UI:query-data-source-attribute'(arg) {
             let target = arg.target;
-            if (typeof target.data.get('checked') === 'boolean') {
+            if (target.data.get('dataSource') === undefined) {
+                target.data.set('dataSource', this.data.get('dataSource'));
+            }
+        },
+        'UI:query-parent-checkbox-state'(arg) {
+            this.dispatch('UI:query-parent-checkbox-state');
+            let child = arg.target;
+            if (!child) {
                 return;
             }
-            target.data.set('checked', this.data.get('checked'));
-        },
-        'UI:query-init-from-data'(arg) {
-            let target = arg.target;
-            if (target.data.get('initFromData') === undefined) {
-                target.data.set('initFromData', this.data.get('initFromData'));
+            let checked = this.transChecked(this.data.get('checked'));
+            if (typeof checked !== 'boolean') {
+                return;
             }
-        },
-        'UI:update-parent-checkbox-state'(arg) {
-            this.updateCheckboxStateFromChildren();
+            if (child.data.get('checked') !== true) {
+                child.data.set('checked', checked);
+            }
+            if (checked === true) {
+                child.data.set('checked', checked);
+            }
         }
     },
 
@@ -234,6 +259,8 @@ export default san.defineComponent({
         this.transBoolean('primaryTogglesNestedTreeView');
         this.transBoolean('initiallyOpen');
         this.data.set('open', this.data.get('initiallyOpen'));
+        this.data.set('dataSource',
+            (this.data.get('dataSource') || '').toUpperCase());
 
         this.dispatch('UI:nested-counter', this.data);
 
@@ -241,24 +268,45 @@ export default san.defineComponent({
         this.dispatch('UI:query-whole-line-selected-attribute');
         this.dispatch('UI:query-keeping-selected-attribute');
 
-        this.dispatch('UI:query-init-from-data');
+        this.dispatch('UI:query-data-source-attribute');
 
-        this.data.set('checked', this.transChecked(this.data.get('checked')), {
-            silence: true
-        });
-
-        this.dispatch('UI:query-checkbox-attribute');
-
-        if (this.data.get('treeData')) {
+        if (this.data.get('dataSource') === 'JSON') {
             this.initFromTreeData(this.data.get('treeData'));
+        } else {
+            this.generateTreeData();
         }
 
-        this.watch('checked', (value) => {
-            let checked = value;
-            this.data.set('hasCheckbox', typeof checked === 'boolean');
+        this.watch('treeData.checked', value => {
             this.data.set('checkboxInputValue',
-                checked ? [this.data.get('checkboxValue')] : ['']);
+                value ? [this.data.get('checkboxValue')] : [''], {
+                    silence: true
+                }
+            );
+            this.data.set('checked', value);
         });
+        this.watch('treeData.indeterminate', value => {
+            this.data.set('checkboxIndeterminate', value, {silence: true});
+        });
+
+        this.watch('checkboxInputValue', value => {
+            this.data.set('treeData.checked',
+                value && value.toString() !== '');
+            this.data.set('checked', value && value.toString() !== '', {
+                silence: true
+            });
+        });
+
+        this.watch('checked', value => {
+            this.data.set('treeData.checked', value);
+            this.data.set('checkboxInputValue',
+                value ? [this.data.get('checkboxValue')] : ['']);
+        });
+
+        this.watch('checkboxIndeterminate', value => {
+            this.data.set('treeData.indeterminate', value);
+        });
+
+        this.dispatch('UI:query-parent-checkbox-state');
     },
 
     attached() {
@@ -266,12 +314,11 @@ export default san.defineComponent({
         let hasLeft = 0;
 
         for (let slot of slotChilds) {
-            if (slot.name === 'left' || slot.name === 'leftAvatar') {
+            if (slot.name === 'left') {
                 hasLeft++;
             }
         }
-
-        this.data.set('hasLeft', hasLeft > 0);
+        this.data.set('hasLeft', hasLeft);
 
         this.watch('selected', value => {
             this.fire('selectedToggle', value);
@@ -281,33 +328,14 @@ export default san.defineComponent({
             this.fire('hiddenToggle', value);
         });
 
-        this.watch('checkboxInputValue', value => {
-            if (!this.data.get('initFromData')) {
-                return;
-            }
+        if (typeof this.data.get('treeData') === 'object') {
             this.data.set('treeData.checked',
-                value && value.toString() !== '', {
-                    silence: true
-                }
-            );
-            this.dispatch('UI:update-parent-checkbox-state');
-        });
-
-        this.watch('checkboxIndeterminate', value => {
-            this.data.set('treeData.indeterminate', value);
-        });
-
-        this.watch('treeData.checked', value => {
-            this.data.set('checkboxInputValue',
-                value ? [this.data.get('checkboxValue')] : ['']);
-        });
-
-        this.watch('treeData', value => {
-            //this.clearSelectedClass(false);
-        });
-
-        this.checkboxChanged();
-        this.dispatch('UI:update-parent-checkbox-state');
+                this.transChecked(this.data.get('checked')));
+            this.data.set('treeData.indeterminate',
+                this.data.get('checkboxIndeterminate'));
+        }
+        
+        this.updateSelfCheckboxStateFromChilds();
 
         this.dispatch('UI:tree-view-item-attached', this);
     },
@@ -317,9 +345,6 @@ export default san.defineComponent({
     },
 
     created() {
-       if (!this.data.get('treeData')) {
-            this.generateTreeData();
-        }
     },
 
     disposed() {
@@ -348,11 +373,11 @@ export default san.defineComponent({
         this.dispatch('UI:nested-item-toggle', this);
     },
 
-    checkboxChanged(value) {
-        this.updateChildCheckboxState(this.data.get('treeData'));
-    },
-
-    checkboxClicked(inputValue) {
+    checkboxChanged(evt) {
+        let value = this.data.get('checkboxInputValue');
+        let checked = value && value.toString() !== '';
+        this.data.set('checked', checked);
+        this.updateChildsCheckboxState(checked, 'checkbox');
     },
 
     clearSelectedClass(send) {
@@ -395,61 +420,151 @@ export default san.defineComponent({
         }
     },
 
-    updateCheckboxStateFromChildren(data) {
-        !data && (data = this.data.get('treeData'));
-        if (!data || !(data instanceof Object) || !data.treeData
-            || !(data.treeData instanceof Array)) {
-            return;
+    updateChildsCheckboxState(value, driver) {
+        this.data.set('checkboxInputValue',
+            value ? [this.data.get('checkboxValue')] : ['']);
+        this.hasNestedSlotChilds()
+            ? this.updateSlotChildsCheckboxState(value)
+            : this.updateJsonChildsCheckboxState(value);
+        if (driver === 'checkbox' && this.parentComponent
+            && this.parentComponent.subTag === this.subTag) {
+            this.parentComponent.updateSelfCheckboxStateFromChilds(value);
         }
-        let checked = data.checked;
-        let subChecked;
-        let subIndeterminate = false;
-        let count = 0;
-        data.treeData.forEach((function (item, index) {
-            if (item.checked !== undefined
-                && typeof item.checked !== 'boolean') {
-                return;
-            }
-            if (item.checked === undefined) {
-                this.data.set(
-                    'treeData.treeData[' + index + '].checked', checked);
-            }
-            if (subChecked === undefined) {
-                subChecked = item.checked << count;
-            } else {
-                subChecked |= item.checked << count;
-            }
-            subIndeterminate |= !!item.indeterminate;
-            count++;
-        }).bind(this));
-        this.data.set('treeData.checked', subChecked === (1 << count) - 1, {
-            silence: false
-        });
-        this.data.set('checkboxIndeterminate',
-            (subChecked > 0 && subChecked < (1 << count) - 1)
-                || subIndeterminate);
-        this.dispatch('UI:update-parent-checkbox-state');
     },
 
-    updateChildCheckboxState(data, level, parentIndex) {
-        if (!data || !(data instanceof Object) || !data.treeData
-            || !(data.treeData instanceof Array)) {
-            return;
+    hasNestedSlotChilds() {
+        let slotChilds = this.slotChilds;
+        if (slotChilds.length <= 0) {
+            return false;
         }
-        level |= 0;
-        data.treeData.forEach((function (item, index) {
-            if (item.checked !== undefined
-                && typeof item.checked !== 'boolean') {
+        for (let i of slotChilds) {
+            if (i.name !== 'nested') {
+                continue;
+            }
+            for (let j of i.childs) {
+                if (j.subTag === this.subTag) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    },
+
+    getNestedSlotChildsItem() {
+        let items = [];
+        let slotChilds = this.slotChilds;
+        if (slotChilds.length <= 0) {
+            return items;
+        }
+        for (let i of slotChilds) {
+            if (i.name !== 'nested') {
+                continue;
+            }
+            for (let j of i.childs) {
+                if (j.subTag !== this.subTag) {
+                    continue;
+                }
+                if (typeof j.data.get('checked') !== 'boolean') {
+                    continue;
+                }
+                items.push(j);
+            }
+        }
+        return items;
+    },
+
+    getNestedJsonChildsItem() {
+        let items = [];
+        let treeData = this.data.get('treeData');
+        if (!treeData || typeof treeData !== 'object'
+            || !(treeData.treeData instanceof Array)) {
+            return items;
+        }
+        let count = treeData.treeData.length;
+        if (count === 0) {
+            return items;
+        }
+        for (let i = 0; i < count; i++) {
+            let childComp = this.ref('item_' + i);
+            if (!childComp || childComp.subTag !== this.subTag) {
+                continue;
+            }
+            if (typeof childComp.data.get('checked') !== 'boolean') {
+                continue;
+            }
+            items.push(childComp);
+        }
+        return items;
+    },
+
+    getParentHavingCheckbox() {
+        let parent = this.parentComponent;
+        if (!parent || parent.subTag !== this.subTag) {
+            return null;
+        }
+        let checked = parent.data.get('checked');
+        if (typeof checked !== 'boolean') {
+            return null;
+        }
+        return parent;
+    },
+
+    updateSlotChildsCheckboxState(value) {
+        let childs = this.getNestedSlotChildsItem();
+        for (let i of childs) {
+            i.data.set('checked', value);
+            i.updateChildsCheckboxState(value);
+        }
+    },
+
+    updateJsonChildsCheckboxState(value) {
+        let childs = this.getNestedJsonChildsItem();
+        for (let i of childs) {
+            i.data.set('checked', value);
+            i.updateChildsCheckboxState(value);
+        }
+    },
+
+    updateSelfCheckboxStateFromChilds(value) {
+        let childs = this.getNestedSlotChildsItem();
+        if (!childs || childs.length <= 0) {
+            childs = this.getNestedJsonChildsItem();
+            if (!childs || childs.length <= 0) {
                 return;
             }
-            let namespace = 'treeData.';
-            for (let i = 0; i < level; i++) {
-                namespace += 'treeData[' + parentIndex + '].'
+        }
+        let subChecked;
+        let count = 0;
+        for (let i of childs) {
+            let childChecked = i.data.get('checked');
+            if (typeof childChecked !== 'boolean') {
+                continue;
             }
-            this.data.set(namespace + 'treeData[' + index + '].checked',
-                data.checked);
-            this.updateChildCheckboxState(item, level + 1, index);
-        }).bind(this));
+            let childIndeterminate = i.data.get('checkboxIndeterminate');
+            if (childIndeterminate) {
+                this.data.set('checkboxIndeterminate', true);
+                if (this.data.get('checked') === undefined) {
+                    this.data.set('checked', false);
+                }
+                return;
+            }
+            if (subChecked === undefined) {
+                subChecked = childChecked << count;
+            } else {
+                subChecked |= childChecked << count;
+            }
+            count++;
+        }
+        if (subChecked !== undefined) {
+            this.data.set('checked',
+                (subChecked === (1 << count) - 1));
+            this.data.set('checkboxIndeterminate',
+                (subChecked > 0 && subChecked < (1 << count) - 1));
+        }
+        let parent = this.getParentHavingCheckbox();
+        if (parent) {
+            parent.updateSelfCheckboxStateFromChilds();
+        }
     },
 
     initFromTreeData(data) {
@@ -461,23 +576,17 @@ export default san.defineComponent({
         this.data.set('primaryText', data.text);
         this.data.set('secondaryText', data.secondaryText);
         this.data.set('open', data.treeData && data.treeData.length > 0);
-        this.data.set('checked', this.transChecked(data.checked), {
-            silence: true
-        });
-        if (typeof this.data.get('checked') === 'boolean') {
-            this.data.set('hasCheckbox', true);
-            this.data.set('checkboxInputValue',
-                this.data.get('checked')
-                    ? [this.data.get('checkboxValue')]
-                    : [],
-                        {
-                            silence: true
-                        }
-            );
-            this.updateCheckboxStateFromChildren(data);
-        } else {
-            this.data.set('hasCheckbox', false);
-        }
+        let checked = this.transChecked(data.checked);
+
+        this.data.set('checked', checked);
+        this.data.set('checkboxInputValue',
+            checked
+                ? [this.data.get('checkboxValue')]
+                : [],
+                    {
+                        silence: true
+                    }
+        );
     },
 
     generateTreeData() {
@@ -490,7 +599,7 @@ export default san.defineComponent({
             silence: true
         });
         let checked = this.data.get('checked');
-        this.data.set('hasCheckbox', typeof checked === 'boolean');
+        this.data.set('checked', checked);
         this.data.set('checkboxInputValue',
             checked ? [this.data.get('checkboxValue')] : ['']);
     },
