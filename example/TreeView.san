@@ -9,7 +9,7 @@
                 <san-tree-view-item
                     primaryText="Sent mail"
                     secondaryText="Second second second second second second"
-                    checked="true"
+                    checked="false"
                     on-click="click($event)">
                 </san-tree-view-item>
                 <san-tree-view-item primaryText="Drafts" disabled>
@@ -211,7 +211,7 @@
         </p>
         <div class="sm-tree-view-wrapper custom">
             <san-tree-view
-                treeData="{{treeData}}"
+                treeData="{=treeData=}"
                 compact
                 wholeLineSelected
                 keepingSelected
@@ -219,15 +219,15 @@
                 filterBarHintText="Type to find component, Enter to highlight"
                 initiallyOpen
                 primaryTogglesNestedTreeView
-                initFromData
+                dataSource="JSON"
                 on-nestedItemToggle="nestedItemToggle($event)"
             >
                 <san-tree-view-item
                     san-for="item in treeData"
                     initiallyOpen
                     primaryTogglesNestedTreeView
-                    treeData="{{item}}"
-
+                    treeData="{=item=}"
+                    dataSource="JSON"
                 >
                 </san-tree-view-item>
             </san-tree-view>
@@ -249,13 +249,13 @@
                 <san-tree-view-item
                     primaryText="A"
                     toggleNested
-                    initFromData
+                    dataSource="JSON"
                 >
                 </san-tree-view-item>
                 <san-tree-view-item
                     primaryText="B"
                     toggleNested
-                    initFromData
+                    dataSource="JSON"
                 >
                 </san-tree-view-item>
             </san-tree-view>
@@ -299,17 +299,17 @@ export default {
                 { text: 'c', treeData: [
                     { text: 'c1' },
                     { text: 'c2' },
-                ]},
+                ] },
                 { text: 'd', checked: true },
-                { text: 'e', checked: false, treeData: [
+                { text: 'e', treeData: [
                     { text: 'e1', checked: null },
                     { text: 'e2' },
                     { text: 'e3', checked: false, treeData: [
                         { text: 'e31' },
-                        { text: 'e32', checked: false }
-                    ]},
+                        { text: 'e32', checked: true }
+                    ] },
                     { text: 'e4' }
-                ]},
+                ] },
                 { text: 'f', checked: false }
             ],
             asyncTreeData: {
@@ -318,7 +318,7 @@ export default {
                         { text: 'a1', checked: true, treeData: [
                             { text: 'a11' },
                             { text: 'a12', checked: false }
-                        ]}
+                        ] }
                     ]
                 },
                 'B': {

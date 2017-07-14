@@ -134,10 +134,10 @@ export default san.defineComponent({
                 target.data.set('hasCheckbox', true);
             }
         },
-        'UI:query-init-from-data'(arg) {
+        'UI:query-data-source-attribute'(arg) {
             let target = arg.target;
-            if (target.data.get('initFromData') === undefined) {
-                target.data.set('initFromData', this.data.get('initFromData'));
+            if (target.data.get('dataSource') === undefined) {
+                target.data.set('dataSource', this.data.get('dataSource'));
             }
         }
     },
