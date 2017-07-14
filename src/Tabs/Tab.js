@@ -33,7 +33,6 @@ export default san.defineComponent({
     },
 
     inited() {
-        console.log(12321);
         this.dispatch(TAB_INIT);
     },
 

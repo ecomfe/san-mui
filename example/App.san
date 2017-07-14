@@ -13,12 +13,15 @@
             </san-appbar>
 
             <div class="example-drawer-content">
-                <div san-for="component in menus">
+                <div
+                    san-for="component in menus"
+                    data-level="{{component.name || component.path}}">
                     <sm-list-item
                         s-if="!component.components"
                         primaryText="{{component.name}}"
                         primaryTogglesNestedList
-                        on-click="route(component)" />
+                        on-click="route(component)"
+                        style="color: {{menuVal === component.path || menuVal === '/' + component.name ? '#f00' : '#000'}}" />
                     <sm-list-item
                         s-if="component.components"
                         primaryText="{{component.name}}"
@@ -28,6 +31,7 @@
                             s-for="sub in component.components"
                             slot="nested"
                             primaryText="{{sub.name}}"
+                            style="color: {{menuVal === sub.path || menuVal === '/' + sub.name ? '#f00' : '#000'}}"
                             on-click="route(sub)" />
                     </sm-list-item>
                 </div>
@@ -111,7 +115,7 @@ export default {
         return {
             navTitle: '组件',
             openMenu: true,
-            menuVal: '#/',
+            menuVal: location.hash.slice(1),
             menus: routes
         }
     },
@@ -126,28 +130,21 @@ export default {
         }
     },
 
-
     toggleMenu() {
         var openMenu = this.data.get('openMenu');
         this.data.set('openMenu', !openMenu);
     },
 
     attached() {
-
-        // hack do route
-        var doRoute = router.doRoute.bind(router);
-        router.doRoute = (routeItem, e) => {
-            doRoute(routeItem, e);
+        router.listen((e, route) => {
             this.data.set('menuVal', e.path);
-        };
-
+        });
         router.start();
-
     },
 
-    route({name, component}) {
-        this.data.set('menuVal', name);
-        location.href = `#/${name}`;
+    route(route) {
+        let {name, path} = route;
+        location.hash = path || `/${name}`;
     }
 
 
