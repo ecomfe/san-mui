@@ -49,6 +49,66 @@ let routes = [
         component: Main
     },
     {
+        name: 'AppBar',
+        component: AppBar
+    },
+    {
+        name: 'Avatar',
+        component: Avatar
+    },
+    {
+        name: 'Button',
+        component: Button
+    },
+    {
+        name: 'Card',
+        component: Card
+    },
+    {
+        name: 'Carousel',
+        component: Carousel
+    },
+    {
+        name: 'Chip',
+        component: Chip
+    },
+    {
+        name: 'Grid',
+        component: Grid
+    },
+    {
+        name: 'Checkbox',
+        component: Checkbox
+    },
+    {
+        name: 'DatePicker',
+        component: DatePicker
+    },
+    {
+        name: 'Dialog',
+        component: Dialog
+    },
+    {
+        name: 'Divider',
+        component: Divider
+    },
+    {
+        name: 'Drawer',
+        component: Drawer
+    },
+    {
+        name: 'ExpansionPanel',
+        component: ExpansionPanel
+    },
+    {
+        name: 'Icon',
+        component: Icon
+    },
+    {
+        name: 'List',
+        component: List
+    },
+    {
         name: 'Memu',
         components: [
             {
@@ -66,38 +126,6 @@ let routes = [
         ]
     },
     {
-        name: 'AppBar',
-        component: AppBar
-    },
-    {
-        name: 'Avatar',
-        component: Avatar
-    },
-    {
-        name: 'Button',
-        component: Button
-    },
-    {
-        name: 'Card',
-        component: Card
-    },
-    {
-        name: 'TextField',
-        component: TextField
-    },
-    {
-        name: 'List',
-        component: List
-    },
-    {
-        name: 'TreeView',
-        component: TreeView
-    },
-    {
-        name: 'Tabs',
-        component: Tabs
-    },
-    {
         name: 'Pagination',
         component: Pagination
     },
@@ -110,40 +138,12 @@ let routes = [
         component: Popover
     },
     {
-        name: 'Drawer',
-        component: Drawer
-    },
-    {
-        name: 'Divider',
-        component: Divider
-    },
-    {
         name: 'Progress',
         component: Progress
     },
     {
-        name: 'DatePicker',
-        component: DatePicker
-    },
-    {
-        name: 'Dialog',
-        component: Dialog
-    },
-    {
-        name: 'Table',
-        component: Table
-    },
-    {
         name: 'Ripple',
         component: Ripple
-    },
-    {
-        name: 'Icon',
-        component: Icon
-    },
-    {
-        name: 'Checkbox',
-        component: Checkbox
     },
     {
         name: 'Radio',
@@ -162,32 +162,32 @@ let routes = [
         component: SubHeader
     },
     {
-        name: 'ExpansionPanel',
-        component: ExpansionPanel
+        name: 'Table',
+        component: Table
+    },
+    {
+        name: 'Tabs',
+        component: Tabs
+    },
+    {
+        name: 'TextField',
+        component: TextField
     },
     {
         name: 'TimePicker',
         component: TimePicker
     },
     {
+        name: 'TreeView',
+        component: TreeView
+    },
+    {
         name: 'Toast',
         component: Toast
     },
     {
-        name: 'Chip',
-        component: Chip
-    },
-    {
-        name: 'Grid',
-        component: Grid
-    },
-    {
         name: 'Uploader',
         component: Uploader
-    },
-    {
-        name: 'Carousel',
-        component: Carousel
     }
 ];
 

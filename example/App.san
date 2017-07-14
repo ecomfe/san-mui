@@ -11,11 +11,10 @@
                 title="SAN-MUI"
                 class="example-drawer-appbar">
             </san-appbar>
-
             <div class="example-drawer-content">
                 <div
                     san-for="component in menus"
-                    data-level="{{component.name || component.path}}">
+                    data-menu="{{component.path || '/' + component.name}}">
                     <sm-list-item
                         s-if="!component.components"
                         primaryText="{{component.name}}"
@@ -140,6 +139,13 @@ export default {
             this.data.set('menuVal', e.path);
         });
         router.start();
+        setTimeout(() => {
+            let menuVal = this.data.get('menuVal');
+            let menu = this.el.querySelector(`[data-menu='${menuVal}']`);
+            if (menu) {
+                menu.scrollIntoView();
+            }
+        }, 100);
     },
 
     route(route) {
