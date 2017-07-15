@@ -24,11 +24,11 @@ import Icon from './Icon.md';
 import List from './List.md';
 import Menu from './Menu/Menu.md';
 import IconMenu from './Menu/IconMenu.md';
-import DropdownMenu from './Menu/DropdownMenu.md';
+import DropdownMenu from './Menu/DropdownMenu.san';
 import Radio from './Radio.md';
 import Paper from './Paper.md';
 import Pagination from './Pagination.md';
-import Popover from './Popover.md';
+// import Popover from './Popover.md';
 import Progress from './Progress.md';
 import Ripple from './Ripple.md';
 import Slider from './Slider.md';
@@ -41,6 +41,7 @@ import TextField from './TextField.md';
 import TimePicker from './TimePicker.md';
 import Toast from './Toast.md';
 import Uploader from './Uploader.san';
+import Tooltip from './Tooltip.san';
 
 let routes = [
     {
@@ -133,9 +134,13 @@ let routes = [
         name: 'Paper',
         component: Paper
     },
+    // {
+    //     name: 'Popover',
+    //     component: Popover
+    // },
     {
-        name: 'Popover',
-        component: Popover
+        name: 'Tooltip',
+        component: Tooltip
     },
     {
         name: 'Progress',

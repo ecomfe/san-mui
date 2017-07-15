@@ -28,6 +28,7 @@ export default class MenuItem extends Component {
         <div
             class="{{mainClassName}}"
             style="{{mainStyle}}"
+            data-value="{{value}}"
             on-click="click($event)">
             <sm-icon
                 s-if="type === 'checkbox' || type === 'radio'"

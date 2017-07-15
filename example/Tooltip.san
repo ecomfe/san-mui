@@ -1,0 +1,61 @@
+<template>
+    <div>
+        fuckfuckfuck
+        fuckfuckfuck
+
+        fuckfuckfuck
+
+        fuckfuckfuck
+
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+
+        <sm-tooltip title="我是一段tooltip" position="left">
+            <sm-button>left</sm-button>
+        </sm-tooltip>
+        <sm-tooltip title="我是一段tooltip" position="right">
+            <sm-button>right</sm-button>
+        </sm-tooltip>
+        <sm-tooltip title="我是一段tooltip" position="top">
+            <sm-button>top</sm-button>
+        </sm-tooltip>
+        <sm-tooltip title="我是一段tooltip" position="bottom">
+            <sm-button>bottom</sm-button>
+        </sm-tooltip>
+        fuckfuckfuck
+        fuckfuckfuck
+        fuckfuckfuck
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck<br/>
+        fuckfuckfuck
+        fuckfuckfuck
+        fuckfuckfuck
+        fuckfuckfuck
+        fuckfuckfuck
+
+    </div>
+</template>
+<script>
+import Button from '../src/Button';
+import Tooltip from '../src/Tooltip';
+
+import '../src/Button/index.styl';
+import '../src/Tooltip/index.styl';
+
+export default {
+    components: {
+        'sm-button': Button,
+        'sm-tooltip': Tooltip
+    }
+};
+</script>

@@ -6,6 +6,8 @@
 import Layer from '../Layer';
 import {create} from '../common/util/cx';
 import align from 'dom-align';
+import {DataTypes} from 'san';
+import {throttle} from '../common/util/throttle';
 
 const cx = create('popover');
 const INITIAL_POSITION_STYLE = 'top: -9999px; left: -9999px';
@@ -20,7 +22,7 @@ const ORIGIN_STYLE_MAP = {
 export default class Popover extends Layer {
 
     static template = `
-        <div class="{{className}}" on-click="click($event)">
+        <div class="{{mainClassName}}" on-click="click($event)">
             <div
                 class="${cx.getPartClassName('content')}"
                 style="${INITIAL_POSITION_STYLE}"
@@ -31,10 +33,13 @@ export default class Popover extends Layer {
     `;
 
     static computed = {
-        className() {
+        mainClassName() {
             let closing = this.data.get('closing');
             let open = this.data.get('open');
+            let shadow = this.data.get('shadow');
+
             return cx(this)
+                .addVariants(shadow && `shadow-${shadow}`)
                 .addStates({
                     open: !closing && open
                 })
@@ -42,14 +47,71 @@ export default class Popover extends Layer {
         }
     };
 
+    static dataTypes = {
+        maxHeight: DataTypes.number
+    };
+
     initData() {
         return {
+
+            /**
+             * 是否展开浮层
+             *
+             * @type {boolean}
+             */
             open: false,
+
+            /**
+             * 锚点元素对齐角
+             * @type {string}
+             */
             anchorOrigin: 'tl',
+
+            /**
+             * 浮层元素对齐角
+             *
+             * @type {string}
+             */
             targetOrigin: 'tl',
+
+            /**
+             * 浮层元素水平方向位移
+             *
+             * @type {number}
+             */
             offsetX: 0,
+
+            /**
+             * 浮层元素垂直方向位移
+             *
+             * @type {number}
+             */
             offsetY: 0,
+
+            /**
+             * 最大高度
+             *
+             * @type {?number}
+             */
+            maxHeight: null,
+
+            /**
+             * 最大宽度
+             *
+             * @type {?number}
+             */
+            maxWidth: null,
+
+            shadow: 1,
+
+            /**
+             * 是否正在关闭
+             *
+             * @private
+             * @type {boolean}
+             */
             closing: false
+
         };
     }
 
@@ -57,7 +119,11 @@ export default class Popover extends Layer {
         this.show = this.show.bind(this);
         this.hide = this.hide.bind(this);
         this.updateStatus = this.updateStatus.bind(this);
-        // this.hideIfScrollOutVision = this.hideIfScrollOutVision.bind(this);
+        this.transitionEnd = throttle(
+            this.transitionEnd.bind(this),
+            1000,
+            {trailing: false}
+        );
     }
 
     attached() {
@@ -66,6 +132,10 @@ export default class Popover extends Layer {
         if (this.data.get('open')) {
             this.show();
         }
+        this.transitionEnd();
+        this.transitionEnd();
+        this.transitionEnd();
+        this.transitionEnd();
     }
 
     updateStatus(open) {
@@ -89,7 +159,9 @@ export default class Popover extends Layer {
             anchorOrigin,
             offsetX,
             offsetY,
-            matchAnchorWidth
+            matchAnchorWidth,
+            maxHeight,
+            maxWidth
         } = this.data.get();
 
         let anchor = typeof getAnchor === 'function' && getAnchor();
@@ -99,7 +171,7 @@ export default class Popover extends Layer {
         }
 
         let content = this.getContent();
-
+        let {offsetWidth, offsetHeight} = content;
         if (matchAnchorWidth) {
             content.style.width = `${anchor.offsetWidth}px`;
         }
@@ -109,6 +181,13 @@ export default class Popover extends Layer {
 
         // 设置缩放动画的起点
         content.style.transformOrigin = this.getTransfromOrigin(targetOrigin);
+
+        content.style.maxHeight = maxHeight == null ? 'auto' : `${maxHeight}px`;
+        content.style.overflowY = maxHeight == null ? 'visible' : 'auto';
+        content.style.maxWidth = maxWidth == null ? 'auto' : `${maxWidth}px`;
+        content.style.overflowX = maxWidth == null ? 'auto' : `${maxWidth}px`;
+
+        console.log(offsetWidth, offsetHeight, targetOrigin, anchorOrigin, offsetX, offsetY);
 
         // 对齐元素
         align(
@@ -135,7 +214,6 @@ export default class Popover extends Layer {
 
         // 滚出视野关闭处理
         // @TODO
-        // window.addEventListener('scroll', this.hideIfScrollOutVision);
 
     }
 
@@ -143,7 +221,6 @@ export default class Popover extends Layer {
         window.removeEventListener('click', this.hide);
         this.data.set('open', false);
         this.data.set('closing', true);
-        // window.removeEventListener('scroll', this.hideIfScrollOutVision);
     }
 
     click(e) {
@@ -152,6 +229,7 @@ export default class Popover extends Layer {
 
     transitionEnd() {
         if (this.data.get('open')) {
+            this.fire('open-complete');
             return;
         }
         this.data.set('closing', false);
@@ -159,60 +237,7 @@ export default class Popover extends Layer {
         let content = this.getContent();
         content.style.top = 0;
         content.style.left = '-10000px';
+        this.fire('close-complete');
     }
-
-    // hideIfScrollOutVision() {
-    //     // if (!this.data.get('open')) {
-    //     //     return;
-    //     // }
-    //     //
-    //     // let lastMove = this.lastMove || document.body.scrollTop || document.documentElement.scrollTop;
-    //     // // 已滚动高度
-    //     // let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-    //     // // 上滑or下滑
-    //     // let downward = scrollTop - lastMove > 0;
-    //     //
-    //     // // let menuOffsetTop = driver === 'OPEN' ? this.parentMenu.offsetTop : this.el.offsetTop;
-    //     // driver === 'OPEN' && this.setPos();
-    //     // let menuOffsetTop = this.data.get('top');
-    //     // let menuOffsetBottom = menuOffsetTop + this.el.offsetHeight;
-    //     //
-    //     // let anchorOrigin = Object.assign({}, this.data.get('anchorOrigin'));
-    //     // let targetOrigin = Object.assign({}, this.data.get('targetOrigin'));
-    //     //
-    //     // // menu上边缘到顶
-    //     // if (scrollTop >= menuOffsetTop) {
-    //     //     // open操作，调整menu位置
-    //     //     if (driver === 'OPEN') {
-    //     //         anchorOrigin.vertical = 'top';
-    //     //         targetOrigin.vertical = 'top';
-    //     //     }
-    //     //     // 上滑操作，hide menu
-    //     //     else if (downward) {
-    //     //         this.dispatch('UI:menu-panel-status-changed', {
-    //     //             driver: 'POS',
-    //     //             open: false
-    //     //         });
-    //     //     }
-    //     // }
-    //     // // 下滑操作致menu上边缘到底，hide menu
-    //     // if (scrollTop + window.innerHeight <= menuOffsetTop && !downward) {
-    //     //     this.dispatch('UI:menu-panel-status-changed', {
-    //     //         driver: 'POS',
-    //     //         open: false
-    //     //     });
-    //     // }
-    //     // // menu下边缘到底，切换origin，反弹
-    //     // if (scrollTop + window.innerHeight <= menuOffsetBottom) {
-    //     //     if (driver === 'OPEN' || (driver !== 'OPEN' && !downward)) {
-    //     //         anchorOrigin.vertical = 'bottom';
-    //     //         targetOrigin.vertical = 'bottom';
-    //     //         this.setPos(anchorOrigin, targetOrigin);
-    //     //     }
-    //     // }
-    //     //
-    //     // driver === 'OPEN' && this.setPos(anchorOrigin, targetOrigin);
-    //     // this.lastMove = scrollTop;
-    // }
 
 }

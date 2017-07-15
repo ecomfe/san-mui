@@ -9,7 +9,6 @@ import Menu from './Menu';
 import Popover from '../Popover';
 import TextField from '../TextField';
 import {create} from '../common/util/cx';
-import Paper from '../Paper';
 import Icon from '../Icon';
 import * as C from './constant';
 
@@ -23,16 +22,16 @@ export default class DropDownMenu extends Component {
             style="{{dropDownMenuStyle}}"
             on-click="openPopover">
             <sm-popover
+                ref="popover"
                 open="{=open=}"
-                maxHeight={{maxHeight}}
+                maxHeight="{{maxHeight}}"
                 useLayerForClickAway="{{!1}}"
                 anchorOrigin="tl"
                 targetOrigin="tl"
                 getAnchor="{{getAnchor}}"
-                matchAnchorWidth="{{!autoWidth}}">
-                <sm-paper style="{{autoWidth ? '' : 'display: block'}}">
-                    <slot />
-                </sm-paper>
+                matchAnchorWidth="{{!autoWidth}}"
+                on-open-complete="{{adjustMenuItemPosition}}">
+                <slot />
             </sm-popover>
             <sm-text-field
                 readOnly
@@ -55,7 +54,6 @@ export default class DropDownMenu extends Component {
         'sm-menu': Menu,
         'sm-popover': Popover,
         'sm-text-field': TextField,
-        'sm-paper': Paper,
         'sm-icon': Icon
     };
 
@@ -65,7 +63,6 @@ export default class DropDownMenu extends Component {
             let targetData = e.target.data;
             let {value, label, title} = targetData.get();
             let selected = this.data.get('value') === value;
-
             targetData.set('type', 'option');
             targetData.set('selected', selected);
 
@@ -96,6 +93,7 @@ export default class DropDownMenu extends Component {
             autoWidth: true,
             readOnly: false,
             disabled: false,
+            maxHeight: null,
 
             /**
              * 是否打开弹窗
@@ -151,9 +149,27 @@ export default class DropDownMenu extends Component {
     }
 
     openPopover() {
+
         let {readOnly, disabled} = this.data.get();
-        if (!readOnly && !disabled) {
-            this.data.set('open', true);
+        if (readOnly || disabled) {
+            return;
+        }
+
+        this.data.set('open', true);
+
+    }
+
+    adjustMenuItemPosition() {
+        let value = this.data.get('value');
+        for (let item of this.items) {
+            if (item.data.get('value') === value) {
+                let {scrollTop, offsetHeight} = item.el.parentNode;
+                let offsetTop = item.el.offsetTop;
+                if (scrollTop + offsetHeight < offsetTop || offsetTop < scrollTop) {
+                    item.el.parentNode.scrollTop = offsetTop;
+                }
+                break;
+            }
         }
     }
 

@@ -3,6 +3,9 @@
  * @author leon <ludafa@outlook.com>
  */
 
+@require '../css/func.styl'
+@require '../css/variable.styl'
+
 .sm-popover
 
     &-content
@@ -11,6 +14,8 @@
         transform: scale(0, 0);
         transform-origin: 0 0;
         opacity: 0
+        z-index: $san-z-index.popover
+        background-color: #fff
 
     &.state-open &-content
         transform: scale(1, 1);
@@ -19,3 +24,7 @@
     &.state-open.state-closing &-content
         transform: scale(0, 0);
         opacity: 0;
+
+    for depth in '1' '2' '3' '4' '5'
+        &.variant-shadow-{depth} &-content
+            box-shadow: san-shadow(depth)

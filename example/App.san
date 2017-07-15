@@ -20,7 +20,7 @@
                         primaryText="{{component.name}}"
                         primaryTogglesNestedList
                         on-click="route(component)"
-                        style="color: {{menuVal === component.path || menuVal === '/' + component.name ? '#f00' : '#000'}}" />
+                        style="color: {{menuVal === component.path || menuVal === '/' + component.name ? '#ff4081' : '#000'}}" />
                     <sm-list-item
                         s-if="component.components"
                         primaryText="{{component.name}}"
@@ -30,7 +30,7 @@
                             s-for="sub in component.components"
                             slot="nested"
                             primaryText="{{sub.name}}"
-                            style="color: {{menuVal === sub.path || menuVal === '/' + sub.name ? '#f00' : '#000'}}"
+                            style="color: {{menuVal === sub.path || menuVal === '/' + sub.name ? '#ff4081' : '#000'}}"
                             on-click="route(sub)" />
                     </sm-list-item>
                 </div>

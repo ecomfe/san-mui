@@ -97,3 +97,42 @@ export default {
 };
 </script>
 ```
+
+当选择数量较多时，可以添加 `maxHeight` 来进行浮层的高度限制，浮层会出现滚动条；
+
+```san 使用 maxHeight 对浮层高度进行限制
+<template>
+<section>
+    <sm-dropdown-menu value="{=value=}" maxHeight="{{200}}">
+        <sm-menu-item
+            s-for="item in items"
+            value="{{item.value}}"
+            label="{{item.label}}"
+        </sm-menu-item>
+    </sm-dropdown-menu>
+</section>
+</template>
+<script>
+import {MenuItem, DropDownMenu} from '../../src/Menu';
+import Icon from '../../src/Icon';
+import Divider from '../../src/Divider';
+import '../../src/Menu/index.styl';
+import '../../src/Icon/Icon.styl';
+import '../../src/Divider/Divider.styl';
+
+export default {
+    components: {
+        'sm-dropdown-menu': DropDownMenu,
+        'sm-menu-item': MenuItem,
+        'sm-icon': Icon,
+        'sm-divider': Divider
+    },
+    initData() {
+        return {
+            value: '',
+            items: Array.from({length: 10}).map((_, i) => ({value: i, label: `第${i}项`}))
+        };
+    }
+};
+</script>
+```
