@@ -2,91 +2,6 @@
 
 Menu 可选择的菜单组件
 
-菜单可以支持多级嵌套：
-
-> 给 `MenuItem` 设置 `cascade` 属性，并在插入 `submenu` 插槽
-
-```san 多级嵌套
-<template>
-    <div style="display: flex; align-items: flex-start">
-        <sm-paper>
-            <sm-menu style="min-width: 15rem">
-                <sm-menu-item title="开发者" cascade>
-                    <sm-menu slot="submenu" style="min-width: 15rem">
-                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                        <sm-menu-item title="JavaScript 控制台" cascade>
-                            <sm-menu slot="submenu" style="min-width: 15rem">
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                            </sm-menu>
-                        </sm-menu-item>
-                        <sm-menu-item title="JavaScript 控制台" cascade>
-                            <sm-menu slot="submenu" style="min-width: 15rem">
-                                <sm-menu-item title="JavaScript 控制台" />
-                                <sm-menu-item title="JavaScript 控制台" />
-                                <sm-menu-item title="JavaScript 控制台" />
-                                <sm-menu-item title="JavaScript 控制台" />
-                                <sm-menu-item title="JavaScript 控制台" />
-                            </sm-menu>
-                        </sm-menu-item>
-                    </sm-menu>
-                </sm-menu-item>
-                <sm-menu-item title="开发者" cascade>
-                    <sm-menu slot="submenu" style="min-width: 15rem">
-                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                        <sm-menu-item title="JavaScript 控制台" cascade>
-                            <sm-menu slot="submenu" style="min-width: 15rem">
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
-                            </sm-menu>
-                        </sm-menu-item>
-                        <sm-menu-item title="JavaScript 控制台" cascade>
-                            <sm-menu slot="submenu" style="min-width: 15rem">
-                                <sm-menu-item title="JavaScript 控制台" />
-                                <sm-menu-item title="JavaScript 控制台" />
-                                <sm-menu-item title="JavaScript 控制台" />
-                                <sm-menu-item title="JavaScript 控制台" />
-                                <sm-menu-item title="JavaScript 控制台" />
-                            </sm-menu>
-                        </sm-menu-item>
-                    </sm-menu>
-                </sm-menu-item>
-            </sm-menu>
-        </sm-paper>
-    </div>
-</template>
-<script>
-import {MenuItem, Menu} from '../../src/Menu';
-import Icon from '../../src/Icon';
-import Divider from '../../src/Divider';
-import Paper from '../../src/Paper';
-import '../../src/Menu/index.styl';
-import '../../src/Icon/Icon.styl';
-import '../../src/Divider/Divider.styl';
-import '../../src/Paper/Paper.styl';
-
-export default {
-    components: {
-        'sm-menu': Menu,
-        'sm-menu-item': MenuItem,
-        'sm-paper': Paper,
-        'sm-icon': Icon,
-        'sm-divider': Divider
-    }
-};
-</script>
-```
-
 示例
 
 ```san 简单使用
@@ -360,6 +275,91 @@ export default {
             value1: ['checkbox2'],
             value2: 'radio3'
         };
+    }
+};
+</script>
+```
+
+菜单可以支持多级嵌套：
+
+> 给 `MenuItem` 设置 `cascade` 属性，并在插入 `submenu` 插槽
+
+```san 多级嵌套
+<template>
+    <div style="display: flex; align-items: flex-start">
+        <sm-paper>
+            <sm-menu style="min-width: 15rem">
+                <sm-menu-item title="开发者" cascade>
+                    <sm-menu slot="submenu" style="min-width: 15rem">
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" cascade>
+                            <sm-menu slot="submenu" style="min-width: 15rem">
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                            </sm-menu>
+                        </sm-menu-item>
+                        <sm-menu-item title="JavaScript 控制台" cascade>
+                            <sm-menu slot="submenu" style="min-width: 15rem">
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                            </sm-menu>
+                        </sm-menu-item>
+                    </sm-menu>
+                </sm-menu-item>
+                <sm-menu-item title="开发者" cascade>
+                    <sm-menu slot="submenu" style="min-width: 15rem">
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                        <sm-menu-item title="JavaScript 控制台" cascade>
+                            <sm-menu slot="submenu" style="min-width: 15rem">
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                                <sm-menu-item title="JavaScript 控制台" subTitle="⌘J" />
+                            </sm-menu>
+                        </sm-menu-item>
+                        <sm-menu-item title="JavaScript 控制台" cascade>
+                            <sm-menu slot="submenu" style="min-width: 15rem">
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                                <sm-menu-item title="JavaScript 控制台" />
+                            </sm-menu>
+                        </sm-menu-item>
+                    </sm-menu>
+                </sm-menu-item>
+            </sm-menu>
+        </sm-paper>
+    </div>
+</template>
+<script>
+import {MenuItem, Menu} from '../../src/Menu';
+import Icon from '../../src/Icon';
+import Divider from '../../src/Divider';
+import Paper from '../../src/Paper';
+import '../../src/Menu/index.styl';
+import '../../src/Icon/Icon.styl';
+import '../../src/Divider/Divider.styl';
+import '../../src/Paper/Paper.styl';
+
+export default {
+    components: {
+        'sm-menu': Menu,
+        'sm-menu-item': MenuItem,
+        'sm-paper': Paper,
+        'sm-icon': Icon,
+        'sm-divider': Divider
     }
 };
 </script>

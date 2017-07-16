@@ -157,6 +157,8 @@ export default class DropDownMenu extends Component {
 
         this.data.set('open', true);
 
+        this.adjustMenuItemPosition();
+
     }
 
     adjustMenuItemPosition() {

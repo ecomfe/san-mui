@@ -13,11 +13,15 @@ const cx = create('popover');
 const INITIAL_POSITION_STYLE = 'top: -9999px; left: -9999px';
 const ORIGIN_STYLE_MAP = {
     t: 'top',
-    c: 'center',
+    c: '50%',
     b: 'bottom',
     l: 'left',
     r: 'right'
 };
+
+function getTransfromOrigin([top, left]) {
+    return `${ORIGIN_STYLE_MAP[left]} ${ORIGIN_STYLE_MAP[top]}`;
+}
 
 export default class Popover extends Layer {
 
@@ -38,12 +42,16 @@ export default class Popover extends Layer {
             let open = this.data.get('open');
             let shadow = this.data.get('shadow');
 
-            return cx(this)
+            let className = cx(this)
                 .addVariants(shadow && `shadow-${shadow}`)
                 .addStates({
                     open: !closing && open
                 })
                 .build();
+
+            console.log(className);
+
+            return className;
         }
     };
 
@@ -102,6 +110,11 @@ export default class Popover extends Layer {
              */
             maxWidth: null,
 
+            /**
+             * 阴影尝试
+             *
+             * @type {number}
+             */
             shadow: 1,
 
             /**
@@ -132,10 +145,6 @@ export default class Popover extends Layer {
         if (this.data.get('open')) {
             this.show();
         }
-        this.transitionEnd();
-        this.transitionEnd();
-        this.transitionEnd();
-        this.transitionEnd();
     }
 
     updateStatus(open) {
@@ -144,11 +153,6 @@ export default class Popover extends Layer {
 
     getContent() {
         return this.el.firstElementChild;
-    }
-
-    getTransfromOrigin(origin) {
-        let [top, left] = origin;
-        return `${ORIGIN_STYLE_MAP[top]} ${ORIGIN_STYLE_MAP[left]}`;
     }
 
     show() {
@@ -171,23 +175,34 @@ export default class Popover extends Layer {
         }
 
         let content = this.getContent();
-        let {offsetWidth, offsetHeight} = content;
+
         if (matchAnchorWidth) {
             content.style.width = `${anchor.offsetWidth}px`;
         }
 
         // 这里要把 closing 清理掉，要不然在快速点击时有残留；
-        this.data.set('closing', false);
+        if (this.data.get('closing')) {
+            this.data.set('closing', false);
+        }
+
+        // 先缓存一下当前的样式
+        let cssTransformBackup = content.style.transform;
+
+        // 这里要先清空掉 transform，否则会影响到 align-dom 的定位
+        content.style.transform = 'none';
+
+        let transformOrigin = getTransfromOrigin(targetOrigin);
 
         // 设置缩放动画的起点
-        content.style.transformOrigin = this.getTransfromOrigin(targetOrigin);
+        content.style.transformOrigin = transformOrigin;
+        content.style.mozTransformOrigin = transformOrigin;
+        content.style.msTransformOrigin = transformOrigin;
+        content.style.webkitTransformOrigin = transformOrigin;
 
         content.style.maxHeight = maxHeight == null ? 'auto' : `${maxHeight}px`;
         content.style.overflowY = maxHeight == null ? 'visible' : 'auto';
         content.style.maxWidth = maxWidth == null ? 'auto' : `${maxWidth}px`;
         content.style.overflowX = maxWidth == null ? 'auto' : `${maxWidth}px`;
-
-        console.log(offsetWidth, offsetHeight, targetOrigin, anchorOrigin, offsetX, offsetY);
 
         // 对齐元素
         align(
@@ -203,6 +218,9 @@ export default class Popover extends Layer {
                 useCssTransform: false
             }
         );
+
+        // 恢复之前的样式
+        content.style.transform = cssTransformBackup;
 
         // 绑定 clickAway 处理
         // @hack: 这里延迟绑定 click 事件，已免此次点击事件冒泡到 body 误触发 hide
@@ -221,6 +239,10 @@ export default class Popover extends Layer {
         window.removeEventListener('click', this.hide);
         this.data.set('open', false);
         this.data.set('closing', true);
+    }
+
+    detach() {
+        window.removeEventListener('click', this.hide);
     }
 
     click(e) {

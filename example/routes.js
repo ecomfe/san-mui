@@ -139,10 +139,6 @@ let routes = [
     //     component: Popover
     // },
     {
-        name: 'Tooltip',
-        component: Tooltip
-    },
-    {
         name: 'Progress',
         component: Progress
     },
@@ -189,6 +185,10 @@ let routes = [
     {
         name: 'Toast',
         component: Toast
+    },
+    {
+        name: 'Tooltip',
+        component: Tooltip
     },
     {
         name: 'Uploader',
