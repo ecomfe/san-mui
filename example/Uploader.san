@@ -8,28 +8,16 @@
             data="{{data}}"
             name="filename"
             withCredentials
+            on-before-upload="beforeUpload($event)"
             on-change="selectFile"
             on-succeed="uploaded"
             on-error="error"
             on-progress="progress" />
         <sm-file-list name="">
             <sm-file-item
-                s-for="{{file in files}}"
+                s-for="file in files"
                 on-remove="remove" />
         </sm-file-list>
-        <sm-uploader
-            action="https://jsonplaceholder.typicode.com/posts/"
-            headers="{{headers}}"
-            multiple
-            data="{{data}}"
-            name="filename"
-            withCredentials
-            on-change="selectFile"
-            on-succeed="uploaded"
-            on-error="error"
-            on-progress="progress">
-            <sm-file-item s-for="{{file in files}}" />
-        </sm-uploader
     </div>
 </template>
 
@@ -46,11 +34,20 @@ export default {
     initData() {
         return {
             headers: {},
-            data: {}
+            data: {},
+            files: [
+                {
+                    url: 'https://www.baidu.com/img/bd_logo1.png'
+                }
+            ]
         };
     },
 
     attached() {
+    },
+
+    beforeUpload(e) {
+        console.log(e);
     }
 };
 
