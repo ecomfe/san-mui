@@ -34,7 +34,7 @@ export default san.defineComponent({
             keepingSelected: false,
             filterBar: false,
             filterBarHintText: '',
-            initFromData: false
+            dataSource: 'ATTRIBUTE'
         };
     },
 
@@ -56,7 +56,7 @@ export default san.defineComponent({
     initData() {
         return {
             filterText: '',
-            lastFilterText: '',
+            lastFilterText: ''
         };
     },
 
@@ -72,9 +72,6 @@ export default san.defineComponent({
     },
 
     messages: {
-        'UI:tree-view-item-highlighted'(arg) {
-            let highlightedItem = arg.value.highlighted;
-        },
         'UI:nested-item-toggle'(arg) {
             if (arg.value) {
                 this.fire('nestedItemToggle', arg.value);
@@ -94,7 +91,6 @@ export default san.defineComponent({
             if (index > -1) {
                 this.items.splice(index, 1);
             }
-            //this.data.set('selectedItem', null);
         },
         'UI:query-compact-attribute'(arg) {
             let compact = this.data.get('compact');
@@ -129,7 +125,6 @@ export default san.defineComponent({
         },
         'UI:query-checkbox-attribute'(arg) {
             let target = arg.target;
-            let targetChecked = target.data.get('checked');
             if (this.data.get('hasCheckbox')) {
                 target.data.set('hasCheckbox', true);
             }
@@ -144,17 +139,17 @@ export default san.defineComponent({
 
     computed: {
         treeViewClass() {
-            return this.data.get('compact') ? 'compact ' : ''
+            return this.data.get('compact') ? 'compact ' : '';
         }
     },
 
     filterItems(value, oldValue) {
         let filterText = value.toLowerCase();
         if (filterText === '') {
-            this.highlightItems.forEach((item) => {
+            this.highlightItems.forEach(item => {
                 item.highlight(null, this.filterInput);
             });
-            this.items.forEach((item) => {
+            this.items.forEach(item => {
                 item.data.set('hidden', false);
                 if (value === '') {
                     item.data.set('open', item.data.get('lastExpandingState'));
@@ -164,7 +159,7 @@ export default san.defineComponent({
             return;
         }
         this.highlightItems.splice(0, this.highlightItems.length);
-        this.items.forEach((item) => {
+        this.items.forEach(item => {
             let text = (item.data.get('primaryText')
                 + item.data.get('secondaryText')).toLowerCase();
             if (text.indexOf(filterText) === -1
@@ -172,15 +167,16 @@ export default san.defineComponent({
                 item.data.set('hidden', item.data.get('children') > 0
                     ? true && item.data.get('hidden')
                     : true);
-            } else {
+            }
+            else {
                 item.data.set('hidden', false);
                 this.highlightItems.push(item);
             }
             if (filterText !== '') {
                 item.dispatch('UI:tree-view-item-hidden');
                 item.dispatch('UI:expand-parent-tree-view-item', {
-                    new: filterText, 
-                    old: oldValue
+                    'new': filterText,
+                    'old': oldValue
                 });
             }
         });
@@ -191,7 +187,7 @@ export default san.defineComponent({
             return;
         }
         let filterText = this.data.get('filterText');
-        this.highlightItems.forEach((item) => {
+        this.highlightItems.forEach(item => {
             item.highlight(null, this.filterInput);
             filterText !== '' && item.highlight(filterText, this.filterInput);
         });
@@ -203,6 +199,19 @@ export default san.defineComponent({
 
     rebuildItems() {
         this.items.splice(0, this.items.length);
+    },
+
+    getAllCheckedItems() {
+        let items = [];
+        if (!this.items || !(this.items instanceof Array)) {
+            return items;
+        }
+        for (let i of this.items) {
+            if (i.data.get('checked') === true) {
+                items.push(i);
+            }
+        }
+        return items;
     },
 
     transBoolean(key) {

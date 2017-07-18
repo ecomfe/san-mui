@@ -36,7 +36,7 @@ import Switch from './Switch.md';
 import SubHeader from './SubHeader.md';
 import Table from './Table.md';
 import Tabs from './Tabs.md';
-import TreeView from './TreeView.san';
+import TreeView from './TreeView.md';
 import TextField from './TextField.md';
 import TimePicker from './TimePicker.md';
 import Toast from './Toast.md';

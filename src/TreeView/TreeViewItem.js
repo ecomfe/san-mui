@@ -4,17 +4,16 @@
  */
 
 import san from 'san';
-import { TouchRipple, CenterRipple } from '../Ripple';
+import {TouchRipple, CenterRipple} from '../Ripple';
 import Icon from '../Icon';
 import Checkbox from '../Checkbox';
-import { Highlight } from './highlight';
-import { TreeViewItem } from '../TreeView';
+import {Highlight} from './highlight';
 
 export default san.defineComponent({
 
     template: `
         <div class="sm-tree-view-item {{itemClass}} {{selectedClass}}
-                    {{hasSecondaryTextClass}}"
+                    {{hasSecondaryTextClass}} {{checkedClass}}"
             on-click="toggleTreeView($event)"
             style="{{itemStyle}}"
         >
@@ -47,7 +46,7 @@ export default san.defineComponent({
                     s-if="secondaryText"
                 >{{ treeData ? treeData.secondaryText : secondaryText | raw }}
                 </p>
-                <div class="sm-tree-view-item-right" s-if="!toggleNested">
+                <div class="sm-tree-view-item-right">
                     <slot name="right"></slot>
                 </div>
             </div>
@@ -69,6 +68,7 @@ export default san.defineComponent({
                     s-else
                     s-for="item, index in treeData.treeData"
                     s-ref="item_{{index}}"
+                    index="{{index}}"
                     treeData="{=item=}"
                     initiallyOpen="{{initiallyOpen}}"
                     dataSource="JSON"
@@ -80,23 +80,23 @@ export default san.defineComponent({
 
     defaultData() {
         return {
-            // 是否可用
+            /* 是否可用 */
             disabled: false,
-            // 是否隐藏（高亮过滤时启用）
+            /* 是否隐藏（高亮过滤时启用） */
             hidden: false,
-            // 是否选中
+            /* 是否选中 */
             selected: false,
-            // 是否取消波纹效果
+            /* 是否取消波纹效果 */
             disableRipple: false,
-            // 点击时优先展开/折叠子项
+            /* 点击时优先展开/折叠子项 */
             primaryTogglesNestedTreeView: true,
-            // 初始展开状态
+            /* 初始展开状态 */
             initiallyOpen: false,
-            // 复选框状态
-            //（null：禁用，undefined：由父项决定，true：选中，false：未选中）
+            /* 复选框状态
+               （null：禁用，undefined：由父项决定，true：选中，false：未选中） */
             checked: null,
-            // 数据源
-            //（ATTRIBUTE：属性定义（静态），JSON：传入 treeData 数据定义（动态））
+            /* 数据源
+              （ATTRIBUTE：属性定义（静态），JSON：传入 treeData 数据定义（动态）） */
             dataSource: 'ATTRIBUTE'
         };
     },
@@ -132,12 +132,16 @@ export default san.defineComponent({
         'UI:tree-view-item-attached'(arg) {
             this.data.set('children', this.data.get('children') + 1);
             this.dispatch('UI:tree-view-item-attached', arg.value);
-
         },
         'UI:tree-view-item-detached'(arg) {
+            if (this.data.get('dataSource') !== 'JSON') {
+                this.data.set('toggleNested',
+                    !!this.getNestedAndCheckedSlotChilds().length);
+            }
             this.data && this.data.set(
                 'children', this.data.get('children') - 1);
             this.dispatch('UI:tree-view-item-detached', arg.value);
+
         },
         'UI:query-data-source-attribute'(arg) {
             let target = arg.target;
@@ -165,7 +169,7 @@ export default san.defineComponent({
     },
 
     initData() {
-       return {
+        return {
             nestedLevel: 1,
             children: 0,
             secondaryTextLines: 1,
@@ -181,6 +185,7 @@ export default san.defineComponent({
             return open ? 'down' : 'up';
         },
         treeViewOpen(open) {
+            this.data.set('shown', open);
             return open ? '' : 'hide';
         }
     },
@@ -194,10 +199,9 @@ export default san.defineComponent({
             };
         },
         itemContentStyle() {
-            let paddingLeftHasLeft =
-                this.data.get('compact') ? '32px' : '64px';
-            let paddingLeftWithoutLeft =
-                this.data.get('compact') ? '6px' : '16px';
+            let paddingLeftHasLeft = this.data.get('compact') ? '32px' : '64px';
+            let paddingLeftWithoutLeft
+                = this.data.get('compact') ? '6px' : '16px';
             return {
                 'margin-left': this.data.get('contentMarginLeft') + 'px',
                 'padding-left': this.data.get('hasLeft')
@@ -207,10 +211,8 @@ export default san.defineComponent({
         },
         expandStyle() {
             return {
-                'transform': this.data.get('open')
-                    ? 'rotate(0)'
-                    : 'rotate(90deg)'
-            }
+                transform: this.data.get('open') ? 'rotate(0)' : 'rotate(90deg)'
+            };
         },
         touchRippleStyle() {
             let level = this.data.get('nestedLevel');
@@ -225,13 +227,15 @@ export default san.defineComponent({
             }
 
             return {
-                'left': this.data.get('compact')
-                    ? leftCompact + 'px'
+                left: this.data.get('compact') ? leftCompact + 'px'
                     : leftNormal + 'px'
-            }
+            };
         },
         selectedClass() {
-            return this.data.get('selected') ? 'selected': '';
+            return this.data.get('selected') ? 'selected' : '';
+        },
+        checkedClass() {
+            return this.data.get('checked') === true ? 'checked' : '';
         },
         hiddenClass() {
             return this.data.get('hidden') ? 'hidden' : '';
@@ -246,8 +250,8 @@ export default san.defineComponent({
         },
         secondaryTextStyle() {
             return {
-                //'-webkit-line-clamp': this.data.get('secondaryTextLines')
-            }
+                /* '-webkit-line-clamp': this.data.get('secondaryTextLines') */
+            };
         }
     },
 
@@ -258,6 +262,7 @@ export default san.defineComponent({
         this.transBoolean('disableRipple');
         this.transBoolean('primaryTogglesNestedTreeView');
         this.transBoolean('initiallyOpen');
+        this.data.set('checked', this.transChecked(this.data.get('checked')));
         this.data.set('open', this.data.get('initiallyOpen'));
         this.data.set('dataSource',
             (this.data.get('dataSource') || '').toUpperCase());
@@ -272,20 +277,31 @@ export default san.defineComponent({
 
         if (this.data.get('dataSource') === 'JSON') {
             this.initFromTreeData(this.data.get('treeData'));
-        } else {
+        }
+        else {
             this.generateTreeData();
         }
 
         this.watch('treeData.checked', value => {
+            this.data.set('checked', value, {silence: true});
             this.data.set('checkboxInputValue',
                 value ? [this.data.get('checkboxValue')] : [''], {
                     silence: true
                 }
             );
-            this.data.set('checked', value);
+            let index = this.data.get('index');
+            this.parentComponent
+                && this.parentComponent.data.set(
+                    'treeData.treeData[' + index + '].checked', value,
+                        {silence: true});
         });
         this.watch('treeData.indeterminate', value => {
             this.data.set('checkboxIndeterminate', value, {silence: true});
+            let index = this.data.get('index');
+            this.parentComponent
+                && this.parentComponent.data.set(
+                    'treeData.treeData[' + index + '].indeterminate', value,
+                        {silence: true});
         });
 
         this.watch('checkboxInputValue', value => {
@@ -294,10 +310,16 @@ export default san.defineComponent({
             this.data.set('checked', value && value.toString() !== '', {
                 silence: true
             });
+            this.parentComponent
+                && this.parentComponent.subTag === this.subTag
+                    && this.parentComponent.updateSelfCheckboxStateFromChilds();
         });
 
         this.watch('checked', value => {
             this.data.set('treeData.checked', value);
+            if (value === null) {
+                return;
+            }
             this.data.set('checkboxInputValue',
                 value ? [this.data.get('checkboxValue')] : ['']);
         });
@@ -328,13 +350,30 @@ export default san.defineComponent({
             this.fire('hiddenToggle', value);
         });
 
+        this.watch('treeData', value => {
+            if (this.data.get('dataSource') !== 'JSON') {
+                return;
+            }
+            if (!value || typeof value !== 'object') {
+                return;
+            }
+            let treeData = value.treeData;
+            this.data.set('toggleNested',
+                treeData && (treeData instanceof Array) && treeData.length > 0);
+        });
+        this.watch('treeData.treeData', value => {
+            san.nextTick(function () {
+                this.updateSelfCheckboxStateFromChilds();
+            }, this);
+        });
+
         if (typeof this.data.get('treeData') === 'object') {
             this.data.set('treeData.checked',
                 this.transChecked(this.data.get('checked')));
             this.data.set('treeData.indeterminate',
                 this.data.get('checkboxIndeterminate'));
         }
-        
+
         this.updateSelfCheckboxStateFromChilds();
 
         this.dispatch('UI:tree-view-item-attached', this);
@@ -342,12 +381,21 @@ export default san.defineComponent({
 
     detached() {
         this.dispatch('UI:tree-view-item-detached', this);
+
+        this.data.get('dataSource') !== 'JSON'
+            && this.parentComponent
+                && this.parentComponent.subTag === this.subTag
+                    && this.parentComponent.updateSelfCheckboxStateFromChilds();
     },
 
     created() {
     },
 
     disposed() {
+        this.dispatch('UI:query-parent-checkbox-state');
+    },
+
+    updated() {
     },
 
     toggleTreeView(evt, driver, forceOpen = false, forceSelected = true) {
@@ -356,7 +404,9 @@ export default san.defineComponent({
         if (this.data.get('disabled')) {
             return;
         }
-        this.fire('click', { event: evt, comp: this });
+        if (evt.target.tagName !== 'LABEL' && evt.target.tagName !== 'INPUT') {
+            this.fire('click', {event: evt, comp: this});
+        }
 
         (driver === 'EXPAND' || forceSelected) && this.toggleRipple();
         if (driver !== 'EXPAND' && !forceOpen
@@ -374,10 +424,15 @@ export default san.defineComponent({
     },
 
     checkboxChanged(evt) {
+        evt.stopPropagation();
+
         let value = this.data.get('checkboxInputValue');
         let checked = value && value.toString() !== '';
         this.data.set('checked', checked);
         this.updateChildsCheckboxState(checked, 'checkbox');
+
+        this.fire('checkboxClick',
+            {event: evt, comp: this.ref('checkbox'), checked: checked});
     },
 
     clearSelectedClass(send) {
@@ -406,15 +461,16 @@ export default san.defineComponent({
         let contentSelector = '.sm-tree-view-item-content';
         let primaryTextSelector = 'p.sm-tree-view-item-primary-text';
         let secondaryTextSelector = 'p.sm-tree-view-item-secondary-text';
-        let primary =
-            el.querySelector(contentSelector + '>' + primaryTextSelector);
-        let secondary =
-            el.querySelector(contentSelector + '>' + secondaryTextSelector);
+        let primary
+            = el.querySelector(contentSelector + '>' + primaryTextSelector);
+        let secondary
+            = el.querySelector(contentSelector + '>' + secondaryTextSelector);
 
         if (typeof word === 'string' && word !== '') {
             Highlight.highlight(primary, word, input, backColor, foreColor);
             Highlight.highlight(secondary, word, input, backColor, foreColor);
-        } else {
+        }
+        else {
             Highlight.unhighlight(primary, input);
             Highlight.unhighlight(secondary, input);
         }
@@ -428,7 +484,7 @@ export default san.defineComponent({
             : this.updateJsonChildsCheckboxState(value);
         if (driver === 'checkbox' && this.parentComponent
             && this.parentComponent.subTag === this.subTag) {
-            this.parentComponent.updateSelfCheckboxStateFromChilds(value);
+            this.parentComponent.updateSelfCheckboxStateFromChilds();
         }
     },
 
@@ -450,7 +506,7 @@ export default san.defineComponent({
         return false;
     },
 
-    getNestedSlotChildsItem() {
+    getNestedAndCheckedSlotChilds() {
         let items = [];
         let slotChilds = this.slotChilds;
         if (slotChilds.length <= 0) {
@@ -461,7 +517,10 @@ export default san.defineComponent({
                 continue;
             }
             for (let j of i.childs) {
-                if (j.subTag !== this.subTag) {
+                if (!j.el || !j.el.parentNode) {
+                    continue;
+                }
+                if (j.subTag !== this.subTag || !j.owner) {
                     continue;
                 }
                 if (typeof j.data.get('checked') !== 'boolean') {
@@ -473,7 +532,7 @@ export default san.defineComponent({
         return items;
     },
 
-    getNestedJsonChildsItem() {
+    getNestedAndCheckedJsonChilds() {
         let items = [];
         let treeData = this.data.get('treeData');
         if (!treeData || typeof treeData !== 'object'
@@ -509,8 +568,24 @@ export default san.defineComponent({
         return parent;
     },
 
+    hasChildHavingCheckbox() {
+        let childs = this.getNestedAndCheckedSlotChilds();
+        if (!childs || childs.length <= 0) {
+            childs = this.getNestedAndCheckedJsonChilds();
+            if (!childs || childs.length <= 0) {
+                return false;
+            }
+        }
+        for (let i of childs) {
+            if (typeof i.data.get('checked') === 'boolean') {
+                return true;
+            }
+        }
+        return false;
+    },
+
     updateSlotChildsCheckboxState(value) {
-        let childs = this.getNestedSlotChildsItem();
+        let childs = this.getNestedAndCheckedSlotChilds();
         for (let i of childs) {
             i.data.set('checked', value);
             i.updateChildsCheckboxState(value);
@@ -518,20 +593,24 @@ export default san.defineComponent({
     },
 
     updateJsonChildsCheckboxState(value) {
-        let childs = this.getNestedJsonChildsItem();
+        let childs = this.getNestedAndCheckedJsonChilds();
         for (let i of childs) {
             i.data.set('checked', value);
             i.updateChildsCheckboxState(value);
         }
     },
 
-    updateSelfCheckboxStateFromChilds(value) {
-        let childs = this.getNestedSlotChildsItem();
+    updateSelfCheckboxStateFromChilds() {
+        let childs = this.getNestedAndCheckedSlotChilds();
         if (!childs || childs.length <= 0) {
-            childs = this.getNestedJsonChildsItem();
+            childs = this.getNestedAndCheckedJsonChilds();
             if (!childs || childs.length <= 0) {
+                this.data.set('checkboxIndeterminate', false);
                 return;
             }
+        }
+        if (this.data.get('checked') === null) {
+            return;
         }
         let subChecked;
         let count = 0;
@@ -550,7 +629,8 @@ export default san.defineComponent({
             }
             if (subChecked === undefined) {
                 subChecked = childChecked << count;
-            } else {
+            }
+            else {
                 subChecked |= childChecked << count;
             }
             count++;
@@ -563,7 +643,7 @@ export default san.defineComponent({
         }
         let parent = this.getParentHavingCheckbox();
         if (parent) {
-            parent.updateSelfCheckboxStateFromChilds();
+            return parent.updateSelfCheckboxStateFromChilds();
         }
     },
 
@@ -594,7 +674,7 @@ export default san.defineComponent({
             text: this.data.get('primaryText'),
             secondaryText: this.data.get('secondaryText'),
             checked: this.data.get('checked')
-        }
+        };
         this.data.set('treeData', data, {
             silence: true
         });
