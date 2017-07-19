@@ -1,6 +1,6 @@
 /**
  * @file Badage
- ** @author malingyang(malingyang@baidu.com)
+ * @author malingyang(malingyang@baidu.com)
  */
 
 import {create} from '../common/util/cx';

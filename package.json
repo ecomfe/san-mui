@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "kolor": "^1.1.9",
     "moment": "^2.18.1"
   },
   "peerDependencies": {

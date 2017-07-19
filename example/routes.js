@@ -14,6 +14,7 @@ import Badage from './Badage.md';
 import Card from './Card.md';
 import Carousel from './Carousel.md';
 import Checkbox from './Checkbox.md';
+import ColorPicker from './ColorPicker.md';
 import Chip from './Chip.md';
 import DatePicker from './DatePicker.md';
 import Dialog from './Dialog.md';
@@ -48,6 +49,7 @@ let routes = {
     '/Button': Button,
     '/Badage': Badage,
     '/Card': Card,
+    '/ColorPicker': ColorPicker,
     '/TextField': TextField,
     '/Menu': Menu,
     '/List': List,
