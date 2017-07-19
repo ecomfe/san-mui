@@ -7,6 +7,7 @@ import {Mask, show, hide} from './Mask';
 
 export {
     Mask,
+    Mask as default,
     show,
     hide
 };

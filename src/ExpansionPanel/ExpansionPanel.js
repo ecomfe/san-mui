@@ -63,7 +63,9 @@ export default class ExpansionPanel extends san.Component {
     initData() {
         return {
             open: false,
-            icon: 'keyboard_arrow_down'
+            icon: 'keyboard_arrow_down',
+            title: '',
+            description: ''
         };
     }
 

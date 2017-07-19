@@ -3,43 +3,39 @@
  * @author junmer
  */
 
-import {Component} from 'san';
+import {Component, parseTemplate} from 'san';
 
-function genProp(element, name) {
-    element.aNode.props.push({
-        name: name,
-        expr: {
-            type: 3,
-            paths: [{
-                type: 1,
-                value: name
-            }]
-        },
-        raw: `\{\{${name}\}\}`
-    });
-}
+const linkANodeProps = parseTemplate(
+    '<a href="{{href}}" target="{{target}}"/>'
+).childs[0].props;
 
-function adaptAnchor(element) {
-
-    if (element.data.get('href')) {
-        element.aNode.tagName = 'A';
-        element.tagName = 'a';
-        genProp(element, 'href');
-    }
-
-    if (element.data.get('target')) {
-        genProp(element, 'target');
-    }
-
-}
+const hrefProps = linkANodeProps.get('href');
+const targetProps = linkANodeProps.get('target');
 
 export default class BaseButton extends Component {
 
     inited() {
 
-        // 兼容 button / a
-        adaptAnchor(this);
+        let {data, aNode} = this;
 
+        if (data.get('href')) {
+            aNode.tagName = 'A';
+            aNode.props.push(hrefProps);
+            aNode.props.remove('type');
+            this.tagName = 'a';
+        }
+
+        if (data.get('target')) {
+            aNode.props.push(targetProps);
+        }
+
+    }
+
+    initData() {
+        return {
+            type: 'button',
+            disabled: false
+        };
     }
 
 }

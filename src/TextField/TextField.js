@@ -41,6 +41,7 @@ export default san.defineComponent({
                     on-focus="handleFocus($event)"
                     on-input="handleChange($event)"
                     on-blur="handleBlur($event)"
+                    on-keyup="handleKeyup($event)"
                     on-keypress="handleKeypress($event)"
                     on-keydown="handleKeydown($event)"
                     class="sm-text-field-input {{inputClass}}"/>
@@ -184,6 +185,9 @@ export default san.defineComponent({
     },
     handleChange(event) {
         this.fire('input-change', event);
+    },
+    handleKeyup(event) {
+        this.fire('input-keyup', event);
     },
     handleKeypress(event) {
         this.fire('input-keypress', event);

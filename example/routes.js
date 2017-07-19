@@ -6,45 +6,49 @@
 /* eslint-disable fecs-export-on-declare */
 
 import Main from '../README.md';
+
+import AppBar from './AppBar.md';
 import Avatar from './Avatar.md';
 import Button from './Button.md';
-import TextField from './TextField.san';
-import Menu from './Menu.md';
+import Badage from './Badage.md';
+import Card from './Card.md';
+import Carousel from './Carousel.md';
+import Checkbox from './Checkbox.md';
+import Chip from './Chip.md';
+import DatePicker from './DatePicker.md';
+import Dialog from './Dialog.md';
+import Divider from './Divider.md';
+import Drawer from './Drawer.md';
+import ExpansionPanel from './ExpansionPanel.md';
+import Grid from './Grid.md';
+import Icon from './Icon.md';
+import InputNumber from './InputNumber.md';
 import List from './List.md';
-import TreeView from './TreeView.san';
-import Tabs from './Tabs.san';
+import Menu from './Menu.md';
+import Radio from './Radio.md';
+import Paper from './Paper.md';
 import Pagination from './Pagination.md';
 import Popover from './Popover.md';
-import Drawer from './Drawer.san';
-import Dialog from './Dialog.san';
-import Divider from './Divider.md';
 import Progress from './Progress.md';
-import DatePicker from './DatePicker.san';
-import Table from './Table.san';
-import Ripple from './Ripple.san';
-import Icon from './Icon.md';
-import Checkbox from './Checkbox.san';
-import Switch from './Switch.san';
-import SubHeader from './SubHeader.md';
-import Radio from './Radio.san';
-import ExpansionPanel from './ExpansionPanel.md';
-import Toast from './Toast.md';
-import TimePicker from './TimePicker.san';
-import Chip from './Chip.md';
-import AppBar from './AppBar.san';
-import Paper from './Paper.san';
-import Card from './Card.san';
+import Ripple from './Ripple.md';
 import Slider from './Slider.san';
-import Grid from './Grid.san';
+import Switch from './Switch.md';
+import SubHeader from './SubHeader.md';
+import Table from './Table.san';
+import Tabs from './Tabs.san';
+import TreeView from './TreeView.san';
+import TextField from './TextField.md';
+import TimePicker from './TimePicker.san';
+import Toast from './Toast.md';
 import Uploader from './Uploader.san';
-import Carousel from './Carousel.md';
-import InputNumber from './InputNumber.md';
+
 
 let routes = {
     '/': Main,
     '/AppBar': AppBar,
     '/Avatar': Avatar,
     '/Button': Button,
+    '/Badage': Badage,
     '/Card': Card,
     '/TextField': TextField,
     '/Menu': Menu,

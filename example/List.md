@@ -139,9 +139,9 @@ export default {
             <san-icon slot="left">drafts</san-icon>
         </san-list-item>
         <san-list-item
-            primaryText="Inbox" 
+            primaryText="Inbox"
             toggleNested="{{!0}}"
-            initiallyOpen="{{!0}}" 
+            initiallyOpen="{{!0}}"
             primaryTogglesNestedList="{{!0}}"
             on-nestedListToggle="nestedListToggle($event)"
         >
@@ -420,17 +420,17 @@ export default {
   <div class="sm-list-wrapper">
     <san-sub-header>今天</san-sub-header>
     <san-list>
-        <san-list-item 
-            primaryText="周末一起吃饭？" 
-            secondaryText="{{ longSecText1 }}" 
+        <san-list-item
+            primaryText="周末一起吃饭？"
+            secondaryText="{{ longSecText1 }}"
             secondaryTextLines="2"
         >
             <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
         </san-list-item>
         <san-divider inset="{{!0}}" />
-        <san-list-item 
-            primaryText="夏天浪起来" 
-            secondaryText="{{ longSecText2 }}" 
+        <san-list-item
+            primaryText="夏天浪起来"
+            secondaryText="{{ longSecText2 }}"
             secondaryTextLines="2"
         >
             <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
@@ -488,10 +488,10 @@ export default {
     <div>
         <div class="sm-list-wrapper">
         <san-list value="{{ value }}" selectable="{{!0}}" on-change="listItemSelect($event)">
-            <san-list-item 
-                primaryText="Junmer" 
-                toggleNested="{{!0}}" 
-                initiallyOpen="{{!0}}" 
+            <san-list-item
+                primaryText="Junmer"
+                toggleNested="{{!0}}"
+                initiallyOpen="{{!0}}"
                 value="{{ 1 }}"
             >
                 <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
@@ -509,7 +509,7 @@ export default {
                 <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
             </san-list-item>
         </san-list>
-        
+
         </div>
         <san-button
             variants="info"
@@ -539,7 +539,7 @@ export default {
         console.log('selected item value : ', value);
     },
     setValue() {
-       this.data.set('value', 1); 
+       this.data.set('value', 1);
     }
 }
 </script>

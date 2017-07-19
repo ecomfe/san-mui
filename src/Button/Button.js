@@ -3,9 +3,9 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import BaseButton from './Base';
 import {create} from '../common/util/cx';
 import {TouchRipple} from '../Ripple';
+import BaseButton from './Base';
 
 const cx = create('button');
 
@@ -18,8 +18,9 @@ export default class Button extends BaseButton {
     static template = `
         <button
             on-click="click($event)"
+            type="{{type}}"
             class="{{computedClassName}}"
-            disabled="{{disabled ? 'disabled' : ''}}">
+            disabled="{{disabled}}">
             <slot />
             <san-touch-ripple san-if="!disabled" />
         </button>
@@ -30,12 +31,6 @@ export default class Button extends BaseButton {
             return cx(this).build();
         }
     };
-
-    initData() {
-        return {
-            disabled: false
-        };
-    }
 
     click(e) {
         if (!this.data.get('disabled')) {

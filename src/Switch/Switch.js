@@ -5,15 +5,16 @@
 
 import san from 'san';
 import {CenterRipple} from '../Ripple';
+import cx from 'classnames';
 
 export default san.defineComponent({
     template: `
         <label
-            class="sm-switch {{labelLeft ? 'label-left' : '')}} {{disabled ? 'disabled' : ''}} {{!label ? 'no-label' : ''}}"
+            class="{{mainClass}}"
             on-click="handleClick">
             <input type="checkbox"
                 disabled="{{disabled}}"
-                value="{{value}}"
+                value="ON"
                 on-change="handleChange($event)"
                 checked="{= inputValue =}">
             <div class="sm-switch-wrapper">
@@ -32,7 +33,9 @@ export default san.defineComponent({
     initData() {
         return {
             name: '',
-            value: 'ON',
+            nativeValue: 'ON',
+            onValue: 'ON',
+            offValue: 'OFF',
             label: '',
             labelLeft: '',
             labelClass: '',
@@ -47,12 +50,58 @@ export default san.defineComponent({
         'sm-center-ripple': CenterRipple
     },
 
+    computed: {
+        mainClass() {
+            return cx(
+                'sm-switch',
+                {
+                    'label-left': this.data.get('labelLeft'),
+                    'disabled': this.data.get('disabled'),
+                    'no-label': !this.data.get('label')
+                }
+            );
+        }
+    },
+
+    dealInput() {
+        let value = this.data.get('value');
+        let inputValue = this.data.get('inputValue');
+        let onValue = this.data.get('onValue');
+        let offValue = this.data.get('offValue');
+        let nativeValue = this.data.get('nativeValue');
+        if (value === onValue && !inputValue[0]) {
+            this.data.set('inputValue[0]', nativeValue);
+        }
+        if (value === offValue && inputValue[0]) {
+            this.data.set('inputValue[0]', '');
+        }
+    },
+
     attached() {
+        this.watch('value', val => {
+            this.fire('input-change', val);
+            this.dealInput();
+        });
+        this.dealInput();
+        this.watch('inputValue', val => {
+            let onValue = this.data.get('onValue');
+            let offValue = this.data.get('offValue');
+            if (val && val[0]) {
+                this.data.set('value', onValue);
+                return;
+            }
+            this.data.set('value', offValue);
+        });
     },
 
     handleClick(e) {
         // 阻止事件冒泡，放置外部控制的时候触发两次 click
-        this.ref('ripple').click();
+        if (!this.data.get('disabled')) {
+            this.ref('ripple').click();
+        }
+    },
+    handleChange(e) {
+        this.fire('change', e);
     },
     handleMouseUp() {
     },
@@ -61,9 +110,5 @@ export default san.defineComponent({
     handleTouchStart(event) {
     },
     handleTouchEnd() {
-    },
-    handleChange(event) {
-        let inputValue = this.data.get('inputValue');
-        this.fire('change', inputValue);
     }
 });

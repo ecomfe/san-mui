@@ -11,7 +11,7 @@ A Set of SAN Components that Implement Google's Material Design
 1. 通过 npm 安装
 
     ```sh
-    npm i -S san-mui;
+    npm i -S san-mui
     ```
 
 2. 在代码中引入
@@ -21,10 +21,10 @@ A Set of SAN Components that Implement Google's Material Design
     import {Button, DatePicker} from 'san-mui';
 
     // 引入全部样式
-    import 'san-mui/lib/index.css'
+    import 'san-mui/lib/index.css';
     ```
 
-    如果在没有 tree-shaking 的优化下，希望只引入需要的组件，可以这么做：
+    或者希望只引入需要的组件，可以这么做：
 
     ```js
     import Button from 'san-mui/lib/Button';

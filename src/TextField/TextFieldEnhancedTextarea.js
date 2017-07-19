@@ -30,7 +30,6 @@ export default san.defineComponent({
         };
     },
     resizeTextarea() {
-        console.log(456);
         let element = null;
         let textareas = document.getElementsByClassName('sm-text-field-textarea');
         Array.prototype.forEach.call(textareas, item => {

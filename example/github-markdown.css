@@ -184,7 +184,7 @@
 
 .markdown-body code.md,
 .markdown-body kbd.md,
-.markdown-body pre.md {
+.markdown-body pre {
     font-family: monospace, monospace;
     font-size: 1em;
 }
@@ -253,6 +253,7 @@
 }
 
 .markdown-body table.md {
+    table-layout: fixed;
     border-spacing: 0;
     border-collapse: collapse;
 }
@@ -339,7 +340,7 @@
     font-size: 12px;
 }
 
-.markdown-body pre.md {
+.markdown-body pre {
     margin-top: 0;
     margin-bottom: 0;
     font: 12px "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -418,7 +419,7 @@
 .markdown-body ol.md,
 .markdown-body dl.md,
 .markdown-body table.md,
-.markdown-body pre.md {
+.markdown-body pre {
     margin-top: 0;
     margin-bottom: 16px;
 }
@@ -568,8 +569,6 @@
 }
 
 .markdown-body table.md {
-    display: block;
-    width: 100%;
     overflow: auto;
 }
 
@@ -614,11 +613,11 @@
     content: "\00a0";
 }
 
-.markdown-body pre.md {
+.markdown-body pre {
     word-wrap: normal;
 }
 
-.markdown-body pre.md>code.md {
+.markdown-body pre>code.md {
     padding: 0;
     margin: 0;
     font-size: 100%;
@@ -632,13 +631,13 @@
     margin-bottom: 16px;
 }
 
-.markdown-body .highlight pre.md {
+.markdown-body .highlight pre {
     margin-bottom: 0;
     word-break: normal;
 }
 
-.markdown-body .highlight pre.md,
-.markdown-body pre.md {
+.markdown-body .highlight pre,
+.markdown-body pre {
     padding: 16px;
     overflow: auto;
     font-size: 85%;
@@ -647,7 +646,7 @@
     border-radius: 3px;
 }
 
-.markdown-body pre.md code.md {
+.markdown-body pre code.md {
     display: inline;
     max-width: auto;
     padding: 0;
@@ -659,8 +658,8 @@
     border: 0;
 }
 
-.markdown-body pre.md code.md::before,
-.markdown-body pre.md code.md::after {
+.markdown-body pre code.md::before,
+.markdown-body pre code.md::after {
     content: normal;
 }
 

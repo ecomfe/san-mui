@@ -1,34 +1,42 @@
 .custom
     .sm-tree-view-item
         > .sm-touch-ripple
+            height: 24px !important
             &.selected
-                background-color: rgba(33, 150, 243, 0.75) !important;
+                background-color: rgba(33, 150, 243, 0.75) !important
             &:hover
-                background-color: rgba(33, 150, 243, 0.25) !important;
+                background-color: rgba(33, 150, 243, 0.25) !important
                 ~ .sm-tree-view-item-content
                     &
                     > *:not(.sm-tree-view-item-secondary-text)
                     ../ ~ .sm-tree-view-item-expand
-                        color: black !important;
+                    .sm-checkbox-icon > svg
+                        color: black !important
         &.selected
             &:hover
             ../
                 > .sm-tree-view-item-content
                     > .sm-tree-view-item-secondary-text
-                        position: absolute;
-                        right: 10px;
-                        top: -5px;
-                        padding: 3px 4px;
-                        border-radius: 6px;
-                        color: white;
-                        background-color: rgba(33, 150, 243, 0.5);
-                        max-width: 100px;
+                        position: absolute
+                        right: 10px
+                        top: -5px
+                        padding: 2px 4px
+                        border-radius: 6px
+                        color: white
+                        background-color: rgba(33, 150, 243, 0.5)
+                        max-width: 100px
+                        max-height: 18px
+                        font-size: 12px
             > .sm-tree-view-item-content
                 &.selected
                     &
                     > *
                     ../../ > .sm-tree-view-item-expand
-                        color: white;
+                    .sm-checkbox-icon > svg
+                        color: white
                 > .sm-tree-view-item-secondary-text
                     background-color: white;
-                    color: rgba(33, 150, 243, 0.5);
+                    color: rgba(33, 150, 243, 0.5)
+        .sm-checkbox:not(.disabled)
+            .sm-checkbox-icon > svg
+                color: black

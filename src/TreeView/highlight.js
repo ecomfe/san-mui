@@ -64,6 +64,24 @@ let _makeEditableAndHighlight = function (backColor, foreColor) {
     sel.removeAllRanges();
 }
 
+let _makeEditableAndUnhighlight = function () {
+    let sel = window.getSelection(), range;
+    if (sel.rangeCount && sel.getRangeAt) {
+        range = sel.getRangeAt(0);
+    }
+    document.designMode = 'on';
+    if (range) {
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+    document.execCommand('removeFormat', false);
+    document.designMode = 'off';
+    if (range && range.startContainer && (range.startContainer instanceof HTMLElement)) {
+        range.startContainer.normalize();
+    }
+    sel.removeAllRanges();
+}
+
 let _doHighlight = function (backColor, foreColor) {
     let range, sel;
     if (window.getSelection) {
@@ -81,7 +99,19 @@ let _doHighlight = function (backColor, foreColor) {
 }
 
 let _doUnhighlight = function () {
-    _doHighlight('transparent');
+    let range, sel;
+    if (window.getSelection) {
+        try {
+            if (!document.execCommand('BackColor', false, backColor)) {
+                _makeEditableAndUnhighlight();
+            }
+        } catch (ex) {
+            _makeEditableAndUnhighlight()
+        }
+    } else if (document.selection && document.selection.createRange) {
+        range = document.selection.createRange();
+        range.execCommand('removeFormat', false);
+    }
 }
 
 let highlight = function (el, keyword, input, backColor, foreColor) {
@@ -108,9 +138,6 @@ let unhighlight = function (el, input) {
     }
     _setSelectionRange(el, 0, el.innerText.length); 
     _doUnhighlight();
-    el.querySelectorAll('font[color]').forEach((item) => {
-        item.removeAttribute('color');
-    });
     input && input.focus();
 }
 
