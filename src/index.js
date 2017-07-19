@@ -30,6 +30,7 @@ import TimePicker from './TimePicker';
 import Chip from './Chip';
 import Toast from './Toast';
 import Carousel from './Carousel';
+import InputNumber from './InputNumber';
 
 export {
     AppBar,
@@ -57,5 +58,6 @@ export {
     Chip,
     Toast,
     TextField,
-    Carousel
+    Carousel,
+    InputNumber
 };

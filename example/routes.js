@@ -38,6 +38,7 @@ import Slider from './Slider.san';
 import Grid from './Grid.san';
 import Uploader from './Uploader.san';
 import Carousel from './Carousel.md';
+import InputNumber from './InputNumber.md';
 
 let routes = {
     '/': Main,
@@ -72,7 +73,8 @@ let routes = {
     '/Chip': Chip,
     '/Grid': Grid,
     '/Uploader': Uploader,
-    '/Carousel': Carousel
+    '/Carousel': Carousel,
+    '/InputNumber': InputNumber
 
 };
 

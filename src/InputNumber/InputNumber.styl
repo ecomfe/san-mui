@@ -1,0 +1,94 @@
+/**
+ * @file san-mui/Carousel
+ * @author solvan 
+ */
+ 
+@require '../css/variable.styl'
+@require '../css/func.styl'
+
+.{$san-class-prefix}-inputNumber
+    width: 180px
+    overflow: hidden
+    position: relative
+    border: 1px solid $md-colors.blueGrey400
+    border-radius: 5px
+    .{$san-class-prefix}-text-field-line,
+    .{$san-class-prefix}-text-field-focus-line   
+        display: none 
+    .{$san-class-prefix}-text-field
+        position: relative
+        display: block
+         
+        width: 108px
+        min-height: 34px
+        line-height: 34px
+        padding: 0 0 0 10px
+        margin: 0
+        &-input
+            color: $md-colors.blueGrey400
+        &-content
+            padding: 0 
+    &:hover 
+        color: $md-colors.blue500
+        border-color: $md-colors.blue500
+    &-increase,
+    &-decrease
+        height: auto
+        border-left: 1px solid $md-colors.blueGrey400
+        width: 36px
+        height: 34px
+        line-height: 34px
+        top: 0
+        text-align: center
+        color: $md-colors.blueGrey300        
+        cursor: pointer
+        position: absolute
+        z-index: 1
+        -webkit-user-select: none
+        &:hover 
+            color: $md-colors.blue500
+            
+    &-increase
+        right: 0
+    &-decrease
+        right: 37px
+    
+    &-small
+        width: 130px
+        &-increase,
+        &-decrease
+            width: 32px
+            height: 32px
+            line-height: 32px
+        .{$san-class-prefix}-text-field
+            min-height: 30px
+            line-height: 30px 
+        &-decrease
+            right: 33px
+    &-large
+        width: 200px
+        &-increase,
+        &-decrease
+            width: 42px
+            height: 42px
+            line-height: 42px
+        .{$san-class-prefix}-text-field
+            min-height: 42px
+            line-height: 42px
+        &-decrease
+            right: 43px
+.disabled
+    border-color: $md-colors.blueGrey400
+    background-color:$md-colors.faintBlack
+    color: $md-colors.blueGrey200
+    cursor: not-allowed
+    &:hover
+        border-color: $md-colors.blueGrey400
+        cursor: not-allowed
+    .{$san-class-prefix}-text-field-input
+        color: $md-colors.blueGrey200
+.is-disabled 
+    color: $md-colors.blueGrey200
+    &:hover 
+        color: $md-colors.blueGrey200
+        cursor: not-allowed
