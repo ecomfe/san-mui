@@ -1,8 +1,21 @@
 <template>
     <div>
+        <section></section>
         <h3>使用示例</h3>
-        <sm-uploader
-            action="https://jsonplaceholder.typicode.com/posts/"
+        <sm-file-list>
+            <sm-file-item
+                s-for="file in files"
+                status="{{file.status}}"
+                progress="{{file.progress}}"
+                on-remove="remove(file)" />
+        </sm-file-list>
+        <sm-file-selector
+            multiple
+            extentions="jpg, jpeg, png, gif"
+            maxSize="{{100}}"
+            on-change="receiveFiles" />
+        <!-- <sm-uploader
+            action="http://180.76.137.83:8818/image"
             headers="{{headers}}"
             multiple
             data="{{data}}"
@@ -12,12 +25,7 @@
             on-change="selectFile"
             on-succeed="uploaded"
             on-error="error"
-            on-progress="progress" />
-        <sm-file-list name="">
-            <sm-file-item
-                s-for="file in files"
-                on-remove="remove" />
-        </sm-file-list>
+            on-progress="progress" /> -->
     </div>
 </template>
 
@@ -33,12 +41,11 @@ export default {
 
     initData() {
         return {
-            headers: {},
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
             data: {},
             files: [
-                {
-                    url: 'https://www.baidu.com/img/bd_logo1.png'
-                }
             ]
         };
     },

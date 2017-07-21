@@ -3,6 +3,8 @@
  * @author nemo <474021406@qq.com>
  */
 
+/* globals XMLHttpRequest, FormData */
+
 import {Component, DataTypes} from 'san';
 import Button from '../Button';
 import {create} from '../common/util/cx';
@@ -53,7 +55,9 @@ export default class Uploader extends Component {
     initData() {
         return {
             mode: 'xhr',
-            headers: {},
+            headers: {
+                // 'Content-Type': 'multipart/form-data'
+            },
             multiple: false,
             data: {},
             name: 'file',
@@ -152,80 +156,3 @@ export default class Uploader extends Component {
     }
 
 }
-
-// let FileUploader;
-// const method = {
-//     repeatSet(obj, fn) {
-//         Object.keys(obj).forEach(key => {
-//             fn(key, obj[key]);
-//         });
-//     },
-//     initUploader(file) {
-//         let uploader = new FileUploader({
-//             opt: this.data.get('opt'),
-//             file: file,
-//             fileList: this.fileList,
-//             viewUpdate: () => {
-//                 this.data.set('fileList', this.fileList);
-//             }
-//         });
-//         uploader.init();
-//         this.fileList.push(uploader);
-//         this.data.set('fileList', this.fileList);
-//     }
-// };
-//
-// FileUploader = function (params) {
-//     this.opt = params.opt;
-//     this.file = params.file;
-//     this.fileList = params.fileList;
-//     this.viewUpdate = params.viewUpdate;
-// };
-//
-// FileUploader.prototype.init = function () {
-//     this.xhr = new XMLHttpRequest();
-//     this.formData = new FormData();
-//     this.opt.data[this.opt.name] = this.file;
-//     method.repeatSet(this.opt.data, this.formData.append.bind(this.formData));
-//
-//     this.opt['on-change'](this.file, this.fileList.map(one => one.file));
-//
-//     this.xhr.upload.onprogress = e => {
-//         let percentage = 0;
-//
-//         if (e.lengthComputable) {
-//             percentage = e.loaded / e.total;
-//         }
-//         this.opt['on-progress'](e, this.file, this.fileList.map(one => one.file));
-//         this.file.progressCss = {width: 100 * percentage + '%'};
-//         this.viewUpdate();
-//     };
-//     this.xhr.onreadystatechange = e => {
-//         if (this.xhr.readyState === 4) {
-//             if (/20/.test(this.xhr.status)) {
-//                 this.file.response = JSON.parse(this.xhr.response);
-//                 this.opt['on-success'](JSON.parse(this.xhr.response), this.file, this.fileList.map(one => one.file));
-//                 this.file.progressCss = {width: '100%'};
-//                 this.viewUpdate();
-//             }
-//             else {
-//                 this.opt['on-error']('error', this.file, this.fileList.map(one => one.file));
-//             }
-//             this.file.uploaded = true;
-//             this.opt['on-change'](this.file, this.fileList.map(one => one.file));
-//         }
-//     };
-//     this.xhr.withCredentials = this.opt['with-credentials'];
-// };
-// FileUploader.prototype.upload = function () {
-//     if (this.opt['before-upload'](this.file) && !this.file.uploaded) {
-//         this.xhr.open('POST', this.opt.action);
-//         method.repeatSet(Object.assign({
-//             'Content-Type': 'application/x-www-form-urlencoded'
-//         }, this.opt.headers), this.xhr.setRequestHeader.bind(this.xhr));
-//         this.xhr.send(this.formData);
-//     }
-// };
-// FileUploader.prototype.abort = function () {
-//     this.xhr.abort();
-// };
