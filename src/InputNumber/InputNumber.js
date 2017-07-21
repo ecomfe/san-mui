@@ -1,6 +1,6 @@
 /**
  * @file san-mui/InputNumber
- * @author solvan
+ * @author solvan <sunwei11@baidu.com>
  */
 
 import san from 'san';
@@ -29,7 +29,7 @@ function numConvert(num, power) {
 }
 
 function getPower(value) {
-    const valueStr= value.toString();
+    const valueStr = value.toString();
     const valueIndex = valueStr.indexOf('.');
     let power = 0;
     if (valueIndex !== -1) {
@@ -47,7 +47,7 @@ export default class InputNumber extends san.Component {
             disabled="{{disabled}}">
             <san-text-field 
                 variants="${cx.getPartClassName('input')}"
-                inputValue="{{value}}"
+                inputValue="{=value=}"
                 on-input-keyup="enterDebounceKeyup($event)"/>
             <span 
                 class="${cx.getPartClassName('increase')}
@@ -76,30 +76,33 @@ export default class InputNumber extends san.Component {
             return cx(this).build();
         },
         computedSize() {
-            if(this.data.get('size') === 'large') {
+            if (this.data.get('size') === 'large') {
                 return 42;
             }
             else if (this.data.get('size') === 'small') {
                 return 30;
             }
-            else {
-                return 34;
-            }
+            return 34;
         },
         minDisabled() {
-            return getDecreaseResult(this.data.get('value'), this.data.get('step'), this.data.get('power')) < this.data.get('min');
+            return getDecreaseResult(
+                this.data.get('value'),
+                this.data.get('step'),
+                this.data.get('power')) < this.data.get('min');
         },
         maxDisabled() {
-            return getIncreaseResult(this.data.get('value'), this.data.get('step'), this.data.get('power')) > this.data.get('max');
+            return getIncreaseResult(
+                this.data.get('value'),
+                this.data.get('step'),
+                this.data.get('power')) > this.data.get('max');
         },
         power() {
-            
             return Math.max(
                 getPower(
-                    this.data.get('value')), 
+                    this.data.get('value')),
                 getPower(
                     this.data.get('step')));
-        }   
+        }
     };
 
     initData() {
@@ -109,42 +112,47 @@ export default class InputNumber extends san.Component {
             disabled: false,
             value: '0',
             max: Infinity,
-            min: -Infinity, 
+            min: -Infinity,
             size: '',
             step: 1,
             preVal: ''
 
         };
-    };
+    }
+
     inited() {
     }
 
     attached() {
         this.data.set('preVal', this.data.get('value'));
-        this.watch('value', (value) => {
+        this.watch('value', function (value) {
             let newVal = Number(value);
-            if (isNaN(newVal)) return;
+            if (isNaN(newVal) ) {
+                return;
+            }
             let max = this.data.get('max');
             let min = this.data.get('min');
-            if (newVal >= max) newVal = max;
-            if (newVal <= min) newVal = min;
-            if (this.data.get('preVal') !== value) {
-                this.fire('change', newVal);
+            if (newVal >= max) {
+                newVal = max;
             }
-             
-
-            
-
-            
+            if (newVal <= min) {
+                newVal = min;
+            }
+            // console.log(this.data.get('preVal'), 'preVal');
+            if (this.data.get('preVal') !== newVal) {
+                this.fire('change', newVal);
+                this.data.set('preVal', newVal);
+            }
         });
     }
 
     enterDebounceKeyup(e) {
-        this.data.set('preVal', this.data.get('value'));
+        
         this.enterTimer = setTimeout(() => {
+
             let newVal = this.compareValue(e.target.value);
             this.data.set('value', newVal);
-           
+            this.data.set('preVal', newVal);
         }, 100);
 
     }
@@ -154,34 +162,50 @@ export default class InputNumber extends san.Component {
         this.data.set('preVal', this.data.get('value'));
         const preVal = +this.data.get('preVal');
         let newVal = this.compareValue(value);
-        if (preVal === newVal) return;
+        if (preVal === newVal) {
+            return;
+        }
         this.data.set('value', newVal);
-        
     }
+
     compareValue(value) {
         let newVal = Number(value);
         const currentMin = this.data.get('min');
-        if (isNaN(newVal)) return currentMin !== -Infinity ? currentMin : 0;
+        if (isNaN(newVal)) {
+            return currentMin !== -Infinity ? currentMin : 0;
+        }
         let max = this.data.get('max');
         let min = this.data.get('min');
-        if (newVal >= max) newVal = max;
-        if (newVal <= min) newVal = min;
+        if (newVal >= max) {
+            newVal = max;
+        }
+        if (newVal <= min) {
+            newVal = min;
+        }
         return newVal;
-        
     }
 
     decrease() {
-        if (this.data.get('disabled') || this.data.get('minDisabled')) return;
+        if (this.data.get('disabled') || this.data.get('minDisabled')) {
+            return;
+        }
         const value = this.data.get('value') || 0;
         const newVal = getDecreaseResult(+value, this.data.get('step'), this.data.get('power'));
-        if (newVal < this.data.get('min')) return;
+        if (newVal < this.data.get('min')) {
+            return;
+        }
         this.setCurrentValue(newVal);
     }
+
     increase() {
-        if (this.data.get('disabled') || this.data.get('maxDisabled')) return;
+        if (this.data.get('disabled') || this.data.get('maxDisabled')) {
+            return;
+        }
         const value = this.data.get('value') || 0;
         const newVal = getIncreaseResult(+value, this.data.get('step'), this.data.get('power'));
-        if (newVal > this.data.get('max')) return;
+        if (newVal > this.data.get('max')) {
+            return;
+        }
         this.setCurrentValue(newVal);
     }
 

@@ -1,6 +1,6 @@
 /**
  * @file san-mui/Carousel
- * @author sunwei11
+ * @author solvan <sunwei11@baidu.com>
  */
 
 import san from 'san';

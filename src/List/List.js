@@ -1,6 +1,7 @@
 /**
  * @file List
  * @author qiusiqi(qiusiqi@baidu.com)
+ * @update solvan <sunwei11@baidu.com>
  */
 
 import san from 'san';
@@ -30,7 +31,6 @@ export default san.defineComponent({
             if (!this.data.get('selectable')) {
                 return;
             }
-
             this.items.push(arg.target);
             arg.target.data.set('selectValue', this.data.get('value'));
         },
@@ -51,6 +51,6 @@ export default san.defineComponent({
         let len = this.items.length;
         while (len--) {
             this.items[len].data.set('selectValue', value);
-        }        
+        }
     }
 });
