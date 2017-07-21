@@ -3,9 +3,18 @@
  * @author nemo <474021406@qq.com>
  */
 
+/* globals XMLHttpRequest, FormData */
+
 import {Component, DataTypes} from 'san';
 import Button from '../Button';
 import {create} from '../common/util/cx';
+import FileSelector from './FileSelector';
+import FileList from './FileList';
+import FileItem from './FileItem';
+import DEFAULT_UPLOAD from './upload';
+import guid from '../common/util/guid';
+
+const ID_SYMBOL = Symbol();
 
 const cx = create('uploader');
 
@@ -13,22 +22,31 @@ export default class Uploader extends Component {
 
     static template = `
         <div class="{{className}}">
-            <sm-button
-                variants="raised info"
-                on-click="click">
-                选取文件
-            </sm-button>
-            <input
-                class="${cx.getPartClassName('file')}"
-                type="file"
-                on-change="reciveFile($event)"
+            <sm-file-selector
+                disabled="{{disabled}}"
                 accept="{{accept}}"
-                multiple="{{multiple}}" />
+                multiple="{{multiple}}"
+                on-select="addFiles($event)" />
+            <sm-file-list>
+                <sm-file-item
+                    s-for="file in files"
+                    disabled="{{disabled}}"
+                    name="{{file.name}}"
+                    size="{{file.size}}"
+                    status="{{file.status}}"
+                    url="{{file.url}}"
+                    progress="{{file.progress}}"
+                    errorMessage="{{file.errorMessage}}"
+                    on-remove="removeFile(file)" />
+            </sm-file-list>
         </div>
     `;
 
     static components = {
-        'sm-button': Button
+        'sm-button': Button,
+        'sm-file-selector': FileSelector,
+        'sm-file-list': FileList,
+        'sm-file-item': FileItem
     };
 
     static computed = {
@@ -43,11 +61,13 @@ export default class Uploader extends Component {
         multiple: DataTypes.bool.isRequired,
         name: DataTypes.string.isRequired,
         withCredentials: DataTypes.bool.isRequired,
-        autoUpload: DataTypes.bool.isRequired,
         disabled: DataTypes.bool.isRequired,
         accept: DataTypes.string,
-        extentions: DataTypes.arrayOf(DataTypes.string),
-        maxSize: DataTypes.number
+        maxSize: DataTypes.number,
+        validateFile: DataTypes.func,
+        data: DataTypes.object,
+        json: DataTypes.bool,
+        upload: DataTypes.func
     };
 
     initData() {
@@ -59,173 +79,162 @@ export default class Uploader extends Component {
             name: 'file',
             withCredentials: false,
             autoUpload: true,
-            disabled: false
+            disabled: false,
+            json: false
         };
     }
 
     inited() {
-        this.files = [];
+
+        let {files, extentions} = this.data.get();
+
+        this.data.set(
+            'files',
+            files.map(file => {
+                return {
+                    ...file,
+                    status: 'uploaded',
+                    [ID_SYMBOL]: guid()
+                };
+            })
+        );
+
+        if (typeof extentions === 'string') {
+            this.data.set('extentions', extentions.split(/\s*,\s*/));
+        }
+
     }
 
-    click() {
-        this.el.lastElementChild.click();
+    addFiles(files) {
+        for (let file of files) {
+            this.uploadFile(file);
+        }
     }
 
-    reciveFile(e) {
+    isSameFile(f1, f2) {
+        return f1 === f2 || f1[ID_SYMBOL] === f2[ID_SYMBOL];
+    }
 
-        let files = this.files = Array.from(e.target.files);
+    uploadFile(rawFile) {
 
-        if (this.data.get('autoUpload')) {
-            for (let file of files) {
-                this.upload(file);
+        let plainFile = {
+            name: rawFile.name,
+            size: rawFile.size,
+            status: 'uploading',
+            [ID_SYMBOL]: guid()
+        };
+
+        let errorMessage = this.validateFile(plainFile);
+
+        if (errorMessage) {
+            plainFile = {
+                ...plainFile,
+                status: 'error',
+                errorMessage
+            };
+            this.data.push('files', plainFile);
+            return;
+        }
+
+        this.data.push('files', plainFile);
+
+        let {
+            upload = DEFAULT_UPLOAD,
+            name,
+            action,
+            headers,
+            data,
+            withCredentials
+        } = this.data.get();
+
+        /**
+         * 创建一个保护起来的回调函数
+         *
+         * 由于在上传过程中，可能会有某个文件被删除或者取消或者整个组件都被干掉了
+         * 因此每个回调处理函数都需要进行一次包裹：
+         *
+         * 如果事件触发时，文件描述对象还在 files 中，那么就执行原有回调处理函数，并添加当前最新的下标和最新的 file
+         *
+         * @param  {Function} handler 回调处理
+         * @return {Function}
+         */
+        const createProtectedHandler = handler => (...args) => {
+
+            if (!this.data) {
+                return;
             }
-        }
+
+            let files = this.data.get('files');
+            for (let i = 0, len = files.length; i < len; i++) {
+                let file = files[i];
+                if (this.isSameFile(file, plainFile)) {
+                    return handler(i, file, ...args);
+                }
+            }
+        };
+
+        const progressHandler = createProtectedHandler((index, file, progress) => {
+            let nextFile = {...file, progress};
+            this.data.set(`files.${index}`, {...file, progress});
+            this.fire('progress', nextFile);
+        });
+
+        const uploadSuccessHandler = createProtectedHandler((index, file, result) => {
+
+            if (typeof result === 'string') {
+                result = {
+                    url: result
+                };
+            }
+
+            let nextFile = {
+                ...plainFile,
+                ...result,
+                status: 'uploaded'
+            };
+
+            this.data.set(`files.${index}`, nextFile);
+            this.fire('success', nextFile);
+
+        });
+
+        const uploadFailedHandler = createProtectedHandler((index, file, error) => {
+
+            let nextFile = {
+                ...file,
+                status: 'error',
+                error
+            };
+
+            this.data.set(`files.${index}`, nextFile);
+            this.fire('error', nextFile);
+        });
+
+        upload(
+            rawFile,
+            {name, action, headers, withCredentials, data},
+            {
+                progress: progressHandler,
+                done: uploadSuccessHandler,
+                fail: uploadFailedHandler
+            }
+        );
 
     }
 
-    upload(file) {
-
-        let {action, headers, withCredentials, name} = this.data.get();
-
-        let xhr = file.xhr = new XMLHttpRequest();
-
-        xhr.upload.onprogress = e => {
-            this.onUploadProgress(file, e);
-        };
-
-        xhr.onload = e => {
-            file.status = 'success';
-            this.onUploadSucceed(file, e);
-        };
-
-        xhr.onerror = e => {
-            file.status = 'error';
-            this.onUploadFailed(file, e);
-        };
-
-        xhr.withCredentials = withCredentials;
-
-        xhr.open('POST', action, true);
-
-        if (headers) {
-            Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]));
-        }
-
-        let formData = new FormData();
-
-        formData.append(name, file);
-
-        xhr.send(formData);
-
-
+    removeFile(file) {
+        this.data.set('files', this.data.get('files').filter(f => (f !== file)));
+        this.fire('remove', file);
     }
 
     validateFile(file) {
-        let extError = this.validateExtension(file.name);
-        let sizeError = this.validateSize(file.size);
-        return !extError && !sizeError;
-    }
-
-    validateExtension(name) {
-        let exts = this.data.get('extentions');
-        if (!exts || !exts.length) {
-            return true;
-        }
-        return exts.some(ext => name.slice(-ext.length - 1) === `.${ext}`);
+        let validateFile = this.data.get('validateFile');
+        return validateFile ? validateFile(file) : this.validateSize(file.size);
     }
 
     validateSize(size) {
-        let maxSize = this.data.get('size') || 0;
-        return !maxSize || size <= maxSize * 1024 * 1024;
-    }
-
-    onUploadProgress(file, e) {
-        this.fire('progress', file, e);
-    }
-
-    onUploadSucceed(file, data) {
-        this.fire('success', file, data);
-    }
-
-    onUploadFailed(file, error) {
-        this.fire('error', file, error);
+        let maxSize = this.data.get('maxSize') || 0;
+        return !maxSize || size <= maxSize * 1024 * 1024 ? null : `文件大小不得超过${maxSize}MB`;
     }
 
 }
-
-// let FileUploader;
-// const method = {
-//     repeatSet(obj, fn) {
-//         Object.keys(obj).forEach(key => {
-//             fn(key, obj[key]);
-//         });
-//     },
-//     initUploader(file) {
-//         let uploader = new FileUploader({
-//             opt: this.data.get('opt'),
-//             file: file,
-//             fileList: this.fileList,
-//             viewUpdate: () => {
-//                 this.data.set('fileList', this.fileList);
-//             }
-//         });
-//         uploader.init();
-//         this.fileList.push(uploader);
-//         this.data.set('fileList', this.fileList);
-//     }
-// };
-//
-// FileUploader = function (params) {
-//     this.opt = params.opt;
-//     this.file = params.file;
-//     this.fileList = params.fileList;
-//     this.viewUpdate = params.viewUpdate;
-// };
-//
-// FileUploader.prototype.init = function () {
-//     this.xhr = new XMLHttpRequest();
-//     this.formData = new FormData();
-//     this.opt.data[this.opt.name] = this.file;
-//     method.repeatSet(this.opt.data, this.formData.append.bind(this.formData));
-//
-//     this.opt['on-change'](this.file, this.fileList.map(one => one.file));
-//
-//     this.xhr.upload.onprogress = e => {
-//         let percentage = 0;
-//
-//         if (e.lengthComputable) {
-//             percentage = e.loaded / e.total;
-//         }
-//         this.opt['on-progress'](e, this.file, this.fileList.map(one => one.file));
-//         this.file.progressCss = {width: 100 * percentage + '%'};
-//         this.viewUpdate();
-//     };
-//     this.xhr.onreadystatechange = e => {
-//         if (this.xhr.readyState === 4) {
-//             if (/20/.test(this.xhr.status)) {
-//                 this.file.response = JSON.parse(this.xhr.response);
-//                 this.opt['on-success'](JSON.parse(this.xhr.response), this.file, this.fileList.map(one => one.file));
-//                 this.file.progressCss = {width: '100%'};
-//                 this.viewUpdate();
-//             }
-//             else {
-//                 this.opt['on-error']('error', this.file, this.fileList.map(one => one.file));
-//             }
-//             this.file.uploaded = true;
-//             this.opt['on-change'](this.file, this.fileList.map(one => one.file));
-//         }
-//     };
-//     this.xhr.withCredentials = this.opt['with-credentials'];
-// };
-// FileUploader.prototype.upload = function () {
-//     if (this.opt['before-upload'](this.file) && !this.file.uploaded) {
-//         this.xhr.open('POST', this.opt.action);
-//         method.repeatSet(Object.assign({
-//             'Content-Type': 'application/x-www-form-urlencoded'
-//         }, this.opt.headers), this.xhr.setRequestHeader.bind(this.xhr));
-//         this.xhr.send(this.formData);
-//     }
-// };
-// FileUploader.prototype.abort = function () {
-//     this.xhr.abort();
-// };
