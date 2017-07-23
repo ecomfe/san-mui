@@ -2,60 +2,31 @@
     <div>
         <section></section>
         <h3>使用示例</h3>
-        <sm-file-list>
-            <sm-file-item
-                s-for="file in files"
-                status="{{file.status}}"
-                progress="{{file.progress}}"
-                on-remove="remove(file)" />
-        </sm-file-list>
-        <sm-file-selector
-            multiple
-            extentions="jpg, jpeg, png, gif"
-            maxSize="{{100}}"
-            on-change="receiveFiles" />
-        <!-- <sm-uploader
+        <sm-uploader
             action="http://180.76.137.83:8818/image"
-            headers="{{headers}}"
             multiple
-            data="{{data}}"
-            name="filename"
             withCredentials
-            on-before-upload="beforeUpload($event)"
-            on-change="selectFile"
-            on-succeed="uploaded"
-            on-error="error"
-            on-progress="progress" /> -->
+            name="filename"
+            headers="{{headers}}"
+            files="{{files}}" />
     </div>
 </template>
 
 <script>
 import Uploader from '../src/Uploader';
-import '../src/Uploader/Uploader.styl';
+import '../src/Uploader/index.styl';
 
 export default {
-
     components: {
         'sm-uploader': Uploader
     },
-
     initData() {
         return {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            data: {},
-            files: [
-            ]
+            files: [{
+                name: 'a.png',
+                url: 'https://placeimg.com/640/480/any'
+            }]
         };
-    },
-
-    attached() {
-    },
-
-    beforeUpload(e) {
-        console.log(e);
     }
 };
-
 </script>

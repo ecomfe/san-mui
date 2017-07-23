@@ -8,6 +8,13 @@
 import {Component, DataTypes} from 'san';
 import Button from '../Button';
 import {create} from '../common/util/cx';
+import FileSelector from './FileSelector';
+import FileList from './FileList';
+import FileItem from './FileItem';
+import DEFAULT_UPLOAD from './upload';
+import guid from '../common/util/guid';
+
+const ID_SYMBOL = Symbol();
 
 const cx = create('uploader');
 
@@ -15,22 +22,28 @@ export default class Uploader extends Component {
 
     static template = `
         <div class="{{className}}">
-            <sm-button
-                variants="raised info"
-                on-click="click">
-                选取文件
-            </sm-button>
-            <input
-                class="${cx.getPartClassName('file')}"
-                type="file"
-                on-change="reciveFile($event)"
-                accept="{{accept}}"
-                multiple="{{multiple}}" />
+            <sm-file-selector
+                multiple="{{multiple}}"
+                on-select="addFiles($event)" />
+            <sm-file-list>
+                <sm-file-item
+                    s-for="file in files"
+                    name="{{file.name}}"
+                    size="{{file.size}}"
+                    status="{{file.status}}"
+                    url="{{file.url}}"
+                    progress="{{file.progress}}"
+                    errorMessage="{{file.errorMessage}}"
+                    on-remove="removeFile(file)" />
+            </sm-file-list>
         </div>
     `;
 
     static components = {
-        'sm-button': Button
+        'sm-button': Button,
+        'sm-file-selector': FileSelector,
+        'sm-file-list': FileList,
+        'sm-file-item': FileItem
     };
 
     static computed = {
@@ -48,16 +61,18 @@ export default class Uploader extends Component {
         autoUpload: DataTypes.bool.isRequired,
         disabled: DataTypes.bool.isRequired,
         accept: DataTypes.string,
-        extentions: DataTypes.arrayOf(DataTypes.string),
-        maxSize: DataTypes.number
+        extentions: DataTypes.oneOfType([
+            DataTypes.arrayOf(DataTypes.string),
+            DataTypes.string
+        ]),
+        maxSize: DataTypes.number,
+        validateFile: DataTypes.func
     };
 
     initData() {
         return {
             mode: 'xhr',
-            headers: {
-                // 'Content-Type': 'multipart/form-data'
-            },
+            headers: {},
             multiple: false,
             data: {},
             name: 'file',
@@ -68,91 +83,170 @@ export default class Uploader extends Component {
     }
 
     inited() {
-        this.files = [];
+
+        let {files, extentions} = this.data.get();
+
+        this.data.set(
+            'files',
+            files.map(file => {
+                return {
+                    ...file,
+                    [ID_SYMBOL]: guid()
+                };
+            })
+        );
+
+        if (typeof extentions === 'string') {
+            this.data.set('extentions', extentions.split(/\s*,\s*/));
+        }
+
     }
 
-    click() {
-        this.el.lastElementChild.click();
+    addFiles(files) {
+        for (let file of files) {
+            this.uploadFile(file);
+        }
     }
 
-    reciveFile(e) {
+    isSameFile(f1, f2) {
+        return f1 === f2 || f1[ID_SYMBOL] === f2[ID_SYMBOL];
+    }
 
-        let files = this.files = Array.from(e.target.files);
+    uploadFile(rawFile) {
 
-        if (this.data.get('autoUpload')) {
-            for (let file of files) {
-                this.upload(file);
+        let plainFile = {
+            name: rawFile.name,
+            size: rawFile.size,
+            status: 'uploading',
+            [ID_SYMBOL]: guid()
+        };
+
+        let errorMessage = this.validateFile(plainFile);
+
+        if (errorMessage) {
+            plainFile = {
+                ...plainFile,
+                status: 'error',
+                errorMessage
+            };
+            this.data.push('files', plainFile);
+            return;
+        }
+
+        this.data.push('files', plainFile);
+
+        let {
+            upload = DEFAULT_UPLOAD,
+            name,
+            action,
+            headers,
+            withCredentials
+        } = this.data.get();
+
+        /**
+         * 创建一个保护起来的回调函数
+         *
+         * 由于在上传过程中，可能会有某个文件被删除或者取消或者整个组件都被干掉了
+         * 因此每个回调处理函数都需要进行一次包裹：
+         *
+         * 如果事件触发时，文件描述对象还在 files 中，那么就执行原有回调处理函数，并添加当前最新的下标和最新的 file
+         *
+         * @param  {Function} handler 回调处理
+         * @return {Function}
+         */
+        const createProtectedHandler = handler => (...args) => {
+
+            if (!this.data) {
+                return;
             }
-        }
+
+            let files = this.data.get('files');
+            for (let i = 0, len = files.length; i < len; i++) {
+                let file = files[i];
+                if (this.isSameFile(file, plainFile)) {
+                    return handler(i, file, ...args);
+                }
+            }
+        };
+
+        const progressHandler = createProtectedHandler((index, file, progress) => {
+            let nextFile = {...file, progress};
+            this.data.set(`files.${index}`, {...file, progress});
+            this.fire('progress', nextFile);
+        });
+
+        const uploadSuccessHandler = createProtectedHandler((index, file, data) => {
+
+            if (typeof data === 'string') {
+                data = {
+                    url: data
+                };
+            }
+
+            let nextFile = {
+                ...plainFile,
+                ...data,
+                status: 'uploaded'
+            };
+
+            this.data.set(`files.${index}`, nextFile);
+            this.fire('success', nextFile);
+
+        });
+
+        const uploadFailedHandler = createProtectedHandler((index, file, error) => {
+
+            let nextFile = {
+                ...file,
+                status: 'error',
+                error
+            };
+
+            this.data.set(`files.${index}`, nextFile);
+            this.fire('error', nextFile);
+        });
+
+        upload(
+            rawFile,
+            {name, action, headers, withCredentials},
+            {
+                progress: progressHandler,
+                done: uploadSuccessHandler,
+                fail: uploadFailedHandler
+            }
+        );
 
     }
 
-    upload(file) {
-
-        let {action, headers, withCredentials, name} = this.data.get();
-
-        let xhr = file.xhr = new XMLHttpRequest();
-
-        xhr.upload.onprogress = e => {
-            this.onUploadProgress(file, e);
-        };
-
-        xhr.onload = e => {
-            file.status = 'success';
-            this.onUploadSucceed(file, e);
-        };
-
-        xhr.onerror = e => {
-            file.status = 'error';
-            this.onUploadFailed(file, e);
-        };
-
-        xhr.withCredentials = withCredentials;
-
-        xhr.open('POST', action, true);
-
-        if (headers) {
-            Object.keys(headers).forEach(key => xhr.setRequestHeader(key, headers[key]));
-        }
-
-        let formData = new FormData();
-
-        formData.append(name, file);
-
-        xhr.send(formData);
-
-
+    removeFile(file) {
+        this.data.set('files', this.data.get('files').filter(f => (f !== file)));
     }
 
     validateFile(file) {
+
+        let validateFile = this.data.get('validateFile');
+
+        if (validateFile) {
+            return validateFile(file);
+        }
+
         let extError = this.validateExtension(file.name);
         let sizeError = this.validateSize(file.size);
-        return !extError && !sizeError;
+        return extError || sizeError;
     }
 
     validateExtension(name) {
         let exts = this.data.get('extentions');
         if (!exts || !exts.length) {
-            return true;
+            return null;
         }
-        return exts.some(ext => name.slice(-ext.length - 1) === `.${ext}`);
+        let hasMatched = exts.some(ext => name.endsWith(`.${ext}`));
+        return !hasMatched ? '文件格式不符合要求' : null;
     }
 
     validateSize(size) {
         let maxSize = this.data.get('size') || 0;
-        return !maxSize || size <= maxSize * 1024 * 1024;
-    }
-
-    onUploadProgress(file, e) {
-        this.fire('progress', file, e);
-    }
-
-    onUploadSucceed(file, data) {
-        this.fire('success', file, data);
-    }
-
-    onUploadFailed(file, error) {
-        this.fire('error', file, error);
+        return !maxSize || size <= maxSize * 1024 * 1024 ? null : '文件大小不符合要求';
     }
 
 }

@@ -1,0 +1,43 @@
+/**
+ * @file FileItem styles
+ * @author leon <ludafa@outlook.com>
+ */
+
+@require '../Paper/Paper.styl'
+@require '../css/colors.styl'
+
+.sm-file-item
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    padding: 0.5rem 1rem;
+    height: 2rem
+    align-items: center;
+
+    &-name
+        flex: 1 1 auto
+        cursor: default
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+    &-size
+        flex: 0 0 auto
+        margin: 0 1rem
+
+    >.sm-linear-progress
+        position: absolute;
+        bottom: 0
+        left: 0
+        right: 0
+
+    >.sm-button.variant-file-item
+        opacity: 0
+
+
+    &:hover
+
+        background: $md-colors.grey100
+
+        >.sm-button.variant-file-item
+            opacity: 1
