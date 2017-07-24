@@ -10,7 +10,7 @@ import Main from '../README.md';
 import AppBar from './AppBar.md';
 import Avatar from './Avatar.md';
 import Button from './Button.md';
-import Badage from './Badage.md';
+import Badge from './Badge.md';
 import Card from './Card.md';
 import Carousel from './Carousel.md';
 import Checkbox from './Checkbox.md';
