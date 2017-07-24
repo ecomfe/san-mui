@@ -16,13 +16,17 @@ export default class FileListItem extends Component {
 
     static template = `
         <div class="{{className}}">
-            <div class="${cx.getPartClassName('name')}" title="{{name}}">{{name}}</div>
+            <div class="${cx.getPartClassName('name')}" title="{{name}}">
+                {{name}}
+                <label s-if="status==='error'">{{errorMessage}}</label>
+            </div>
             <div
                 s-if="size > 0"
                 class="${cx.getPartClassName('size')}">
                 {{formattedFileSize}}
             </div>
             <sm-icon-button
+                disabled="{{disabled}}"
                 variants="file-item danger"
                 on-click="remove">
                 clear
@@ -41,7 +45,12 @@ export default class FileListItem extends Component {
 
     static computed = {
         className() {
-            return cx(this).build();
+            let status = this.data.get('status');
+            return cx(this)
+                .addStates({
+                    [status]: true
+                })
+                .build();
         },
         formattedFileSize() {
             let size = this.data.get('size');
@@ -52,12 +61,17 @@ export default class FileListItem extends Component {
     static dataTypes = {
         name: DataTypes.string.isRequired,
         url: DataTypes.string,
-        status: DataTypes.oneOf(['uploading', 'uploaded', 'error'])
+        status: DataTypes.oneOf(['uploading', 'uploaded', 'error']).isRequired,
+        progress: DataTypes.number,
+        size: DataTypes.number,
+        errorMessage: DataTypes.string,
+        disabled: DataTypes.bool
     };
 
     initData() {
         return {
-            status: 'uploaded'
+            status: 'uploaded',
+            disabled: false
         };
     }
 

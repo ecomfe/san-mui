@@ -13,6 +13,7 @@
     padding: 0.5rem 1rem;
     height: 2rem
     align-items: center;
+    border-radius: 2px;
 
     &-name
         flex: 1 1 auto
@@ -41,3 +42,7 @@
 
         >.sm-button.variant-file-item
             opacity: 1
+
+    &.state-error
+        background-color: rgba($md-colors.red300, .5)
+        color: #fff

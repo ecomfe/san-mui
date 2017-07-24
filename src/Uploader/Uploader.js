@@ -23,11 +23,14 @@ export default class Uploader extends Component {
     static template = `
         <div class="{{className}}">
             <sm-file-selector
+                disabled="{{disabled}}"
+                accept="{{accept}}"
                 multiple="{{multiple}}"
                 on-select="addFiles($event)" />
             <sm-file-list>
                 <sm-file-item
                     s-for="file in files"
+                    disabled="{{disabled}}"
                     name="{{file.name}}"
                     size="{{file.size}}"
                     status="{{file.status}}"
@@ -58,15 +61,13 @@ export default class Uploader extends Component {
         multiple: DataTypes.bool.isRequired,
         name: DataTypes.string.isRequired,
         withCredentials: DataTypes.bool.isRequired,
-        autoUpload: DataTypes.bool.isRequired,
         disabled: DataTypes.bool.isRequired,
         accept: DataTypes.string,
-        extentions: DataTypes.oneOfType([
-            DataTypes.arrayOf(DataTypes.string),
-            DataTypes.string
-        ]),
         maxSize: DataTypes.number,
-        validateFile: DataTypes.func
+        validateFile: DataTypes.func,
+        data: DataTypes.object,
+        json: DataTypes.bool,
+        upload: DataTypes.func
     };
 
     initData() {
@@ -78,7 +79,8 @@ export default class Uploader extends Component {
             name: 'file',
             withCredentials: false,
             autoUpload: true,
-            disabled: false
+            disabled: false,
+            json: false
         };
     }
 
@@ -91,6 +93,7 @@ export default class Uploader extends Component {
             files.map(file => {
                 return {
                     ...file,
+                    status: 'uploaded',
                     [ID_SYMBOL]: guid()
                 };
             })
@@ -140,6 +143,7 @@ export default class Uploader extends Component {
             name,
             action,
             headers,
+            data,
             withCredentials
         } = this.data.get();
 
@@ -175,17 +179,17 @@ export default class Uploader extends Component {
             this.fire('progress', nextFile);
         });
 
-        const uploadSuccessHandler = createProtectedHandler((index, file, data) => {
+        const uploadSuccessHandler = createProtectedHandler((index, file, result) => {
 
-            if (typeof data === 'string') {
-                data = {
-                    url: data
+            if (typeof result === 'string') {
+                result = {
+                    url: result
                 };
             }
 
             let nextFile = {
                 ...plainFile,
-                ...data,
+                ...result,
                 status: 'uploaded'
             };
 
@@ -208,7 +212,7 @@ export default class Uploader extends Component {
 
         upload(
             rawFile,
-            {name, action, headers, withCredentials},
+            {name, action, headers, withCredentials, data},
             {
                 progress: progressHandler,
                 done: uploadSuccessHandler,
@@ -220,33 +224,17 @@ export default class Uploader extends Component {
 
     removeFile(file) {
         this.data.set('files', this.data.get('files').filter(f => (f !== file)));
+        this.fire('remove', file);
     }
 
     validateFile(file) {
-
         let validateFile = this.data.get('validateFile');
-
-        if (validateFile) {
-            return validateFile(file);
-        }
-
-        let extError = this.validateExtension(file.name);
-        let sizeError = this.validateSize(file.size);
-        return extError || sizeError;
-    }
-
-    validateExtension(name) {
-        let exts = this.data.get('extentions');
-        if (!exts || !exts.length) {
-            return null;
-        }
-        let hasMatched = exts.some(ext => name.endsWith(`.${ext}`));
-        return !hasMatched ? '文件格式不符合要求' : null;
+        return validateFile ? validateFile(file) : this.validateSize(file.size);
     }
 
     validateSize(size) {
-        let maxSize = this.data.get('size') || 0;
-        return !maxSize || size <= maxSize * 1024 * 1024 ? null : '文件大小不符合要求';
+        let maxSize = this.data.get('maxSize') || 0;
+        return !maxSize || size <= maxSize * 1024 * 1024 ? null : `文件大小不得超过${maxSize}MB`;
     }
 
 }

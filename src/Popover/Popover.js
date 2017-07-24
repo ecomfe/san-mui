@@ -3,6 +3,8 @@
  * @author leon <ludafa@outlook.com>
  */
 
+/* global window */
+
 import Layer from '../Layer';
 import {create} from '../common/util/cx';
 import align from 'dom-align';
@@ -48,8 +50,6 @@ export default class Popover extends Layer {
                     open: !closing && open
                 })
                 .build();
-
-            console.log(className);
 
             return className;
         }

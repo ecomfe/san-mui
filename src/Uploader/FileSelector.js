@@ -14,6 +14,7 @@ export default class FileSelector extends Component {
     static template = `
         <div class="{{className}}">
             <sm-button
+                disabled="{{dibabled}}"
                 variants="raised info"
                 on-click="onSelect">
                 选择文件
@@ -21,7 +22,8 @@ export default class FileSelector extends Component {
             <input
                 type="file"
                 style="display: none"
-                multiple="{{multiple}}"
+                multiple="{{multiple ? 'multiple' : ''}}"
+                accept="{{accept}}"
                 on-change="onReceiveFiles($event)"  />
         </div>
     `;
@@ -33,7 +35,9 @@ export default class FileSelector extends Component {
     };
 
     static dataTypes = {
-        multiple: DataTypes.bool
+        multiple: DataTypes.bool,
+        disabled: DataTypes.bool,
+        accept: DataTypes.string
     };
 
     static components = {
@@ -42,7 +46,9 @@ export default class FileSelector extends Component {
 
     initData() {
         return {
-            multiple: false
+            multiple: false,
+            accept: '*',
+            disabled: false
         };
     }
 

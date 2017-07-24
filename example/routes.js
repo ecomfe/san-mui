@@ -40,7 +40,7 @@ import TreeView from './TreeView.md';
 import TextField from './TextField.md';
 import TimePicker from './TimePicker.md';
 import Toast from './Toast.md';
-import Uploader from './Uploader.san';
+import Uploader from './Uploader.md';
 import Tooltip from './Tooltip.san';
 
 let routes = [

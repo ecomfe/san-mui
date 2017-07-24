@@ -3,9 +3,11 @@
  * @author leon <ludafa@outlook.com>
  */
 
+/* globals FormData, XMLHttpRequest */
+
 export default function upload(file, options, {progress, done, fail}) {
 
-    let {action, headers, withCredentials, name, json} = options;
+    let {action, headers, withCredentials, name, json, data} = options;
 
     let xhr = file.xhr = new XMLHttpRequest();
 
@@ -47,6 +49,22 @@ export default function upload(file, options, {progress, done, fail}) {
     let formData = new FormData();
 
     formData.append(name, file);
+
+    if (data) {
+        Object.keys(data).forEach(key => {
+
+            let item = data[key];
+
+            if (!Array.isArray(item)) {
+                item = [item];
+            }
+
+            for (let i of item) {
+                formData.append(key, i);
+            }
+
+        });
+    }
 
     xhr.send(formData);
 
