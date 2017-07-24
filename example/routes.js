@@ -41,7 +41,7 @@ import TextField from './TextField.md';
 import TimePicker from './TimePicker.md';
 import Toast from './Toast.md';
 import Uploader from './Uploader.md';
-import Tooltip from './Tooltip.san';
+import Tooltip from './Tooltip.md';
 
 let routes = [
     {

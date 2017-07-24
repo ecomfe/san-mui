@@ -3,7 +3,7 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import {Component} from 'san';
+import {Component, DataTypes} from 'san';
 import {create} from '../common/util/cx';
 import Popover from '../Popover/Popover';
 
@@ -104,6 +104,15 @@ export default class Tooltip extends Component {
         'sm-popover': Popover
     };
 
+    static dataTypes = {
+        open: DataTypes.bool,
+        mode: DataTypes.oneOf(['click', 'hover']),
+        position: DataTypes.oneOf(['left', 'right', 'top', 'bottom']),
+        maxWidth: DataTypes.number,
+        maxHeight: DataTypes.number,
+        offset: DataTypes.number
+    };
+
     initData() {
         return {
             open: false,
@@ -112,6 +121,12 @@ export default class Tooltip extends Component {
             maxWidth: null,
             maxHeight: null,
             offset: 8,
+            /**
+             * 获取浮层锚点元素
+             *
+             * @private
+             * @type {Function}
+             */
             getAnchor: this.getPopoverAnchor.bind(this)
         };
     }
