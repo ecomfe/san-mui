@@ -12,28 +12,35 @@ export default san.defineComponent({
     template: `
         <div class="sm-list-item {{listItemClass}}"
             on-click="toggleList($event)"
-            style="{{ listItemStyle }}"
-        >
+            style="{{ listItemStyle }}">
             <div class="sm-list-item-content" style="{{ itemContentStyle }}">
                 <div class="sm-list-item-left"><slot name="left"></slot></div>
-                <p class="sm-list-item-primary-text"
+                <p
                     san-if="primaryText"
-                >{{ primaryText }}</p>
+                    class="sm-list-item-primary-text">
+                    {{ primaryText }}
+                </p>
                 <p class="sm-list-item-secondary-text"
                     style="{{ secondaryTextStyle }}"
-                    san-if="secondaryText"
-                >{{ secondaryText | raw }}</p>
+                    san-if="secondaryText">
+                    {{ secondaryText | raw }}
+                </p>
             </div>
             <san-touch-ripple san-if="!disableRipple && !disabled" />
-            <div class="sm-list-item-right" san-if="!toggleNested"><slot name="right"></slot></div>
+            <div
+                class="sm-list-item-right"
+                san-if="!toggleNested">
+                <slot name="right"></slot>
+            </div>
             <div class="sm-list-item-expand"
                 san-if="toggleNested"
-                on-click="toggleList($event, 'EXPAND')"
-            >
+                on-click="toggleList($event, 'EXPAND')">
                 <san-icon>expand_{{ open | listOpenIcon }}</san-icon>
                 <san-center-ripple />
             </div>
-            <div class="sm-list-item-nested {{ open | listOpen }}" style="{{ nestedListStyle }}">
+            <div
+                class="sm-list-item-nested {{ open | listOpen }}"
+                style="{{ nestedListStyle }}">
                 <slot name="nested"></slot>
             </div>
 
@@ -58,7 +65,8 @@ export default san.defineComponent({
     initData() {
         return {
             nestedLevel: 1,
-            secondaryTextLines: 1
+            secondaryTextLines: 1,
+            toggleNested: false
         };
     },
 
@@ -96,14 +104,7 @@ export default san.defineComponent({
     },
 
     inited() {
-        this.transBoolean('inset');
-        this.transBoolean('disabled');
-        this.transBoolean('toggleNested');
-        this.transBoolean('disableRipple');
-        this.transBoolean('primaryTogglesNestedList');
-        this.transBoolean('initiallyOpen');
         this.data.set('open', this.data.get('initiallyOpen'));
-
         this.dispatch('UI:nested-counter', this.data);
         this.dispatch('UI:list-item-attached');
     },
@@ -130,23 +131,28 @@ export default san.defineComponent({
     },
 
     toggleList(evt, driver) {
+
         evt.stopPropagation();
 
         if (this.data.get('disabled')) {
             return;
         }
 
+        let {toggleNested, primaryTogglesNestedList, open} = this.data.get();
+
+        if (!toggleNested) {
+            this.fire('click');
+            return;
+        }
+
         if (driver !== 'EXPAND') {
             this.dispatch('UI:list-item-selected');
-
-            if (!this.data.get('primaryTogglesNestedList')) {
+            if (!primaryTogglesNestedList) {
                 return;
             }
         }
 
-        let open = this.data.get('open');
         this.data.set('open', !open);
-
         this.fire('nestedListToggle', open);
     },
 

@@ -18,7 +18,6 @@
 </section>
 </template>
 <script>
-import icons from 'html!../src/common/font/codepoints';
 import Icon from '../src/Icon';
 import '../src/Icon/Icon.styl'
 export default {
@@ -39,8 +38,14 @@ export default {
 </section>
 </template>
 <script>
-import icons from 'html!../src/common/font/codepoints';
+import icons from 'raw-loader!../src/common/font/codepoints';
 import Icon from '../src/Icon';
+
+const ALL_ICON_CODES = icons
+    .replace(/\n/g, ' ')
+    .split(/([\w_]+ e\w+)/)
+    .filter(line => line.trim())
+    .map(line => line.split(' ')[0]);
 
 import '../src/Icon/Icon.styl'
 
@@ -50,9 +55,7 @@ export default {
     },
     initData() {
         return {
-            icons: icons
-                .split('\n')
-                .map(line => line.split(' ')[0])
+            icons: ALL_ICON_CODES
         };
     }
 };

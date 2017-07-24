@@ -11,18 +11,29 @@
                 title="SAN-MUI"
                 class="example-drawer-appbar">
             </san-appbar>
-
             <div class="example-drawer-content">
-                <!-- menu list 似乎有问题 先手动 -->
-                <div class="menu-list">
-                    <san-menu-item
-                        san-for="menuItem in menus"
-                        selectValue="{{menuVal}}"
-                        title="{{menuItem.title}}"
-                        value="{{menuItem.value}}">
-                    </san-menu-item>
+                <div
+                    san-for="component in menus"
+                    data-menu="{{component.path || '/' + component.name}}">
+                    <sm-list-item
+                        s-if="!component.components"
+                        primaryText="{{component.name}}"
+                        primaryTogglesNestedList
+                        on-click="route(component)"
+                        style="color: {{menuVal === component.path || menuVal === '/' + component.name ? '#ff4081' : '#000'}}" />
+                    <sm-list-item
+                        s-if="component.components"
+                        primaryText="{{component.name}}"
+                        toggleNested
+                        primaryTogglesNestedList>
+                        <sm-list-item
+                            s-for="sub in component.components"
+                            slot="nested"
+                            primaryText="{{sub.name}}"
+                            style="color: {{menuVal === sub.path || menuVal === '/' + sub.name ? '#ff4081' : '#000'}}"
+                            on-click="route(sub)" />
+                    </sm-list-item>
                 </div>
-
             </div>
         </san-drawer>
 
@@ -59,7 +70,7 @@
 
 import {router} from 'san-router';
 import routes from './routes';
-
+import {List, ListItem} from '../src/List';
 import Appbar from '../src/AppBar';
 import '../src/AppBar/AppBar.styl';
 import Drawer from '../src/Drawer';
@@ -67,6 +78,25 @@ import '../src/Drawer/Drawer.styl';
 import IconButton from '../src/Button/IconButton';
 import '../src/Button/Button.styl';
 import {MenuItem, Divider} from '../src/Menu';
+
+let flatRoutes = routes
+    .reduce(
+        (allRoutes, route) => {
+            return route.components
+                ? [...allRoutes, ...route.components]
+                : [...allRoutes, route]
+        },
+        []
+    );
+
+flatRoutes
+    .forEach(({name, component, path}) => {
+        router.add({
+            rule: path ? path : `/${name}`,
+            Component: component,
+            target: '#example'
+        });
+    });
 
 export default {
 
@@ -76,61 +106,26 @@ export default {
         'san-menu-item': MenuItem,
         'san-menu-divider': Divider,
         'san-icon-button': IconButton,
-
+        'sm-list': List,
+        'sm-list-item': ListItem
     },
 
     initData() {
         return {
             navTitle: '组件',
             openMenu: true,
-            menuVal: '#/',
-            menus: Object
-                .keys(routes)
-                .map((path) => {
-
-                    var title = (path === '/')
-                        ? 'Index'
-                        : path.slice(1, 2).toUpperCase() + path.slice(2);
-
-                    return {
-                        value: '#' + path,
-                        title: title
-                    }
-
-                })
-                .sort((a, b) => {
-
-                    // 首页前置
-                    if (a.title === 'Index') {
-                        return -1;
-                    }
-
-                    return a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1;
-
-                })
+            menuVal: location.hash.slice(1),
+            menus: routes
         }
     },
 
     computed: {
         navTitle() {
             var menuVal = this.data.get('menuVal');
-            var menus = this.data.get('menus');
-            var item = menus.find(item => item.value == menuVal);
-            return item ? item.title : '404';
-        }
-    },
-
-    messages: {
-        'UI:menu-item-selected': function(e) {
-
-            var itemVal = e.value;
-
-            var menuPath = itemVal.value;
-
-            location.href = menuPath;
-
-            this.data.set('menuVal', menuPath);
-
+            var item = flatRoutes.find(item => (
+                item.path === menuVal || `/${item.name}` == menuVal
+            ));
+            return item ? (item.name || item.title) : '404';
         }
     },
 
@@ -140,23 +135,22 @@ export default {
     },
 
     attached() {
-
-        Object.keys(routes).forEach(rule => router.add({
-            rule,
-            Component: routes[rule],
-            target: '#example'
-        }));
-
-
-        // hack do route
-        var doRoute = router.doRoute.bind(router);
-        router.doRoute = (routeItem, e) => {
-            doRoute(routeItem, e);
-            this.data.set('menuVal', '#' + e.path);
-        };
-
+        router.listen((e, route) => {
+            this.data.set('menuVal', e.path);
+        });
         router.start();
+        setTimeout(() => {
+            let menuVal = this.data.get('menuVal');
+            let menu = this.el.querySelector(`[data-menu='${menuVal}']`);
+            if (menu) {
+                menu.scrollIntoView();
+            }
+        }, 100);
+    },
 
+    route(route) {
+        let {name, path} = route;
+        location.hash = path || `/${name}`;
     }
 
 

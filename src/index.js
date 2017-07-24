@@ -6,7 +6,7 @@
 
 import AppBar from './AppBar';
 import Button from './Button';
-import Badage from './Badage';
+import Badge from './Badge';
 import Card from './Card';
 import Checkbox from './Checkbox';
 import ColorPicker from './ColorPicker';
@@ -36,7 +36,7 @@ import Carousel from './Carousel';
 export {
     AppBar,
     Button,
-    Badage,
+    Badge,
     Card,
     Checkbox,
     ColorPicker,

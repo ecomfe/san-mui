@@ -67,7 +67,6 @@ export function create(prefix) {
         let variants = convertToVariants(component.data.get('variants'));
 
         let states = resolveStates(component);
-        let originClassName = component.data.get('class');
         let getVariantClassName = addPrefix('variant');
         let getStateClassName = addPrefix('state');
 
@@ -107,7 +106,6 @@ export function create(prefix) {
 
         function build() {
             return cx(
-                originClassName,
                 getPartClassName(part),
                 getVariantClassName(variants),
                 getStateClassName(states)

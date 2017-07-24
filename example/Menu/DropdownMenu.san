@@ -1,0 +1,40 @@
+<template>
+<section>
+    <sm-dropdown-menu value="{=value=}" maxHeight="{{200}}" autoWidth="{{!1}}">
+        <sm-menu-item
+            s-for="item in items"
+            value="{{item.value}}"
+            label="{{item.title}}"
+            title="{{item.title}}"
+        </sm-menu-item>
+    </sm-dropdown-menu>
+</section>
+</template>
+<script>
+import {MenuItem, DropDownMenu} from '../../src/Menu';
+import Icon from '../../src/Icon';
+import Divider from '../../src/Divider';
+import '../../src/Menu/index.styl';
+import '../../src/Icon/Icon.styl';
+import '../../src/Divider/Divider.styl';
+
+export default {
+    components: {
+        'sm-dropdown-menu': DropDownMenu,
+        'sm-menu-item': MenuItem,
+        'sm-icon': Icon,
+        'sm-divider': Divider
+    },
+    initData() {
+        return {
+            value: 8,
+            items: Array
+                .from({length: 10})
+                .map((_, i) => ({
+                    value: i,
+                    title: `第${i}项`
+                }))
+        };
+    }
+};
+</script>

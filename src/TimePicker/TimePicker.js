@@ -121,6 +121,8 @@ export default class TimePicker extends Component {
             type: '24hour',
             meridiem: 'ante',
 
+            locale: 'zh-cn',
+
             // text field props
             label: '',
             labelFloat: false,
@@ -231,11 +233,11 @@ export default class TimePicker extends Component {
 
     confirm() {
 
-        let {date, format} = this.data.get();
+        let {date, format, locale} = this.data.get();
 
         date = moment(date, INTERNAL_FORMAT);
 
-        let nextValue = date.format(format);
+        let nextValue = date.locale(locale).format(format);
 
         // 更新值
         this.data.set('value', nextValue);
