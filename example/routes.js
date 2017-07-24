@@ -115,7 +115,7 @@ let routes = [
         component: List
     },
     {
-        name: 'Memu',
+        name: 'Menu',
         components: [
             {
                 name: 'Menu',
