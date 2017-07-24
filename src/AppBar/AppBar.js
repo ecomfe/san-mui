@@ -45,7 +45,7 @@ export default san.defineComponent({
     formatParam(...paramName) {
         paramName.forEach(param => {
             let num = this.data.get(param);
-            num && this.data.set(param, !!+num);
+            this.data.set(param, !!+num);
         });
     }
 });
