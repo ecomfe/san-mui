@@ -59,16 +59,16 @@ export default {
                     'link': 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4188167168,378039613&fm=173&s=35105F95466370A6C0A8D9E203002061&w=454&h=396&img.JPEG'
                 },
                 {
-                    'content': '范冰冰，人称范爷，1981年9月16日出生于山东青岛，中国影视女演员、制片人、流行乐女歌手，毕业于上海师范大学谢晋影视艺术学院。',
-                    'link': 'http://b.hiphotos.baidu.com/image/pic/item/cdbf6c81800a19d89dbd300939fa828ba61e467b.jpg'
+                    'content': '高圆圆和赵又廷幸福的结婚啦',
+                    'link': 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2598496180,727370400&fm=175&s=EEB4C54BCEDC4CD493A1603A03008050&w=640&h=448&img.JPEG'
                 },
                 {
-                    'content': '电视剧《欢乐颂》的角色。纽约归国的高级商业精英，投资公司高管，首席CFO。',
-                    'link': 'http://s14.sinaimg.cn/mw690/006sDPEIzy7bvhVgM2h7d'
+                    'content': '国民女神高圆圆',
+                    'link': 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3406127291,1590172437&fm=175&s=B182DB15621343D474A9ED0A03006063&w=443&h=622&img.JPEG'
                 },
                 {
-                    'content': '刘涛，女演员歌手，出演欢乐颂中的安迪，2000年进入演艺圈，如今已大红大紫',
-                    'link': 'http://n1.itc.cn/img8/wb/recom/2017/05/31/149622320012250354.JPEG'
+                    'content': '美的像花儿一样',
+                    'link': 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1263399847,3194665948&fm=175&s=6F3A1CC5345F53D40C9831BF03001040&w=455&h=640&img.JPEG'
                 }
             ],
             autoplay: false,

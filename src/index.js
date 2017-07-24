@@ -6,7 +6,7 @@
 
 import AppBar from './AppBar';
 import Button from './Button';
-import Badage from './Badage';
+import Badge from './Badge';
 import Card from './Card';
 import Checkbox from './Checkbox';
 import DatePicker from './DatePicker';
@@ -36,7 +36,7 @@ import InputNumber from './InputNumber';
 export {
     AppBar,
     Button,
-    Badage,
+    Badge,
     Card,
     Checkbox,
     DatePicker,

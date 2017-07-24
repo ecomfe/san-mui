@@ -3,211 +3,238 @@
  * @author nemo <474021406@qq.com>
  */
 
-import san from 'san';
+/* globals XMLHttpRequest, FormData */
 
-let FileUploader;
-const method = {
-    repeatSet(obj, fn) {
-        Object.keys(obj).forEach(key => {
-            fn(key, obj[key]);
-        });
-    },
-    initUploader(file) {
-        let uploader = new FileUploader({
-            opt: this.data.get('opt'),
-            file: file,
-            fileList: this.fileList,
-            viewUpdate: () => {
-                this.data.set('fileList', this.fileList);
-            }
-        });
-        uploader.init();
-        this.fileList.push(uploader);
-        this.data.set('fileList', this.fileList);
-    }
-};
+import {Component, DataTypes} from 'san';
+import Button from '../Button';
+import {create} from '../common/util/cx';
+import FileSelector from './FileSelector';
+import FileList from './FileList';
+import FileItem from './FileItem';
+import DEFAULT_UPLOAD from './upload';
+import guid from '../common/util/guid';
 
-FileUploader = function (params) {
-    this.opt = params.opt;
-    this.file = params.file;
-    this.fileList = params.fileList;
-    this.viewUpdate = params.viewUpdate;
-};
+const ID_SYMBOL = Symbol();
 
-FileUploader.prototype.init = function () {
-    this.xhr = new XMLHttpRequest();
-    this.formData = new FormData();
-    this.opt.data[this.opt.name] = this.file;
-    method.repeatSet(this.opt.data, this.formData.append.bind(this.formData));
+const cx = create('uploader');
 
-    this.opt['on-change'](this.file, this.fileList.map(one => one.file));
+export default class Uploader extends Component {
 
-    this.xhr.upload.onprogress = e => {
-        let percentage = 0;
-
-        if (e.lengthComputable) {
-            percentage = e.loaded / e.total;
-        }
-        this.opt['on-progress'](e, this.file, this.fileList.map(one => one.file));
-        this.file.progressCss = {width: 100 * percentage + '%'};
-        this.viewUpdate();
-    };
-    this.xhr.onreadystatechange = e => {
-        if (this.xhr.readyState === 4) {
-            if (/20/.test(this.xhr.status)) {
-                this.file.response = JSON.parse(this.xhr.response);
-                this.opt['on-success'](JSON.parse(this.xhr.response), this.file, this.fileList.map(one => one.file));
-                this.file.progressCss = {width: '100%'};
-                this.viewUpdate();
-            }
-            else {
-                this.opt['on-error']('error', this.file, this.fileList.map(one => one.file));
-            }
-            this.file.uploaded = true;
-            this.opt['on-change'](this.file, this.fileList.map(one => one.file));
-        }
-    };
-    this.xhr.withCredentials = this.opt['with-credentials'];
-};
-FileUploader.prototype.upload = function () {
-    if (this.opt['before-upload'](this.file) && !this.file.uploaded) {
-        this.xhr.open('POST', this.opt.action);
-        method.repeatSet(Object.assign({
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }, this.opt.headers), this.xhr.setRequestHeader.bind(this.xhr));
-        this.xhr.send(this.formData);
-    }
-};
-FileUploader.prototype.abort = function () {
-    this.xhr.abort();
-};
-
-
-let initOpts = {
-    'action': '',
-    'headers': {},
-    'multiple': false,
-    'data': {},
-    'name': 'file',
-    'with-credentials': false,
-    'show-file-list': true,
-    'drag': false,
-    'accept': '',
-    'on-preview'() {},
-    'on-remove'() {},
-    'on-success'() {},
-    'on-error'() {},
-    'on-progress'() {},
-    'on-change'() {},
-    'before-upload'() {
-        return true;
-    },
-    'auto-upload': true,
-    'disabled': false
-};
-
-
-export default san.defineComponent({
-    template: `
-        <div>
-            <div san-if="!drag" class="upload sm-button variant-info variant-raised">
-                <span san-if="autoUpload">上传</span>
-                <span san-if="!autoUpload">选取文件</span>
-                <input san-if="!multiple && !disabled" type="file" on-change="reciveFile($event)" accept="{{accept}}"/>
-                <input san-if="multiple && !disabled" 
-                    type="file" 
-                    on-change="reciveFile($event)" 
-                    accept="{{accept}}" 
-                    multiple/>
-            </div>
-            <div san-if="!autoUpload && !drag" 
-                class="upload sm-button variant-info variant-raised" 
-                on-click="excuteUpload()">
-                    开始上传
-            </div>
-            <div san-if="drag" class="upload-drag" 
-                on-drop="dropFile($event)" 
-                on-dragenter="dragEnter($event)" 
-                on-dragover="dragOver($event)">
-            </div>
-            <div san-if="showFileList">
-                <span  class="file-list" san-for="file, index in fileList" on-click="fileListClick(index)">
-                    {{ file.file.name }}
-                    <span class="close" on-click="removeFile(index)">+</span>
-                    <span class="progress" style="{{ file.file.progressCss }}"></span>
-                </span>
-            </div>
+    static template = `
+        <div class="{{className}}">
+            <sm-file-selector
+                disabled="{{disabled}}"
+                accept="{{accept}}"
+                multiple="{{multiple}}"
+                on-select="addFiles($event)" />
+            <sm-file-list>
+                <sm-file-item
+                    s-for="file in files"
+                    disabled="{{disabled}}"
+                    name="{{file.name}}"
+                    size="{{file.size}}"
+                    status="{{file.status}}"
+                    url="{{file.url}}"
+                    progress="{{file.progress}}"
+                    errorMessage="{{file.errorMessage}}"
+                    on-remove="removeFile(file)" />
+            </sm-file-list>
         </div>
-    `,
-    components: {
+    `;
 
-    },
+    static components = {
+        'sm-button': Button,
+        'sm-file-selector': FileSelector,
+        'sm-file-list': FileList,
+        'sm-file-item': FileItem
+    };
+
+    static computed = {
+        className() {
+            return cx(this).build();
+        }
+    };
+
+    static dataTypes = {
+        mode: DataTypes.oneOf(['xhr']).isRequired,
+        headers: DataTypes.object,
+        multiple: DataTypes.bool.isRequired,
+        name: DataTypes.string.isRequired,
+        withCredentials: DataTypes.bool.isRequired,
+        disabled: DataTypes.bool.isRequired,
+        accept: DataTypes.string,
+        maxSize: DataTypes.number,
+        validateFile: DataTypes.func,
+        data: DataTypes.object,
+        json: DataTypes.bool,
+        upload: DataTypes.func
+    };
+
     initData() {
         return {
-            fileList: []
+            mode: 'xhr',
+            headers: {},
+            multiple: false,
+            data: {},
+            name: 'file',
+            withCredentials: false,
+            autoUpload: true,
+            disabled: false,
+            json: false
         };
-    },
-    computed: {
-        multiple() {
-            return this.data.get('opt').multiple;
-        },
-        showFileList() {
-            return this.data.get('opt')['show-file-list'];
-        },
-        autoUpload() {
-            return this.data.get('opt')['auto-upload'];
-        },
-        accept() {
-            return this.data.get('opt').accept;
-        },
-        drag() {
-            return this.data.get('opt').drag;
-        },
-        disabled() {
-            return this.data.get('opt').disabled;
-        },
-        fileList() {
-            return this.fileList;
-        }
-    },
-    inited() {
-        this.fileList = [];
-        this.data.set('opt', Object.assign({}, initOpts, this.data.get('opt')));
-    },
-    fileListClick(index) {
-        this.data.get('opt')['on-preview'](this.fileList[index].file);
-    },
-    excuteUpload() {
-        this.fileList.forEach(one => one.upload());
-    },
-    removeFile(index) {
-        this.fileList[index].abort();
-        let file = this.fileList.splice(index, 1);
-        this.data.get('opt')['on-remove'](file[0].file, this.fileList.map(one => one.file));
-        this.data.set('fileList', this.fileList);
-    },
-    dragEnter(event) {
-        event.preventDefault();
-        event.stopPropagation();
-    },
-    dragOver(event) {
-        event.preventDefault();
-        event.stopPropagation();
-    },
-    dropFile(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        !this.data.get('opt').disabled && Array.prototype.slice.call(event.dataTransfer.files).forEach(file => {
-            method.initUploader.call(this, file);
-        });
-        this.fileList.forEach(one => one.upload());
-    },
-    reciveFile(event) {
-        Array.prototype.slice.call(event.target.files).forEach(file => {
-            method.initUploader.call(this, file);
-        });
-        event.target.value = '';
-        this.data.get('opt')['auto-upload'] && this.fileList.forEach(one => one.upload());
     }
-});
 
+    inited() {
+
+        let {files, extentions} = this.data.get();
+
+        this.data.set(
+            'files',
+            files.map(file => {
+                return {
+                    ...file,
+                    status: 'uploaded',
+                    [ID_SYMBOL]: guid()
+                };
+            })
+        );
+
+        if (typeof extentions === 'string') {
+            this.data.set('extentions', extentions.split(/\s*,\s*/));
+        }
+
+    }
+
+    addFiles(files) {
+        for (let file of files) {
+            this.uploadFile(file);
+        }
+    }
+
+    isSameFile(f1, f2) {
+        return f1 === f2 || f1[ID_SYMBOL] === f2[ID_SYMBOL];
+    }
+
+    uploadFile(rawFile) {
+
+        let plainFile = {
+            name: rawFile.name,
+            size: rawFile.size,
+            status: 'uploading',
+            [ID_SYMBOL]: guid()
+        };
+
+        let errorMessage = this.validateFile(plainFile);
+
+        if (errorMessage) {
+            plainFile = {
+                ...plainFile,
+                status: 'error',
+                errorMessage
+            };
+            this.data.push('files', plainFile);
+            return;
+        }
+
+        this.data.push('files', plainFile);
+
+        let {
+            upload = DEFAULT_UPLOAD,
+            name,
+            action,
+            headers,
+            data,
+            withCredentials
+        } = this.data.get();
+
+        /**
+         * 创建一个保护起来的回调函数
+         *
+         * 由于在上传过程中，可能会有某个文件被删除或者取消或者整个组件都被干掉了
+         * 因此每个回调处理函数都需要进行一次包裹：
+         *
+         * 如果事件触发时，文件描述对象还在 files 中，那么就执行原有回调处理函数，并添加当前最新的下标和最新的 file
+         *
+         * @param  {Function} handler 回调处理
+         * @return {Function}
+         */
+        const createProtectedHandler = handler => (...args) => {
+
+            if (!this.data) {
+                return;
+            }
+
+            let files = this.data.get('files');
+            for (let i = 0, len = files.length; i < len; i++) {
+                let file = files[i];
+                if (this.isSameFile(file, plainFile)) {
+                    return handler(i, file, ...args);
+                }
+            }
+        };
+
+        const progressHandler = createProtectedHandler((index, file, progress) => {
+            let nextFile = {...file, progress};
+            this.data.set(`files.${index}`, {...file, progress});
+            this.fire('progress', nextFile);
+        });
+
+        const uploadSuccessHandler = createProtectedHandler((index, file, result) => {
+
+            if (typeof result === 'string') {
+                result = {
+                    url: result
+                };
+            }
+
+            let nextFile = {
+                ...plainFile,
+                ...result,
+                status: 'uploaded'
+            };
+
+            this.data.set(`files.${index}`, nextFile);
+            this.fire('success', nextFile);
+
+        });
+
+        const uploadFailedHandler = createProtectedHandler((index, file, error) => {
+
+            let nextFile = {
+                ...file,
+                status: 'error',
+                error
+            };
+
+            this.data.set(`files.${index}`, nextFile);
+            this.fire('error', nextFile);
+        });
+
+        upload(
+            rawFile,
+            {name, action, headers, withCredentials, data},
+            {
+                progress: progressHandler,
+                done: uploadSuccessHandler,
+                fail: uploadFailedHandler
+            }
+        );
+
+    }
+
+    removeFile(file) {
+        this.data.set('files', this.data.get('files').filter(f => (f !== file)));
+        this.fire('remove', file);
+    }
+
+    validateFile(file) {
+        let validateFile = this.data.get('validateFile');
+        return validateFile ? validateFile(file) : this.validateSize(file.size);
+    }
+
+    validateSize(size) {
+        let maxSize = this.data.get('maxSize') || 0;
+        return !maxSize || size <= maxSize * 1024 * 1024 ? null : `文件大小不得超过${maxSize}MB`;
+    }
+
+}

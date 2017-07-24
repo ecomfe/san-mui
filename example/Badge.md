@@ -1,6 +1,6 @@
-## Badage
+## Badge
 
-`Badage`组件，配合图标、按钮组件使用，用于标识一些文字，数字等。
+`Badge`组件，配合图标、按钮组件使用，用于标识一些文字，数字等。
 
 #### 示例
 
@@ -36,21 +36,21 @@
                 按钮
             </san-button>
         </san-badage>
-    </section> 
+    </section>
 </template>
 
 <script>
-import Badage from '../src/Badage';
+import Badge from '../src/Badge';
 import Icon from '../src/Icon';
 import {IconButton, Button} from '../src/Button';
 
-import '../src/Badage/Badage.styl';
+import '../src/Badge/Badge.styl';
 import '../src/Icon/Icon.styl';
 import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'san-badage': Badage,
+        'san-badage': Badge,
         'san-icon-button': IconButton,
         'san-icon': Icon,
         'san-button': Button
@@ -60,8 +60,8 @@ export default {
 
 <style>
    .badage-demo {
-    padding: 20px; 
-    display: flex; 
+    padding: 20px;
+    display: flex;
     align-items: center;
     justify-content: space-around;
 }
@@ -89,19 +89,19 @@ export default {
                 assignment
             </san-icon-button>
         </san-badage>
-    </section> 
+    </section>
 </template>
 
 <script>
-import Badage from '../src/Badage';
+import Badge from '../src/Badge';
 import {IconButton, Button} from '../src/Button';
 
-import '../src/Badage/Badage.styl';
+import '../src/Badge/Badge.styl';
 import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'san-badage': Badage,
+        'san-badage': Badge,
         'san-icon-button': IconButton
     },
     initData() {
@@ -116,8 +116,8 @@ export default {
 
 <style>
    .badage-demo {
-    padding: 20px; 
-    display: flex; 
+    padding: 20px;
+    display: flex;
     align-items: center;
     justify-content: space-around;
 }
@@ -147,21 +147,21 @@ export default {
                 按钮
             </san-button>
         </san-badage>
-    </section> 
+    </section>
 </template>
 
 <script>
-import Badage from '../src/Badage';
+import Badge from '../src/Badge';
 import Icon from '../src/Icon';
 import {IconButton, Button} from '../src/Button';
 
-import '../src/Badage/Badage.styl';
+import '../src/Badge/Badge.styl';
 import '../src/Icon/Icon.styl';
 import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'san-badage': Badage,
+        'san-badage': Badge,
         'san-icon-button': IconButton,
         'san-icon': Icon,
         'san-button': Button
@@ -171,8 +171,8 @@ export default {
 
 <style>
    .badage-demo {
-    padding: 20px; 
-    display: flex; 
+    padding: 20px;
+    display: flex;
     align-items: center;
     justify-content: space-around;
 }
@@ -195,19 +195,19 @@ export default {
                 点击按钮以隐藏通知
             </san-button>
         </san-badage>
-    </section> 
+    </section>
 </template>
 
 <script>
-import Badage from '../src/Badage';
+import Badge from '../src/Badge';
 import {IconButton, Button} from '../src/Button';
 
-import '../src/Badage/Badage.styl';
+import '../src/Badge/Badge.styl';
 import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'san-badage': Badage,
+        'san-badage': Badge,
         'san-icon-button': IconButton,
         'san-button': Button
     },
@@ -224,8 +224,8 @@ export default {
 
 <style>
    .badage-demo {
-    padding: 20px; 
-    display: flex; 
+    padding: 20px;
+    display: flex;
     align-items: center;
     justify-content: space-around;
 }
@@ -242,11 +242,10 @@ export default {
 | color | String |  | 颜色 |
 | max | Number |  | 最大值，超过最大值会显示 '{max}+'，要求 content 是 Number 类型 |
 | hidden | Boolean | false | 隐藏badage |
- 
+
 ### Slots
 
 | 名称 | 描述|
 | --- |   --- |
 | default | 可填充Icon, IconButton, Button, 分发需要加入badage内部的组件  |
 | content | 可填充Icon，用于自定义badage形状,但该slot会被content属性覆盖 |
-

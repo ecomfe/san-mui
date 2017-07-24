@@ -3,54 +3,11 @@
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
-import san from 'san';
+import {Component} from 'san';
 
-export default san.defineComponent({
-    defaultData() {
-        return {
-            open: false,
-            disabled: false,
-            multiple: false,
-            autoWidth: true,
-            itemClickClose: true,
-            useLayerForClickAway: false,
-            maxHeight: 500,
-            className: 'menu-' + Math.floor(Math.random() * Date.now() + 1),
-            anchorOrigin: {
-                vertical: 'top',
-                horizontal: 'left'
-            },
-            targetOrigin: {
-                vertical: 'top',
-                horizontal: 'left'
-            },
-            zIndex: 101
-        };
-    },
-    filters: {
-        yesToBe(value, className) {
-            return value ? className : '';
-        }
-    },
-    inited() {
-        this.transBoolean('all');
-        this.transBoolean('open');
-        this.transBoolean('multiple');
-        this.transBoolean('disabled');
-        this.transBoolean('autoWidth');
-        this.transBoolean('itemClickClose');
-        this.transBoolean('openImmediately');
-        this.transBoolean('useLayerForClickAway');
+export default class MenuBase extends Component {
 
-        this.items = [];
-        this.values = [];
-        this.name = 'menu';
-    },
-    created() {
-        this.handleClickOff = this.handleClickOff.bind(this);
-        this.close = this.close.bind(this);
-    },
-    messages: {
+    static messages = {
         'UI:menu-item-selected'(arg) {
             let value = arg.value.value;
             let selectValue = this.data.get('value');
@@ -114,9 +71,53 @@ export default san.defineComponent({
         'UI:menu-open'(arg) {
             arg.value && (this.toggleAction = 1);
         }
-    },
+    }
+
+    inited() {
+        this.transBoolean('all');
+        this.transBoolean('open');
+        this.transBoolean('multiple');
+        this.transBoolean('disabled');
+        this.transBoolean('autoWidth');
+        this.transBoolean('itemClickClose');
+        this.transBoolean('openImmediately');
+        this.transBoolean('useLayerForClickAway');
+
+        this.items = [];
+        this.values = [];
+        this.name = 'menu';
+    }
+
+    defaultData() {
+        return {
+            open: false,
+            disabled: false,
+            multiple: false,
+            autoWidth: true,
+            itemClickClose: true,
+            useLayerForClickAway: false,
+            maxHeight: 500,
+            className: 'menu-' + Math.floor(Math.random() * Date.now() + 1),
+            anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'left'
+            },
+            targetOrigin: {
+                vertical: 'top',
+                horizontal: 'left'
+            },
+            zIndex: 101
+        };
+    }
+
+    created() {
+        this.handleClickOff = this.handleClickOff.bind(this);
+        this.close = this.close.bind(this);
+    }
+
     bindEvent() {
-        // 点击menu外位置隐藏menu
+
+        // 点击 menu 外位置隐藏 menu
         document.addEventListener('click', this.handleClickOff);
 
         this.watch('all', () => {
@@ -124,13 +125,15 @@ export default san.defineComponent({
 
             this.data.set('value', selectValue);
             this.broadcast(selectValue);
-            this.fire('change', selectValue);            
+            this.fire('change', selectValue);
         });
 
         this.watch('value', () => {
-            this.broadcast(this.data.get('value'));         
+            this.broadcast(this.data.get('value'));
         });
-    },
+
+    }
+
     /**
      * 通过改变为每一个menu item的selectValue值，改变其已选状态
      *
@@ -141,7 +144,8 @@ export default san.defineComponent({
         while (len--) {
             this.items[len].data.set('selectValue', selectValue);
         }
-    },
+    }
+
     handleClickOff(e) {
         if (!this.toggleAction) {
             return;
@@ -149,7 +153,7 @@ export default san.defineComponent({
         this.toggleAction--;
 
         this.toggleMenu(null, true, 'BODY');
-    },
+    }
 
     /**
      * menu开关toggle
@@ -186,10 +190,10 @@ export default san.defineComponent({
                 }
             }
         }
-    },
+    }
     close() {
         this.toggleMenu(null, true);
-    },
+    }
     sortValues() {
         let value = this.data.get('value');
         if (!this.data.get('multiple')) {
@@ -208,12 +212,13 @@ export default san.defineComponent({
 
         this.data.set('value', values);
         return values;
-    },
+    }
     transBoolean(key) {
         let value = this.data.get(key);
         this.data.set(key, value === 'false' ? false : !!value);
-    },
+    }
     disposed() {
         document.removeEventListener('click', this.handleClickOff);
     }
-});
+
+}

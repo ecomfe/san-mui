@@ -3,4 +3,4 @@
  * @author malingyang(malingyang@baidu.com)
  */
 
-export default from './Badage';
+export default from './Badge';
