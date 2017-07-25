@@ -1,6 +1,6 @@
 {
   "name": "san-mui",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0-rc.1",
   "description": "A Set of SAN Components that Implement Google's Material Design",
   "author": "ecomfe",
   "main": "./lib/index.js",

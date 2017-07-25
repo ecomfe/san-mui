@@ -10,6 +10,7 @@ import Main from '../README.md';
 import AppBar from './AppBar.md';
 import Avatar from './Avatar.md';
 import Button from './Button.md';
+import Badge from './Badge.md';
 import Card from './Card.md';
 import Carousel from './Carousel.md';
 import Checkbox from './Checkbox.md';
@@ -57,6 +58,10 @@ let routes = [
     {
         name: 'Avatar',
         component: Avatar
+    },
+    {
+        name: 'Badge',
+        component: Badge
     },
     {
         name: 'Button',
@@ -111,7 +116,7 @@ let routes = [
         component: List
     },
     {
-        name: 'Memu',
+        name: 'Menu',
         components: [
             {
                 name: 'Menu',

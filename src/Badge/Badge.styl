@@ -1,0 +1,46 @@
+/**
+ * @file Badage 样式
+ * @author malingyang(malingyang@baidu.com)
+ */
+
+@require '../css/variable.styl'
+@require '../css/func.styl'
+@require '../Icon/Icon.styl';
+@require '../Button/Button.styl';
+
+.{$san-class-prefix}-badage
+    position: relative
+    display: inline-block
+    width: auto
+    text-align: center
+
+    &-inform
+        top: -8px
+        right: -8px
+        z-index: 1
+        position: absolute
+        i
+            font-size: 18px!important
+
+    &-inform-default
+        position: absolute
+        z-index: 2
+        white-space: nowrap
+        bottom: 100%
+        left: 100%
+        margin-left: -13px
+        margin-bottom: -10px
+        height: 18px
+        width: auto
+        padding: 1px 4px
+        background-color: red
+        color: white
+        font-size: 12px
+        font-style: normal
+        line-height: 18px
+        text-align: center 
+        border-radius: 10px  
+
+    &-text-wrapper
+        i
+            padding: 6px
