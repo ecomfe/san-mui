@@ -85,6 +85,9 @@ export default class DropDownMenu extends Component {
             });
             this.data.set('open', false);
             this.fire('change', value);
+        },
+        [C.MENU_ITEM_CLICK]() {
+            this.data.set('open', false);
         }
     };
 
