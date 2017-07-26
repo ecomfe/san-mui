@@ -9,7 +9,7 @@ import Icon from '../Icon';
 export default san.defineComponent({
 
     template: `
-        <div class="sm-avatar {{ className }}" style="{{ avatarStyleDefault }}{{ avatarStyle }}">
+        <div class="sm-avatar {{ className }}" style="{{ avatarStyleDefault }}">
             <san-icon san-if="{{ icon }}">{{ icon }}</san-icon>
             <slot></slot>
         </div>
@@ -21,9 +21,11 @@ export default san.defineComponent({
 
     initData() {
         return {
+            'className': '',
+            'icon': null,
             'size': 40,
             'iconSize': 20,
-            'background-color': '#bdbdbd',
+            'backgroundColor': '#bdbdbd',
             'color': '#f93',
             'src': ''
         };
@@ -35,7 +37,7 @@ export default san.defineComponent({
             let style = {
                 'background-color': this.data.get('backgroundColor'),
                 'color': this.data.get('color'),
-                'font-size': this.data.get('iconSize'),
+                'font-size': this.data.get('iconSize') + 'px',
                 'width': size,
                 'height': size,
                 'line-height': size
