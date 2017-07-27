@@ -3,7 +3,7 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {create} from '../common/util/cx';
 import css from '../common/util/css';
 import {IconButton} from '../Button';
@@ -68,6 +68,13 @@ export default class ExpansionPanel extends san.Component {
             description: ''
         };
     }
+
+    static dataTypes = {
+        open: DataTypes.bool,
+        icon: DataTypes.string,
+        title: DataTypes.string,
+        description: DataTypes.string
+    };
 
     toggle() {
         this.data.set('open', !this.data.get('open'));

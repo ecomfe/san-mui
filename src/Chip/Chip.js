@@ -5,7 +5,7 @@
 
 import {create} from '../common/util/cx';
 import css from '../common/util/css';
-import san from 'san';
+import san, {DataTypes} from 'san';
 import Icon from '../Icon';
 
 const cx = create('chip');
@@ -21,11 +21,11 @@ export default san.defineComponent({
             on-click="handleClick($event)">
 
             <slot></slot>
-            <div 
+            <div
                 class="${cx.getPartClassName('delete-icon-wrapper')}"
                 on-click="handleDelete($event)">
                 <san-icon
-                    
+
                     san-if=" showDelete && !disabled"
                     class="${cx.getPartClassName('delete-icon')}"
                     size="20">
@@ -41,7 +41,11 @@ export default san.defineComponent({
             disabled: false
         };
     },
-    inited(){
+    dataTypes: {
+        showDelete: DataTypes.bool,
+        disabled: DataTypes.bool
+    },
+    inited() {
         this.transBoolean('showDelete');
         this.transBoolean('disabled');
     },

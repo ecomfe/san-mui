@@ -3,7 +3,7 @@
  * @author sparklewhy@gmail.com
  */
 
-import {Component} from 'san';
+import {Component, DataTypes} from 'san';
 import {create} from '../common/util/cx';
 
 const cx = create('col');
@@ -131,6 +131,18 @@ export default class Col extends Component {
              */
         };
     }
+
+    static dataTypes = {
+        span: DataTypes.oneOfType([DataTypes.string, DataTypes.number]),
+        order: DataTypes.oneOfType([DataTypes.string, DataTypes.number]),
+        offset: DataTypes.oneOfType([DataTypes.string, DataTypes.number]),
+        push: DataTypes.oneOfType([DataTypes.string, DataTypes.number]),
+        pull: DataTypes.oneOfType([DataTypes.string, DataTypes.number]),
+        xs: DataTypes.oneOfType([DataTypes.number, DataTypes.object]),
+        sm: DataTypes.oneOfType([DataTypes.number, DataTypes.object]),
+        md: DataTypes.oneOfType([DataTypes.number, DataTypes.object]),
+        lg: DataTypes.oneOfType([DataTypes.number, DataTypes.object])
+    };
 
     attached() {
         this.data.set('colStyle', this.getColStyle());

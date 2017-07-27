@@ -3,7 +3,7 @@
  * @author hanbingbing@baidu.com
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {create} from '../common/util/cx';
 
 const cx = create('appbar');
@@ -27,25 +27,22 @@ export default san.defineComponent({
         return {
             title: 'default', // 标题
             zDepth: 1, // 阴影深度，不显示阴影设为 0
-            showLeftIcon: 1, // 默认显示左侧菜单
-            showRightIcon: 1 // 默认展示右侧icon
+            showLeftIcon: true, // 默认显示左侧菜单
+            showRightIcon: true // 默认展示右侧icon
         };
+    },
+
+    dataTypes: {
+        title: DataTypes.string,
+        zDepth: DataTypes.number,
+        showLeftIcon: DataTypes.bool,
+        showRightIcon: DataTypes.bool
     },
 
     computed: {
         styleClass() {
             return cx(this).build();
         }
-    },
-
-    inited() {
-        this.formatParam('showLeftIcon', 'showRightIcon');
-    },
-
-    formatParam(...paramName) {
-        paramName.forEach(param => {
-            let num = this.data.get(param);
-            num && this.data.set(param, !!+num);
-        });
     }
+
 });

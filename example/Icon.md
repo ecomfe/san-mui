@@ -14,7 +14,7 @@
     <sm-icon size="32">account_box</sm-icon>
     <sm-icon size="32">access_alarm</sm-icon>
     <sm-icon size="32">add_box</sm-icon>
-    <sm-icon size="32" style="color: rgb(0, 159, 147)">airplay</sm-icon>
+    <sm-icon size="24" style="color: rgb(0, 159, 147)">airplay</sm-icon>
 </section>
 </template>
 <script>

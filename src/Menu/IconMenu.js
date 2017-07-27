@@ -3,7 +3,7 @@
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
-import {Component} from 'san';
+import {Component, DataTypes} from 'san';
 import IconButton from '../Button/IconButton';
 import Paper from '../Paper';
 import Popover from '../Popover';
@@ -36,7 +36,7 @@ export default class IconMenu extends Component {
     };
 
     static messages = {
-        [C.MENU_COLLAPSE]() {
+        [C.MENU_ITEM_CLICK]() {
             this.data.set('open', false);
         }
     };
@@ -49,6 +49,13 @@ export default class IconMenu extends Component {
             targetOrigin: 'tl'
         };
     }
+
+    static dataTypes = {
+        maxHeight: DataTypes.number,
+        open: DataTypes.bool,
+        anchorOrigin: Popover.dataTypes.anchorOrigin,
+        targetOrigin: Popover.dataTypes.targetOrigin
+    };
 
     getAnchor() {
         return this.el;

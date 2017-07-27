@@ -25,7 +25,7 @@ import Icon from './Icon.md';
 import List from './List.md';
 import Menu from './Menu/Menu.md';
 import IconMenu from './Menu/IconMenu.md';
-import DropdownMenu from './Menu/DropdownMenu.san';
+import DropdownMenu from './Menu/DropdownMenu.md';
 import MultiLevelDropdownMenu from './Menu/MultiLevelDropdownMenu.san';
 import Radio from './Radio.md';
 import Paper from './Paper.md';
@@ -80,10 +80,6 @@ let routes = [
         component: Chip
     },
     {
-        name: 'Grid',
-        component: Grid
-    },
-    {
         name: 'Checkbox',
         component: Checkbox
     },
@@ -108,6 +104,10 @@ let routes = [
         component: ExpansionPanel
     },
     {
+        name: 'Grid',
+        component: Grid
+    },
+    {
         name: 'Icon',
         component: Icon
     },
@@ -129,11 +129,11 @@ let routes = [
             {
                 name: 'DropdownMenu',
                 component: DropdownMenu
-            },
-            {
-                name: 'MultiLevelDropdownMenu',
-                component: MultiLevelDropdownMenu
             }
+            // {
+            //     name: 'MultiLevelDropdownMenu',
+            //     component: MultiLevelDropdownMenu
+            // }
         ]
     },
     {

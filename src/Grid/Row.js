@@ -3,7 +3,7 @@
  * @author sparklewhy@gmail.com
  */
 
-import {Component} from 'san';
+import {Component, DataTypes} from 'san';
 import {create} from '../common/util/cx';
 
 const cx = create('row');
@@ -62,7 +62,7 @@ export default class Row extends Component {
              *
              * @type string
              */
-            type: '',
+            type: 'normal',
 
             /**
              * flex 布局对齐方式
@@ -86,4 +86,11 @@ export default class Row extends Component {
             gutter: 0
         };
     }
+
+    static dataTypes = {
+        type: DataTypes.oneOf(['normal', 'flex']),
+        align: DataTypes.oneOf(['top', 'middle', 'bottom']),
+        gutter: DataTypes.number,
+        justify: DataTypes.oneOf(['start', 'end', 'center', 'space-around', 'space-between'])
+    };
 }

@@ -39,7 +39,7 @@
 
         <san-appbar
             title="{{navTitle}}"
-            showLeftIcon="1"
+            showLeftIcon="{{true}}"
             class="example-appbar {{openMenu ? '': 'hide-menu'}}">
 
             <san-icon-button

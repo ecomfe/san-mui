@@ -3,7 +3,7 @@
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {TouchRipple, CenterRipple} from '../Ripple';
 import Icon from '../Icon';
 
@@ -71,6 +71,17 @@ export default san.defineComponent({
             secondaryTextLines: 1,
             toggleNested: false
         };
+    },
+
+    dataTypes: {
+        open: DataTypes.bool,
+        disabled: DataTypes.bool,
+        inset: DataTypes.bool,
+        // selectValue: DataTypes.any,
+        // value: DataTypes.any,
+        nestedLevel: DataTypes.number,
+        toggleNested: DataTypes.bool,
+        secondaryTextLines: DataTypes.number
     },
 
     filters: {

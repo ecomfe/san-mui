@@ -364,3 +364,48 @@ export default {
 };
 </script>
 ```
+
+
+## API
+
+### Menu
+
+#### 属性
+|名称|类型|必须|默认值|描述|
+|:---|:---:|---|---|:---|
+|autoWidth|boolean|false|true|如果是true，那么菜单的宽度将会自适应浮层内容的宽度(我们会添加合适的周边空白)|
+|maxHeight|number|false||指定浮层的最大高度|
+|disabled|boolean|false|禁用|
+
+#### 事件
+无
+
+#### 插槽
+|名称|描述|
+|:---|:---|:---|
+|default|默认内容，一般是多个 MenuItem|
+
+### MenuItem
+#### 属性
+|名称|类型|必须|默认值|描述|
+|:---|:---:|---|---|:---|
+|type|string|false|command|菜单项的类型，可选为：<br>command 点击触指令；<br>checkbox 复选；<br>radio 单选；<br>option 用于 DropdownMenu 作为选择值使用，在DropdownMenu自动设置为此类型；<br>expander 多级菜单标识|
+|disabled|boolean|false|false|是否禁用|
+|value|string|false||在类型为option时用作选中值|
+|cascade|boolean|false|false|是否为级联菜单、包含子菜单|
+|cascadeIcon|string|false||多级菜单的右侧展开图标|
+|popupAlignToParentMenu|boolean|false|false|是否将子菜单与父菜单做顶部对齐|
+|label|string|false|false|菜单项内部的文本|
+|title|string|false|false|菜单项的标题；若不设置label，那么会将title设置为菜单项的文本|
+
+#### 事件
+|名称|描述|
+|---|---|
+|click|当类型为command时，点击菜单项触发click事件|
+
+#### 插槽
+|名称|描述|
+|---|---|
+|leftIcon|左侧图标插槽|
+|rightIcon|右侧图标插槽|
+|subMenu|子菜单插槽|

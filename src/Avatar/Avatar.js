@@ -3,14 +3,14 @@
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import Icon from '../Icon';
 
 export default san.defineComponent({
 
     template: `
-        <div class="sm-avatar {{ className }}" style="{{ avatarStyleDefault }}{{ avatarStyle }}">
-            <san-icon san-if="{{ icon }}">{{ icon }}</san-icon>
+        <div class="sm-avatar" style="{{avatarStyleDefault}} {{avatarStyle}}">
+            <san-icon san-if="{{icon}}">{{icon}}</san-icon>
             <slot></slot>
         </div>
     `,
@@ -27,6 +27,14 @@ export default san.defineComponent({
             'color': '#f93',
             'src': ''
         };
+    },
+
+    dataTypes: {
+        size: DataTypes.number,
+        iconSize: DataTypes.number,
+        backgroundColor: DataTypes.string,
+        color: DataTypes.string,
+        src: DataTypes.string
     },
 
     computed: {

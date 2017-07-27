@@ -3,7 +3,7 @@
  * @author liuchaofan(asd123freedom@gmail.com)
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import icon from '../Icon';
 import {CenterRipple} from '../Ripple';
 import cx from 'classnames';
@@ -85,6 +85,19 @@ export default san.defineComponent({
             iconClass: '',
             checked: ['-1']
         };
+    },
+    dataTypes: {
+        name: DataTypes.string,
+        value: DataTypes.any,
+        label: DataTypes.string,
+        labelLeft: DataTypes.bool,
+        labelClass: DataTypes.string,
+        uncheckIcon: DataTypes.string,
+        checkedIcon: DataTypes.string,
+        indeterminateIcon: DataTypes.string,
+        iconClass: DataTypes.string,
+        checked: DataTypes.array,
+        disabled: DataTypes.bool
     },
     computed: {
         mainClass() {
