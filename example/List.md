@@ -423,7 +423,7 @@ export default {
         <san-list-item
             primaryText="周末一起吃饭？"
             secondaryText="{{ longSecText1 }}"
-            secondaryTextLines="2"
+            secondaryTextLines="{{2}}"
         >
             <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
         </san-list-item>
@@ -431,7 +431,7 @@ export default {
         <san-list-item
             primaryText="夏天浪起来"
             secondaryText="{{ longSecText2 }}"
-            secondaryTextLines="2"
+            secondaryTextLines="{{2}}"
         >
             <san-avatar slot="left" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"/>
             <san-iconmenu icon="more_horiz" tooltip="操作" slot="right">

@@ -3,11 +3,11 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import path from 'path';
-import prodEnv from './prod.env';
-import devEnv from './dev.env';
+const path = require('path');
+const prodEnv = require('./prod.env');
+const devEnv = require('./dev.env');
 
-export default {
+module.exports = {
     build: {
         env: prodEnv,
         index: path.resolve(__dirname, '../example/index.html'),
@@ -24,6 +24,6 @@ export default {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {},
-        cssSourceMap: false,
+        cssSourceMap: false
     }
-}
+};

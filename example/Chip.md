@@ -20,15 +20,24 @@
         </san-chip>
 
         <san-chip>
-            <san-avatar size="32" src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg"></san-avatar>
+            <san-avatar
+                size="{{32}}"
+                src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" />
             avatar chip
         </san-chip>
         <san-chip>
-            <san-avatar size="32" icon="mood"></san-avatar>
+            <san-avatar
+                size="{{32}}"
+                icon="mood" />
             icon avatar chip
         </san-chip>
         <san-chip color="#f93" backgroundColor="green">
-            <san-avatar size="32" color="#f93" backgroundColor="#2c9eff">mb</san-avatar>
+            <san-avatar
+                size="{{32}}"
+                color="#f93"
+                backgroundColor="#2c9eff">
+                mb
+            </san-avatar>
             custom chip
         </san-chip>
     </div>
@@ -82,7 +91,7 @@ export default {
 | showDelete | Boolean | false | 是否显示删除icon |
 | color | String |  | 文字的颜色 |
 | backgroundColor | String |  | 背景色 |
- 
+
 ### Slots
 
 | 名称 | 描述|
@@ -95,4 +104,3 @@ export default {
 | --- |   --- |
 | delete |   点击删除图标后触发 |
 | click |   点击时候触发 |
-

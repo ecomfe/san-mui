@@ -3,12 +3,12 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import path from 'path';
-import fs from 'fs';
-import url from 'url';
-import queryString from 'querystring';
+const path = require('path');
+const fs = require('fs');
+const url = require('url');
+const queryString = require('querystring');
 
-const requestHandler = (req) => {
+const requestHandler = req => {
     const pathName = req.path || '';
 
     const mockFilePath = path.join(__dirname, '../mock/ajax', pathName) + '.js';
@@ -23,7 +23,7 @@ const requestHandler = (req) => {
     return mockDataHandler;
 };
 
-export default function ajaxMiddleWare(req, res, next) {
+function ajaxMiddleWare(req, res, next) {
     let query = url.parse(req.url).query;
 
     if (query) {
@@ -48,4 +48,6 @@ export default function ajaxMiddleWare(req, res, next) {
         }
     }
     return next();
-};
+}
+
+module.exports = ajaxMiddleWare;

@@ -3,7 +3,7 @@
  * @author liuchaofan(asd123freedom@gmail.com)
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import Underline from './TextFieldUnderline';
 import TextFieldLabel from './TextFieldLabel';
 import TextFieldHint from './TextFieldHint';
@@ -98,17 +98,43 @@ export default san.defineComponent({
             maxLength: 0,
             disabled: false,
             readOnly: false,
-            fullWidth: 0,
+            fullWidth: false,
             underlineShow: true,
             underlineClass: '',
             underlineFocusClass: '',
             focus: false,
             inputValue: '',
             charLength: 0,
-            float: '',
             multiLine: false,
             icon: ''
         };
+    },
+
+    dataTypes: {
+        type: DataTypes.string,
+        label: DataTypes.string,
+        labelFloat: DataTypes.bool,
+        labelClass: DataTypes.string,
+        labelFocusClass: DataTypes.string,
+        hintText: DataTypes.string,
+        hintTextClass: DataTypes.string,
+        inputClass: DataTypes.string,
+        errorText: DataTypes.string,
+        errorColor: DataTypes.string,
+        helpText: DataTypes.string,
+        helpTextClass: DataTypes.string,
+        maxLength: DataTypes.number,
+        disabled: DataTypes.bool,
+        readOnly: DataTypes.bool,
+        fullWidth: DataTypes.bool,
+        underlineShow: DataTypes.bool,
+        underlineClass: DataTypes.string,
+        underlineFocusClass: DataTypes.string,
+        focus: DataTypes.bool,
+        inputValue: DataTypes.string,
+        charLength: DataTypes.number,
+        multiLine: DataTypes.bool,
+        icon: DataTypes.string
     },
 
     computed: {

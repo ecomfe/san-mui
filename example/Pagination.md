@@ -7,7 +7,7 @@
 ```san 1、只指定总条数（必传参数），其他使用默认参数
 <template>
     <div>
-        <san-pagination total="345"></san-pagination>
+        <san-pagination total="{{345}}" />
     </div>
 </template>
 
@@ -29,11 +29,11 @@ export default {
 <template>
     <div>
         <san-pagination
-            current="3"
-            total="200"
-            pageSize="13"
-            showSizeChanger="true"
-            pageSizeOptions="[5, 10, 20]"
+            current="{{3}}"
+            total="{{200}}"
+            pageSize="{{13}}"
+            showSizeChanger="{{true}}"
+            pageSizeOptions="{{pageSizeOptions}}"
             nextPageText="下一页"
             lastPageText="上一页"
             on-pageChange="onPageChange($event)"
@@ -50,6 +50,11 @@ import '../src/Pagination/index.styl';
 export default {
     components: {
         'san-pagination': Pagination
+    },
+    initData() {
+        return {
+            pageSizeOptions: [5, 10, 20]
+        };
     },
     onPageChange(data) {
         console.log(data);

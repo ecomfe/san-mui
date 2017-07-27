@@ -3,7 +3,7 @@
  * @author sparklewhy@gmail.com
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {create} from '../common/util/cx';
 
 const cx = create('focus-ripple');
@@ -26,5 +26,9 @@ export default san.defineComponent({
         styleClass() {
             return cx(this).build();
         }
+    },
+    dataTypes: {
+        color: DataTypes.string,
+        opacity: DataTypes.string
     }
 });

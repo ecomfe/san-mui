@@ -10,4 +10,5 @@ eslint:
             -
                 ignore:
                     - "/-_/"
-        fecs-min-vars-per-destructure: false
+        fecs-min-vars-per-destructure: -1
+        fecs-no-require: -1

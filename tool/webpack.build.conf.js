@@ -3,18 +3,18 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import fs from 'fs';
-import path from 'path';
-import webpack from 'webpack';
-import merge from 'webpack-merge';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import CompressionWebpackPlugin from 'compression-webpack-plugin';
+const fs = require('fs');
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
-import RemoveScriptTagPlugin from './remove-script-tag-plugin';
-import config from './config';
-import {assetsPath, styleLoaders} from './util';
-import baseWebpackConfig from './webpack.base.conf';
+const RemoveScriptTagPlugin = require('./remove-script-tag-plugin');
+const config = require('./config');
+const {assetsPath, styleLoaders} = require('./util');
+const baseWebpackConfig = require('./webpack.base.conf');
 
 const env = config.build.env;
 
@@ -80,4 +80,4 @@ if (config.build.productionGzip) {
     );
 }
 
-export default webpackConfig
+module.exports = webpackConfig;

@@ -35,7 +35,6 @@ export default class MenuItem extends Component {
                 class="${cx.getPartClassName('left-icon')}">
                 {{isChecked ? 'check' : ''}}
             </sm-icon>
-
             <div
                 class="${cx.getPartClassName('left-icon')}"
                 style="{{leftIconStyle}}">
@@ -44,7 +43,7 @@ export default class MenuItem extends Component {
             <div
                 class="${cx.getPartClassName('content')}"
                 style="{{titleStyle}}">
-                <div class="${cx.getPartClassName('title')}">{{title}}</div>
+                <div class="${cx.getPartClassName('title')}">{{label || title}}</div>
                 <div
                     s-if="!!subTitle"
                     class="${cx.getPartClassName('sub-title')}">
@@ -120,10 +119,6 @@ export default class MenuItem extends Component {
         }
     };
 
-    static dataTypes = {
-        type: DataTypes.oneOf(['command', 'checkbox', 'radio', 'option', 'expander'])
-    };
-
     static messages = {
         [C.MENU_INITED](e) {
             // 持有一个子菜单的实例
@@ -144,12 +139,40 @@ export default class MenuItem extends Component {
             hasLeft: false,
             hasRight: false,
             cascadeIcon: '',
-            getAnchor: this.getAnchor.bind(this),
-            subMenuOpen: false,
+
             // 将浮层对齐到父级 menu
-            popupAlignToParentMenu: false
+            popupAlignToParentMenu: false,
+
+            /**
+             * 获取浮层对齐锚点
+             *
+             * @private
+             * @type {Function}
+             */
+            getAnchor: this.getAnchor.bind(this),
+
+            /**
+             * 是否打开子菜单
+             *
+             * @private
+             * @type {Boolean}
+             */
+            subMenuOpen: false
+
         };
     }
+
+    static dataTypes = {
+        type: DataTypes.oneOf(['command', 'checkbox', 'radio', 'expander', 'option']),
+        disabled: DataTypes.bool,
+        cascade: DataTypes.bool,
+        hasLeft: DataTypes.bool,
+        hasRight: DataTypes.bool,
+        cascadeIcon: DataTypes.string,
+        popupAlignToParentMenu: DataTypes.bool,
+        label: DataTypes.string,
+        title: DataTypes.string
+    };
 
     inited() {
 

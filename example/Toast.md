@@ -39,7 +39,7 @@
             message="稳住，我们能赢！"
             position="{{toastPosition}}"
             duration="{{duration}}"
-            open="{{toast}}"></san-toast>
+            open="{=toast=}"></san-toast>
 
         <h3>
             Snackbar
@@ -65,7 +65,7 @@
         <san-toast
             message="稳住，我们赢不了"
             position="{{snackbarPosition}}"
-            open="{{snackbar}}">
+            open="{=snackbar=}">
             <san-button variants="primary" on-click="handleActionClick($event)">
                 {{action}}
             </san-button>
@@ -137,10 +137,9 @@
 | action | String |  | 动作按钮上的文字 |
 | duration | Number | 2000 | 延迟消失的毫秒值 |
 | position | String | rigntBottom | 出现的位置，包括rightBottom，rightTop，leftBottom，leftTop |
- 
+
 ### Slots
 
 | 名称 | 描述|
 | --- |   --- |
 | default |   用于放置动作按钮，常用Flat Button |
-

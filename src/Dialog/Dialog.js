@@ -6,6 +6,7 @@
 import {create} from '../common/util/cx';
 import Layer from '../Layer/Layer';
 import Mask from '../Mask';
+import {DataTypes} from 'san';
 
 const cx = create('dialog');
 
@@ -69,6 +70,13 @@ export default class Dialog extends Layer {
             width: 760
         };
     }
+
+    static dataTypes = {
+        open: DataTypes.bool,
+        useMask: DataTypes.bool,
+        closeOnClickMask: DataTypes.bool,
+        width: DataTypes.number
+    };
 
     lockBodyScroll(locked) {
         document.body.style.overflow = locked ? 'hidden' : '';

@@ -3,7 +3,7 @@
  * @author hanbingbing@baidu.com
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {create} from '../common/util/cx';
 
 const cx = create('card-media');
@@ -27,6 +27,13 @@ export default san.defineComponent({
         styleClass() {
             return cx(this).build();
         }
+    },
+
+    dataTypes: {
+        title: DataTypes.string,
+        subTitle: DataTypes.string,
+        titleClass: DataTypes.string,
+        subTitleClass: DataTypes.string
     },
 
     initData() {

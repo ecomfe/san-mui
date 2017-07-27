@@ -25,12 +25,10 @@ import Icon from './Icon.md';
 import List from './List.md';
 import Menu from './Menu/Menu.md';
 import IconMenu from './Menu/IconMenu.md';
-import DropdownMenu from './Menu/DropdownMenu.san';
-import MultiLevelDropdownMenu from './Menu/MultiLevelDropdownMenu.san';
+import DropdownMenu from './Menu/DropdownMenu.md';
 import Radio from './Radio.md';
 import Paper from './Paper.md';
 import Pagination from './Pagination.md';
-// import Popover from './Popover.md';
 import Progress from './Progress.md';
 import Ripple from './Ripple.md';
 import Slider from './Slider.md';
@@ -80,10 +78,6 @@ let routes = [
         component: Chip
     },
     {
-        name: 'Grid',
-        component: Grid
-    },
-    {
         name: 'Checkbox',
         component: Checkbox
     },
@@ -108,6 +102,10 @@ let routes = [
         component: ExpansionPanel
     },
     {
+        name: 'Grid',
+        component: Grid
+    },
+    {
         name: 'Icon',
         component: Icon
     },
@@ -129,11 +127,11 @@ let routes = [
             {
                 name: 'DropdownMenu',
                 component: DropdownMenu
-            },
-            {
-                name: 'MultiLevelDropdownMenu',
-                component: MultiLevelDropdownMenu
             }
+            // {
+            //     name: 'MultiLevelDropdownMenu',
+            //     component: MultiLevelDropdownMenu
+            // }
         ]
     },
     {
@@ -153,24 +151,24 @@ let routes = [
         component: Progress
     },
     {
-        name: 'Ripple',
-        component: Ripple
-    },
-    {
         name: 'Radio',
         component: Radio
+    },
+    {
+        name: 'Ripple',
+        component: Ripple
     },
     {
         name: 'Slider',
         component: Slider
     },
     {
-        name: 'Switch',
-        component: Switch
-    },
-    {
         name: 'SubHeader',
         component: SubHeader
+    },
+    {
+        name: 'Switch',
+        component: Switch
     },
     {
         name: 'Table',
@@ -189,16 +187,16 @@ let routes = [
         component: TimePicker
     },
     {
-        name: 'TreeView',
-        component: TreeView
-    },
-    {
         name: 'Toast',
         component: Toast
     },
     {
         name: 'Tooltip',
         component: Tooltip
+    },
+    {
+        name: 'TreeView',
+        component: TreeView
     },
     {
         name: 'Uploader',

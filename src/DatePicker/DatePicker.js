@@ -4,7 +4,7 @@
  */
 
 import Dialog from '../Dialog';
-import {Component} from 'san';
+import {Component, DataTypes} from 'san';
 import moment from 'moment';
 import {FORMAT} from './constant';
 
@@ -115,6 +115,13 @@ export default class DatePicker extends Component {
         };
         /* eslint-enable fecs-properties-quote */
     }
+
+    static dataTypes = {
+        value: DataTypes.string,
+        open: DataTypes.bool,
+        format: DataTypes.string,
+        disabled: DataTypes.bool
+    };
 
     inited() {
 

@@ -4,6 +4,8 @@
  * @author jinzhubaofu <leonlu@outlook.com>
  */
 
+import {DataTypes} from 'san';
+
 import Table from './Table';
 import THead from './THead';
 import TBody from './TBody';
@@ -49,4 +51,14 @@ export default class ConfigurableTable extends Table {
             </ui-tbody>
         </table>
     `;
+
+    static dataTypes = {
+        ...Table.dataTypes,
+        fields: DataTypes.arrayOf(DataTypes.shape({
+            prop: DataTypes.string,
+            title: DataTypes.string,
+            content: DataTypes.func
+        })),
+        data: DataTypes.array
+    };
 }

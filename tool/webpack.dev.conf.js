@@ -3,16 +3,15 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import fs from 'fs';
-import path from 'path';
-import webpack from 'webpack';
-import merge from 'webpack-merge';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-import {styleLoaders} from './util';
-import config from './config';
-import baseWebpackConfig from './webpack.base.conf';
-import RemoveScriptTagPlugin from './remove-script-tag-plugin';
+const {styleLoaders} = require('./util');
+const config = require('./config');
+const baseWebpackConfig = require('./webpack.base.conf');
+const RemoveScriptTagPlugin = require('./remove-script-tag-plugin');
 
 /**
  * webpack plugin 集合
@@ -39,7 +38,7 @@ const webpackPluginList = [
     })
 ];
 
-export default merge(baseWebpackConfig, {
+module.exports = merge(baseWebpackConfig, {
     entry: {
         index: ['./tool/dev-client', './example/index']
     },
