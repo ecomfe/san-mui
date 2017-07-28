@@ -3,7 +3,6 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import fs from 'fs';
 import path from 'path';
 import webpack from 'webpack';
 import merge from 'webpack-merge';

@@ -3,19 +3,18 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import path from 'path';
-import fs from 'fs';
-import express from 'express';
-import webpack from 'webpack';
-import bodyParser from 'body-parser';
-import proxyMiddleware from 'http-proxy-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackDevMiddleware from 'webpack-dev-middleware';
+/* eslint-disable fecs-no-require */
+const express = require('express');
+const webpack = require('webpack');
+const bodyParser = require('body-parser');
+const proxyMiddleware = require('http-proxy-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackDevMiddleware = require('webpack-dev-middleware');
 
-import config from './config';
-import ajaxMiddleware from './ajax-middleware';
-import {getIP} from './util';
-import devConf from './webpack.dev.conf';
+const config = require('./config');
+const ajaxMiddleware = require('./ajax-middleware');
+const {getIP} = require('./util');
+const devConf = require('./webpack.dev.conf');
 
 const webpackConfig = devConf;
 

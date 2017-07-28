@@ -3,18 +3,19 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import path from 'path';
-import config from './config';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+const path = require('path');
+const config = require('./config');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ifaces = require('os').networkInterfaces();
 
-export function assetsPath(p) {
+function assetsPath(p) {
     const assetsSubDirectory = process.env.NODE_ENV === 'prod'
         ? config.build.assetsSubDirectory
         : config.dev.assetsSubDirectory;
     return path.posix.join(assetsSubDirectory, p);
 }
 
-export function cssLoaders(options = {}) {
+function cssLoaders(options = {}) {
     const generateLoaders = loaders => {
         const sourceLoader = loaders.map(loader => {
             let extraParamChar;
@@ -52,7 +53,7 @@ export function cssLoaders(options = {}) {
     };
 }
 
-export function styleLoaders(options) {
+function styleLoaders(options) {
     const output = [];
     const loaders = cssLoaders(options);
     for (const extension in loaders) {
@@ -67,8 +68,8 @@ export function styleLoaders(options) {
     return output;
 }
 
-export function getIP() {
-    const ifaces = require('os').networkInterfaces();
+function getIP() {
+
     const defultAddress = '127.0.0.1';
     let ip = defultAddress;
 
@@ -84,3 +85,10 @@ export function getIP() {
     }
     return ip;
 }
+
+module.exports = {
+    assetsPath,
+    cssLoaders,
+    styleLoaders,
+    getIP
+};
