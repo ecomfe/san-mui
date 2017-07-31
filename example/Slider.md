@@ -12,8 +12,8 @@
         <h4>音量调整</h4>
         <san-slider
             value="{= value =}"
-            min="0"
-            max="100" />
+            min="{{0}}"
+            max="{{100}}" />
         <p>当前音量: {{value}}</p>
     </div>
 </template>
@@ -41,9 +41,9 @@ export default {
         <h4>期末考试预期分数（最多 100 分，最少 60 分，10 分一档）</h4>
         <san-slider
             value="{=value=}"
-            min="60"
-            max="100"
-            step="10" />
+            min="{{60}}"
+            max="{{100}}"
+            step="{{10}}" />
         <p>预期分数: {{value}}</p>
     </div>
 </template>
@@ -70,9 +70,9 @@ export default {
         <san-slider
             disabled
             value="{=value=}"
-            min="60"
-            max="100"
-            step="10" />
+            min="{{60}}"
+            max="{{100}}"
+            step="{{10}}" />
         <p>预期分数: {{value}}</p>
     </div>
 </template>

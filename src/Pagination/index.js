@@ -3,4 +3,8 @@
  * @author leon <ludafa@outlook.com>
  */
 
-export default from './Pagination';
+import Pagination from './Pagination';
+
+export {
+    Pagination as default
+};

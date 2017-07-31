@@ -3,7 +3,7 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import Ripple from './Ripple';
 
 export default san.defineComponent({
@@ -31,6 +31,10 @@ export default san.defineComponent({
         return {
             ripples: []
         };
+    },
+
+    dataTypes: {
+        color: DataTypes.string
     },
 
     click() {

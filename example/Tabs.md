@@ -117,7 +117,7 @@ export default {
 
 |名称|类型|必须|默认值|描述|
 |:---|:---:|---|---|:---|
-|value|string|false|无|当前标签的选中值|
+|value|string|true|无|当前标签的选中值|
 
 #### 事件
 
@@ -137,7 +137,7 @@ export default {
 
 |名称|类型|必须|默认值|描述|
 |:---|:---:|---|---|:---|
-|value|string|false|无|标签值|
+|value|string|true|无|标签值|
 
 #### 事件
 无

@@ -3,8 +3,7 @@
  * @author zhangzhiqiang(zhiqiangzhang37@gmail.com)
  */
 
-import san from 'san';
-import cx from 'classnames';
+import san, {DataTypes} from 'san';
 
 const currentKey = 'current';
 const pageSizeKey = 'pageSize';
@@ -23,80 +22,31 @@ export default san.defineComponent({
     template: `
         <div class="sm-pagination">
             <div class="sm-pagination-inner" san-if="total">
-                <div class="sm-pagination-page-selector">
-                    <span
-                        class="pre-page{{ current === 1 ? ' disable' : '' }}"
-                        on-click="setCurrentPage(current - 1)">
+                <div class="page-selector">
+                    <span class="pre-page{{ current === 1 ? ' disable' : '' }}" on-click="setCurrentPage(current - 1)">
                         <label san-if="lastPageText">{{ lastPageText }}</label>
                         <label san-else class="pre-page-icon arrow-icon"></label>
                     </span>
-
-                    <span class="{{firstPageClass}}" on-click="setCurrentPage(1)">1</span>
-
-                    <span
-                        san-if="current >= pageGroupLen"
-                        class="sm-pagination-pre-group"
-                        on-click="setCurrentPage(current - pageGroupLen)">
-                        ...
-                    </span>
-                    <span
-                        class="sm-pagination-page-num"
-                        san-if="current - 2 >= 2 && current - 2 < totalPage" on-click="setCurrentPage(current - 2)">
-                        {{ current - 2 }}
-                    </span>
-                    <span
-                        class="sm-pagination-page-num"
-                        san-if="current - 1 >= 2 && current - 1 < totalPage" on-click="setCurrentPage(current - 1)">
-                        {{ current - 1 }}
-                    </span>
-                    <span
-                        class="sm-pagination-page-num state-current"
-                        san-if="current >= 2 && current < totalPage" on-click="setCurrentPage(current)">
-                        {{ current }}
-                    </span>
-                    <span
-                        class="sm-pagination-page-num"
-                        san-if="current + 1 >= 2 && current + 1 < totalPage" on-click="setCurrentPage(current + 1)">
-                        {{ current + 1 }}
-                    </span>
-                    <span
-                        class="sm-pagination-page-num"
-                        san-if="curren©t + 2 >= 3 && current + 2 < totalPage" on-click="setCurrentPage(current + 2)">
-                        {{ current + 2 }}
-                    </span>
-                    <span
-                        san-if="totalPage - current - 1 >= pageGroupLen"
-                        class="sm-pagination-next-group"
-                        on-click="setCurrentPage(current + pageGroupLen)">
-                        ...
-                    </span>
-
-                    <span
-                        san-if="totalPage > 1"
-                        class="{{lastPageClass}}"
-                        on-click="setCurrentPage(totalPage)">
-                        {{totalPage}}
-                    </span>
-
-                    <span
-                        class="next-page{{ current === totalPage ? ' disable' : '' }}"
-                        on-click="setCurrentPage(current + 1)">
+                    <span class="page-num first-page{{ current === 1 ? ' current' : '' }}" on-click="setCurrentPage(1)">1</span>
+                    <span san-if="current >= pageGroupLen" class="pre-group" on-click="setCurrentPage(current - pageGroupLen)">...</span>
+                    <span class="page-num" san-if="current - 2 >= 2 && current - 2 < totalPage" on-click="setCurrentPage(current - 2)">{{ current - 2 }}</span>
+                    <span class="page-num" san-if="current - 1 >= 2 && current - 1 < totalPage" on-click="setCurrentPage(current - 1)">{{ current - 1 }}</span>
+                    <span class="page-num current" san-if="current >= 2 && current < totalPage" on-click="setCurrentPage(current)">{{ current }}</span>
+                    <span class="page-num" san-if="current + 1 >= 2 && current + 1 < totalPage" on-click="setCurrentPage(current + 1)">{{ current + 1 }}</span>
+                    <span class="page-num" san-if="current + 2 >= 3 && current + 2 < totalPage" on-click="setCurrentPage(current + 2)">{{ current + 2 }}</span>
+                    <span san-if="totalPage - current - 1 >= pageGroupLen" class="next-group" on-click="setCurrentPage(current + pageGroupLen)">...</span>
+                    <span san-if="totalPage > 1" class="page-num last-page{{ current === totalPage ? ' current' : '' }}" on-click="setCurrentPage(totalPage)">{{ totalPage }}</span>
+                    <span class="next-page{{ current === totalPage ? ' disable' : '' }}" on-click="setCurrentPage(current + 1)">
                         <label san-if="nextPageText">{{ nextPageText }}</label>
                         <label san-else class="next-page-icon arrow-icon"></label>
                     </span>
                 </div>
-                <div
-                    class="{{pageSizeClass}}"
-                    san-if="showSizeChanger">
-                    <section
-                        class="selector dropdown-selector"
-                        on-click="toggleSelectorPopup()">
-                        {{pageSize}} / 页<i class="triangle"></i>
-                    </section>
+                <div class="page-size-selector{{ pageSizePopupOpen ? ' open' : '' }}" san-if="showSizeChanger">
+                    <section class="selector dropdown-selector" on-click="toggleSelectorPopup()">{{ pageSize }} / 页<i class="triangle"></i></section>
                     <section class="selector-popup">
                         <section
                             san-for="pageSizeItem in pageSizeOptions"
-                            class="{{pageSizeItemClass}}"
+                            class="page-size-item{{ pageSizeItem === pageSize ? ' active' : '' }}"
                             on-click="changePageSize(pageSizeItem)">
                             {{ pageSizeItem }} / 页
                         </section>
@@ -118,57 +68,13 @@ export default san.defineComponent({
         };
     },
 
-    computed: {
-        firstPageClass() {
-            return cx(
-                'page-num',
-                'first-page',
-                {
-                    current: this.data.get('current') === 1
-                }
-            );
-        },
-        pageSizeClass() {
-            return cx(
-                'sm-pagination-page-size-selector',
-                {
-                    'state-open': this.data.get('pageSizePopupOpen')
-                }
-            );
-        },
-        lastPageClass() {
-            return cx(
-                'sm-pagination-page-num',
-                'state-last-page',
-                {
-                    current: this.data.get('currrent') === this.data.get('totalPage')
-                }
-            );
-        },
-        pageSizeItemClass() {
-            return cx(
-                'sm-pagination-page-size-item',
-                {
-                    active: this.data.get('pageSizeItem') === this.data.get('pageSize')
-                }
-            );
-        },
-        [totalPageKey]() {
-            return Math.ceil(this.data.get(totalKey) / this.data.get(pageSizeKey)) || 0;
-        }
-    },
-
     inited() {
+
         // 数据容错
-        this.transNumber(totalKey);
-
-        this.transBoolean(showSizeChangerKey);
-        this.transNumber(currentKey, defaultCurrent);
-        this.transNumber(pageSizeKey, defaultPageSize);
-
         let current = this.data.get(currentKey);
         let pageSizeOptions = this.data.get(pageSizeOptionsKey);
         let pageSize = this.data.get(pageSizeKey);
+
         // 如果给的pageSizeOptions不是数组类型，做数据转换
         if (!Array.isArray(pageSizeOptions)) {
             try {
@@ -256,18 +162,19 @@ export default san.defineComponent({
         this.toggleSelectorPopup();
     },
 
-    /**
-     * 布尔值转换，字符串false转换为布尔值false，其他则按正常转换进行转换
-     *
-     * @param  {string} key 要转换的数据key
-     */
-    transBoolean(key) {
-        let value = this.data.get(key);
-        this.data.set(key, value === 'false' ? false : !!value);
+    computed: {
+        [totalPageKey]() {
+            return Math.ceil(this.data.get(totalKey) / this.data.get(pageSizeKey)) || 0;
+        }
     },
 
-    transNumber(key, defaultVal) {
-        let value = parseInt(this.data.get(key), 10);
-        this.data.set(key, value || defaultVal);
+    dataTypes: {
+        total: DataTypes.number.isRequired,
+        pageSize: DataTypes.number.isRequired,
+        showSizeChanger: DataTypes.bool,
+        pageSizeOptions: DataTypes.arrayOf(DataTypes.number).isRequired,
+        nextPageText: DataTypes.string,
+        lastPageText: DataTypes.string
     }
+
 });

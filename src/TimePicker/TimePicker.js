@@ -3,7 +3,7 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import {Component} from 'san';
+import {Component, DataTypes} from 'san';
 import moment from 'moment';
 import Dialog from '../Dialog';
 import Button from '../Button';
@@ -44,9 +44,9 @@ export default class TimePicker extends Component {
             <san-dialog
                 variants="time-picker"
                 useMask="{{!0}}"
-                closeOnClickMask="{{0}}"
+                closeOnClickMask="{{false}}"
                 open="{=open=}"
-                width="310">
+                width="{{310}}">
                 <san-header
                     slot="title"
                     type="{{type}}"
@@ -137,7 +137,7 @@ export default class TimePicker extends Component {
             helpTextClass: '',
             maxLength: 0,
             disabled: false,
-            fullWidth: 0,
+            fullWidth: false,
             underlineShow: true,
             underlineClass: '',
             underlineFocusClass: '',
@@ -150,6 +150,13 @@ export default class TimePicker extends Component {
         };
         /* eslint-enable fecs-properties-quote */
     }
+
+    static dataTypes = {
+        ...TextField.dataTypes,
+        open: DataTypes.bool,
+        type: DataTypes.oneOf(['24hour', '12hour']),
+        locale: DataTypes.string
+    };
 
     inited() {
 
