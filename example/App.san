@@ -7,49 +7,24 @@
                 open="{{openMenu}}"
                 useMask="{{false}}"
                 class="example-drawer">
-
                 <san-appbar
                     title="SAN-MUI"
                     class="example-drawer-appbar">
                 </san-appbar>
                 <div class="example-drawer-content">
-                    <div
-                        san-for="component in menus"
-                        data-menu="{{component.path || '/' + component.name}}">
-                        <sm-list-item
-                            s-if="!component.components"
-                            primaryText="{{component.name}}"
-                            primaryTogglesNestedList
-                            on-click="route(component)"
-                            style="color: {{menuVal === component.path || menuVal === '/' + component.name ? '#ff4081' : '#000'}}" />
-                        <sm-list-item
-                            s-if="component.components"
-                            primaryText="{{component.name}}"
-                            toggleNested
-                            primaryTogglesNestedList>
-                            <sm-list-item
-                                s-for="sub in component.components"
-                                slot="nested"
-                                primaryText="{{sub.name}}"
-                                style="color: {{menuVal === sub.path || menuVal === '/' + sub.name ? '#ff4081' : '#000'}}"
-                                on-click="route(sub)" />
-                        </sm-list-item>
-                    </div>
+                    <sm-navigator routes="{{menus}}" path="{{menuVal}}" />
                 </div>
             </san-drawer>
-
         <san-appbar
             title="{{navTitle}}"
             showLeftIcon="{{true}}"
             class="example-appbar {{openMenu ? '': 'hide-menu'}}">
-
                 <san-icon-button
                     on-click="toggleMenu($event)"
                     variants="info raised"
                     slot="left">
                     menu
                 </san-icon-button>
-
                 <san-icon-button
                     slot="right"
                     href="https://github.com/ecomfe/san-mui">
@@ -60,7 +35,7 @@
 
             </san-appbar>
         </div>
-        <div class="example-content 
+        <div class="example-content
         {{hiddenMenu ? 'example-content-hidden' : ''}}
         {{openMenu ? '': 'hide-menu'}}">
             <div id="example" class="markdown-body"></div>
@@ -75,32 +50,49 @@ import {router} from 'san-router';
 import routes from './routes';
 import {List, ListItem} from '../src/List';
 import Appbar from '../src/AppBar';
-import Home from './Home';
 import '../src/AppBar/AppBar.styl';
 import Drawer from '../src/Drawer';
 import '../src/Drawer/Drawer.styl';
 import IconButton from '../src/Button/IconButton';
 import '../src/Button/Button.styl';
 import {MenuItem, Divider} from '../src/Menu';
+import AppNavigator from './AppNavigator';
 
-let flatRoutes = routes
-    .reduce(
-        (allRoutes, route) => {
-            return route.components
-                ? [...allRoutes, ...route.components]
-                : [...allRoutes, route]
-        },
-        []
-    );
+let flatRoutes = (function () {
 
-flatRoutes
-    .forEach(({name, component, path}) => {
-        router.add({
-            rule: path ? path : `/${name}`,
-            Component: component,
-            target: '#example'
-        });
+    let flatRoutes = [];
+    let currentRoutes = routes.slice();
+
+    while (currentRoutes.length) {
+
+        let route = currentRoutes.shift();
+
+        if (!route.components) {
+            flatRoutes.push(route);
+            continue;
+        }
+
+        currentRoutes = [
+            ...currentRoutes,
+            ...route.components.map(r => ({
+                ...r,
+                path: `${route.path}${r.path || ('/' + r.name)}`
+            }))
+        ];
+
+    }
+
+    return flatRoutes;
+
+})();
+
+for (let {path, component} of flatRoutes) {
+    router.add({
+        rule: path,
+        Component: component,
+        target: '#example'
     });
+}
 
 export default {
 
@@ -111,7 +103,8 @@ export default {
         'san-menu-divider': Divider,
         'san-icon-button': IconButton,
         'sm-list': List,
-        'sm-list-item': ListItem
+        'sm-list-item': ListItem,
+        'sm-navigator': AppNavigator
     },
 
     initData() {
@@ -121,21 +114,19 @@ export default {
             menuVal: location.hash.slice(1),
             menus: routes,
             hiddenMenu: false
-        }
+        };
     },
 
     computed: {
         navTitle() {
-            var menuVal = this.data.get('menuVal');
-            var item = flatRoutes.find(item => (
-                item.path === menuVal || `/${item.name}` == menuVal
-            ));
+            let menuVal = this.data.get('menuVal');
+            let item = flatRoutes.find(item => (item.path === menuVal));
             return item ? (item.name || item.title) : '404';
         }
     },
 
     toggleMenu() {
-        var openMenu = this.data.get('openMenu');
+        let openMenu = this.data.get('openMenu');
         this.data.set('openMenu', !openMenu);
     },
 
@@ -150,22 +141,17 @@ export default {
             }
         });
         router.start();
-        setTimeout(() => {
-            let menuVal = this.data.get('menuVal');
-            let menu = this.el.querySelector(`[data-menu='${menuVal}']`);
-            if (menu) {
-                menu.scrollIntoView();
-            }
-        }, 100);
-    },
-
-    route(route) {
-        let {name, path} = route;
-        location.hash = path || `/${name}`;
+        // setTimeout(() => {
+        //     let menuVal = this.data.get('menuVal');
+        //     let menu = this.el.querySelector(`[data-menu='${menuVal}']`);
+        //     if (menu) {
+        //         menu.scrollIntoView();
+        //     }
+        // }, 100);
     }
 
 
-}
+};
 
 </script>
 

@@ -49,166 +49,202 @@ import Tooltip from './Tooltip.md';
 let routes = [
     {
         path: '/',
-        name: 'Home',
+        name: '首页',
         component: Home
     },
     {
-        name: 'Main',
-        component: Main
-    },
-    {
-        name: 'AppBar',
-        component: AppBar
-    },
-    {
-        name: 'Avatar',
-        component: Avatar
-    },
-    {
-        name: 'Badge',
-        component: Badge
-    },
-    {
-        name: 'Button',
-        component: Button
-    },
-    {
-        name: 'Card',
-        component: Card
-    },
-    {
-        name: 'Carousel',
-        component: Carousel
-    },
-    {
-        name: 'Chip',
-        component: Chip
-    },
-    {
-        name: 'Checkbox',
-        component: Checkbox
-    },
-    {
-        name: 'DatePicker',
-        component: DatePicker
-    },
-    {
-        name: 'Dialog',
-        component: Dialog
-    },
-    {
-        name: 'Divider',
-        component: Divider
-    },
-    {
-        name: 'Drawer',
-        component: Drawer
-    },
-    {
-        name: 'ExpansionPanel',
-        component: ExpansionPanel
-    },
-    {
-        name: 'Grid',
-        component: Grid
-    },
-    {
-        name: 'Icon',
-        component: Icon
-    },
-    {
-        name: 'List',
-        component: List
-    },
-    {
-        name: 'Menu',
+        name: '指南',
+        path: '/guide',
         components: [
             {
-                name: 'Menu',
-                component: Menu
+                name: '必要知识',
+                path: '/requird-knowledge',
+                component: Main
             },
             {
-                name: 'IconMenu',
-                component: IconMenu
+                name: '安装',
+                path: '/installation',
+                component: Main
             },
             {
-                name: 'DropdownMenu',
-                component: DropdownMenu
+                name: '示例',
+                path: '/example',
+                component: Main
             }
-            // {
-            //     name: 'MultiLevelDropdownMenu',
-            //     component: MultiLevelDropdownMenu
-            // }
         ]
     },
     {
-        name: 'Pagination',
-        component: Pagination
+        name: '组件',
+        path: '/components',
+        components: [
+            {
+                name: 'AppBar',
+                component: AppBar
+            },
+            {
+                name: 'Avatar',
+                component: Avatar
+            },
+            {
+                name: 'Badge',
+                component: Badge
+            },
+            {
+                name: 'Button',
+                component: Button
+            },
+            {
+                name: 'Card',
+                component: Card
+            },
+            {
+                name: 'Carousel',
+                component: Carousel
+            },
+            {
+                name: 'Chip',
+                component: Chip
+            },
+            {
+                name: 'Checkbox',
+                component: Checkbox
+            },
+            {
+                name: 'DatePicker',
+                component: DatePicker
+            },
+            {
+                name: 'Dialog',
+                component: Dialog
+            },
+            {
+                name: 'Divider',
+                component: Divider
+            },
+            {
+                name: 'Drawer',
+                component: Drawer
+            },
+            {
+                name: 'ExpansionPanel',
+                component: ExpansionPanel
+            },
+            {
+                name: 'Grid',
+                component: Grid
+            },
+            {
+                name: 'Icon',
+                component: Icon
+            },
+            {
+                name: 'List',
+                component: List
+            },
+            {
+                name: 'Menu',
+                components: [
+                    {
+                        name: 'Menu',
+                        component: Menu
+                    },
+                    {
+                        name: 'IconMenu',
+                        component: IconMenu
+                    },
+                    {
+                        name: 'DropdownMenu',
+                        component: DropdownMenu
+                    }
+                    // {
+                    //     name: 'MultiLevelDropdownMenu',
+                    //     component: MultiLevelDropdownMenu
+                    // }
+                ]
+            },
+            {
+                name: 'Pagination',
+                component: Pagination
+            },
+            {
+                name: 'Paper',
+                component: Paper
+            },
+            {
+                name: 'Progress',
+                component: Progress
+            },
+            {
+                name: 'Radio',
+                component: Radio
+            },
+            {
+                name: 'Ripple',
+                component: Ripple
+            },
+            {
+                name: 'Slider',
+                component: Slider
+            },
+            {
+                name: 'SubHeader',
+                component: SubHeader
+            },
+            {
+                name: 'Switch',
+                component: Switch
+            },
+            {
+                name: 'Table',
+                component: Table
+            },
+            {
+                name: 'Tabs',
+                component: Tabs
+            },
+            {
+                name: 'TextField',
+                component: TextField
+            },
+            {
+                name: 'TimePicker',
+                component: TimePicker
+            },
+            {
+                name: 'Toast',
+                component: Toast
+            },
+            {
+                name: 'Tooltip',
+                component: Tooltip
+            },
+            {
+                name: 'TreeView',
+                component: TreeView
+            },
+            {
+                name: 'Uploader',
+                component: Uploader
+            }
+        ]
     },
     {
-        name: 'Paper',
-        component: Paper
-    },
-    // {
-    //     name: 'Popover',
-    //     component: Popover
-    // },
-    {
-        name: 'Progress',
-        component: Progress
-    },
-    {
-        name: 'Radio',
-        component: Radio
-    },
-    {
-        name: 'Ripple',
-        component: Ripple
-    },
-    {
-        name: 'Slider',
-        component: Slider
-    },
-    {
-        name: 'SubHeader',
-        component: SubHeader
-    },
-    {
-        name: 'Switch',
-        component: Switch
-    },
-    {
-        name: 'Table',
-        component: Table
-    },
-    {
-        name: 'Tabs',
-        component: Tabs
-    },
-    {
-        name: 'TextField',
-        component: TextField
-    },
-    {
-        name: 'TimePicker',
-        component: TimePicker
-    },
-    {
-        name: 'Toast',
-        component: Toast
-    },
-    {
-        name: 'Tooltip',
-        component: Tooltip
-    },
-    {
-        name: 'TreeView',
-        component: TreeView
-    },
-    {
-        name: 'Uploader',
-        component: Uploader
-    }];
+        name: '资源',
+        path: '/resource',
+        components: [
+            {
+                name: '图标',
+                path: '/icon',
+                component: Icon
+            },
+            {
+                name: '设计规范',
+                path: '/design',
+                component: Icon
+            }
+        ]
+    }
+];
 
 
 export default routes;
