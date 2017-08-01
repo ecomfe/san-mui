@@ -5,6 +5,7 @@
 
 /* eslint-disable fecs-export-on-declare */
 
+import Home from './Home.san';
 import Main from '../README.md';
 
 import AppBar from './AppBar.md';
@@ -22,6 +23,7 @@ import Drawer from './Drawer.md';
 import ExpansionPanel from './ExpansionPanel.md';
 import Grid from './Grid.md';
 import Icon from './Icon.md';
+import InputNumber from './InputNumber.md';
 import List from './List.md';
 import Menu from './Menu/Menu.md';
 import IconMenu from './Menu/IconMenu.md';
@@ -44,9 +46,15 @@ import Toast from './Toast.md';
 import Uploader from './Uploader.md';
 import Tooltip from './Tooltip.md';
 
+
+
 let routes = [
     {
         path: '/',
+        name: 'Home',
+        component: Home
+    },
+    {
         name: 'Main',
         component: Main
     },
@@ -115,7 +123,7 @@ let routes = [
         component: List
     },
     {
-        name: 'Memu',
+        name: 'Menu',
         components: [
             {
                 name: 'Menu',
@@ -198,7 +206,12 @@ let routes = [
     {
         name: 'Uploader',
         component: Uploader
+    },
+    {
+        name: 'InputNumber',
+        component: InputNumber
     }
 ];
+
 
 export default routes;
