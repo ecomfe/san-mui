@@ -51,6 +51,6 @@ export default san.defineComponent({
         let len = this.items.length;
         while (len--) {
             this.items[len].data.set('selectValue', value);
-        }        
+        }
     }
 });

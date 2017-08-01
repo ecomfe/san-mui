@@ -13,6 +13,7 @@ export const MENU_ITEM_EXPAND = `${PREFIX}-item-expand`;
 export const MENU_ITEM_OPTION_SELECTED = `${PREFIX}-item-option-select`;
 
 export const MENU_INITED = `${PREFIX}-inited`;
+export const MENU_DETACH = `${PREFIX}-detached`;
 
 // 当命令类型的 item 被点击，所有上层展开的 menu 都要被关闭
-export const MENU_COLLAPSE = `${PREFIX}-collapse`;
+export const MENU_ITEM_CLICK = `${PREFIX}-click`;

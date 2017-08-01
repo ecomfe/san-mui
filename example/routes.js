@@ -28,6 +28,7 @@ import List from './List.md';
 import Menu from './Menu/Menu.md';
 import IconMenu from './Menu/IconMenu.md';
 import DropdownMenu from './Menu/DropdownMenu.san';
+import MultiLevelDropdownMenu from './Menu/MultiLevelDropdownMenu.san';
 import Radio from './Radio.md';
 import Paper from './Paper.md';
 import Pagination from './Pagination.md';
@@ -136,6 +137,10 @@ let routes = [
             {
                 name: 'DropdownMenu',
                 component: DropdownMenu
+            },
+            {
+                name: 'MultiLevelDropdownMenu',
+                component: MultiLevelDropdownMenu
             }
         ]
     },
