@@ -40,6 +40,8 @@ export default class Menu extends Component {
                     item.data.set('subMenuOpen', false);
                 }
             });
+            // 将子菜单打开的消息继续向上抛出
+            this.dispatch(C.MENU_ITEM_EXPAND, e.target);
         },
         [C.MENU_ITEM_CLICK](e) {
             // 这里是点击某个 command item 之后触发的逐级关闭处理

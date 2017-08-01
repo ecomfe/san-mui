@@ -58,16 +58,6 @@ export default class MenuItem extends Component {
                     ${CASCADE_ICON}
                 </slot>
             </div>
-            <sm-popover
-                s-if="{{cascade}}"
-                open="{=subMenuOpen=}"
-                getAnchor="{{getAnchor}}"
-                anchorOrigin="tr"
-                offsetX="{{2}}">
-                <sm-paper>
-                    <slot name="submenu" />
-                </sm-paper>
-            </sm-popover>
             <sm-touch-ripple s-if="!disabled"/>
         </div>
     `;
@@ -86,7 +76,8 @@ export default class MenuItem extends Component {
                     'with-left-icon': this.data.get('hasLeft')
                 })
                 .addStates({
-                    selected: this.data.get('selected')
+                    selected: this.data.get('selected'),
+                    active: this.data.get('subMenuOpen')
                 })
                 .build();
         },
@@ -124,18 +115,6 @@ export default class MenuItem extends Component {
         type: DataTypes.oneOf(['command', 'checkbox', 'radio', 'option', 'expander'])
     };
 
-    static messages = {
-        [C.MENU_INITED](e) {
-            // 持有一个子菜单的实例
-            let subMenu = this.subMenu = e.target;
-            // 给子菜单设定 level
-            subMenu.data.set('level', this.data.get('level') + 1);
-        },
-        [C.MENU_DETACH](e) {
-            this.subMenu = null;
-        }
-    };
-
     initData() {
         return {
             type: 'command',
@@ -144,7 +123,6 @@ export default class MenuItem extends Component {
             hasLeft: false,
             hasRight: false,
             cascadeIcon: '',
-            getAnchor: this.getAnchor.bind(this),
             subMenuOpen: false,
             // 将浮层对齐到父级 menu
             popupAlignToParentMenu: false
@@ -182,24 +160,12 @@ export default class MenuItem extends Component {
             cascade || slotChilds.some(slot => slot.name === 'rightIcon')
         );
 
-        // 这里处理来『孙』菜单的关闭状态
-        // 如果自己的子菜单被关闭，那么自己的孙菜单也应该被关闭
-        this.watch('subMenuOpen', subMenuOpen => {
-            if (!subMenuOpen) {
-                this.subMenu.closeAllItems();
-            }
-        });
-
         this.dispatch(C.MENU_ITEM_ATTACHED);
 
     }
 
     detached() {
         this.dispatch(C.MENU_ITEM_DETACHED);
-    }
-
-    getAnchor() {
-        return this.data.get('popupAlignToParentMenu') ? this.el.parentNode : this.el;
     }
 
     click(e) {
