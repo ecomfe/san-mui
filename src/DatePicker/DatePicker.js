@@ -47,9 +47,9 @@ export default class DatePicker extends Component {
             <san-dialog
                 variants="date-picker"
                 useMask="{{!0}}"
-                closeOnClickMask="{{0}}"
+                closeOnClickMask="{{false}}"
                 open="{=open=}"
-                width="310">
+                width="{{310}}">
                 <san-header
                     slot="title"
                     date="{{pickedDate}}"
@@ -102,7 +102,7 @@ export default class DatePicker extends Component {
             helpTextClass: '',
             maxLength: 0,
             disabled: false,
-            fullWidth: 0,
+            fullWidth: true,
             underlineShow: true,
             underlineClass: '',
             underlineFocusClass: '',
