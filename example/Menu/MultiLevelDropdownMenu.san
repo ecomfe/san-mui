@@ -1,34 +1,14 @@
 <template>
     <div>
-        <sm-dropdown-menu>
-            <sm-menu level="{{1}}" style="min-width: 15rem; max-height: 20rem;overflow: auto">
-                <sm-menu-item
-                    s-for="item1, index1 in items.level1"
-                    value="{{item1.value}}"
-                    title="{{item1.title}}"
-                    popupAlignToParentMenu
-                    cascade>
-                    <sm-menu slot="submenu" style="min-width: 15rem; max-height: 20rem;overflow: auto">
-                        <sm-menu-item
-                            s-for="item2 in item1.children"
-                            value="{{item2.value}}"
-                            title="{{item1.title + item2.title}}"
-                            popupAlignToParentMenu
-                            cascade>
-                            <sm-menu slot="submenu" style="min-width: 15rem; max-height: 20rem;overflow: auto">
-                                <sm-menu-item
-                                    s-for="item3 in item2.children"
-                                    value="{{item3.value}}"
-                                    title="{{item1.title + item2.title + item3.title}}" />
-                            </sm-menu>
-                        </sm-menu-item>
-                    </sm-menu>
-                </sm-menu-item>
-        </sm-dropdown-menu>
+        <div>
+            <sm-dropdown-menu>
+                <sm-menu-panel data="{{items.level1}}"></sm-menu-panel>
+            </sm-dropdown-menu>
+        </div>
     </div>
 </template>
 <script>
-import {DropDownMenu, MenuItem, Menu} from '../../src/Menu';
+import {DropDownMenu, MenuItem, Menu, MenuPanel} from '../../src/Menu';
 // import MultiLevelDropDownMenu from '../../src/Menu/MultiLevelDropDownMenu';
 import Icon from '../../src/Icon';
 import Divider from '../../src/Divider';
@@ -43,7 +23,8 @@ export default {
         'sm-menu': Menu,
         'sm-menu-item': MenuItem,
         'sm-icon': Icon,
-        'sm-divider': Divider
+        'sm-divider': Divider,
+        'sm-menu-panel': MenuPanel
     },
     initData() {
         return {
