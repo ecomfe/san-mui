@@ -23,7 +23,6 @@ import Drawer from './Drawer.md';
 import ExpansionPanel from './ExpansionPanel.md';
 import Grid from './Grid.md';
 import Icon from './Icon.md';
-import InputNumber from './InputNumber.md';
 import List from './List.md';
 import Menu from './Menu/Menu.md';
 import IconMenu from './Menu/IconMenu.md';
@@ -211,12 +210,7 @@ let routes = [
     {
         name: 'Uploader',
         component: Uploader
-    },
-    {
-        name: 'InputNumber',
-        component: InputNumber
-    }
-];
+    }];
 
 
 export default routes;
