@@ -5,6 +5,7 @@
 
 /* eslint-disable fecs-export-on-declare */
 
+import Home from './Home.san';
 import Main from '../README.md';
 
 import AppBar from './AppBar.md';
@@ -45,9 +46,15 @@ import Toast from './Toast.md';
 import Uploader from './Uploader.md';
 import Tooltip from './Tooltip.md';
 
+
+
 let routes = [
     {
         path: '/',
+        name: 'Home',
+        component: Home
+    },
+    {
         name: 'Main',
         component: Main
     },
@@ -203,7 +210,7 @@ let routes = [
     {
         name: 'Uploader',
         component: Uploader
-    }
-];
+    }];
+
 
 export default routes;
