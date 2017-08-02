@@ -3,8 +3,15 @@
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
-export DropDownMenu from './DropDownMenu';
-export IconMenu from './IconMenu';
-export MenuItem from './MenuItem';
-export Menu from './Menu';
-export default from './DropDownMenu';
+import DropDownMenu from './DropDownMenu';
+import IconMenu from './IconMenu';
+import MenuItem from './MenuItem';
+import Menu from './Menu';
+
+export {
+    DropDownMenu,
+    IconMenu,
+    MenuItem,
+    Menu,
+    DropDownMenu as default
+};

@@ -492,8 +492,7 @@ export default {
                 primaryText="Junmer"
                 toggleNested="{{!0}}"
                 initiallyOpen="{{!0}}"
-                value="{{ 1 }}"
-            >
+                value="{{1}}">
                 <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>
                 <san-list-item primaryText="Leon Lu" value="{{ 2 }}" slot="nested">
                     <san-avatar src="http://boscdn.bpc.baidu.com/movie/assets/avatar1.jpeg" slot="left"/>

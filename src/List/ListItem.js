@@ -10,20 +10,23 @@ import Icon from '../Icon';
 export default san.defineComponent({
 
     template: `
-        <div class="sm-list-item {{listItemClass}}"
+        <div
+            class="sm-list-item {{listItemClass}}"
             on-click="toggleList($event)"
-            style="{{ listItemStyle }}">
-            <div class="sm-list-item-content" style="{{ itemContentStyle }}">
-                <div class="sm-list-item-left"><slot name="left"></slot></div>
+            style="{{listItemStyle}}">
+            <div class="sm-list-item-content" style="{{itemContentStyle}}">
+                <div class="sm-list-item-left">
+                    <slot name="left" />
+                </div>
                 <p
                     san-if="primaryText"
                     class="sm-list-item-primary-text">
-                    {{ primaryText }}
+                    {{primaryText}}
                 </p>
                 <p class="sm-list-item-secondary-text"
-                    style="{{ secondaryTextStyle }}"
+                    style="{{secondaryTextStyle}}"
                     san-if="secondaryText">
-                    {{ secondaryText | raw }}
+                    {{secondaryText | raw}}
                 </p>
             </div>
             <san-touch-ripple san-if="!disableRipple && !disabled" />
@@ -35,12 +38,12 @@ export default san.defineComponent({
             <div class="sm-list-item-expand"
                 san-if="toggleNested"
                 on-click="toggleList($event, 'EXPAND')">
-                <san-icon>expand_{{ open | listOpenIcon }}</san-icon>
+                <san-icon>expand_{{open | listOpenIcon}}</san-icon>
                 <san-center-ripple />
             </div>
             <div
-                class="sm-list-item-nested {{ open | listOpen }}"
-                style="{{ nestedListStyle }}">
+                class="sm-list-item-nested {{open | listOpen}}"
+                style="{{nestedListStyle}}">
                 <slot name="nested"></slot>
             </div>
 
@@ -141,6 +144,7 @@ export default san.defineComponent({
         let {toggleNested, primaryTogglesNestedList, open} = this.data.get();
 
         if (!toggleNested) {
+            this.dispatch('UI:list-item-selected');
             this.fire('click');
             return;
         }
@@ -154,10 +158,6 @@ export default san.defineComponent({
 
         this.data.set('open', !open);
         this.fire('nestedListToggle', open);
-    },
-
-    transBoolean(key) {
-        let value = this.data.get(key);
-        this.data.set(key, value === 'false' ? false : !!value);
     }
+
 });

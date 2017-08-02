@@ -124,6 +124,18 @@ export default class MenuItem extends Component {
         type: DataTypes.oneOf(['command', 'checkbox', 'radio', 'option', 'expander'])
     };
 
+    static messages = {
+        [C.MENU_INITED](e) {
+            // 持有一个子菜单的实例
+            let subMenu = this.subMenu = e.target;
+            // 给子菜单设定 level
+            subMenu.data.set('level', this.data.get('level') + 1);
+        },
+        [C.MENU_DETACH](e) {
+            this.subMenu = null;
+        }
+    };
+
     initData() {
         return {
             type: 'command',
@@ -133,7 +145,9 @@ export default class MenuItem extends Component {
             hasRight: false,
             cascadeIcon: '',
             getAnchor: this.getAnchor.bind(this),
-            subMenuOpen: false
+            subMenuOpen: false,
+            // 将浮层对齐到父级 menu
+            popupAlignToParentMenu: false
         };
     }
 
@@ -168,6 +182,13 @@ export default class MenuItem extends Component {
             cascade || slotChilds.some(slot => slot.name === 'rightIcon')
         );
 
+        // 这里处理来『孙』菜单的关闭状态
+        // 如果自己的子菜单被关闭，那么自己的孙菜单也应该被关闭
+        this.watch('subMenuOpen', subMenuOpen => {
+            if (!subMenuOpen) {
+                this.subMenu.closeAllItems();
+            }
+        });
 
         this.dispatch(C.MENU_ITEM_ATTACHED);
 
@@ -178,7 +199,7 @@ export default class MenuItem extends Component {
     }
 
     getAnchor() {
-        return this.el;
+        return this.data.get('popupAlignToParentMenu') ? this.el.parentNode : this.el;
     }
 
     click(e) {
@@ -254,7 +275,7 @@ export default class MenuItem extends Component {
             case 'command':
             default: {
                 this.fire('click', e);
-                this.dispatch(C.MENU_COLLAPSE);
+                this.dispatch(C.MENU_ITEM_CLICK);
                 return;
             }
 
