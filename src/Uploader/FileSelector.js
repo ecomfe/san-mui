@@ -13,12 +13,9 @@ export default class FileSelector extends Component {
 
     static template = `
         <div class="{{className}}">
-            <sm-button
-                disabled="{{dibabled}}"
-                variants="raised info"
-                on-click="onSelect">
-                选择文件
-            </sm-button>
+            <a disabled="{{dibabled}}" on-click="onSelect">
+                <slot name="inner-upload-btn"></slot>
+            </a>
             <input
                 type="file"
                 style="display: none"

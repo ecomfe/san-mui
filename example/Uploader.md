@@ -6,6 +6,7 @@ Uploader 不在 `material-design` 的标准组件中，但是非常常用。因�
 <template>
     <div>
         <sm-uploader
+            withFileList
             action="http://180.76.137.83:8818/image"
             withCredentials
             accept=".png, .jpeg, .jpg"
@@ -17,16 +18,36 @@ Uploader 不在 `material-design` 的标准组件中，但是非常常用。因�
             on-progress="onProgress($event)"
             on-success="onSuccess($event)"
             on-error="onError($event)"
-            on-remove="onRemove($event)" />
+            on-remove="onRemove($event)">
+            <sm-icon-button>add_a_photo</sm-icon-button>
+        </sm-uploader>
+        <sm-uploader
+            action="http://180.76.137.83:8818/image"
+            withCredentials
+            accept=".png, .jpeg, .jpg"
+            maxSize="{{2}}"
+            name="filename"
+            headers="{{headers}}"
+            data="{{data}}"
+            files="{=files2=}"
+            on-progress="onProgress($event)"
+            on-success="onSuccess($event)"
+            on-error="onError($event)"
+            on-remove="onRemove($event)">
+            <sm-button variants="raised primary">上传图片</sm-button>
+        </sm-uploader>
     </div>
 </template>
 <script>
 import Uploader from '../src/Uploader';
+import {IconButton, Button} from '../src/Button';
 import '../src/Uploader/index.styl';
 
 export default {
     components: {
-        'sm-uploader': Uploader
+        'sm-uploader': Uploader,
+        'sm-icon-button': IconButton,
+        'sm-button': Button
     },
     initData() {
         return {
@@ -34,6 +55,7 @@ export default {
                 name: 'a.png',
                 url: 'https://placeimg.com/640/480/any'
             }],
+            files2: [],
             data: {
                 extraField: 'test',
                 extraArray: ['1', '2', '3']
@@ -96,4 +118,6 @@ export default {
 |remove|移除文件事件；参数为被移除的 file 对象|
 
 ### 插槽
-无
+|名称|描述|
+|---|---|
+|default|用于放置上传按钮|

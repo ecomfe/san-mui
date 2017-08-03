@@ -26,8 +26,10 @@ export default class Uploader extends Component {
                 disabled="{{disabled}}"
                 accept="{{accept}}"
                 multiple="{{multiple}}"
-                on-select="addFiles($event)" />
-            <sm-file-list>
+                on-select="addFiles($event)">
+                <slot slot="inner-upload-btn"></slot>
+            </sm-file-selector>
+            <sm-file-list san-if="withFileList">
                 <sm-file-item
                     s-for="file in files"
                     disabled="{{disabled}}"
@@ -62,6 +64,7 @@ export default class Uploader extends Component {
         name: DataTypes.string.isRequired,
         withCredentials: DataTypes.bool.isRequired,
         disabled: DataTypes.bool.isRequired,
+        withFileList: DataTypes.bool,
         accept: DataTypes.string,
         maxSize: DataTypes.number,
         validateFile: DataTypes.func,
