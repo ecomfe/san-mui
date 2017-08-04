@@ -49,6 +49,10 @@ export default san.defineComponent({
                     <div 
                         class="${cx.getPartClassName('color-sv')}"
                         on-click="handleSv($event)"
+                        on-mousedown="handleSvMouseDown($event)"
+                        on-mouseup="handleSvMouseUp($event)"
+                        on-mousemove="handleSvMouseMove($event)"
+                        on-mouseleave="handleSvMouseUp($event)"
                         style="{{colorComputedStyle}}"
                     >
                         <span 
@@ -62,6 +66,10 @@ export default san.defineComponent({
                     <div 
                         class="${cx.getPartClassName('color-hua')}"
                         on-click="handleHua($event)"
+                        on-mousedown="handleHuaMouseDown($event)"
+                        on-mouseup="handleHuaMouseUp($event)"
+                        on-mousemove="handleHuaMouseMove($event)"
+                        on-mouseleave="handleHuaMouseUp($event)"
                     >
                         <span 
                             class="${cx.getPartClassName('hua-chooser')}"
@@ -72,6 +80,10 @@ export default san.defineComponent({
                     <div 
                         class="${cx.getPartClassName('color-alpha')}"
                         on-click="handleAlpha($event)"
+                        on-mousedown="handleAlphaMouseDown($event)"
+                        on-mouseup="handleAlphaMouseUp($event)"
+                        on-mousemove="handleAlphaMouseMove($event)" 
+                        on-mouseleave="handleAlphaMouseUp($event)"
                         san-if="alpha"
                     >
                         <div 
@@ -152,7 +164,10 @@ export default san.defineComponent({
             r: 0,
             g: 0,
             b: 0,
-            hex: ''
+            hex: '',
+            svDraggable: false,
+            hDraggable: false,
+            aDraggable: false
         };
     },
     attached() {
@@ -181,7 +196,7 @@ export default san.defineComponent({
             return cx(this).build();
         },
         dialogComputedStyle() {
-            return this.data.get('alpha') ? 302 : 282;
+            return this.data.get('alpha') ? 278 : 258;
         },
         indicatorComputedStyle() {
             let color = this.data.get('color');
@@ -304,24 +319,86 @@ export default san.defineComponent({
         let clientY = e.clientY;
         let s = ((clientX - outX) / 200).toFixed(3);
         let v = (1 - (clientY - outY) / 200).toFixed(3);
+        if (s > 1) {
+            s = 1;
+        } else if (s < 0) {
+            s = 0;
+        }
+        if (v > 1) {
+            v = 1;
+        } else if (v < 0) {
+            v = 0;
+        }
         this.data.set('s', s);
         this.data.set('v', v);
         this.hsvTorgb();
+    },
+    handleSvMouseDown(e) {
+        e.preventDefault();
+        this.data.set('svDraggable', true);
+    },
+    handleSvMouseUp(e) {
+        e.preventDefault();
+        this.data.set('svDraggable', false);
+    },
+    handleSvMouseMove(e) {
+        e.preventDefault();
+        if (this.data.get('svDraggable')) {
+            this.handleSv(e);
+        }
     },
     handleHua(e) {
         let target = e.currentTarget;
         let outY = target.offsetTop;
         let clientY = e.clientY;
         let h = (clientY - outY) / 200 * 360;
+        if (h > 360) {
+            h = 360;
+        } else if (h < 0) {
+            h = 0;
+        }
         this.data.set('h', h);
         this.hsvTorgb();
+    },
+    handleHuaMouseDown(e) {
+        e.preventDefault();
+        this.data.set('hDraggable', true);
+    },
+    handleHuaMouseUp(e) {
+        e.preventDefault();
+        this.data.set('hDraggable', false);
+    },
+    handleHuaMouseMove(e) {
+        e.preventDefault();
+        if (this.data.get('hDraggable')) {
+            this.handleHua(e);
+        }
     },
     handleAlpha(e) {
         let target = e.currentTarget;
         let outY = target.offsetTop;
         let clientY = e.clientY;
         let a = ((clientY - outY) / 200).toFixed(2);
+        if (a > 1) {
+            a = 1;
+        } else if (a < 0) {
+            a = 0;
+        }
         this.data.set('a', a);
+    },
+    handleAlphaMouseDown(e) {
+        e.preventDefault();
+        this.data.set('aDraggable', true);
+    },
+    handleAlphaMouseUp(e) {
+        e.preventDefault();
+        this.data.set('aDraggable', false);
+    },
+    handleAlphaMouseMove(e) {
+        e.preventDefault();
+        if (this.data.get('aDraggable')) {
+            this.handleAlpha(e);
+        }
     },
     handleInput(val, type) {
         let formatVal = parseInt(val, 10);
@@ -349,7 +426,6 @@ export default san.defineComponent({
             formatVal = formatVal >= 1 ? 1 : formatVal;
             this.data.set('a', formatVal);
         }
-        this.rgbTohsv();
     },
     handleHexInput(val) {
         let reg = /^\#[0-9a-fA-F]{6}$/;
