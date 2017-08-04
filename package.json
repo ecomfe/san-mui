@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "kolor": "^1.1.9",
     "dom-align": "^1.6.2",
     "moment": "^2.18.1",
     "san": "^3.1.3"

@@ -1,0 +1,153 @@
+/**
+ * @file ColorPicker 样式
+ * @author malingyang(malingyang@baidu.com)
+ */
+
+@require '../css/variable.styl'
+@require '../css/func.styl'
+@require '../TextField/index.styl'
+@require '../Button/Button.styl'
+@require '../Dialog/Dialog.styl'
+
+.{$san-class-prefix}-color-picker
+    position: relative
+    width: 260px
+    min-height: 48px
+
+    .sm-dialog-body
+        padding: 0 12px 0 12px
+    
+    .sm-dialog-title
+        padding: 12px 0 0 0
+
+    .sm-dialog-actions
+        padding-top: 0
+
+    &-indicator-wrapper
+        display: inline-block
+        height: 32px
+        width: 100%
+        line-height: 32px
+        font-size: 16px
+        font-style: inherit
+        font-family: inherit
+        span
+            display: inline-block
+            width: 16px
+            height: 16px
+            border-radius: 4px
+            border: 1px solid hsla(0,0%,67%,.8)
+            vertical-align: text-bottom
+            position: relative
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D")
+
+    &-indicator
+        display: inline-block
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+
+    &-hsv-wrapper
+        overflow: hidden
+        padding: 4px 2px
+
+    &-color-indicator
+        display: inline-block
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+
+    &-color-sv
+        float: left
+        margin-top: 5px
+        width: 200px
+        height: 200px
+        position: relative
+        background-color: blue
+
+    &-sv-white
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+        background: linear-gradient(90deg,#fff,hsla(0,0%,100%,0))
+
+    &-sv-black
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+        background: linear-gradient(0deg,#000,transparent)
+
+    &-sv-chooser
+        position: absolute
+        z-index: 1
+        width: 5px
+        height: 5px
+        border: 2px solid white
+        border-radius: 50%
+
+    &-hua-chooser, &-alpha-chooser
+        position: absolute
+        width: 100%
+        height: 4px
+        top: -2px
+        background-color: white
+        border: 1px solid gray
+        border-radius: 2px
+        left: -1px
+
+    &-color-hua 
+        float: left
+        margin-top: 5px
+        width: 15px
+        height: 200px
+        margin-left: 10px
+        position: relative
+        background: linear-gradient(180deg,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red)
+
+    &-color-alpha
+        float: left
+        margin-top: 5px
+        width: 15px
+        height: 200px
+        margin-left: 10px
+        position: relative
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D")
+
+    &-alpha-basic
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+
+    &-rgb-whole-wrapper
+        margin-top: 10px
+
+    &-rgb-wrapper
+        float: left
+        width: 55px
+        margin-left: 11px
+        position: relative
+
+    &-rgb-wrapper:first-child
+        margin-left: 1px
+
+    &-rgb-input-width
+        width: 55px!important
+
+    &-hex-wrapper
+        margin-top: 10px
+        position: relative
+        width: 220px
+        float: left
+
+    &-hex-input-width
+        width: 220px!important
