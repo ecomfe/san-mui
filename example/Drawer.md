@@ -31,7 +31,7 @@
         <section class="demo-drawer-row">
             <h4>使用遮罩层</h4>
             <div class="demo-drawer-radios">
-                <sm-switch value="{=useMask=}" onValue="{{!0}}" offValue="{{!1}}" />
+                <sm-switch value="{=useMask=}" onValue="yes" offValue="no" />
             </div>
         </section>
         <section class="demo-drawer-row">
@@ -41,7 +41,7 @@
                 toggle drawer
             </san-button>
         </section>
-        <san-drawer position="{{position}}" open="{=open=}" useMask="{{useMask}}">
+        <san-drawer position="{{position}}" open="{=open=}" useMask="{{useMask==='yes'}}">
             <ul>
                 <li>a</li>
                 <li>b</li>
@@ -78,7 +78,7 @@ export default {
             open: false,
             size: 300,
             position: 'left',
-            useMask: true
+            useMask: 'yes'
         };
     },
 
