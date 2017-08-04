@@ -3,7 +3,7 @@
  * @author Lu Yuan(luyuan.china@gmail.com)
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {TouchRipple, CenterRipple} from '../Ripple';
 import Icon from '../Icon';
 import Checkbox from '../Checkbox';
@@ -101,6 +101,26 @@ export default san.defineComponent({
         };
     },
 
+    dataTypes: {
+        disabled: DataTypes.bool,
+        hidden: DataTypes.bool,
+        selected: DataTypes.bool,
+        disableRipple: DataTypes.bool,
+        primaryTogglesNestedTreeView: DataTypes.bool,
+        initiallyOpen: DataTypes.bool,
+        compact: DataTypes.bool,
+        wholeLineSelected: DataTypes.bool,
+        keepingSelected: DataTypes.bool,
+        checked: DataTypes.bool,
+        nestedLevel: DataTypes.number,
+        children: DataTypes.number,
+        secondaryTextLines: DataTypes.number,
+        lastExpandingState: DataTypes.bool,
+        checkboxValue: DataTypes.string,
+        checkboxInputValue: DataTypes.array,
+        checkboxIndeterminate: DataTypes.bool
+    },
+
     components: {
         'san-touch-ripple': TouchRipple,
         'san-center-ripple': CenterRipple,
@@ -155,7 +175,7 @@ export default san.defineComponent({
             if (!child) {
                 return;
             }
-            let checked = this.transChecked(this.data.get('checked'));
+            let checked = this.data.get('checked');
             if (typeof checked !== 'boolean') {
                 return;
             }
@@ -256,13 +276,7 @@ export default san.defineComponent({
     },
 
     inited() {
-        this.transBoolean('disabled');
-        this.transBoolean('hidden');
-        this.transBoolean('toggleNested');
-        this.transBoolean('disableRipple');
-        this.transBoolean('primaryTogglesNestedTreeView');
-        this.transBoolean('initiallyOpen');
-        this.data.set('checked', this.transChecked(this.data.get('checked')));
+        this.data.set('checked', this.data.get('checked'));
         this.data.set('open', this.data.get('initiallyOpen'));
         this.data.set('dataSource',
             (this.data.get('dataSource') || '').toUpperCase());
@@ -368,8 +382,7 @@ export default san.defineComponent({
         });
 
         if (typeof this.data.get('treeData') === 'object') {
-            this.data.set('treeData.checked',
-                this.transChecked(this.data.get('checked')));
+            this.data.set('treeData.checked', this.data.get('checked'));
             this.data.set('treeData.indeterminate',
                 this.data.get('checkboxIndeterminate'));
         }
@@ -652,11 +665,11 @@ export default san.defineComponent({
         if (!data || !(data instanceof Object)) {
             return;
         }
-        this.data.set('toggleNested', data.treeData);
+        this.data.set('toggleNested', !!data.treeData);
         this.data.set('primaryText', data.text);
         this.data.set('secondaryText', data.secondaryText);
         this.data.set('open', data.treeData && data.treeData.length > 0);
-        let checked = this.transChecked(data.checked);
+        let checked = data.checked;
 
         this.data.set('checked', checked);
         this.data.set('checkboxInputValue',
@@ -683,27 +696,4 @@ export default san.defineComponent({
         this.data.set('checkboxInputValue',
             checked ? [this.data.get('checkboxValue')] : ['']);
     },
-
-    transBoolean(key) {
-        let value = this.data.get(key);
-        this.data.set(key, value !== undefined);
-    },
-
-    transChecked(value) {
-        if (typeof value !== 'string') {
-            return value;
-        }
-        switch (value) {
-            case 'true':
-            case 'checked':
-                return true;
-            case 'false':
-                return false;
-            case 'null':
-                return null;
-            case 'undefined':
-            default:
-                return undefined;
-        }
-    }
 });

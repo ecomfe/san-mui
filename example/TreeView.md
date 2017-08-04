@@ -25,14 +25,15 @@ TreeView 改装自 List 组件，并做了适当调整，在保留了 Icon 和 T
             </san-button>
             <san-tree-view
                 s-ref="view"
-                filterBar
-                keepingSelected
+                dataSource="ATTRIBUTE"
+                filterBar="{{!0}}"
+                keepingSelected="{{!0}}"
                 filterBarHintText="Type to filter, Press enter to highlight"
             >
                 <san-tree-view-item
                     primaryText="Sent mail"
                     secondaryText="Second second second second second second"
-                    checked="false"
+                    checked="{{!!0}}"
                     on-click="click($event)"
                     on-checkboxClick="checkboxClick($event)">
                 </san-tree-view-item>
@@ -42,9 +43,9 @@ TreeView 改装自 List 组件，并做了适当调整，在保留了 Icon 和 T
                 <san-divider />
                 <san-tree-view-item
                     primaryText="Inbox" 
-                    toggleNested
-                    initiallyOpen
-                    checked="true"
+                    toggleNested="{{!0}}"
+                    initiallyOpen="{{!0}}"
+                    checked="{{!0}}"
                     on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
                     on-selectedToggle="selectedToggle($event)"
                     on-click="click($event)"
@@ -60,15 +61,15 @@ TreeView 改装自 List 组件，并做了适当调整，在保留了 Icon 和 T
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Sent mail"
-                        toggleNested
-                        primaryTogglesNestedTreeView
-                        checked="false"
+                        toggleNested="{{!0}}"
+                        primaryTogglesNestedTreeView="{{!0}}"
+                        checked="{{!!0}}"
                     >
                         <san-tree-view-item
                             primaryText="Drafts"
                             slot="nested"
-                            toggleNested
-                            primaryTogglesNestedTreeView
+                            toggleNested="{{!0}}"
+                            primaryTogglesNestedTreeView="{{!0}}"
                         >
                             <san-icon slot="left">send</san-icon>
                             <san-tree-view-item
@@ -82,8 +83,8 @@ TreeView 改装自 List 组件，并做了适当调整，在保留了 Icon 和 T
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Inbox"
-                        toggleNested
-                        primaryTogglesNestedTreeView
+                        toggleNested="{{!0}}"
+                        primaryTogglesNestedTreeView="{{!0}}"
                     >
                         <san-icon slot="right">inbox</san-icon>
                         <san-tree-view-item primaryText="Drafts" slot="nested">
@@ -185,12 +186,13 @@ export default {
     <div>
         <div class="sm-tree-view-wrapper">
             <san-tree-view
-                compact
-                wholeLineSelected
-                keepingSelected
-                filterBar
+                compact="{{!0}}"
+                wholeLineSelected="{{!0}}"
+                keepingSelected="{{!0}}"
+                dataSource="ATTRIBUTE"
+                filterBar="{{!0}}"
                 filterBarHintText="Type to find, Press enter to highlight"
-                checked="false"
+                checked="{{!!0}}"
             >
                 <san-tree-view-item
                     primaryText="Sent mail"
@@ -203,8 +205,8 @@ export default {
                 <san-divider />
                 <san-tree-view-item
                     primaryText="Inbox" 
-                    toggleNested
-                    initiallyOpen 
+                    toggleNested="{{!0}}"
+                    initiallyOpen="{{!0}}"
                     on-nestedTreeViewToggle="nestedTreeViewToggle($event)"
                     on-selectedToggle="selectedToggle($event)"
                 >
@@ -215,15 +217,15 @@ export default {
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Sent mail"
-                        toggleNested
-                        disabled
-                        primaryTogglesNestedTreeView
+                        toggleNested="{{!0}}"
+                        disabled="{{!0}}"
+                        primaryTogglesNestedTreeView="{{!0}}"
                     >
                         <san-tree-view-item
                             primaryText="Drafts"
                             slot="nested"
-                            toggleNested
-                            primaryTogglesNestedTreeView
+                            toggleNested="{{!0}}"
+                            primaryTogglesNestedTreeView="{{!0}}"
                         >
                             <san-icon slot="left">send</san-icon>
                             <san-tree-view-item
@@ -237,8 +239,8 @@ export default {
                     <san-tree-view-item
                         slot="nested"
                         primaryText="Inbox"
-                        toggleNested
-                        primaryTogglesNestedTreeView
+                        toggleNested="{{!0}}"
+                        primaryTogglesNestedTreeView="{{!0}}"
                     >
                         <san-icon slot="right">inbox</san-icon>
                         <san-tree-view-item primaryText="Drafts" slot="nested">
@@ -317,20 +319,20 @@ TreeView 支持通过指定的 JSON 结构来生成一个完整的树形列表�
         <div class="sm-tree-view-wrapper custom">
             <san-tree-view
                 treeData="{=treeData=}"
-                compact
-                wholeLineSelected
-                keepingSelected
-                filterBar
+                compact="{{!0}}"
+                wholeLineSelected="{{!0}}"
+                keepingSelected="{{!0}}"
+                filterBar="{{!0}}"
                 filterBarHintText="Type to find component, Enter to highlight"
-                initiallyOpen
-                primaryTogglesNestedTreeView
+                initiallyOpen="{{!0}}"
+                primaryTogglesNestedTreeView="{{!0}}"
                 dataSource="JSON"
                 on-nestedItemToggle="nestedItemToggle($event)"
             >
                 <san-tree-view-item
                     san-for="item in treeData"
-                    initiallyOpen
-                    primaryTogglesNestedTreeView
+                    initiallyOpen="{{!0}}"
+                    primaryTogglesNestedTreeView="{{!0}}"
                     treeData="{=item=}"
                     dataSource="JSON"
                 >
@@ -451,24 +453,24 @@ export default {
     <div>
         <div class="sm-tree-view-wrapper custom">
             <san-tree-view
-                compact
-                wholeLineSelected
-                keepingSelected
-                filterBar
+                compact="{{!0}}"
+                wholeLineSelected="{{!0}}"
+                keepingSelected="{{!0}}"
+                filterBar="{{!0}}"
                 filterBarHintText="Type to find component, Enter to highlight"
-                initiallyOpen
+                initiallyOpen="{{!0}}"
                 s-ref="view2"
                 on-nestedItemToggle="asyncNestedItemToggle($event)"
             >
                 <san-tree-view-item
                     primaryText="A"
-                    toggleNested
+                    toggleNested="{{!0}}"
                     dataSource="JSON"
                 >
                 </san-tree-view-item>
                 <san-tree-view-item
                     primaryText="B"
-                    toggleNested
+                    toggleNested="{{!0}}"
                     dataSource="JSON"
                 >
                 </san-tree-view-item>

@@ -3,7 +3,7 @@
  * @author Lu Yuan(luyuan.china@gmail.com)
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {Icon} from '../Icon';
 import TextField from '../TextField';
 
@@ -38,16 +38,21 @@ export default san.defineComponent({
         };
     },
 
+    dataTypes: {
+        compact: DataTypes.bool,
+        wholeLineSelected: DataTypes.bool,
+        keepingSelected: DataTypes.bool,
+        filterBar: DataTypes.bool,
+        filterBarHintText: DataTypes.string,
+        dataSource: DataTypes.oneOf(['ATTRIBUTE', 'JSON'])
+    },
+
     components: {
         'san-icon': Icon,
         'san-text-field': TextField
     },
 
     inited() {
-        this.transBoolean('compact');
-        this.transBoolean('wholeLineSelected');
-        this.transBoolean('keepingSelected');
-        this.transBoolean('filterBar');
         this.items = [];
         this.highlightItems = [];
         this.filterInput = null;
@@ -212,10 +217,5 @@ export default san.defineComponent({
             }
         }
         return items;
-    },
-
-    transBoolean(key) {
-        let value = this.data.get(key);
-        this.data.set(key, value !== undefined);
     }
 });
