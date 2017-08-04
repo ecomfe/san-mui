@@ -44,7 +44,9 @@ import Toast from './Toast.md';
 import Uploader from './Uploader.md';
 import Tooltip from './Tooltip.md';
 
-
+import Installation from './guide/installation.md';
+import Usage from './guide/usage.md';
+import Develop from './guide/develop.md';
 
 let routes = [
     {
@@ -57,19 +59,19 @@ let routes = [
         path: '/guide',
         components: [
             {
-                name: '必要知识',
-                path: '/requird-knowledge',
-                component: Main
-            },
-            {
                 name: '安装',
                 path: '/installation',
-                component: Main
+                component: Installation
             },
             {
-                name: '示例',
-                path: '/example',
-                component: Main
+                name: '使用',
+                path: '/usage',
+                component: Usage
+            },
+            {
+                name: '开发',
+                path: '/develop',
+                component: Develop
             }
         ]
     },
