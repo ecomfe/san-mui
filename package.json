@@ -5,7 +5,7 @@
   "author": "ecomfe",
   "main": "./lib/index.js",
   "module": "./es/index.js",
-  "browsers": "./lib/index.js",
+  "browser": "./lib/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node tool/dev-server.js",
     "lint": "fecs src test/**/*.spec.js --type=js",
