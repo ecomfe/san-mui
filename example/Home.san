@@ -3,8 +3,10 @@
         <section class="sm-home-hero">
             <div class="sm-home-hero-navigation">
                 <header class="sm-home-header">
-                    <a href="#"><img class="sm-home-logo" src="../src/css/image/sanui.png" alt="sanui"></a>
-                     <nav class="sm-home-header-nav">
+                    <a href="#">
+                        <img class="sm-home-logo" src="../src/css/image/sanui.png" alt="sanui">
+                    </a>
+                    <nav class="sm-home-header-nav">
                         <ul class="sm-home-primary-nav">
                             <li><router-link to="{{HomeUrl}}" class="sm-home-link">首页</router-link></li>
                             <li><router-link to="{{ComponentUrl}}" class="sm-home-link">组件</router-link></li>
@@ -115,10 +117,10 @@ export default {
     },
     initData() {
         return {
-            MainUrl: '/Main',
+            MainUrl: '/guide/installation',
             HomeUrl: '/',
-            SourceUrl: '/Icon',
-            ComponentUrl: '/AppBar'
+            SourceUrl: '/resource/icon',
+            ComponentUrl: '/components/AppBar'
         };
     },
 

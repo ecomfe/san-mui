@@ -21,6 +21,7 @@ class NavigatorItem extends Component {
                 s-else
                 primaryText="{{name}}"
                 primaryTogglesNestedList="{{true}}"
+                open="{{open}}"
                 initiallyOpen="{{open}}"
                 toggleNested="{{true}}"
                 style="{{computedStyle}}">
@@ -61,7 +62,8 @@ class NavigatorItem extends Component {
         open() {
             let currentPath = this.data.get('currentPath');
             let path = this.data.get('path');
-            return currentPath.startsWith(path);
+            console.log(currentPath, path, path !== '/' && currentPath.startsWith(path));
+            return path !== '/' && currentPath.startsWith(path);
         }
     };
 
