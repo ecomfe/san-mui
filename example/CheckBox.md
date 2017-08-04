@@ -154,7 +154,7 @@ export default {
 |checkedIcon|string|false||自定义已勾选icon|
 |indeterminateIcon|string|false||自定义不确定icon|
 |iconClass|string|false||额外的icon样式类名|
-|checked|string|false||控件值|
+|checked|Array\<string\>|false||控件值|
 |indeterminate|boolean|false|false|是否有不确定状态|
 |canClickToSwitchToIndeterminate|boolean|false|false|不定状态是否参与点击交互|
 

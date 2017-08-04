@@ -3,7 +3,7 @@
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 
 export default san.defineComponent({
 
@@ -19,9 +19,8 @@ export default san.defineComponent({
         }
     },
 
-    inited() {
-        let inset = this.data.get('inset');
-        this.data.set('inset', inset === 'false' ? false : !!inset);
+    dataTypes: {
+        inset: DataTypes.bool
     }
 
 });

@@ -3,7 +3,7 @@
  * @author liuchaofan(asd123freedom@gmail.com)
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {CenterRipple} from '../Ripple';
 import cx from 'classnames';
 
@@ -37,13 +37,27 @@ export default san.defineComponent({
             onValue: 'ON',
             offValue: 'OFF',
             label: '',
-            labelLeft: '',
+            labelLeft: false,
             labelClass: '',
             trackClass: '',
             thumbClass: '',
             disabled: false,
             inputValue: []
         };
+    },
+
+    dataTypes: {
+        name: DataTypes.string,
+        nativeValue: DataTypes.string,
+        onValue: DataTypes.string,
+        offValue: DataTypes.string,
+        label: DataTypes.string,
+        labelLeft: DataTypes.bool,
+        labelClass: DataTypes.string,
+        trackClass: DataTypes.string,
+        thumbClass: DataTypes.string,
+        disabled: DataTypes.bool,
+        inputValue: DataTypes.array
     },
 
     components: {

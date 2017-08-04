@@ -11,7 +11,7 @@
             <san-text-field labelClass="labelClass" inputValue="123" label="标签文字" hintText="提示文字"/>
             <san-text-field label="浮动标签" inputValue="{{test}}" labelFloat/>
             <san-text-field hintText="提输入密码" label="密码" labelFloat type="password"/>
-            <san-text-field hintText="多行文本输入，默认 3行，最大6行" multiLine="true" rows="3" rowsMax="6"/>
+            <san-text-field hintText="多行文本输入，默认 3行，最大6行" multiLine rows="{{3}}" rowsMax="{{6}}"/>
             <san-text-field hintText="Full Width" fullWidth/>
         </div>
     </div>
@@ -58,7 +58,7 @@ export default {
         <san-text-field hintText="提示文字" errorText="这是必填项"/>
         <san-text-field label="标签文字" hintText="提示文字" errorText="请输入数字"/>
         <san-text-field label="浮动标签" errorText="出错！出错！" labelFloat/>
-        <san-text-field hintText="多行输入" errorText="不能一个字都不输入哦" multiLine="true" rows="3"/>
+        <san-text-field hintText="多行输入" errorText="不能一个字都不输入哦" multiLine rows="{{3}}"/>
         <san-text-field label="自定义错误颜色" errorText="又输错了，笨死了！" errorColor="orange" labelFloat/>
         </div>
     </div>
@@ -103,7 +103,7 @@ export default {
     <div>
         <div class="input-row">
         <san-text-field hintText="简介" type="number" icon="menu"/>
-        <san-text-field hintText="简介" multiLine="true" rows="3" rowsMax="6" icon="menu"/>
+        <san-text-field hintText="简介" multiLine rows="{{3}}" rowsMax="{{6}}" icon="menu"/>
         </div>
     </div>
 </template>
@@ -149,7 +149,7 @@ export default {
             <san-text-field hintText="提示文字" disabled/>
             <san-text-field label="带标签" disabled/>
             <san-text-field label="浮动标签" labelFloat disabled/>
-            <san-text-field hintText="多行文本输入，默认 3行，最大6行" disabled multiLine="true" rows="3" rowsMax="6"/>
+            <san-text-field hintText="多行文本输入，默认 3行，最大6行" disabled multiLine rows="{{3}}" rowsMax="{{6}}"/>
         </div>
     </div>
 </template>
@@ -197,12 +197,12 @@ export default {
                 hintText="最多不超过10个字符"
                 errorText="{{inputErrorText}}"
                 on-textOverflow="handleInputOverflow($event)"
-                maxLength="10"/>
+                maxLength="{{10}}"/>
             <san-text-field
                 hintText="不允许超过100个字符"
                 errorText="{{multiLineInputErrorText}}"
                 on-textOverflow="handleMultiLineOverflow($event)"
-                multiLine rows="3" rowsMax="6" maxLength="100"/>
+                multiLine rows="{{3}}" rowsMax="{{6}}" maxLength="{{100}}"/>
         </div>
     </div>
 </template>

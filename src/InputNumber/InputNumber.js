@@ -111,8 +111,8 @@ export default class InputNumber extends san.Component {
             minusIcon: 'remove',
             disabled: false,
             value: '0',
-            max: Infinity,
-            min: -Infinity,
+            max: Number.MAX_VALUE,
+            min: -Number.MAX_VALUE,
             size: '',
             step: 1,
             preVal: ''
@@ -138,41 +138,56 @@ export default class InputNumber extends san.Component {
             if (newVal <= min) {
                 newVal = min;
             }
-            // console.log(this.data.get('preVal'), 'preVal');
-            if (this.data.get('preVal') !== newVal) {
-                this.fire('change', newVal);
-                this.data.set('preVal', newVal);
+
+            if (this.data.get('preVal') === newVal) {
+                
+               return;
             }
         });
     }
 
     enterDebounceKeyup(e) {
-        
+        if (this.enterTimer) {
+            clearTimeout(this.enterTimer);
+        }
+
         this.enterTimer = setTimeout(() => {
 
             let newVal = this.compareValue(e.target.value);
-            this.data.set('value', newVal);
-            this.data.set('preVal', newVal);
-        }, 100);
+            this.data.set('value', newVal.toString());
+            if (this.data.get('preVal') !== newVal) {
+                
+                this.data.set('preVal', newVal);
+                this.fire('change', newVal);
+            }
+  
+           
+
+        }, 500);
 
     }
 
 
     setCurrentValue(value) {
-        this.data.set('preVal', this.data.get('value'));
+        this.data.set('preVal', +this.data.get('value'));
         const preVal = +this.data.get('preVal');
         let newVal = this.compareValue(value);
         if (preVal === newVal) {
             return;
         }
-        this.data.set('value', newVal);
+        this.data.set('value', newVal.toString());
+                
+        this.data.set('preVal', newVal);
+        this.fire('change', newVal);
+
+        
     }
 
     compareValue(value) {
         let newVal = Number(value);
         const currentMin = this.data.get('min');
         if (isNaN(newVal)) {
-            return currentMin !== -Infinity ? currentMin : 0;
+            return currentMin !== -Number.MAX_VALUE ? currentMin : 0;
         }
         let max = this.data.get('max');
         let min = this.data.get('min');

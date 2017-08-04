@@ -3,7 +3,7 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {create} from '../common/util/cx';
 import css from '../common/util/css';
 
@@ -16,6 +16,13 @@ export default san.defineComponent({
             <div class="${cx.getPartClassName('bar')}" style="{{barStyle}}"/>
         </div>
     `,
+
+    dataTypes: {
+        mode: DataTypes.oneOf(['indeterminate', 'determinate']),
+        value: DataTypes.number,
+        max: DataTypes.number,
+        min: DataTypes.number
+    },
 
     initData() {
         return {

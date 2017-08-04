@@ -3,7 +3,7 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import css from '../common/util/css';
 import {TAB_INIT, TAB_ACTIVE, TAB_DISPOSE} from './constant';
 
@@ -73,6 +73,10 @@ export default san.defineComponent({
             });
 
         }
+    },
+
+    dataTypes: {
+        value: DataTypes.string
     },
 
     /**

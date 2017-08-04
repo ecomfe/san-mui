@@ -55,7 +55,7 @@ export default {
 ```san 设置 gutter
 <template>
     <div>
-        <san-row gutter="16">
+        <san-row gutter="{{16}}">
             <san-col span="6"><div>col-12</div></san-col>
             <san-col span="6"><div>col-12</div></san-col>
             <san-col span="6"><div>col-12</div></san-col>
@@ -211,7 +211,7 @@ export default {
 #### 属性
 | 名称 | 类型 | 必须 | 默认值 | 描述|
 |---|---|---|---|---|
-|type|string|false||布局类型，有效值 flex，默认按传统布局方式|
+|type|string|false|normal|布局类型；可选值有 noraml / flex；默认按传统布局(normal)方式|
 |gutter|number|false|0|布局的栅格的间距|
 |align|string|false||flex 布局对齐方式，有效值：'top', 'middle', 'bottom'|
 |justify|string|false||flex 布局 justify 值|

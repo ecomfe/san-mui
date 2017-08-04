@@ -4,7 +4,7 @@
  * @author jinzhubaofu <leonlu@outlook.com>
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import TD from './TD';
 import TH from './TH';
 import Checkbox from '../Checkbox';
@@ -53,6 +53,11 @@ export default class TR extends san.Component {
                     return selected ? ['ON'] : [];
             }
         }
+    };
+
+    static dataTypes = {
+        selected: DataTypes.bool,
+        pos: DataTypes.oneOf(['tbody', 'thead', 'tfoot'])
     };
 
     initData() {

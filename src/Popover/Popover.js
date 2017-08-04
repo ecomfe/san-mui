@@ -56,7 +56,14 @@ export default class Popover extends Layer {
     };
 
     static dataTypes = {
-        maxHeight: DataTypes.number
+        open: DataTypes.bool,
+        anchorOrigin: DataTypes.oneOf(['tl', 'cl', 'bl', 'tc', 'cc', 'bc', 'tr', 'cr', 'br']),
+        targetOrigin: DataTypes.oneOf(['tl', 'cl', 'bl', 'tc', 'cc', 'bc', 'tr', 'cr', 'br']),
+        offsetX: DataTypes.number,
+        offsetY: DataTypes.number,
+        maxHeight: DataTypes.number,
+        maxWidth: DataTypes.number,
+        shadow: DataTypes.number
     };
 
     initData() {

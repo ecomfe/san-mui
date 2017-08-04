@@ -86,10 +86,10 @@ export default {
     },
     initData() {
         return {
-            step: 3,
+            step: 2,
             max: 10,
             min: 0,
-            value: 10
+            value: '10'
         }
     },
     handlerChange(value) {
@@ -107,8 +107,8 @@ export default {
 | 名称 | 类型 | 默认值 | 描述|
 | --- | --- | --- | --- |
 | value| number | 0 | 当前计数器绑定值 |
-| min| number | -Infinity | 当前计数器允许的最小值|
-| max | number | Infinity| 当前计数器允许的最大值|
+| min| number | -Number.MAX_VALUE | 当前计数器允许的最小值|
+| max | number | Number.MAX_VALUE| 当前计数器允许的最大值|
 | step | number | 1 | 计数器增加或减少的值 |
 | size | string | - | 计数器的尺寸可选值large、small默认为正常 |
 |disabled| boolean | false | 是否禁用计数器|

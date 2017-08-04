@@ -5,6 +5,7 @@
 
 /* eslint-disable fecs-export-on-declare */
 
+import Home from './Home.san';
 import Main from '../README.md';
 
 import AppBar from './AppBar.md';
@@ -26,12 +27,10 @@ import InputNumber from './InputNumber.md';
 import List from './List.md';
 import Menu from './Menu/Menu.md';
 import IconMenu from './Menu/IconMenu.md';
-import DropdownMenu from './Menu/DropdownMenu.san';
-import MultiLevelDropdownMenu from './Menu/MultiLevelDropdownMenu.san';
+import DropdownMenu from './Menu/DropdownMenu.md';
 import Radio from './Radio.md';
 import Paper from './Paper.md';
 import Pagination from './Pagination.md';
-// import Popover from './Popover.md';
 import Progress from './Progress.md';
 import Ripple from './Ripple.md';
 import Slider from './Slider.md';
@@ -51,165 +50,204 @@ import Tooltip from './Tooltip.md';
 let routes = [
     {
         path: '/',
-        name: 'Main',
-        component: Main
+        name: '首页',
+        component: Home
     },
     {
-        name: 'AppBar',
-        component: AppBar
-    },
-    {
-        name: 'Avatar',
-        component: Avatar
-    },
-    {
-        name: 'Badge',
-        component: Badge
-    },
-    {
-        name: 'Button',
-        component: Button
-    },
-    {
-        name: 'Card',
-        component: Card
-    },
-    {
-        name: 'Carousel',
-        component: Carousel
-    },
-    {
-        name: 'Chip',
-        component: Chip
-    },
-    {
-        name: 'Grid',
-        component: Grid
-    },
-    {
-        name: 'Checkbox',
-        component: Checkbox
-    },
-    {
-        name: 'DatePicker',
-        component: DatePicker
-    },
-    {
-        name: 'Dialog',
-        component: Dialog
-    },
-    {
-        name: 'Divider',
-        component: Divider
-    },
-    {
-        name: 'Drawer',
-        component: Drawer
-    },
-    {
-        name: 'ExpansionPanel',
-        component: ExpansionPanel
-    },
-    {
-        name: 'Icon',
-        component: Icon
-    },
-    {
-        name: 'List',
-        component: List
-    },
-    {
-        name: 'Menu',
+        name: '指南',
+        path: '/guide',
         components: [
             {
-                name: 'Menu',
-                component: Menu
+                name: '必要知识',
+                path: '/requird-knowledge',
+                component: Main
             },
             {
-                name: 'IconMenu',
-                component: IconMenu
+                name: '安装',
+                path: '/installation',
+                component: Main
             },
             {
-                name: 'DropdownMenu',
-                component: DropdownMenu
-            },
-            {
-                name: 'MultiLevelDropdownMenu',
-                component: MultiLevelDropdownMenu
+                name: '示例',
+                path: '/example',
+                component: Main
             }
         ]
     },
     {
-        name: 'Pagination',
-        component: Pagination
+        name: '组件',
+        path: '/components',
+        components: [
+            {
+                name: 'AppBar',
+                component: AppBar
+            },
+            {
+                name: 'Avatar',
+                component: Avatar
+            },
+            {
+                name: 'Badge',
+                component: Badge
+            },
+            {
+                name: 'Button',
+                component: Button
+            },
+            {
+                name: 'Card',
+                component: Card
+            },
+            {
+                name: 'Carousel',
+                component: Carousel
+            },
+            {
+                name: 'Chip',
+                component: Chip
+            },
+            {
+                name: 'Checkbox',
+                component: Checkbox
+            },
+            {
+                name: 'DatePicker',
+                component: DatePicker
+            },
+            {
+                name: 'Dialog',
+                component: Dialog
+            },
+            {
+                name: 'Divider',
+                component: Divider
+            },
+            {
+                name: 'Drawer',
+                component: Drawer
+            },
+            {
+                name: 'ExpansionPanel',
+                component: ExpansionPanel
+            },
+            {
+                name: 'Grid',
+                component: Grid
+            },
+            {
+                name: 'Icon',
+                component: Icon
+            },
+            {
+                name: 'InputNumber',
+                component: InputNumber
+            },
+            {
+                name: 'List',
+                component: List
+            },
+            {
+                name: 'Menu',
+                components: [
+                    {
+                        name: 'Menu',
+                        component: Menu
+                    },
+                    {
+                        name: 'IconMenu',
+                        component: IconMenu
+                    },
+                    {
+                        name: 'DropdownMenu',
+                        component: DropdownMenu
+                    }
+                    // {
+                    //     name: 'MultiLevelDropdownMenu',
+                    //     component: MultiLevelDropdownMenu
+                    // }
+                ]
+            },
+            {
+                name: 'Pagination',
+                component: Pagination
+            },
+            {
+                name: 'Paper',
+                component: Paper
+            },
+            {
+                name: 'Progress',
+                component: Progress
+            },
+            {
+                name: 'Radio',
+                component: Radio
+            },
+            {
+                name: 'Ripple',
+                component: Ripple
+            },
+            {
+                name: 'Slider',
+                component: Slider
+            },
+            {
+                name: 'SubHeader',
+                component: SubHeader
+            },
+            {
+                name: 'Switch',
+                component: Switch
+            },
+            {
+                name: 'Table',
+                component: Table
+            },
+            {
+                name: 'Tabs',
+                component: Tabs
+            },
+            {
+                name: 'TextField',
+                component: TextField
+            },
+            {
+                name: 'TimePicker',
+                component: TimePicker
+            },
+            {
+                name: 'Toast',
+                component: Toast
+            },
+            {
+                name: 'Tooltip',
+                component: Tooltip
+            },
+            {
+                name: 'TreeView',
+                component: TreeView
+            },
+            {
+                name: 'Uploader',
+                component: Uploader
+            }
+        ]
     },
     {
-        name: 'Paper',
-        component: Paper
-    },
-    // {
-    //     name: 'Popover',
-    //     component: Popover
-    // },
-    {
-        name: 'Progress',
-        component: Progress
-    },
-    {
-        name: 'Ripple',
-        component: Ripple
-    },
-    {
-        name: 'Radio',
-        component: Radio
-    },
-    {
-        name: 'Slider',
-        component: Slider
-    },
-    {
-        name: 'Switch',
-        component: Switch
-    },
-    {
-        name: 'SubHeader',
-        component: SubHeader
-    },
-    {
-        name: 'Table',
-        component: Table
-    },
-    {
-        name: 'Tabs',
-        component: Tabs
-    },
-    {
-        name: 'TextField',
-        component: TextField
-    },
-    {
-        name: 'TimePicker',
-        component: TimePicker
-    },
-    {
-        name: 'TreeView',
-        component: TreeView
-    },
-    {
-        name: 'Toast',
-        component: Toast
-    },
-    {
-        name: 'Tooltip',
-        component: Tooltip
-    },
-    {
-        name: 'Uploader',
-        component: Uploader
-    },
-    {
-        name: 'InputNumber',
-        component: InputNumber
+        name: '资源',
+        path: '/resource',
+        components: [
+            {
+                name: '图标',
+                path: '/icon',
+                component: Icon
+            },
+            {
+                name: '设计规范',
+                path: '/design',
+                component: Icon
+            }
+        ]
     }
 ];
 

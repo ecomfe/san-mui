@@ -3,7 +3,7 @@
  * @author qiusiqi(qiusiqi@baidu.com)
  */
 
-import {Component} from 'san';
+import {Component, DataTypes} from 'san';
 import {TouchRipple} from '../Ripple';
 import Menu from './Menu';
 import Popover from '../Popover';
@@ -119,6 +119,13 @@ export default class DropDownMenu extends Component {
              */
             getAnchor: this.getAnchor.bind(this)
         };
+    }
+
+    static dataTypes = {
+        autoWidth: DataTypes.bool,
+        readOnly: DataTypes.bool,
+        disabled: DataTypes.bool,
+        maxHeight: DataTypes.number
     }
 
     inited() {

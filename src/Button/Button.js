@@ -6,6 +6,7 @@
 import {create} from '../common/util/cx';
 import {TouchRipple} from '../Ripple';
 import BaseButton from './Base';
+import {DataTypes} from 'san';
 
 const cx = create('button');
 
@@ -31,6 +32,18 @@ export default class Button extends BaseButton {
             return cx(this).build();
         }
     };
+
+    static dataTypes = {
+        type: DataTypes.string,
+        disabled: DataTypes.bool
+    };
+
+    initData() {
+        return {
+            type: 'button',
+            disabled: false
+        };
+    }
 
     click(e) {
         if (!this.data.get('disabled')) {
