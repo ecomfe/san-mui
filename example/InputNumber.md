@@ -12,7 +12,8 @@
     </div>
 </template>
 <script type="text/javascript">
-import InputNumber from '../src/InputNumber/InputNumber'
+import InputNumber from '../src/InputNumber/InputNumber';
+import '../src/InputNumber/index.styl';
 export default {
     components: {
         'san-input-number': InputNumber
@@ -51,7 +52,8 @@ export default {
     </div>
 </template>
 <script type="text/javascript">
-import InputNumber from '../src/InputNumber/InputNumber'
+import InputNumber from '../src/InputNumber/InputNumber';
+import '../src/InputNumber/index.styl';
 export default {
     components: {
         'san-input-number': InputNumber
@@ -79,7 +81,8 @@ export default {
     </div>
 </template>
 <script type="text/javascript">
-import InputNumber from '../src/InputNumber/InputNumber'
+import InputNumber from '../src/InputNumber/InputNumber';
+import '../src/InputNumber/index.styl';
 export default {
     components: {
         'san-input-number': InputNumber
@@ -106,7 +109,7 @@ export default {
 
 | 名称 | 类型 | 默认值 | 描述|
 | --- | --- | --- | --- |
-| value| number | 0 | 当前计数器绑定值 |
+| value| string | 0 | 当前计数器绑定值 |
 | min| number | -Number.MAX_VALUE | 当前计数器允许的最小值|
 | max | number | Number.MAX_VALUE| 当前计数器允许的最大值|
 | step | number | 1 | 计数器增加或减少的值 |

@@ -6,7 +6,6 @@
 import san from 'san';
 import {create} from '../common/util/cx';
 import {IconButton, Button} from '../Button';
-import './Carousel.styl';
 import {throttle} from '../common/util/throttle';
 
 const cx = create('carousel');

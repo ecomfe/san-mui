@@ -37,8 +37,9 @@
     </div>
 </template>
 <script type="text/javascript">
-import Carousel from '../src/Carousel/Carousel'
-import CarouselItem from '../src/Carousel/CarouselItem'
+import Carousel from '../src/Carousel/Carousel';
+import CarouselItem from '../src/Carousel/CarouselItem';
+import '../src/Carousel/index.styl';
 export default {
     components: {
         'san-carousel': Carousel,
@@ -125,8 +126,9 @@ export default {
     </div>
 </template>
 <script type="text/javascript">
-import Carousel from '../src/Carousel/Carousel'
-import CarouselItem from '../src/Carousel/CarouselItem'
+import Carousel from '../src/Carousel/Carousel';
+import CarouselItem from '../src/Carousel/CarouselItem';
+import '../src/Carousel/index.styl';
 export default {
     components: {
         'san-carousel': Carousel,

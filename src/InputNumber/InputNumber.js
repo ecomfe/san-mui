@@ -8,7 +8,6 @@ import {create} from '../common/util/cx';
 import {Button} from '../Button';
 import Icon from '../Icon';
 import TextField from '../TextField';
-import './InputNumber.styl';
 
 const cx = create('inputNumber');
 
