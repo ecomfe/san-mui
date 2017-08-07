@@ -3,7 +3,7 @@
  * @author solvan <sunwei11@baidu.com>
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {create} from '../common/util/cx';
 import {Button} from '../Button';
 import Icon from '../Icon';
@@ -39,23 +39,23 @@ function getPower(value) {
 
 export default class InputNumber extends san.Component {
     static template = `
-        <div 
-            class="{{computedClassName}} 
+        <div
+            class="{{computedClassName}}
             {{size ? computedClassName + '-' + size : ''}}
             {{disabled ? 'disabled' : ''}}"
             disabled="{{disabled}}">
-            <san-text-field 
+            <san-text-field
                 variants="${cx.getPartClassName('input')}"
                 inputValue="{=value=}"
                 on-input-keyup="enterDebounceKeyup($event)"/>
-            <span 
+            <span
                 class="${cx.getPartClassName('increase')}
                 {{size ? computedClassName + '-'+ size + '-increase' : ''}}
                 {{maxDisabled || disabled ? 'is-disabled' : ''}}"
                 on-click="increase($event)">
                 <san-icon size="{{computedSize}}">{{plusIcon}}</san-icon>
-            </span> 
-            <span 
+            </span>
+            <span
                 class="${cx.getPartClassName('decrease')}
                 {{size ? computedClassName + '-' + size + '-decrease' : ''}}
                 {{minDisabled || disabled ? 'is-disabled' : ''}}"
@@ -112,12 +112,23 @@ export default class InputNumber extends san.Component {
             value: '0',
             max: Number.MAX_VALUE,
             min: -Number.MAX_VALUE,
-            size: '',
+            size: 'normal',
             step: 1,
             preVal: ''
 
         };
     }
+
+    static dataTypes = {
+        plusIcon: DataTypes.string,
+        minusIcon: DataTypes.string,
+        disabled: DataTypes.bool,
+        value: DataTypes.string,
+        max: DataTypes.number,
+        min: DataTypes.number,
+        size: DataTypes.oneOf(['small', 'normal', 'large']),
+        step: DataTypes.number
+    };
 
     inited() {
     }
@@ -126,7 +137,7 @@ export default class InputNumber extends san.Component {
         this.data.set('preVal', this.data.get('value'));
         this.watch('value', function (value) {
             let newVal = Number(value);
-            if (isNaN(newVal) ) {
+            if (isNaN(newVal)) {
                 return;
             }
             let max = this.data.get('max');
@@ -139,8 +150,7 @@ export default class InputNumber extends san.Component {
             }
 
             if (this.data.get('preVal') === newVal) {
-                
-               return;
+                return;
             }
         });
     }
@@ -155,12 +165,12 @@ export default class InputNumber extends san.Component {
             let newVal = this.compareValue(e.target.value);
             this.data.set('value', newVal.toString());
             if (this.data.get('preVal') !== newVal) {
-                
+
                 this.data.set('preVal', newVal);
                 this.fire('change', newVal);
             }
-  
-           
+
+
 
         }, 500);
 
@@ -175,11 +185,11 @@ export default class InputNumber extends san.Component {
             return;
         }
         this.data.set('value', newVal.toString());
-                
+
         this.data.set('preVal', newVal);
         this.fire('change', newVal);
 
-        
+
     }
 
     compareValue(value) {
