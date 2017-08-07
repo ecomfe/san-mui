@@ -14,6 +14,7 @@ import Badge from './Badge.md';
 import Card from './Card.md';
 import Carousel from './Carousel.md';
 import Checkbox from './Checkbox.md';
+import ColorPicker from './ColorPicker.md';
 import Chip from './Chip.md';
 import DatePicker from './DatePicker.md';
 import Dialog from './Dialog.md';
@@ -78,6 +79,10 @@ let routes = [
     {
         name: 'Chip',
         component: Chip
+    },
+    {
+	name: 'ColorPicker',
+	component: ColorPicker
     },
     {
         name: 'Grid',

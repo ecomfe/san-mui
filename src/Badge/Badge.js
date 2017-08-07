@@ -1,6 +1,6 @@
 /**
- * @file Badage
- ** @author malingyang(malingyang@baidu.com)
+ * @file badge
+ * @author malingyang(malingyang@baidu.com)
  */
 
 import {create} from '../common/util/cx';
@@ -9,7 +9,7 @@ import san from 'san';
 import Icon from '../Icon';
 import {IconButton, Button} from '../Button';
 
-const cx = create('badage');
+const cx = create('badge');
 
 export default san.defineComponent({
     components: {},
