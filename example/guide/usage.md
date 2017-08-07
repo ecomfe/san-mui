@@ -90,7 +90,7 @@ require.config({
 然后你就可以在代码中使用 san-mui 了。
 
 ```js
-require(function (require) {
+define(function (require) {
 
     var Button = require('san-mui/lib/Button/index').default;
 
