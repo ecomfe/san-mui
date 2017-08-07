@@ -9,6 +9,7 @@ import Button from './Button';
 import Badge from './Badge';
 import Card from './Card';
 import Checkbox from './Checkbox';
+import ColorPicker from './ColorPicker';
 import DatePicker from './DatePicker';
 import Dialog from './Dialog';
 import Drawer from './Drawer';
@@ -39,6 +40,7 @@ export {
     Badge,
     Card,
     Checkbox,
+    ColorPicker,
     DatePicker,
     Dialog,
     Drawer,

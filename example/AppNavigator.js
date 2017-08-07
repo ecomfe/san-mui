@@ -62,7 +62,6 @@ class NavigatorItem extends Component {
         open() {
             let currentPath = this.data.get('currentPath');
             let path = this.data.get('path');
-            console.log(currentPath, path, path !== '/' && currentPath.startsWith(path));
             return path !== '/' && currentPath.startsWith(path);
         }
     };

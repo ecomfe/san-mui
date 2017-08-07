@@ -6,36 +6,36 @@
 
 ```san 基础用法
 <template>
-    <section class="badage-demo">
-        <san-badage
+    <section class="badge-demo">
+        <san-badge
             content="23"
         >
             <san-icon>
                 assignment
             </san-icon>
-        </san-badage>
-        <san-badage
+        </san-badge>
+        <san-badge
             content="23"
         >
             <san-icon-button>
                 assignment
             </san-icon-button>
-        </san-badage>
-        <san-badage
+        </san-badge>
+        <san-badge
             content="23"
         >
             <san-button variants="info">
                 按钮
             </san-button>
-        </san-badage>
-        <san-badage
+        </san-badge>
+        <san-badge
             content="新通知"
             color="#ff9800"
         >
             <san-button variants="info">
                 按钮
             </san-button>
-        </san-badage>
+        </san-badge>
     </section>
 </template>
 
@@ -50,7 +50,7 @@ import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'san-badage': Badge,
+        'san-badge': Badge,
         'san-icon-button': IconButton,
         'san-icon': Icon,
         'san-button': Button
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style>
-   .badage-demo {
+   .badge-demo {
     padding: 20px;
     display: flex;
     align-items: center;
@@ -68,27 +68,27 @@ export default {
 </style>
 ```
 
-此外，还可以自定义badage内容中的最大值：
+此外，还可以自定义badge内容中的最大值：
 
 ```san 最大值
 <template>
-    <section class="badage-demo">
-        <san-badage
+    <section class="badge-demo">
+        <san-badge
             content="{{content}}"
             max="{{maxOne}}"
         >
             <san-icon-button>
                 assignment
             </san-icon-button>
-        </san-badage>
-        <san-badage
+        </san-badge>
+        <san-badge
             content="{{content}}"
             max="{{maxTwo}}"
         >
             <san-icon-button>
                 assignment
             </san-icon-button>
-        </san-badage>
+        </san-badge>
     </section>
 </template>
 
@@ -101,7 +101,7 @@ import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'san-badage': Badge,
+        'san-badge': Badge,
         'san-icon-button': IconButton
     },
     initData() {
@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style>
-   .badage-demo {
+   .badge-demo {
     padding: 20px;
     display: flex;
     align-items: center;
@@ -124,20 +124,20 @@ export default {
 </style>
 ```
 
-还可以自定义badage形状：
+还可以自定义badge形状：
 
 ```san 自定义形状
 <template>
-    <section class="badage-demo">
-        <san-badage>
+    <section class="badge-demo">
+        <san-badge>
             <san-icon slot="content">
                 star
             </san-icon>
             <san-icon-button>
                 assignment
             </san-icon-button>
-        </san-badage>
-        <san-badage
+        </san-badge>
+        <san-badge
             color="#f00"
         >
             <san-icon slot="content">
@@ -146,7 +146,7 @@ export default {
             <san-button variants="info">
                 按钮
             </san-button>
-        </san-badage>
+        </san-badge>
     </section>
 </template>
 
@@ -161,7 +161,7 @@ import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'san-badage': Badge,
+        'san-badge': Badge,
         'san-icon-button': IconButton,
         'san-icon': Icon,
         'san-button': Button
@@ -170,7 +170,7 @@ export default {
 </script>
 
 <style>
-   .badage-demo {
+   .badge-demo {
     padding: 20px;
     display: flex;
     align-items: center;
@@ -181,10 +181,10 @@ export default {
 
 此外，自身的hidden属性配合按钮事件，可以实现点击隐藏等功能：
 
-```san 隐藏badage
+```san 隐藏badge
 <template>
-    <section class="badage-demo">
-        <san-badage
+    <section class="badge-demo">
+        <san-badge
             content="新通知"
             hidden="{{hidden}}"
         >
@@ -194,7 +194,7 @@ export default {
             >
                 点击按钮以隐藏通知
             </san-button>
-        </san-badage>
+        </san-badge>
     </section>
 </template>
 
@@ -207,7 +207,7 @@ import '../src/Button/Button.styl';
 
 export default {
     components: {
-        'san-badage': Badge,
+        'san-badge': Badge,
         'san-icon-button': IconButton,
         'san-button': Button
     },
@@ -223,7 +223,7 @@ export default {
 </script>
 
 <style>
-   .badage-demo {
+   .badge-demo {
     padding: 20px;
     display: flex;
     align-items: center;
@@ -241,11 +241,11 @@ export default {
 | content | String, Number |  | 描述文本 |
 | color | String |  | 颜色 |
 | max | Number |  | 最大值，超过最大值会显示 '{max}+'，要求 content 是 Number 类型 |
-| hidden | Boolean | false | 隐藏badage |
+| hidden | Boolean | false | 隐藏badge |
 
 ### Slots
 
 | 名称 | 描述|
 | --- |   --- |
-| default | 可填充Icon, IconButton, Button, 分发需要加入badage内部的组件  |
-| content | 可填充Icon，用于自定义badage形状,但该slot会被content属性覆盖 |
+| default | 可填充Icon, IconButton, Button, 分发需要加入badge内部的组件  |
+| content | 可填充Icon，用于自定义badge形状,但该slot会被content属性覆盖 |

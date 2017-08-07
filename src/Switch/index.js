@@ -3,6 +3,6 @@
  * @author liuchaofan(asd123freedom@gmail.com)
  */
 
-import Switch from './Switch.js';
+import Switch from './Switch';
 
 export default Switch;

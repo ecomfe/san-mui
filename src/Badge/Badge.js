@@ -1,12 +1,12 @@
 /**
- * @file Badage
+ * @file badge
  * @author malingyang(malingyang@baidu.com)
  */
 
 import {create} from '../common/util/cx';
 import san, {DataTypes} from 'san';
 
-const cx = create('badage');
+const cx = create('badge');
 
 export default san.defineComponent({
 

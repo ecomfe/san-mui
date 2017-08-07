@@ -3,7 +3,7 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import cx from 'classnames/dedupe';
+import cx from 'classnames';
 import {COMPONENT_CLASSNAME_PREFIX} from '../../constants';
 
 function addPrefix(prefix) {

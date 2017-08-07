@@ -131,7 +131,7 @@ export default san.defineComponent({
         underlineClass: DataTypes.string,
         underlineFocusClass: DataTypes.string,
         focus: DataTypes.bool,
-        inputValue: DataTypes.string,
+        inputValue: DataTypes.oneOfType([DataTypes.string, DataTypes.number]),
         charLength: DataTypes.number,
         multiLine: DataTypes.bool,
         icon: DataTypes.string
