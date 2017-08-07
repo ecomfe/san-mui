@@ -30,3 +30,31 @@
     ```
 
     > WARNING: 构建时会报错的
+
+1. 不允许有空白的生命周期函数，例如
+
+    ```js
+    san.defineComponent({
+        inited() {
+        }
+    });
+    ```
+
+1. 每个组件都必须明确地添加 `dataTypes`
+1. 每个组件都必须编写测试用例，覆盖率必须达到 90% 以上
+1. 每个组件完成开发后需要在 `src/index.js` 和 `src/index.styl` 中引入
+
+
+### 开发模式
+
+1. 请在 `develop` 分支基础上进行开发，即以当前 develop 为 base 分支，新建出自己的 feature-xxx 分支进行开发。
+
+    > 如果有同步代码的需要，可以将 feature-xxx 分支可以 push 到 github 上
+
+2. 在 feature 分支上完成开发后，发起 pull request 进行 code review；
+
+    > pull request 需要发给 develop 分支
+
+3. 当规划的里程牌完成时，由 develop 分支合入 master，添加 tag 并发布新的 npm 版本。
+
+    > npm 版本号应该符合 semver 版本号规则，建议使用 npm version 来操作。
