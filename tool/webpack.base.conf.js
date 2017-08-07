@@ -5,17 +5,17 @@
 
 /* eslint-disable fecs-no-require */
 
-import path from 'path';
-import autoprefixer from 'autoprefixer';
-import rider from 'rider';
-import config from './config';
-import {assetsPath} from './util';
-import webpack from 'webpack';
+const path = require('path');
+const autoprefixer = require('autoprefixer');
+const rider = require('rider');
+const config = require('./config');
+const {assetsPath} = require('./util');
+const webpack = require('webpack');
 
 const EXAMPLE_ROOT = path.resolve(__dirname, '../example');
 const SRC_ROOT = path.resolve(__dirname, '../src');
 
-export default {
+module.exports = {
     output: {
         path: config.build.assetsRoot,
         publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,

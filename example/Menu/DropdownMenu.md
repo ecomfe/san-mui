@@ -103,12 +103,11 @@ export default {
 ```san 使用 maxHeight 对浮层高度进行限制
 <template>
 <section>
-    <sm-dropdown-menu value="{=value=}" maxHeight="{{200}}">
+    <sm-dropdown-menu value="{=value=}" maxHeight="{{200}}" autoWidth="{{false}}">
         <sm-menu-item
             s-for="item in items"
             value="{{item.value}}"
-            label="{{item.label}}"
-        </sm-menu-item>
+            label="{{item.label}}" />
     </sm-dropdown-menu>
 </section>
 </template>

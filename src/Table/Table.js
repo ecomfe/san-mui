@@ -4,7 +4,7 @@
  * @author jinzhubaofu <leonlu@outlook.com>
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {create} from '../common/util/cx';
 
 const cx = create('table');
@@ -54,6 +54,9 @@ export default class Table extends san.Component {
         }
     };
 
+    static dataTypes = {
+        selectable: DataTypes.oneOf([false, 'multi', 'single'])
+    };
 
     initData() {
         return {

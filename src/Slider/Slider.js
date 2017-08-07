@@ -3,7 +3,7 @@
  * @author hanbingbing@baidu.com
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import FocusRipple from '../Ripple/FocusRipple';
 import {create} from '../common/util/cx';
 
@@ -50,6 +50,13 @@ export default san.defineComponent({
             focus: 0, // 是否focus
             hover: 0 // 是否hover
         };
+    },
+
+    dataTypes: {
+        max: DataTypes.oneOfType([DataTypes.number, DataTypes.string]), // 最大值
+        min: DataTypes.oneOfType([DataTypes.number, DataTypes.string]), // 最小值
+        step: DataTypes.oneOfType([DataTypes.number, DataTypes.string]), // 最小步数
+        value: DataTypes.oneOfType([DataTypes.number, DataTypes.string]) // 当前值
     },
 
     computed: {

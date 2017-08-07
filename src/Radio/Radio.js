@@ -3,7 +3,7 @@
  * @author liuchaofan(asd123freedom@gmail.com)
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import icon from '../Icon';
 import {CenterRipple} from '../Ripple';
 import cx from 'classnames';
@@ -68,6 +68,17 @@ export default san.defineComponent({
             iconClass: '',
             checked: ''
         };
+    },
+    dataTypes: {
+        name: DataTypes.string,
+        value: DataTypes.string,
+        label: DataTypes.string,
+        labelLeft: DataTypes.bool,
+        labelClass: DataTypes.string,
+        uncheckIcon: DataTypes.string,
+        checkedIcon: DataTypes.string,
+        iconClass: DataTypes.string,
+        checked: DataTypes.string
     },
     handleClick(e) {
         // 阻止事件冒泡，放置外部控制的时候触发两次 click

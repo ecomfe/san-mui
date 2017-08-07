@@ -3,11 +3,11 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 
 export default san.defineComponent({
     template: `
-        <i class="{{icon ? icon : 'sm-icon'}} {{ className }}" style="{{size | fontSize}}">
+        <i class="sm-icon" style="{{size | fontSize}}">
             <slot />
         </i>
     `,
@@ -20,5 +20,8 @@ export default san.defineComponent({
         return {
             size: 24
         };
+    },
+    dataTypes: {
+        size: DataTypes.oneOfType([DataTypes.string, DataTypes.number])
     }
 });

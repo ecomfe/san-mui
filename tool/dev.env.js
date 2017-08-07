@@ -1,6 +1,11 @@
-import merge from 'webpack-merge';
-import prodEnv from './prod.env';
+/**
+ * @file dev env
+ * @author leon <ludafa@outlook.com>
+ */
 
-export default merge(prodEnv, {
-    'NODE_ENV': JSON.stringify('dev')
+const merge = require('webpack-merge');
+const prodEnv = require('./prod.env');
+
+module.exports = merge(prodEnv, {
+    NODE_ENV: JSON.stringify('dev')
 });

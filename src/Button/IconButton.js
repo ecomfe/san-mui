@@ -7,6 +7,7 @@ import BaseButton from './Base';
 import {create} from '../common/util/cx';
 import Icon from '../Icon';
 import {CenterRipple} from '../Ripple';
+import {DataTypes} from 'san';
 
 const cx = create('button');
 
@@ -18,7 +19,7 @@ export default class IconButton extends BaseButton {
             type="{{type}}"
             disabled="{{disabled}}"
             on-click="onClick($event)">
-            <san-icon icon="{{icon}}"><slot /></san-icon>
+            <san-icon><slot /></san-icon>
             <san-center-ripple />
         </button>
     `;
@@ -32,6 +33,11 @@ export default class IconButton extends BaseButton {
         computedClassName() {
             return cx(this).addVariants('icon').build();
         }
+    };
+
+    static dataTypes = {
+        type: DataTypes.string,
+        disabled: DataTypes.bool
     };
 
     onClick(e) {

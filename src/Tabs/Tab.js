@@ -3,7 +3,7 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import san from 'san';
+import san, {DataTypes} from 'san';
 import {TouchRipple} from '../Ripple';
 import {create} from '../common/util/cx';
 
@@ -30,6 +30,10 @@ export default san.defineComponent({
             let active = this.data.get('active');
             return cx(this).addStates({active}).build();
         }
+    },
+
+    dataTypes: {
+        value: DataTypes.string.isRequired
     },
 
     inited() {

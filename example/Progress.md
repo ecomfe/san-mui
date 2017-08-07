@@ -126,8 +126,8 @@ export default {
 <template>
     <div class="demo-circle-progress-size">
         <san-circular-progress mode="indeterminate" />
-        <san-circular-progress mode="indeterminate" size="60" strokeWidth="3" />
-        <san-circular-progress mode="indeterminate" size="100" strokeWidth="5" />
+        <san-circular-progress mode="indeterminate" size="60" strokeWidth="{{3}}" />
+        <san-circular-progress mode="indeterminate" size="100" strokeWidth="{{5}}" />
     </div>
 </template>
 <script>
@@ -160,9 +160,6 @@ export default {
 | mode | string | indeterminate | 是否使用 value 来控制进度值 |
 | max | number | 100 | 最大值 |
 | min | number | 0 | 最小值 |
-| value | number | 0 | 进度值 |
-| size | number | 32 | 环型进度指示器的半径 |
-| strokeWidth | number | 2 | 环型进度指示器的线条粗细 |
 
 #### 事件
 

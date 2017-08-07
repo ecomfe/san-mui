@@ -3,23 +3,28 @@
  * @author ielgnaw(wuji0223@gmail.com)
  */
 
-import cheerio from 'cheerio';
+const cheerio = require('cheerio');
 
-export default class RemoveScriptTagPlugin {
+class RemoveScriptTagPlugin {
     apply(compiler) {
-        compiler.plugin('compilation', (compilation) => {
-            compilation.plugin('html-webpack-plugin-before-html-processing', (htmlPluginData, callback) => {
-                const $ = cheerio.load(htmlPluginData.html);
+        compiler.plugin('compilation', compilation => {
+            compilation.plugin(
+                'html-webpack-plugin-before-html-processing',
+                (htmlPluginData, callback) => {
+                    const $ = cheerio.load(htmlPluginData.html);
 
-                // 去掉 tpl 中带有 replace 属性的 script 标签
-                $('script[replace="1"]').remove();
+                    // 去掉 tpl 中带有 replace 属性的 script 标签
+                    $('script[replace="1"]').remove();
 
-                htmlPluginData.html = $.html({
-                    decodeEntities: false
-                });
+                    htmlPluginData.html = $.html({
+                        decodeEntities: false
+                    });
 
-                callback(null, htmlPluginData);
-            });
+                    callback(null, htmlPluginData);
+                }
+            );
         });
     }
-};
+}
+
+module.exports = RemoveScriptTagPlugin;

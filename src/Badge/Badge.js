@@ -4,22 +4,23 @@
  */
 
 import {create} from '../common/util/cx';
-import css from '../common/util/css';
-import san from 'san';
-import Icon from '../Icon';
-import {IconButton, Button} from '../Button';
+import san, {DataTypes} from 'san';
 
 const cx = create('badge');
 
 export default san.defineComponent({
-    components: {},
 
     template: `
         <div class="{{computedClass}}">
-            <em san-if="content" class="${cx.getPartClassName('inform-default')}" style="{{computedStyleDefault}}">
+            <em
+                san-if="content"
+                class="${cx.getPartClassName('inform-default')}"
+                style="{{computedStyleDefault}}">
                 {{computedContent}}
             </em>
-            <div class="${cx.getPartClassName('inform')}" style="{{computedStyleIcon}}">
+            <div
+                class="${cx.getPartClassName('inform')}"
+                style="{{computedStyleIcon}}">
                 <slot name="content"></slot>
             </div>
             <div class="${cx.getPartClassName('text-wrapper')}">
@@ -32,9 +33,15 @@ export default san.defineComponent({
         return {
             content: '',
             hidden: false,
-            max: undefined,
             color: ''
         };
+    },
+
+    dataTypes: {
+        content: DataTypes.oneOfType([DataTypes.string, DataTypes.number]),
+        hidden: DataTypes.bool,
+        max: DataTypes.number,
+        color: DataTypes.string
     },
 
     computed: {
@@ -44,14 +51,7 @@ export default san.defineComponent({
         computedContent() {
             let max = this.data.get('max');
             let content = this.data.get('content');
-            if (isNaN(max) || isNaN(content)) {
-                return content;
-            }
-            if (content > max) {
-                return max + '+';
-            } else {
-                return content;
-            }
+            return content != null && max != null && +content > max ? `${max}+` : content;
         },
         computedStyleDefault() {
             let color = this.data.get('color');
@@ -65,8 +65,8 @@ export default san.defineComponent({
             let color = this.data.get('color');
             let ifShow = this.data.get('hidden') ? 'none' : 'block';
             return {
-                'color': color,
-                'display': ifShow
+                color: color,
+                display: ifShow
             };
         }
     }

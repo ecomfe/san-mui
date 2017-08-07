@@ -3,6 +3,7 @@
  *@author zhangsiyuan<zhangsiuan@baidu.com>
  */
 
+import {DataTypes} from 'san';
 import {create} from '../common/util/cx';
 import css from '../common/util/css';
 import Layer from '../Layer';
@@ -58,6 +59,16 @@ export default class Toast extends Layer {
             duration: 2000
         };
     }
+
+    static dataTypes = {
+        open: DataTypes.bool,
+        position: DataTypes.oneOf([
+            'leftTop',
+            'rightTop',
+            'leftBottom',
+            'rightBottom'
+        ])
+    };
 
     static computed = {
         computedClassName() {

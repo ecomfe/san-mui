@@ -31,6 +31,7 @@
                 "stage-1"
             ],
             "plugins": [
+                "./tool/babel-directory-index-plugin.js",
                 "external-helpers",
                 "external-helpers-insert-require"
             ]
