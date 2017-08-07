@@ -130,9 +130,6 @@ export default class InputNumber extends san.Component {
         step: DataTypes.number
     };
 
-    inited() {
-    }
-
     attached() {
         this.data.set('preVal', this.data.get('value'));
         this.watch('value', function (value) {
