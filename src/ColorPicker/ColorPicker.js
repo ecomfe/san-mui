@@ -3,6 +3,8 @@
  * @author malingyang(malingyang@baidu.com)
  */
 
+/* eslint-disable fecs-prefer-destructure */
+
 import {create} from '../common/util/cx';
 import san from 'san';
 import UnderLine from '../TextField/TextFieldUnderline';
@@ -22,13 +24,13 @@ export default san.defineComponent({
     },
     template: `
         <div class="{{computedClass}}">
-            <span 
+            <span
                 class="${cx.getPartClassName('indicator-wrapper')}"
                 on-click="handleClick($event)"
             >
-                <span 
+                <span
                 >
-                    <i  
+                    <i
                         class="${cx.getPartClassName('indicator')}"
                         style="{{indicatorComputedStyle}}"
                     >
@@ -46,7 +48,7 @@ export default san.defineComponent({
                 closeOnClickMask="{{closeOnClickMask}}"
             >
                 <div class="${cx.getPartClassName('hsv-wrapper')}">
-                    <div 
+                    <div
                         class="${cx.getPartClassName('color-sv')}"
                         on-click="handleSv($event)"
                         on-mousedown="handleSvMouseDown($event)"
@@ -55,7 +57,7 @@ export default san.defineComponent({
                         on-mouseleave="handleSvMouseUp($event)"
                         style="{{colorComputedStyle}}"
                     >
-                        <span 
+                        <span
                             class="${cx.getPartClassName('sv-chooser')}"
                             style="{{svChooseComputedStyle}}"
                         >
@@ -63,7 +65,7 @@ export default san.defineComponent({
                         <div class="${cx.getPartClassName('sv-white')}"></div>
                         <div class="${cx.getPartClassName('sv-black')}"></div>
                     </div>
-                    <div 
+                    <div
                         class="${cx.getPartClassName('color-hua')}"
                         on-click="handleHua($event)"
                         on-mousedown="handleHuaMouseDown($event)"
@@ -71,22 +73,22 @@ export default san.defineComponent({
                         on-mousemove="handleHuaMouseMove($event)"
                         on-mouseleave="handleHuaMouseUp($event)"
                     >
-                        <span 
+                        <span
                             class="${cx.getPartClassName('hua-chooser')}"
-                            style="{{huaChooseComputedStyle}}"                        
+                            style="{{huaChooseComputedStyle}}"
                         >
                         </span>
                     </div>
-                    <div 
+                    <div
                         class="${cx.getPartClassName('color-alpha')}"
                         on-click="handleAlpha($event)"
                         on-mousedown="handleAlphaMouseDown($event)"
                         on-mouseup="handleAlphaMouseUp($event)"
-                        on-mousemove="handleAlphaMouseMove($event)" 
+                        on-mousemove="handleAlphaMouseMove($event)"
                         on-mouseleave="handleAlphaMouseUp($event)"
                         san-if="alpha"
                     >
-                        <div 
+                        <div
                             class="${cx.getPartClassName('alpha-basic')}"
                             style="{{alphaComputedStyle}}"
                         >
@@ -187,7 +189,8 @@ export default san.defineComponent({
         this.data.set('hex', hex);
         if (this.data.get('alpha')) {
             this.data.set('color', k.rgba().css());
-        } else {
+        }
+        else {
             this.data.set('color', k.hex());
         }
     },
@@ -233,7 +236,7 @@ export default san.defineComponent({
             let colorEnd = kolor.hsva(h, s, v, 0).rgba().css();
             let color = 'linear-gradient(0deg, ' + colorBegin + ', ' + colorEnd + ')';
             return {
-                'background': color
+                background: color
             };
         },
         alphaChooseComputedStyle() {
@@ -286,7 +289,8 @@ export default san.defineComponent({
             this.data.set('g', g);
             this.data.set('b', b);
             this.data.set('a', a);
-        } else {
+        }
+        else {
             let hex = this.data.get('color');
             this.data.set('hex', hex);
         }
@@ -301,7 +305,8 @@ export default san.defineComponent({
         if (this.data.get('alpha')) {
             let a = parseFloat(this.data.get('a')).toFixed(2);
             color = kolor.hsva(h, s, v, a).rgba().css();
-        } else {
+        }
+        else {
             color = kolor.hsv(h, s, v).hex();
         }
         this.data.set('color', color);
@@ -321,12 +326,14 @@ export default san.defineComponent({
         let v = (1 - (clientY - outY) / 200).toFixed(3);
         if (s > 1) {
             s = 1;
-        } else if (s < 0) {
+        }
+        else if (s < 0) {
             s = 0;
         }
         if (v > 1) {
             v = 1;
-        } else if (v < 0) {
+        }
+        else if (v < 0) {
             v = 0;
         }
         this.data.set('s', s);
@@ -354,7 +361,8 @@ export default san.defineComponent({
         let h = (clientY - outY) / 200 * 360;
         if (h > 360) {
             h = 360;
-        } else if (h < 0) {
+        }
+        else if (h < 0) {
             h = 0;
         }
         this.data.set('h', h);
@@ -381,7 +389,8 @@ export default san.defineComponent({
         let a = ((clientY - outY) / 200).toFixed(2);
         if (a > 1) {
             a = 1;
-        } else if (a < 0) {
+        }
+        else if (a < 0) {
             a = 0;
         }
         this.data.set('a', a);
@@ -404,7 +413,8 @@ export default san.defineComponent({
         let formatVal = parseInt(val, 10);
         if (isNaN(formatVal)) {
             this.data.set(type, '');
-        } else {
+        }
+        else {
             formatVal = formatVal >= 255 ? 255 : formatVal;
             this.data.set(type, formatVal);
         }
@@ -417,12 +427,14 @@ export default san.defineComponent({
         let formatVal;
         if (val.length > 4) {
             formatVal = parseFloat(val.substring(0, 4));
-        } else {
+        }
+        else {
             formatVal = parseFloat(val);
         }
         if (isNaN(formatVal)) {
             this.data.set('a', '');
-        } else {
+        }
+        else {
             formatVal = formatVal >= 1 ? 1 : formatVal;
             this.data.set('a', formatVal);
         }
@@ -435,4 +447,3 @@ export default san.defineComponent({
         }
     }
 });
-
