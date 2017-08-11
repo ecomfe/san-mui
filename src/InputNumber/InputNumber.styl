@@ -10,7 +10,7 @@
     width: 180px
     overflow: hidden
     position: relative
-    border: 1px solid $md-colors.blueGrey400
+    border: 1px solid $md-colors.blueGrey200
     border-radius: 5px
     .{$san-class-prefix}-text-field-line,
     .{$san-class-prefix}-text-field-focus-line   
@@ -29,12 +29,12 @@
         &-content
             padding: 0 
     &:hover 
-        color: $md-colors.blue500
-        border-color: $md-colors.blue500
+        color: $md-colors.blue400
+        border-color: $md-colors.blue400
     &-increase,
     &-decrease
         height: auto
-        border-left: 1px solid $md-colors.blueGrey400
+        border-left: 1px solid $md-colors.blueGrey200
         width: 36px
         height: 34px
         line-height: 34px
@@ -46,7 +46,7 @@
         z-index: 1
         -webkit-user-select: none
         &:hover 
-            color: $md-colors.blue500
+            color: $md-colors.blue400
             
     &-increase
         right: 0
@@ -55,35 +55,37 @@
     
     &-small
         width: 130px
-        &-increase,
-        &-decrease
-            width: 32px
-            height: 32px
-            line-height: 32px
         .{$san-class-prefix}-text-field
             min-height: 30px
             line-height: 30px 
-        &-decrease
+        .{$san-class-prefix}-inputNumber-decrease
             right: 33px
+    &-increase-small,
+    &-decrease-small
+        width: 32px
+        height: 32px
+        line-height: 32px
+        
     &-large
         width: 200px
-        &-increase,
-        &-decrease
-            width: 42px
-            height: 42px
-            line-height: 42px
         .{$san-class-prefix}-text-field
             min-height: 42px
             line-height: 42px
-        &-decrease
+        .{$san-class-prefix}-inputNumber-decrease
             right: 43px
+    &-increase-large,
+    &-decrease-large
+        width: 42px
+        height: 42px
+        line-height: 42px
+        
 .disabled
-    border-color: $md-colors.blueGrey400
+    border-color: $md-colors.blueGrey200
     background-color:$md-colors.faintBlack
     color: $md-colors.blueGrey200
     cursor: not-allowed
     &:hover
-        border-color: $md-colors.blueGrey400
+        border-color: $md-colors.blueGrey200
         cursor: not-allowed
     .{$san-class-prefix}-text-field-input
         color: $md-colors.blueGrey200
