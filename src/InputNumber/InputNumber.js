@@ -50,14 +50,14 @@ export default class InputNumber extends san.Component {
                 on-input-keyup="enterDebounceKeyup($event)"/>
             <span
                 class="${cx.getPartClassName('increase')}
-                {{size ? computedClassName + '-'+ size + '-increase' : ''}}
+                {{size ? '${cx.getPartClassName('increase')}' + '-' + size : ''}}
                 {{maxDisabled || disabled ? 'is-disabled' : ''}}"
                 on-click="increase($event)">
                 <san-icon size="{{computedSize}}">{{plusIcon}}</san-icon>
             </span>
             <span
                 class="${cx.getPartClassName('decrease')}
-                {{size ? computedClassName + '-' + size + '-decrease' : ''}}
+                {{size ? '${cx.getPartClassName('decrease')}' + '-'+ size : ''}}
                 {{minDisabled || disabled ? 'is-disabled' : ''}}"
                 on-click="decrease($event)">
                 <san-icon size="{{computedSize}}">{{minusIcon}}</san-icon>

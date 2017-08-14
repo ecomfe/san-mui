@@ -90,7 +90,7 @@ require.config({
 然后你就可以在代码中使用 san-mui 了。
 
 ```js
-require(function (require) {
+define(function (require) {
 
     var Button = require('san-mui/lib/Button/index').default;
 
@@ -104,7 +104,7 @@ require(function (require) {
 
 我们提供了两个简易的 demo 供大家参考：
 
-1. [san-mui + webpack](https://github.com/jinzhubaofu/san-mui-examples/tree/master/san-mui-with-amd)
-2. [san-mui + AMD loader](https://github.com/jinzhubaofu/san-mui-examples/tree/master/san-mui-with-webpack)
+1. [san-mui + webpack](https://github.com/jinzhubaofu/san-mui-examples/tree/master/san-mui-with-webpack)
+2. [san-mui + AMD loader](https://github.com/jinzhubaofu/san-mui-examples/tree/master/san-mui-with-amd)
 
 关于更多组件的使用请参考[组件](#/components/AppBar)

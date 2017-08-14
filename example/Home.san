@@ -3,7 +3,7 @@
         <section class="sm-home-hero">
             <div class="sm-home-hero-navigation">
                 <header class="sm-home-header">
-                    <a href="#">
+                    <a href="#" style="text-decoration: none">
                         <img class="sm-home-logo" src="../src/css/image/sanui.png" alt="sanui">
                     </a>
                     <nav class="sm-home-header-nav">

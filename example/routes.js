@@ -6,7 +6,6 @@
 /* eslint-disable fecs-export-on-declare */
 
 import Home from './Home.san';
-import Main from '../README.md';
 
 import AppBar from './AppBar.md';
 import Avatar from './Avatar.md';
@@ -49,6 +48,8 @@ import Tooltip from './Tooltip.md';
 import Installation from './guide/installation.md';
 import Usage from './guide/usage.md';
 import Develop from './guide/develop.md';
+
+import Design from './resource/design.md';
 
 let routes = [
     {
@@ -114,8 +115,8 @@ let routes = [
                 component: Checkbox
             },
             {
-	            name: 'ColorPicker',
-	            component: ColorPicker
+                name: 'ColorPicker',
+                component: ColorPicker
             },
             {
                 name: 'DatePicker',
@@ -168,10 +169,6 @@ let routes = [
                         name: 'DropdownMenu',
                         component: DropdownMenu
                     }
-                    // {
-                    //     name: 'MultiLevelDropdownMenu',
-                    //     component: MultiLevelDropdownMenu
-                    // }
                 ]
             },
             {
@@ -252,7 +249,7 @@ let routes = [
             {
                 name: '设计规范',
                 path: '/design',
-                component: Icon
+                component: Design
             }
         ]
     }
