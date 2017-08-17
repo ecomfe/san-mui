@@ -42,7 +42,7 @@ export default class InputNumber extends san.Component {
         <div
             class="{{computedClassName}}
             {{size ? computedClassName + '-' + size : ''}}
-            {{disabled ? 'disabled' : ''}}"
+            {{disabled ? '${cx.getPartClassName('disabled')}' : ''}}"
             disabled="{{disabled}}">
             <san-text-field
                 variants="${cx.getPartClassName('input')}"

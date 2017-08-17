@@ -79,18 +79,18 @@
         height: 42px
         line-height: 42px
         
-.disabled
-    border-color: $md-colors.blueGrey200
-    background-color:$md-colors.faintBlack
-    color: $md-colors.blueGrey200
-    cursor: not-allowed
-    &:hover
+    &-disabled
         border-color: $md-colors.blueGrey200
-        cursor: not-allowed
-    .{$san-class-prefix}-text-field-input
-        color: $md-colors.blueGrey200
-.is-disabled 
-    color: $md-colors.blueGrey200
-    &:hover 
+        background-color:$md-colors.faintBlack
         color: $md-colors.blueGrey200
         cursor: not-allowed
+        &:hover
+            border-color: $md-colors.blueGrey200
+            cursor: not-allowed
+        .{$san-class-prefix}-text-field-input
+            color: $md-colors.blueGrey200
+    .is-disabled 
+        color: $md-colors.blueGrey200
+        &:hover 
+            color: $md-colors.blueGrey200
+            cursor: not-allowed
