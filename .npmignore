@@ -20,3 +20,4 @@ output
 appveyor.yml
 src
 gulefile.js
+package-lock.json
