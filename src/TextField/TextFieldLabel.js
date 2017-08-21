@@ -4,10 +4,11 @@
  */
 
 import san from 'san';
+import classNames from 'classNames';
 
 export default san.defineComponent({
     template: `
-        <div class="sm-text-field-label {{labelClass}}">
+        <div class="{{labelClass}}">
           <slot></slot>
         </div>
     `,
@@ -25,19 +26,12 @@ export default san.defineComponent({
             let focus = this.data.get('focus');
             let focusClass = this.data.get('focusClass');
             let labelClass = this.data.get('normalClass');
-            if (float) {
-                labelClass = labelClass + ' float';
-            }
-            if (focus && focusClass) {
-                labelClass = labelClass + ' ' + focusClass;
-            }
-            return labelClass;
+            return classNames(
+                'sm-text-field-label',
+                {float},
+                focus ? focusClass : '',
+                labelClass ? labelClass : ''
+            )
         }
-    },
-
-    created() {
-    },
-
-    attached() {
     }
 });

@@ -13,7 +13,7 @@ import classNames from 'classnames';
 
 export default san.defineComponent({
     template: `
-<div class="sm-text-field {{computedClass}}"
+<div class="{{computedClass}}"
     style="{{errorColor ? 'color:' + errorColor : ''}}">
     <sm-icon san-if="{{icon}}" class="sm-text-field-icon">{{icon}}</sm-icon>
     <div on-click="handleLabelClick" class="sm-text-field-content">
@@ -147,6 +147,7 @@ export default san.defineComponent({
             let multiLine = this.data.get('multiLine');
             let icon = this.data.get('icon');
             return classNames(
+                'sm-text-field',
                 focus ? 'focus-state' : '',
                 label ? 'has-label' : '',
                 errorText ? 'error' : '',
