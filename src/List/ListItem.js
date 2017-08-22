@@ -168,7 +168,7 @@ export default san.defineComponent({
         }
 
         this.data.set('open', !open);
-        this.fire('nestedListToggle', open);
+        this.fire('nestedListToggle', !open);
     }
 
 });
