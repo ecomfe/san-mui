@@ -41,8 +41,8 @@ describe('Menu', () => {
         let component = createComponent({
             template: `<div>
                             <ui-menu>
-                                <ui-menu-item title="MenuItem 1" disabled on-click="onclick" />
-                                <ui-menu-item title="MenuItem 2" subTitle="⌘←" on-click="onclick">
+                                <ui-menu-item san-ref="item1" title="MenuItem 1" disabled on-click="onclick" />
+                                <ui-menu-item san-ref="item2" title="MenuItem 2" subTitle="⌘←" on-click="onclick">
                                     <ui-icon slot="leftIcon">play_arrow</ui-icon>
                                 </ui-menu-item>
                             </ui-menu>
@@ -57,8 +57,8 @@ describe('Menu', () => {
             }
         });
 
-        let itemComponent1 = component.childs[1].slotChilds[0].childs[1];
-        let itemComponent2 = component.childs[1].slotChilds[0].childs[3];
+        let itemComponent1 = component.ref('item1');
+        let itemComponent2 = component.ref('item2');
 
         expect(itemComponent1.data.get('disabled')).to.equal(true);
         expect(itemComponent1.el.querySelector('.sm-menu-item-title').innerText.trim()).to.equal('MenuItem 1');
@@ -78,12 +78,12 @@ describe('Menu', () => {
         let component = createComponent({
             template: `<div>
                             <ui-menu>
-                                <ui-menu-item
+                                <ui-menu-item san-ref="item1"
                                     title="复选1"
                                     type="checkbox"
                                     checked="{=value=}"
                                     value="checkbox1" />
-                                <ui-menu-item
+                                <ui-menu-item san-ref="item2"
                                     title="复选2"
                                     type="checkbox"
                                     checked="{=value=}"
@@ -97,8 +97,8 @@ describe('Menu', () => {
             }
         });
 
-        let itemComponent1 = component.childs[1].slotChilds[0].childs[1];
-        let itemComponent2 = component.childs[1].slotChilds[0].childs[3];
+        let itemComponent1 = component.ref('item1');
+        let itemComponent2 = component.ref('item2');
         itemComponent1.el.click();
         setTimeout(() => {
             expect(component.data.get('value').length).to.equal(2);
@@ -123,12 +123,12 @@ describe('Menu', () => {
         let component = createComponent({
             template: `<div>
                             <ui-menu>
-                                <ui-menu-item
+                                <ui-menu-item san-ref="item1"
                                     title="单选1"
                                     type="radio"
                                     checked="{=value=}"
                                     value="radio1" />
-                                <ui-menu-item
+                                <ui-menu-item san-ref="item2"
                                     title="单选2"
                                     type="radio"
                                     checked="{=value=}"
@@ -142,8 +142,8 @@ describe('Menu', () => {
             }
         });
 
-        let itemComponent1 = component.childs[1].slotChilds[0].childs[1];
-        let itemComponent2 = component.childs[1].slotChilds[0].childs[3];
+        let itemComponent1 = component.ref('item1');
+        let itemComponent2 = component.ref('item2');
         expect(itemComponent2.el.querySelector('.sm-icon').innerText.trim()).to.equal('check');
         expect(itemComponent1.el.querySelector('.sm-icon').innerText.trim()).to.be.empty;
         itemComponent1.el.click();
@@ -177,13 +177,13 @@ describe('Menu', () => {
             }
         });
 
-        let menu1 = component.childs[1].slotChilds[0].childs[1];
+        let menu1 = component.childs[0].slotChilds[0].childs[0];
         let menu2 = menu1.slotChilds.filter(child => {
             return child.name === 'submenu';
-        })[0].childs[0].slotChilds[0].childs[1];
+        })[0].childs[0].slotChilds[0].childs[0];
         let menu3 = menu2.slotChilds.filter(child => {
             return child.name === 'submenu';
-        })[0].childs[0].slotChilds[0].childs[1];
+        })[0].childs[0].slotChilds[0].childs[0];
         menu1.el.click();
         setTimeout(() => {
             expect(menu1.data.get('subMenuOpen')).to.equal(true);
@@ -213,10 +213,10 @@ describe('Menu', () => {
                 };
             }
         });
-        expect(component.childs[1].data.get('open')).to.equal(false);
-        component.childs[1].el.querySelector('.sm-icon').click();
+        expect(component.childs[0].data.get('open')).to.equal(false);
+        component.childs[0].el.querySelector('.sm-icon').click();
         setTimeout(() => {
-            expect(component.childs[1].data.get('open')).to.equal(true);
+            expect(component.childs[0].data.get('open')).to.equal(true);
             done();
         }, 0);
     });
@@ -237,12 +237,12 @@ describe('Menu', () => {
             },
             change(value) {
                 this.data.set('value', value);
-                expect(component.childs[1].slotChilds[0].childs[value * 2 -1].data.get('selected')).to.equal(true);
+                expect(component.childs[0].slotChilds[0].childs[value - 1].data.get('selected')).to.equal(true);
             }
         });
-        let itemComponent1 = component.childs[1].slotChilds[0].childs[1];
-        let itemComponent2 = component.childs[1].slotChilds[0].childs[3];
-        let itemComponent3 = component.childs[1].slotChilds[0].childs[5];
+        let itemComponent1 = component.childs[0].slotChilds[0].childs[0];
+        let itemComponent2 = component.childs[0].slotChilds[0].childs[1];
+        let itemComponent3 = component.childs[0].slotChilds[0].childs[2];
         expect(itemComponent1.data.get('selected')).to.equal(true);
         itemComponent2.el.click();
         setTimeout(() => {

@@ -39,7 +39,7 @@ describe('List', () => {
         let component = createComponent({
             template: `<div>
                             <ui-list>
-                                <ui-list-item primaryText="item" disabled="{{disabled}}" on-click="onclick" />
+                                <ui-list-item san-ref="item1" primaryText="item" disabled="{{disabled}}" on-click="onclick" />
                             </ui-list>
                         </div>`,
             initData() {
@@ -48,12 +48,12 @@ describe('List', () => {
                 };
             },
             onclick() {
-                expect(component.childs[1].slotChilds[0].childs[1].data.get('disabled')).to.equal(false);
+                expect(component.ref('item1').data.get('disabled')).to.equal(false);
                 done();
             }
         });
 
-        let itemComponent = component.childs[1].slotChilds[0].childs[1];
+        let itemComponent = component.ref('item1');
         expect(itemComponent.el.innerText.trim()).to.equal('item');
         itemComponent.el.click(); // disabled, expect nothing happen
         setTimeout(() => {
@@ -68,7 +68,7 @@ describe('List', () => {
         let component = createComponent({
             template: `<div>
                             <ui-list>
-                                <ui-list-item primaryText="item" initiallyOpen="{{!0}}" />
+                                <ui-list-item san-ref="item1" primaryText="item" initiallyOpen="{{!0}}" />
                             </ui-list>
                         </div>`,
             initData() {
@@ -76,7 +76,7 @@ describe('List', () => {
                 };
             }
         });
-        let itemComponent = component.childs[1].slotChilds[0].childs[1];
+        let itemComponent = component.ref('item1');
         expect(itemComponent.el.innerText.trim()).to.equal('item');
         expect(itemComponent.data.get('open')).to.equal(true);
         done();
@@ -86,7 +86,7 @@ describe('List', () => {
         let component = createComponent({
             template: `<div>
                             <ui-list>
-                                <ui-list-item primaryText="item">
+                                <ui-list-item san-ref="item1" primaryText="item">
                                     <ui-icon slot="left">star</ui-icon>
                                 </ui-list-item>
                             </ui-list>
@@ -96,7 +96,7 @@ describe('List', () => {
                 };
             }
         });
-        let itemComponent = component.childs[1].slotChilds[0].childs[1];
+        let itemComponent = component.ref('item1');
         expect(itemComponent.data.get('hasLeft')).to.equal(true);
         expect(itemComponent.el.querySelector('.sm-icon')).to.be.ok;
         expect(itemComponent.el.querySelector('.sm-icon').innerText.trim())
@@ -108,8 +108,8 @@ describe('List', () => {
         let component = createComponent({
             template: `<div>
                             <ui-list>
-                                <ui-list-item primaryText="item" 
-                                    toggleNested="{{!0}}" 
+                                <ui-list-item  san-ref="item1" primaryText="item"
+                                    toggleNested="{{!0}}"
                                     primaryTogglesNestedList="{{primaryTogglesNestedList}}"
                                     on-nestedListToggle="nestedListToggle($event)">
                                     <ui-list-item slot="nested" primaryText="nested item" />
@@ -125,7 +125,7 @@ describe('List', () => {
                 expect(itemComponent.data.get('open')).to.equal(value);
             }
         });
-        let itemComponent = component.childs[1].slotChilds[0].childs[1];
+        let itemComponent = component.ref('item1');
         expect(itemComponent.data.get('toggleNested')).to.equal(true);
         expect(itemComponent.data.get('open')).to.not.be.ok;
         itemComponent.el.querySelector('.sm-list-item-content').click();
@@ -145,8 +145,8 @@ describe('List', () => {
         let component = createComponent({
             template: `<div>
                             <ui-list value="{{ value }}" selectable="{{!0}}" on-change="listItemSelect($event)">
-                                <ui-list-item primaryText="item 1" value="{{1}}"></ui-list-item>
-                                <ui-list-item primaryText="item 2" value="{{2}}"></ui-list-item>
+                                <ui-list-item san-ref="item1" primaryText="item 1" value="{{1}}"></ui-list-item>
+                                <ui-list-item san-ref="item2" primaryText="item 2" value="{{2}}"></ui-list-item>
                             </ui-list>
                         </div>`,
             initData() {
@@ -162,9 +162,9 @@ describe('List', () => {
                 });
             }
         });
-        let itemComponent1 = component.childs[1].slotChilds[0].childs[1];
-        let itemComponent2 = component.childs[1].slotChilds[0].childs[3];
-        expect(component.childs[1].data.get('selectable')).to.equal(true);
+        let itemComponent1 = component.ref('item1');
+        let itemComponent2 = component.ref('item2');
+        expect(component.childs[0].data.get('selectable')).to.equal(true);
         expect(itemComponent2.el.className).to.contain('selected');
         itemComponent1.el.click();
     });
