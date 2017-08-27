@@ -135,3 +135,47 @@ export default {
 };
 </script>
 ```
+
+动态Items：有时业务可能会更改组件的选项列表，可以动态设置选项。
+
+```san 动态Items：
+<template>
+<section>
+    <sm-dropdown-menu value="{=value=}" maxHeight="{{200}}" autoWidth="{{false}}">
+        <sm-menu-item
+            s-for="item in items"
+            value="{{item.value}}"
+            label="{{item.label}}" />
+    </sm-dropdown-menu>
+</section>
+</template>
+<script>
+import {MenuItem, DropDownMenu} from '../../src/Menu';
+import Icon from '../../src/Icon';
+import Divider from '../../src/Divider';
+import '../../src/Menu/index.styl';
+import '../../src/Icon/Icon.styl';
+import '../../src/Divider/Divider.styl';
+
+export default {
+    components: {
+        'sm-dropdown-menu': DropDownMenu,
+        'sm-menu-item': MenuItem,
+        'sm-icon': Icon,
+        'sm-divider': Divider
+    },
+    inited() {
+        this.watch('value', val => {
+            let items = Array.from({length: 5}).map((_, i) => ({value: i, label: `第${i}项`}))
+            this.data.set('items', items);
+        });
+    },
+    initData() {
+        return {
+            value: '',
+            items: Array.from({length: 10}).map((_, i) => ({value: i, label: `第${i}项`}))
+        };
+    }
+};
+</script>
+```
