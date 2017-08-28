@@ -194,6 +194,7 @@ export default {
     <div>
         <div class="input-row">
             <san-text-field
+                inputValue="{{11234567890}}"
                 hintText="最多不超过10个字符"
                 errorText="{{inputErrorText}}"
                 on-textOverflow="handleInputOverflow($event)"

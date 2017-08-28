@@ -67,7 +67,7 @@ export default san.defineComponent({
             focusClass="{{underlineFocusClass}}">
         </underline>
         <div
-            class="sm-text-field-help {{helpTextClass}}"
+            class="{{ComputedhelpTextClass}}"
             style="{{errorColor ? ('color:' + errorColor) : ''}}"
             san-if="errorText || helpText || maxLength > 0">
             <div>
@@ -174,6 +174,13 @@ export default san.defineComponent({
                 return true;
             }
             return false;
+        },
+        ComputedhelpTextClass() {
+            let helpTextClass = this.data.get('helpTextClass');
+            return classNames(
+                'sm-text-field-help',
+                helpTextClass ? helpTextClass : ''
+            );
         }
     },
 
@@ -182,26 +189,33 @@ export default san.defineComponent({
         this.transBoolean('labelFloat');
         this.transBoolean('fullWidth');
         this.transBoolean('disabled');
+        let inputValue = this.data.get('inputValue');
+        this.calcCharLength(inputValue);
     },
 
     attached() {
         this.watch('inputValue', val => {
-            let charLength = 0;
-            let maxLength = +this.data.get('maxLength');
-            charLength = maxLength && val ? val.length : 0;
-            this.data.set('charLength', charLength);
-            let isTextOverflow = this.data.get('isTextOverflow');
-            if (charLength > maxLength && !isTextOverflow) {
-                this.data.set('isTextOverflow', true);
-                this.fire('textOverflow', 'true');
-            }
-            if (isTextOverflow && charLength <= maxLength) {
-                this.data.set('isTextOverflow', false);
-                this.fire('textOverflow', 'false');
-            }
-            // this.fire('input', val);
+            this.calcCharLength(val);
         });
     },
+
+    calcCharLength(val) {
+        val = val + '';
+        let charLength = 0;
+        let maxLength = +this.data.get('maxLength');
+        charLength = maxLength && val ? val.length : 0;
+        this.data.set('charLength', charLength);
+        let isTextOverflow = this.data.get('isTextOverflow');
+        if (charLength > maxLength && !isTextOverflow) {
+            this.data.set('isTextOverflow', true);
+            this.fire('textOverflow', 'true');
+        }
+        if (isTextOverflow && charLength <= maxLength) {
+            this.data.set('isTextOverflow', false);
+            this.fire('textOverflow', 'false');
+        }
+    },
+
     handleFocus(event) {
         this.data.set('focus', true);
         this.fire('input-focus', event);

@@ -5,6 +5,8 @@
 
 import san from 'san';
 import classNames from 'classnames';
+import {create} from '../common/util/cx';
+const cx = create('text-field-hint');
 
 export default san.defineComponent({
     template: `
@@ -23,8 +25,7 @@ export default san.defineComponent({
             let show = this.data.get('show');
             let hintTextClass = this.data.get('hintTextClass');
             return classNames(
-                'sm-text-field-hint',
-                {show},
+                cx(this).addStates({show}).build(),
                 hintTextClass ? hintTextClass : ''
             );
         }
