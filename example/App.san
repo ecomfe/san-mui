@@ -170,7 +170,6 @@ export default {
     position: fixed
     top: 0
     bottom: 0
-    // overflow: auto
 
 .example-drawer-appbar
     background: $md-colors.blue500
