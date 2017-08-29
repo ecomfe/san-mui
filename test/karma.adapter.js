@@ -1,2 +1,2 @@
-const testsContext = require.context('./', true, /\.spec\.js$/);
+const testsContext = require.context('./', true, /TextField\.spec\.js$/);
 testsContext.keys().forEach(testsContext);

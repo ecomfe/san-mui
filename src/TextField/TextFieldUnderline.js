@@ -4,13 +4,14 @@
  */
 
 import san from 'san';
+import classNames from 'classnames';
 
 export default san.defineComponent({
     template: `
         <div>
-            <hr class="sm-text-field-line {{lineClass}}"/>
+            <hr class="{{computedClass}}"/>
             <hr san-if="!disabled"
-                class="sm-text-field-focus-line {{focusLineClass}}"
+                class="{{focusLineClass}}"
                 style="{{errorColor ? ('background-color:' + errorColor) : ''}}"/>
         </div>
     `,
@@ -27,34 +28,30 @@ export default san.defineComponent({
         };
     },
 
-    inited() {
-    },
-    compute() {
-        // computed lineClass value
-        let lineClass = '';
-        lineClass += this.data.get('normalClass') + '';
-        if (this.data.get('disabled')) {
-            lineClass += 'disabled ';
+    computed: {
+        computedClass() {
+            // computed lineClass value
+            let disabled = this.data.get('disabled');
+            let normalClass = this.data.get('normalClass');
+            return classNames(
+                'sm-text-field-line',
+                {disabled},
+                normalClass ? normalClass : ''
+            );
+        },
+
+        focusLineClass() {
+            let error = this.data.get('error');
+            let focus = this.data.get('focus');
+            let focusClass = this.data.get('focusClass');
+            let normalClass = this.data.get('normalClass');
+            return classNames(
+                'sm-text-field-focus-line',
+                normalClass ? normalClass : '',
+                {error},
+                {focus},
+                focus ? focusClass : ''
+            );
         }
-        this.data.set('lineClass', lineClass);
-        // computed focusLineClass value
-        let focusLineClass = '';
-        if (this.data.get('error')) {
-            focusLineClass += 'error ';
-        }
-        if (this.data.get('focus')) {
-            focusLineClass += 'focus';
-        }
-        focusLineClass += this.data.get('focusClass') + ' ' + this.data.get('normalClass') + ' ';
-        this.data.set('focusLineClass', focusLineClass);
-    },
-    attached() {
-        this.compute();
-        this.watch('focus', val => {
-            this.compute();
-        });
-        this.watch('error', val => {
-            this.compute();
-        });
     }
 });
