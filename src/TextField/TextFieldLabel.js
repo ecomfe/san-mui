@@ -4,7 +4,7 @@
  */
 
 import san from 'san';
-import classNames from 'classNames';
+import classNames from 'classnames';
 import {create} from '../common/util/cx';
 const cx = create('text-field-label');
 
