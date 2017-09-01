@@ -281,16 +281,13 @@ export default class MenuItem extends Component {
             }
 
             case 'option': {
+                // 更新自己的 selected 状态
+                this.data.set('selected', true);
 
-                if (!selected) {
-                    // 更新自己的 selected 状态
-                    this.data.set('selected', true);
+                // 同步其他 menu-item，解除 selected 状态
+                this.dispatch(C.MENU_ITEM_OPTION_SELECTED, {value});
 
-                    // 同步其他 menu-item，解除 selected 状态
-                    this.dispatch(C.MENU_ITEM_OPTION_SELECTED, {value});
-
-                    this.fire('change');
-                }
+                this.fire('change');
 
                 return;
             }

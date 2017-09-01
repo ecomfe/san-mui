@@ -73,9 +73,6 @@ export default class DropDownMenu extends Component {
         },
         [C.MENU_ITEM_OPTION_SELECTED]({target}) {
             let {value, label, title} = target.data.get();
-            if (this.data.get('value') === value) {
-                return;
-            }
             this.data.set('value', value);
             this.data.set('displayText', label || title || value);
             this.items.forEach(item => {
