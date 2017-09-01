@@ -250,4 +250,95 @@ describe('Menu', () => {
             done();
         }, 0);
     });
+
+    it('dropdown menu dynamic items', done => {
+        let component = createComponent({
+            template: `<div>
+                            <ui-dropdown-menu  value="{=value=}" on-change="change($event)">
+                                <ui-menu-item san-for="item in items" value="{{item.value}}" title="{{item.title}}"/>
+                            </ui-dropdown-menu>
+                        </div>`,
+            initData() {
+                return {
+                    value: '1',
+                    items: [
+                        {
+                            value: '1',
+                            title: '星期一'
+                        },
+                        {
+                            value: '2',
+                            title: '星期二'
+                        },
+                        {
+                            value: '3',
+                            title: '星期三'
+                        }
+                    ]
+                };
+            },
+            change(value) {
+                this.data.set('value', value);
+                if (value === '1') {
+                    expect(component.childs[0].slotChilds[0].childs[0].childs[value - 1].data.get('selected')).to.equal(true);
+                }
+                else if (value === '4') {
+                    expect(component.childs[0].slotChilds[0].childs[0].childs[value - 4].data.get('selected')).to.equal(true);
+                }
+            }
+        });
+        // 测试items循环赋值
+        let itemComponent1 = component.childs[0].slotChilds[0].childs[0].childs[0];
+        let itemComponent2 = component.childs[0].slotChilds[0].childs[0].childs[1];
+        let itemComponent3 = component.childs[0].slotChilds[0].childs[0].childs[2];
+        expect(itemComponent1.data.get('selected')).to.equal(true);
+        itemComponent2.el.click();
+        setTimeout(() => {
+            expect(itemComponent2.data.get('selected')).to.equal(true);
+            // done();
+        }, 0);
+
+        // 测试items动态改变
+        let newItems = [
+            {
+                value: '4',
+                title: '星期四'
+            },
+            {
+                value: '5',
+                title: '星期五'
+            },
+            {
+                value: '6',
+                title: '星期六'
+            },
+            {
+                value: '7',
+                title: '星期日'
+            }
+        ];
+        // 测试动态改变items的值后，重新渲染
+        component.data.set('items', newItems);
+        setTimeout(() => {
+            // 重新渲染后，比较重新渲染的组件个数与items新变量长度是否一致
+            let newItemsComponents = component.childs[0].slotChilds[0].childs[0].childs;
+            expect(newItemsComponents.length).to.equal(newItems.length);
+            // 重新渲染后，items内部data和重新指定的新items变量比较
+            newItemsComponents.forEach((item, index) => {
+                expect(item.data.get('value') === newItems[index].value);
+                expect(item.data.get('title') === newItems[index].title);
+            });
+
+            // 测试重新渲染后，第一个item的data中seleted应该为false
+            let newItemsComponent1 = newItemsComponents[0];
+            expect(newItemsComponent1.data.get('selected')).to.equal(false);
+
+            // 测试重新渲染items后的点击事件
+            newItemsComponent1.el.click();
+            setTimeout(() => {
+                expect(newItemsComponent1.data.get('selected')).to.equal(true);
+                done();
+            });
+        }, 0);
+    });
 });

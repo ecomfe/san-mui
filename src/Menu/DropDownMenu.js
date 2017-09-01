@@ -58,7 +58,7 @@ export default class DropDownMenu extends Component {
     };
 
     static messages = {
-        [C.MENU_ITEM_INITED](e) {
+        [C.MENU_ITEM_ATTACHED](e) {
             this.items.push(e.target);
             let targetData = e.target.data;
             let {value, label, title} = targetData.get();
@@ -85,6 +85,11 @@ export default class DropDownMenu extends Component {
             });
             this.data.set('open', false);
             this.fire('change', value);
+        },
+        [C.MENU_ITEM_DETACHED](e) {
+            this.items.splice(this.items.indexOf(e.target), 1);
+            let targetData = e.target.data;
+            let {value, label, title} = targetData.get();
         },
         [C.MENU_ITEM_CLICK]() {
             this.data.set('open', false);
