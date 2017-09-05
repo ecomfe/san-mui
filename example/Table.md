@@ -145,7 +145,7 @@ export default {
                 </sm-tr>
             </sm-thead>
             <sm-tbody>
-                <sm-tr san-for="item in persons" selected="{=item.selected=}">
+                <sm-tr san-for="item in persons" selected="{=item.selected=}" disabled="{{item.disabled}}">
                     <sm-td>{{item.name}}</sm-td>
                     <sm-td>{{item.city}}</sm-td>
                     <sm-td>{{item.birthday}}</sm-td>
@@ -179,7 +179,8 @@ export default {
                     name: 'erik',
                     birthday: '1984-01-01',
                     city: 'BeiJing',
-                    selected: true
+                    selected: true,
+                    disabled: true
                 },
                 {
                     name: 'otakustay',
@@ -308,7 +309,8 @@ export default {
                     name: 'erik',
                     birthday: '1984-01-01',
                     city: 'BeiJing',
-                    selected: false
+                    selected: false,
+                    disabled: true
                 },
                 {
                     name: 'otakustay',
