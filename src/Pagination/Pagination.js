@@ -3,7 +3,7 @@
  * @author zhangzhiqiang(zhiqiangzhang37@gmail.com)
  */
 
-import san, {DataTypes} from 'san';
+import {Component, DataTypes} from 'san';
 
 const currentKey = 'current';
 const pageSizeKey = 'pageSize';
@@ -17,9 +17,9 @@ const defaultCurrent = 1;
 const defaultPageSizeOption = [5, 10, 20, 50];
 const pageGroupLen = 5;
 
-export default san.defineComponent({
+export default class extends Component {
 
-    template: `
+    static template = `
         <div class="sm-pagination">
             <div class="sm-pagination-inner" san-if="total">
                 <div class="page-selector">
@@ -54,7 +54,22 @@ export default san.defineComponent({
                 </div>
             </div>
         </div>
-    `,
+    `;
+
+    static computed = {
+        [totalPageKey]() {
+            return Math.ceil(this.data.get(totalKey) / this.data.get(pageSizeKey)) || 0;
+        }
+    };
+
+    static dataTypes = {
+        total: DataTypes.number.isRequired,
+        pageSize: DataTypes.number.isRequired,
+        showSizeChanger: DataTypes.bool,
+        pageSizeOptions: DataTypes.arrayOf(DataTypes.number).isRequired,
+        nextPageText: DataTypes.string,
+        lastPageText: DataTypes.string
+    };
 
     initData() {
         // default data
@@ -66,7 +81,7 @@ export default san.defineComponent({
             // 除去页首和页尾以多少个为一组，五个为一组则最多展示五个页码
             pageGroupLen
         };
-    },
+    }
 
     inited() {
 
@@ -99,13 +114,13 @@ export default san.defineComponent({
             this.data.set(currentKey, defaultCurrent);
         }
 
-    },
+    }
 
     setPageSize(pageSize) {
         if (this.data.get(pageSizeOptionsKey).includes(pageSize)) {
             this.data.set(pageSizeKey, parseInt(pageSize, 10));
         }
-    },
+    }
 
     /**
      * 设置page
@@ -138,11 +153,11 @@ export default san.defineComponent({
                 });
             }
         }
-    },
+    }
 
     toggleSelectorPopup() {
         this.data.set(pageSizePopupOpenKey, !this.data.get(pageSizePopupOpenKey));
-    },
+    }
 
     changePageSize(pageSize) {
 
@@ -160,21 +175,6 @@ export default san.defineComponent({
         });
 
         this.toggleSelectorPopup();
-    },
-
-    computed: {
-        [totalPageKey]() {
-            return Math.ceil(this.data.get(totalKey) / this.data.get(pageSizeKey)) || 0;
-        }
-    },
-
-    dataTypes: {
-        total: DataTypes.number.isRequired,
-        pageSize: DataTypes.number.isRequired,
-        showSizeChanger: DataTypes.bool,
-        pageSizeOptions: DataTypes.arrayOf(DataTypes.number).isRequired,
-        nextPageText: DataTypes.string,
-        lastPageText: DataTypes.string
     }
 
-});
+};
