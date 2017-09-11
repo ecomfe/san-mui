@@ -45,7 +45,7 @@ export default class ConfigurableTable extends Table {
                 </ui-tr>
             </ui-thead>
             <ui-tbody>
-                <ui-tr san-for="item in data">
+                <ui-tr san-for="item in data" selected="{=item.selected=}" disabled="{{item.disabled}}">
                     <ui-td san-for="field in fields">{{field | renderField(item)}}</ui-td>
                 </ui-tr>
             </ui-tbody>

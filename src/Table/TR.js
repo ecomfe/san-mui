@@ -24,10 +24,14 @@ export default class TR extends san.Component {
                 san-if="tableSelectable === 'multi'"
                 class="sm-table-col-select">
                 <sm-checkbox
-                    s-if="tableSelectable"
+                    s-if="disabled"
+                    checked="{{checked}}"
+                    disabled/>
+                <sm-checkbox
+                    s-else
                     checked="{{checked}}"
                     value="ON"
-                    on-input-change="select($event)" />
+                    on-input-change="select($event)"/>
             </sm-th>
             <sm-th
                 san-if="tableSelectable === 'single'"
