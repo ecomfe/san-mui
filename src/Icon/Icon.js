@@ -13,10 +13,13 @@ export default san.defineComponent({
     `,
     filters: {
         fontSize(size) {
+            /* istanbul ignore next */
             return size ? `font-size: ${size}px` : '';
         }
     },
+
     initData() {
+        /* istanbul ignore next */
         return {
             size: 24
         };

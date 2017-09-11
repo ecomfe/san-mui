@@ -4,10 +4,13 @@
  */
 
 import san from 'san';
+import classNames from 'classnames';
+import {create} from '../common/util/cx';
+const cx = create('text-field-label');
 
 export default san.defineComponent({
     template: `
-        <div class="sm-text-field-label {{labelClass}}">
+        <div class="{{labelClass}}">
           <slot></slot>
         </div>
     `,
@@ -25,19 +28,11 @@ export default san.defineComponent({
             let focus = this.data.get('focus');
             let focusClass = this.data.get('focusClass');
             let labelClass = this.data.get('normalClass');
-            if (float) {
-                labelClass = labelClass + ' float';
-            }
-            if (focus && focusClass) {
-                labelClass = labelClass + ' ' + focusClass;
-            }
-            return labelClass;
+            return classNames(
+                cx(this).addStates({float}).build(),
+                focus ? focusClass : '',
+                labelClass ? labelClass : ''
+            );
         }
-    },
-
-    created() {
-    },
-
-    attached() {
     }
 });

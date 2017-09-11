@@ -4,10 +4,13 @@
  */
 
 import san from 'san';
+import classNames from 'classnames';
+import {create} from '../common/util/cx';
+const cx = create('text-field-hint');
 
 export default san.defineComponent({
     template: `
-        <div class="sm-text-field-hint {{show ? 'show' : ''}} {{hintTextClass}}">
+        <div class="{{computedClass}}">
             {{text}}
         </div>
     `,
@@ -16,5 +19,15 @@ export default san.defineComponent({
             text: '',
             show: true
         };
+    },
+    computed: {
+        computedClass() {
+            let show = this.data.get('show');
+            let hintTextClass = this.data.get('hintTextClass');
+            return classNames(
+                cx(this).addStates({show}).build(),
+                hintTextClass ? hintTextClass : ''
+            );
+        }
     }
 });

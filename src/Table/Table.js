@@ -30,11 +30,19 @@ export default class Table extends san.Component {
         'UI:table-select-head'(e) {
             let selected = [];
             let selectAll = e.value;
-
             this.tbody.eachItem((tr, index) => {
-                tr.data.set('selected', selectAll);
-                if (selectAll) {
-                    selected.push(index);
+                let trDisabled = tr.data.get('disabled');
+                if (!trDisabled) {
+                    tr.data.set('selected', selectAll);
+                    if (selectAll) {
+                        selected.push(index);
+                    }
+                }
+                else {
+                    let trSelected = tr.data.get('selected');
+                    if (trSelected) {
+                        selected.push(index);
+                    }
                 }
             });
 
