@@ -1,6 +1,6 @@
 {
   "name": "san-mui",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Set of SAN Components that Implement Google's Material Design",
   "author": "ecomfe",
   "main": "./lib/index.js",
@@ -8,7 +8,7 @@
   "browser": "./lib/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node tool/dev-server.js",
-    "lint": "fecs src test/**/*.spec.js --type=js",
+    "lint": "fecs src --type=js",
     "test": "cross-env NODE_ENV=test babel-node -- ./node_modules/.bin/karma start test/karma.conf.babel.js",
     "test-ci": "cross-env NODE_ENV=test-ci babel-node -- ./node_modules/.bin/karma start test/karma.conf.babel.js",
     "coverage": "npm run clean:coverage && cross-env NODE_ENV=test babel-node -- ./node_modules/.bin/karma start test/karma.coverage.conf.babel.js --single-run",
