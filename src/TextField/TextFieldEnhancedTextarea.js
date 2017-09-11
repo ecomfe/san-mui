@@ -54,7 +54,7 @@ export default san.defineComponent({
         let lineHeight = window.getComputedStyle(element, null).getPropertyValue('line-height');
         lineHeight = +lineHeight.replace(/[^\d]*/g, '');
         let pt = window.getComputedStyle(element, null).getPropertyValue('padding-top');
-        pt = pt.replace(/[^\d]*/g, '');
+        pt = +pt.replace(/[^\d]*/g, '');
         let pd = window.getComputedStyle(element, null).getPropertyValue('padding-bottom');
         pd = +pd.replace(/[^\d]*/g, '');
         let rows = this.data.get('rows') || 0;

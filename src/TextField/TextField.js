@@ -13,7 +13,7 @@ import classNames from 'classnames';
 
 export default san.defineComponent({
     template: `
-<div class="sm-text-field {{computedClass}}"
+<div class="{{computedClass}}"
     style="{{errorColor ? 'color:' + errorColor : ''}}">
     <sm-icon san-if="{{icon}}" class="sm-text-field-icon">{{icon}}</sm-icon>
     <div on-click="handleLabelClick" class="sm-text-field-content">
@@ -67,7 +67,7 @@ export default san.defineComponent({
             focusClass="{{underlineFocusClass}}">
         </underline>
         <div
-            class="sm-text-field-help {{helpTextClass}}"
+            class="{{ComputedhelpTextClass}}"
             style="{{errorColor ? ('color:' + errorColor) : ''}}"
             san-if="errorText || helpText || maxLength > 0">
             <div>
@@ -147,6 +147,7 @@ export default san.defineComponent({
             let multiLine = this.data.get('multiLine');
             let icon = this.data.get('icon');
             return classNames(
+                'sm-text-field',
                 focus ? 'focus-state' : '',
                 label ? 'has-label' : '',
                 errorText ? 'error' : '',
@@ -173,6 +174,13 @@ export default san.defineComponent({
                 return true;
             }
             return false;
+        },
+        ComputedhelpTextClass() {
+            let helpTextClass = this.data.get('helpTextClass');
+            return classNames(
+                'sm-text-field-help',
+                helpTextClass ? helpTextClass : ''
+            );
         }
     },
 
@@ -181,26 +189,33 @@ export default san.defineComponent({
         this.transBoolean('labelFloat');
         this.transBoolean('fullWidth');
         this.transBoolean('disabled');
+        let inputValue = this.data.get('inputValue');
+        this.calcCharLength(inputValue);
     },
 
     attached() {
         this.watch('inputValue', val => {
-            let charLength = 0;
-            let maxLength = +this.data.get('maxLength');
-            charLength = maxLength && val ? val.length : 0;
-            this.data.set('charLength', charLength);
-            let isTextOverflow = this.data.get('isTextOverflow');
-            if (charLength > maxLength && !isTextOverflow) {
-                this.data.set('isTextOverflow', true);
-                this.fire('textOverflow', 'true');
-            }
-            if (isTextOverflow && charLength <= maxLength) {
-                this.data.set('isTextOverflow', false);
-                this.fire('textOverflow', 'false');
-            }
-            // this.fire('input', val);
+            this.calcCharLength(val);
         });
     },
+
+    calcCharLength(val) {
+        val = val + '';
+        let charLength = 0;
+        let maxLength = +this.data.get('maxLength');
+        charLength = maxLength && val ? val.length : 0;
+        this.data.set('charLength', charLength);
+        let isTextOverflow = this.data.get('isTextOverflow');
+        if (charLength > maxLength && !isTextOverflow) {
+            this.data.set('isTextOverflow', true);
+            this.fire('textOverflow', 'true');
+        }
+        if (isTextOverflow && charLength <= maxLength) {
+            this.data.set('isTextOverflow', false);
+            this.fire('textOverflow', 'false');
+        }
+    },
+
     handleFocus(event) {
         this.data.set('focus', true);
         this.fire('input-focus', event);

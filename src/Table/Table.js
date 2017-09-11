@@ -30,7 +30,6 @@ export default class Table extends san.Component {
         'UI:table-select-head'(e) {
             let selected = [];
             let selectAll = e.value;
-
             this.tbody.eachItem((tr, index) => {
                 tr.data.set('selected', selectAll);
                 if (selectAll) {
