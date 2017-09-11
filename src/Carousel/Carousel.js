@@ -197,7 +197,9 @@ export default class Carousel extends san.Component {
     }
 
     startTimer() {
-        if (this.data.get('interval') <= 0 || !this.data.get('autoplay')) return;
+        if (this.data.get('interval') <= 0 || !this.data.get('autoplay')) {
+            return;
+        }
         this.timer = setInterval(() => {
             this.playSlides();
         }, this.data.get('interval'));
