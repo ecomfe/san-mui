@@ -8,7 +8,7 @@
   "browser": "./lib/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node tool/dev-server.js",
-    "lint": "fecs src --type=js",
+    "lint": "fecs src --type=js --rule --reporter=baidu",
     "test": "cross-env NODE_ENV=test babel-node -- ./node_modules/.bin/karma start test/karma.conf.babel.js",
     "test-ci": "cross-env NODE_ENV=test-ci babel-node -- ./node_modules/.bin/karma start test/karma.conf.babel.js",
     "coverage": "npm run clean:coverage && cross-env NODE_ENV=test babel-node -- ./node_modules/.bin/karma start test/karma.coverage.conf.babel.js --single-run",

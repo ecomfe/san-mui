@@ -143,13 +143,14 @@ export default class DatePicker extends Component {
 
         this.watch('pickedDate', date => this.data.set('visualDate', date));
 
-        this.watch('value', value => {
+        this.watch('value', newValue => {
 
             let {format, visualDate, pickedDate} = this.data.get();
 
-            value = moment(value, format);
+            let value = moment(newValue, format);
 
             if (!value.isValid()) {
+                this.fire('invalid', newValue);
                 return;
             }
 

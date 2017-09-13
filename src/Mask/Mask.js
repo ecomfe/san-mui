@@ -54,12 +54,12 @@ export function show(onClose) {
         singleton.attach(document.body);
     }
     singleton.show();
-    singleton.on('close', onClose);
+    onClose && singleton.on('close', onClose);
 }
 
 export function hide(onClose) {
     if (singleton) {
         singleton.hide();
-        singleton.un('close', onClose);
+        onClose && singleton.un('close', onClose);
     }
 }
