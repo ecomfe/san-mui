@@ -269,11 +269,10 @@ export default san.defineComponent({
     },
 
     setValue(e) {
-        let el = this.el;
         let {max, min, value, step} = this.getData();
         let oldValue = value;
-        let elLeft = el.getBoundingClientRect().left;
-        let elWidth = el.offsetWidth;
+        let elLeft = this.el.getBoundingClientRect().left;
+        let elWidth = this.el.offsetWidth;
         let range = max - min;
 
         value = elWidth && ((e.clientX - elLeft) / elWidth * range);

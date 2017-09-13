@@ -18,7 +18,7 @@ const defaultPageSizeOption = [5, 10, 20, 50];
 const pageGroupLen = 5;
 
 export default class extends Component {
-
+    /* eslint-disable max-len */
     static template = `
         <div class="sm-pagination">
             <div class="sm-pagination-inner" san-if="total">
@@ -55,7 +55,7 @@ export default class extends Component {
             </div>
         </div>
     `;
-
+    /* eslint-enable max-len */
     static computed = {
         [totalPageKey]() {
             return Math.ceil(this.data.get(totalKey) / this.data.get(pageSizeKey)) || 0;
@@ -149,6 +149,7 @@ export default class extends Component {
             if (!silence) {
                 this.fire('pageChange', {
                     pageNum: current,
+                    page: current,
                     pageSize: this.data.get(pageSizeKey)
                 });
             }
@@ -170,11 +171,12 @@ export default class extends Component {
         me.setCurrentPage(current, true);
 
         this.fire('pageSizeChange', {
+            pageNum: current,
+            page: current,
             pageSize,
-            pageNum: current
         });
 
         this.toggleSelectorPopup();
     }
 
-};
+}

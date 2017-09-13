@@ -82,7 +82,7 @@ export default class Carousel extends san.Component {
         this.items = [];
         let setActiveItem = this.setActiveItem.bind(this);
         this.throttledArrowClick = throttle(setActiveItem, 400, {
-            'trailing': false
+            trailing: false
         });
         this.throttledIndicatorHover = throttle(index => {
             this.handleIndicatorHover(index);

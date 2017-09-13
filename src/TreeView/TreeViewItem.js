@@ -41,8 +41,8 @@ export default san.defineComponent({
                 <p class="sm-tree-view-item-primary-text"
                     s-if="primaryText"
                 >{{ treeData ? treeData.text : primaryText }}</p>
-                <p class="sm-tree-view-item-secondary-text" 
-                    style="{{secondaryTextStyle}}" 
+                <p class="sm-tree-view-item-secondary-text"
+                    style="{{secondaryTextStyle}}"
                     s-if="secondaryText"
                 >{{ treeData ? treeData.secondaryText : secondaryText | raw }}
                 </p>
@@ -80,23 +80,21 @@ export default san.defineComponent({
 
     defaultData() {
         return {
-            /* 是否可用 */
+            // 是否可用
             disabled: false,
-            /* 是否隐藏（高亮过滤时启用） */
+            // 是否隐藏（高亮过滤时启用）
             hidden: false,
-            /* 是否选中 */
+            // 是否选中
             selected: false,
-            /* 是否取消波纹效果 */
+            // 是否取消波纹效果
             disableRipple: false,
-            /* 点击时优先展开/折叠子项 */
+            // 点击时优先展开/折叠子项
             primaryTogglesNestedTreeView: true,
-            /* 初始展开状态 */
+            // 初始展开状态
             initiallyOpen: false,
-            /* 复选框状态
-               （null：禁用，undefined：由父项决定，true：选中，false：未选中） */
+            // 复选框状态（null：禁用，undefined：由父项决定，true：选中，false：未选中）
             checked: null,
-            /* 数据源
-              （ATTRIBUTE：属性定义（静态），JSON：传入 treeData 数据定义（动态）） */
+            // 数据源 （ATTRIBUTE：属性定义（静态），JSON：传入 treeData 数据定义（动态））
             dataSource: 'ATTRIBUTE'
         };
     },
@@ -270,7 +268,7 @@ export default san.defineComponent({
         },
         secondaryTextStyle() {
             return {
-                /* '-webkit-line-clamp': this.data.get('secondaryTextLines') */
+                // '-webkit-line-clamp': this.data.get('secondaryTextLines')
             };
         }
     },
@@ -695,5 +693,5 @@ export default san.defineComponent({
         this.data.set('checked', checked);
         this.data.set('checkboxInputValue',
             checked ? [this.data.get('checkboxValue')] : ['']);
-    },
+    }
 });

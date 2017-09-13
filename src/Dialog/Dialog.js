@@ -79,7 +79,15 @@ export default class Dialog extends Layer {
     };
 
     lockBodyScroll(locked) {
-        document.body.style.overflow = locked ? 'hidden' : '';
+        let bodyClass = document.body.className;
+        if (locked) {
+            if (!bodyClass.match(/\bsm-lockoverflow\b/)) {
+                document.body.className = bodyClass + ' sm-lockoverflow';
+            }
+        }
+        else {
+            document.body.className = bodyClass.replace(/(?:\s|\b)sm-lockoverflow\b/, '');
+        }
     }
 
     attached() {

@@ -230,7 +230,6 @@ export default class MenuItem extends Component {
         let {
             type,
             value,
-            selected,
             checked,
             disabled,
             subMenuOpen

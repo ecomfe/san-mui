@@ -85,8 +85,6 @@ export default class DropDownMenu extends Component {
         },
         [C.MENU_ITEM_DETACHED](e) {
             this.items.splice(this.items.indexOf(e.target), 1);
-            let targetData = e.target.data;
-            let {value, label, title} = targetData.get();
         },
         [C.MENU_ITEM_CLICK]() {
             this.data.set('open', false);
