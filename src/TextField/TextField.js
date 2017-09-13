@@ -35,7 +35,7 @@ export default san.defineComponent({
                 <input
                     san-if="!multiLine"
                     type="{{type}}"
-                    value="{= inputValue =}"
+                    value="{{inputValue}}"
                     disabled="{{disabled}}"
                     readonly="{{readOnly}}"
                     on-focus="handleFocus($event)"
@@ -225,6 +225,8 @@ export default san.defineComponent({
         this.fire('input-blur', event);
     },
     handleChange(event) {
+        let value = event.target.value;
+        this.data.set('inputValue', value);
         this.fire('input-change', event);
     },
     handleKeyup(event) {
