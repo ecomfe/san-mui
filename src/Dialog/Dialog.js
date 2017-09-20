@@ -91,6 +91,7 @@ export default class Dialog extends Layer {
     }
 
     attached() {
+        super.attached();
         this.watch('open', open => {
             this.lockBodyScroll(open);
         });
