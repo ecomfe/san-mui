@@ -1,6 +1,6 @@
 {
   "name": "san-mui",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A Set of SAN Components that Implement Google's Material Design",
   "author": "ecomfe",
   "main": "./lib/index.js",
@@ -25,10 +25,10 @@
     "kolor": "^1.1.9",
     "dom-align": "^1.6.2",
     "moment": "^2.18.1",
-    "san": "^3.2.1"
+    "san": "^3.2.3"
   },
   "peerDependencies": {
-    "san": "^3.1.1"
+    "san": "3.2.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
