@@ -53,7 +53,7 @@ export default san.defineComponent({
                     readOnly="{{readOnly}}"
                     rows="{{rows}}"
                     rowsMax="{{rowsMax}}"
-                    on-change="handleChange($event)"
+                    on-input="handleChange($event)"
                     on-focus="handleFocus($event)"
                     on-blur="handleBlur($event)"></enhanced-textarea>
             </slot>
