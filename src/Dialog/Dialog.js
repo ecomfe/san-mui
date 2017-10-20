@@ -99,6 +99,7 @@ export default class Dialog extends Layer {
     }
 
     detached() {
+        super.detached();
         this.lockBodyScroll(false);
     }
 

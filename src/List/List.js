@@ -5,11 +5,13 @@
  */
 
 import san from 'san';
+import {create} from '../common/util/cx';
 
+const cx = create('list');
 export default san.defineComponent({
 
     template: `
-        <div class="sm-list">
+        <div class="{{computedClassName}}">
             <slot></slot>
         </div>
     `,
@@ -25,6 +27,12 @@ export default san.defineComponent({
             this.setSelectValue(value);
             this.fire('change', value);
         });
+    },
+
+    computed: {
+        computedClassName() {
+            return cx(this).build();
+        }
     },
     messages: {
         'UI:list-item-attached'(arg) {

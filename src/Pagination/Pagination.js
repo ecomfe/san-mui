@@ -4,7 +4,9 @@
  */
 
 import {Component, DataTypes} from 'san';
+import {create} from '../common/util/cx';
 
+const cx = create('pagination');
 const currentKey = 'current';
 const pageSizeKey = 'pageSize';
 const showSizeChangerKey = 'showSizeChanger';
@@ -20,8 +22,8 @@ const pageGroupLen = 5;
 export default class extends Component {
     /* eslint-disable max-len */
     static template = `
-        <div class="sm-pagination">
-            <div class="sm-pagination-inner" san-if="total">
+        <div class="{{computedClassName}}">
+            <div class="${cx.getPartClassName('inner')}" san-if="total">
                 <div class="page-selector">
                     <span class="pre-page{{ current === 1 ? ' disable' : '' }}" on-click="setCurrentPage(current - 1)">
                         <label san-if="lastPageText">{{ lastPageText }}</label>
@@ -57,6 +59,9 @@ export default class extends Component {
     `;
     /* eslint-enable max-len */
     static computed = {
+        computedClassName() {
+            return cx(this).build();
+        },
         [totalPageKey]() {
             return Math.ceil(this.data.get(totalKey) / this.data.get(pageSizeKey)) || 0;
         }
