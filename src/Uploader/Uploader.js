@@ -26,6 +26,7 @@ export default class Uploader extends Component {
                 disabled="{{disabled}}"
                 accept="{{accept}}"
                 multiple="{{multiple}}"
+                duplicate="{{duplicate}}"
                 on-select="addFiles($event)">
                 <slot slot="inner-upload-btn"></slot>
             </sm-file-selector>
@@ -70,7 +71,8 @@ export default class Uploader extends Component {
         validateFile: DataTypes.func,
         data: DataTypes.object,
         json: DataTypes.bool,
-        upload: DataTypes.func
+        upload: DataTypes.func,
+        duplicate: DataTypes.bool
     };
 
     initData() {
@@ -83,7 +85,8 @@ export default class Uploader extends Component {
             withCredentials: false,
             autoUpload: true,
             disabled: false,
-            json: false
+            json: false,
+            duplicate: false
         };
     }
 
