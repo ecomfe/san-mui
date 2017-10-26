@@ -23,6 +23,7 @@ Uploader 不在 `material-design` 的标准组件中，但是非常常用。因�
         </sm-uploader>
         <sm-uploader
             action="http://180.76.137.83:8818/image"
+            withFileList
             withCredentials
             accept=".png, .jpeg, .jpg"
             maxSize="{{2}}"
@@ -35,6 +36,24 @@ Uploader 不在 `material-design` 的标准组件中，但是非常常用。因�
             on-error="onError($event)"
             on-remove="onRemove($event)">
             <sm-button variants="raised primary">上传图片</sm-button>
+        </sm-uploader>
+        <sm-uploader
+            action="http://180.76.137.83:8818/image"
+            withFileList
+            withCredentials
+            duplicate="{{true}}"
+            multiple="{{false}}"
+            accept=".txt"
+            maxSize="{{2}}"
+            name="filename"
+            headers="{{headers}}"
+            data="{{data}}"
+            files="{=files3=}"
+            on-progress="onProgress($event)"
+            on-success="onSuccess($event)"
+            on-error="onError($event)"
+            on-remove="onRemove($event)">
+            <sm-button variants="raised primary">可上传同一文件</sm-button>
         </sm-uploader>
     </div>
 </template>
@@ -56,6 +75,7 @@ export default {
                 url: 'https://placeimg.com/640/480/any'
             }],
             files2: [],
+            files3: [],
             data: {
                 extraField: 'test',
                 extraArray: ['1', '2', '3']
@@ -100,6 +120,7 @@ export default {
 |headers|object|null|发送上传请求时携带的http请求头参数|
 |data|object|null|发送上传请求时在请求体中额外携带的参数|
 |multiple|bool|false|是否可以多选文件|
+|duplicate|bool|false|是否可以多次上传同一个文件|
 |withCredentials|bool|false|发送上传请求时是否携带机要数据，例如cookie等|
 |disabled|bool|false|是否禁用|
 |accept|string|*|文件选择时可选的文件类型，格式与 input[type=file] 的 accept 属性一致，比如 `.png,.jpg`，或者 `audio/*`|
