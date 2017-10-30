@@ -138,7 +138,7 @@ export default {
     },
 
     onWindowScroll() {
-        let scroll = document.body.scrollTop;
+        let scroll = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
         let nav = document.getElementsByClassName('sm-home-hero-navigation')[0];
         let header = document.getElementsByClassName('sm-home-header')[0];
         let githubBtn = document.getElementsByClassName('sm-home-member-actions')[0];
