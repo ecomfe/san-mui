@@ -4,7 +4,9 @@
  */
 
 import {Component, DataTypes} from 'san';
+import {create} from '../common/util/cx';
 
+const cx = create('pagination');
 const currentKey = 'current';
 const pageSizeKey = 'pageSize';
 const showSizeChangerKey = 'showSizeChanger';
@@ -18,10 +20,10 @@ const defaultPageSizeOption = [5, 10, 20, 50];
 const pageGroupLen = 5;
 
 export default class extends Component {
-
+    /* eslint-disable max-len */
     static template = `
-        <div class="sm-pagination">
-            <div class="sm-pagination-inner" san-if="total">
+        <div class="{{computedClassName}}">
+            <div class="${cx.getPartClassName('inner')}" san-if="total">
                 <div class="page-selector">
                     <span class="pre-page{{ current === 1 ? ' disable' : '' }}" on-click="setCurrentPage(current - 1)">
                         <label san-if="lastPageText">{{ lastPageText }}</label>
@@ -55,8 +57,11 @@ export default class extends Component {
             </div>
         </div>
     `;
-
+    /* eslint-enable max-len */
     static computed = {
+        computedClassName() {
+            return cx(this).build();
+        },
         [totalPageKey]() {
             return Math.ceil(this.data.get(totalKey) / this.data.get(pageSizeKey)) || 0;
         }
@@ -149,6 +154,7 @@ export default class extends Component {
             if (!silence) {
                 this.fire('pageChange', {
                     pageNum: current,
+                    page: current,
                     pageSize: this.data.get(pageSizeKey)
                 });
             }
@@ -170,11 +176,12 @@ export default class extends Component {
         me.setCurrentPage(current, true);
 
         this.fire('pageSizeChange', {
+            pageNum: current,
+            page: current,
             pageSize,
-            pageNum: current
         });
 
         this.toggleSelectorPopup();
     }
 
-};
+}

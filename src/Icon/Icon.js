@@ -7,16 +7,12 @@ import san, {DataTypes} from 'san';
 
 export default san.defineComponent({
     template: `
-        <i class="sm-icon" style="{{size | fontSize}}">
+        <i class="sm-icon" style="{{size ? 'font-size:' + size + 'px' : ''}}">
             <slot />
         </i>
     `,
-    filters: {
-        fontSize(size) {
-            return size ? `font-size: ${size}px` : '';
-        }
-    },
     initData() {
+        /* istanbul ignore next */
         return {
             size: 24
         };

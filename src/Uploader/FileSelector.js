@@ -34,7 +34,8 @@ export default class FileSelector extends Component {
     static dataTypes = {
         multiple: DataTypes.bool,
         disabled: DataTypes.bool,
-        accept: DataTypes.string
+        accept: DataTypes.string,
+        duplicate: DataTypes.bool
     };
 
     static components = {
@@ -55,6 +56,9 @@ export default class FileSelector extends Component {
     }
 
     onSelect() {
+        if (this.data.get('duplicate')) {
+            this.el.lastElementChild.value = '';
+        }
         this.el.lastElementChild.click();
     }
 

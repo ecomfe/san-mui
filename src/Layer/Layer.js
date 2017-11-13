@@ -13,4 +13,10 @@ export default class Layer extends Component {
         }
     }
 
+    detached() {
+        if (this.el.parentNode === document.body) {
+            document.body.removeChild(this.el);
+        }
+    }
+
 }

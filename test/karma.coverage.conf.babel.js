@@ -24,6 +24,7 @@ export default function (config) {
         ],
         plugins: [
             'karma-coverage',
+            'karma-chrome-launcher',
             'karma-phantomjs-launcher',
             'karma-mocha',
             'karma-sourcemap-loader',
@@ -48,7 +49,7 @@ export default function (config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['PhantomJS'],
+        browsers: [process.env.TRAVIS ? 'PhantomJS' : 'Chrome'],
         singleRun: true,
         concurrency: Infinity,
         webpack: {

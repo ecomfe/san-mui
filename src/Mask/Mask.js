@@ -4,6 +4,9 @@
  */
 
 import {Component} from 'san';
+import {create} from '../common/util/cx';
+
+const cx = create('mask');
 
 let singleton = null;
 
@@ -11,12 +14,15 @@ export class Mask extends Component {
 
     static template = `
         <div
-            class="sm-mask"
+            class="{{computedClassName}}"
             style="{{mainStyle}}"
             on-click="onRequestClose" />
     `;
 
     static computed = {
+        computedClassName() {
+            return cx(this).build();
+        },
         mainStyle() {
             let open = this.data.get('open');
             let zIndex = this.data.get('zIndex');
@@ -54,12 +60,12 @@ export function show(onClose) {
         singleton.attach(document.body);
     }
     singleton.show();
-    singleton.on('close', onClose);
+    onClose && singleton.on('close', onClose);
 }
 
 export function hide(onClose) {
     if (singleton) {
         singleton.hide();
-        singleton.un('close', onClose);
+        onClose && singleton.un('close', onClose);
     }
 }

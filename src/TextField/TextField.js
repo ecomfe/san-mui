@@ -13,7 +13,7 @@ import classNames from 'classnames';
 
 export default san.defineComponent({
     template: `
-<div class="sm-text-field {{computedClass}}"
+<div class="{{computedClass}}"
     style="{{errorColor ? 'color:' + errorColor : ''}}">
     <sm-icon san-if="{{icon}}" class="sm-text-field-icon">{{icon}}</sm-icon>
     <div on-click="handleLabelClick" class="sm-text-field-content">
@@ -35,7 +35,7 @@ export default san.defineComponent({
                 <input
                     san-if="!multiLine"
                     type="{{type}}"
-                    value="{= inputValue =}"
+                    value="{{inputValue}}"
                     disabled="{{disabled}}"
                     readonly="{{readOnly}}"
                     on-focus="handleFocus($event)"
@@ -53,7 +53,7 @@ export default san.defineComponent({
                     readOnly="{{readOnly}}"
                     rows="{{rows}}"
                     rowsMax="{{rowsMax}}"
-                    on-change="handleChange($event)"
+                    on-input="handleChange($event)"
                     on-focus="handleFocus($event)"
                     on-blur="handleBlur($event)"></enhanced-textarea>
             </slot>
@@ -67,7 +67,7 @@ export default san.defineComponent({
             focusClass="{{underlineFocusClass}}">
         </underline>
         <div
-            class="sm-text-field-help {{helpTextClass}}"
+            class="{{ComputedhelpTextClass}}"
             style="{{errorColor ? ('color:' + errorColor) : ''}}"
             san-if="errorText || helpText || maxLength > 0">
             <div>
@@ -147,6 +147,7 @@ export default san.defineComponent({
             let multiLine = this.data.get('multiLine');
             let icon = this.data.get('icon');
             return classNames(
+                'sm-text-field',
                 focus ? 'focus-state' : '',
                 label ? 'has-label' : '',
                 errorText ? 'error' : '',
@@ -173,34 +174,44 @@ export default san.defineComponent({
                 return true;
             }
             return false;
+        },
+        ComputedhelpTextClass() {
+            let helpTextClass = this.data.get('helpTextClass');
+            return classNames(
+                'sm-text-field-help',
+                helpTextClass ? helpTextClass : ''
+            );
         }
     },
 
     inited() {
-        this.transBoolean('multiLine');
-        this.transBoolean('labelFloat');
-        this.transBoolean('fullWidth');
-        this.transBoolean('disabled');
+        let inputValue = this.data.get('inputValue');
+        this.calcCharLength(inputValue);
     },
 
     attached() {
         this.watch('inputValue', val => {
-            let charLength = 0;
-            let maxLength = +this.data.get('maxLength');
-            charLength = maxLength && val ? val.length : 0;
-            this.data.set('charLength', charLength);
-            let isTextOverflow = this.data.get('isTextOverflow');
-            if (charLength > maxLength && !isTextOverflow) {
-                this.data.set('isTextOverflow', true);
-                this.fire('textOverflow', 'true');
-            }
-            if (isTextOverflow && charLength <= maxLength) {
-                this.data.set('isTextOverflow', false);
-                this.fire('textOverflow', 'false');
-            }
-            // this.fire('input', val);
+            this.calcCharLength(val);
         });
     },
+
+    calcCharLength(val) {
+        val = val + '';
+        let charLength = 0;
+        let maxLength = +this.data.get('maxLength');
+        charLength = maxLength && val ? val.length : 0;
+        this.data.set('charLength', charLength);
+        let isTextOverflow = this.data.get('isTextOverflow');
+        if (charLength > maxLength && !isTextOverflow) {
+            this.data.set('isTextOverflow', true);
+            this.fire('textOverflow', 'true');
+        }
+        if (isTextOverflow && charLength <= maxLength) {
+            this.data.set('isTextOverflow', false);
+            this.fire('textOverflow', 'false');
+        }
+    },
+
     handleFocus(event) {
         this.data.set('focus', true);
         this.fire('input-focus', event);
@@ -210,27 +221,25 @@ export default san.defineComponent({
         this.fire('input-blur', event);
     },
     handleChange(event) {
+        // FIXME 与输入的事件需要模拟键盘事件，单测随后补齐这部分
+        /* istanbul ignore next */
+        let value = event.target.value;
+        this.data.set('inputValue', value);
         this.fire('input-change', event);
     },
     handleKeyup(event) {
+        /* istanbul ignore next */
         this.fire('input-keyup', event);
     },
     handleKeypress(event) {
+        /* istanbul ignore next */
         this.fire('input-keypress', event);
     },
     handleKeydown(event) {
+        /* istanbul ignore next */
         this.fire('input-keydown', event);
     },
 
-    /**
-     * 布尔值转换，字符串false转换为布尔值false，其他则按正常转换进行转换
-     *
-     * @param  {string} key 要转换的数据key
-     */
-    transBoolean(key) {
-        let value = this.data.get(key);
-        this.data.set(key, value === 'false' ? false : !!value);
-    },
     components: {
         'sm-icon': Icon,
         'underline': Underline,

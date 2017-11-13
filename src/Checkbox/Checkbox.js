@@ -9,6 +9,7 @@ import {CenterRipple} from '../Ripple';
 import cx from 'classnames';
 
 export default san.defineComponent({
+    /* eslint-disable max-len */
     template: `
         <label
             on-click="handleClick"
@@ -68,6 +69,7 @@ export default san.defineComponent({
                 </div>
         </label>
     `,
+    /* eslint-enable max-len */
     components: {
         'sm-icon': icon,
         'sm-center-ripple': CenterRipple

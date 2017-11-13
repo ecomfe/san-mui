@@ -1,6 +1,6 @@
 {
   "name": "san-mui",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "description": "A Set of SAN Components that Implement Google's Material Design",
   "author": "ecomfe",
   "main": "./lib/index.js",
@@ -8,7 +8,7 @@
   "browser": "./lib/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node tool/dev-server.js",
-    "lint": "fecs src test/**/*.spec.js --type=js",
+    "lint": "fecs src --type=js --rule --reporter=baidu",
     "test": "cross-env NODE_ENV=test babel-node -- ./node_modules/.bin/karma start test/karma.conf.babel.js",
     "test-ci": "cross-env NODE_ENV=test-ci babel-node -- ./node_modules/.bin/karma start test/karma.conf.babel.js",
     "coverage": "npm run clean:coverage && cross-env NODE_ENV=test babel-node -- ./node_modules/.bin/karma start test/karma.coverage.conf.babel.js --single-run",
@@ -25,10 +25,10 @@
     "kolor": "^1.1.9",
     "dom-align": "^1.6.2",
     "moment": "^2.18.1",
-    "san": "^3.2.1"
+    "san": "^3.2.3"
   },
   "peerDependencies": {
-    "san": "^3.1.1"
+    "san": "3.2.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
@@ -68,6 +68,7 @@
     "karma": "^1.4.0",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.2",

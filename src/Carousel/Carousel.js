@@ -82,7 +82,7 @@ export default class Carousel extends san.Component {
         this.items = [];
         let setActiveItem = this.setActiveItem.bind(this);
         this.throttledArrowClick = throttle(setActiveItem, 400, {
-            'trailing': false
+            trailing: false
         });
         this.throttledIndicatorHover = throttle(index => {
             this.handleIndicatorHover(index);
@@ -197,7 +197,9 @@ export default class Carousel extends san.Component {
     }
 
     startTimer() {
-        if (this.data.get('interval') <= 0 || !this.data.get('autoplay')) return;
+        if (this.data.get('interval') <= 0 || !this.data.get('autoplay')) {
+            return;
+        }
         this.timer = setInterval(() => {
             this.playSlides();
         }, this.data.get('interval'));
