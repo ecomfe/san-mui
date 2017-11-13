@@ -13,7 +13,7 @@ export default class FileSelector extends Component {
 
     static template = `
         <div class="{{className}}">
-            <a disabled="{{dibabled}}" on-click="onSelect">
+            <a disabled="{{disabled}}" on-click="onSelect">
                 <slot name="inner-upload-btn"></slot>
             </a>
             <input
