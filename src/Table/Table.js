@@ -92,13 +92,21 @@ export default class Table extends san.Component {
 
     isAllSelected() {
         let rows = this.tbody.findChildTRs();
+        let len = rows.length;
         let isAllSelected = true;
-        for (let i = 0, len = rows.length; i < len; i++) {
-            let row = rows[i];
-            if (!row.data.get('selected')) {
-                isAllSelected = false;
-                break;
+
+        // 当tbody有数据时再遍历有没有全选
+        if (len > 0) {
+            for (let i = 0, len = rows.length; i < len; i++) {
+                let row = rows[i];
+                if (!row.data.get('selected')) {
+                    isAllSelected = false;
+                    break;
+                }
             }
+        }
+        else {
+            isAllSelected = false;
         }
         return isAllSelected;
     }
