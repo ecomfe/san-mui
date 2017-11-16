@@ -87,7 +87,7 @@ export default san.defineComponent({
             this.data.set('inputValue[0]', nativeValue);
         }
         if (value === offValue && inputValue[0]) {
-            this.data.set('inputValue[0]', '');
+            this.data.set('inputValue', []);
         }
     },
 
