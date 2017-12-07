@@ -107,6 +107,7 @@ export default class Dialog extends Layer {
         if (this.data.get('closeOnClickMask')) {
             this.data.set('open', false);
         }
+        this.fire('clickMask');
     }
 
 }

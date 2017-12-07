@@ -36,6 +36,9 @@ export default class BaseButton extends Component {
             aNode.props.push(targetProps);
         }
 
+        if (data.get('disabled')) {
+            data.set('href', 'javascript:void(0);');
+        }
     }
 
     initData() {
