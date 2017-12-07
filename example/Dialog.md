@@ -8,7 +8,7 @@
 <template>
     <div>
         <san-button on-click="openDialog">open a dialog</san-button>
-        <san-dialog open="{=open=}">
+        <san-dialog open="{=open=}" on-clickMask="handleClickMask">
             <div class="demo-dialog-title" slot="title">
                 <san-icon>warning</san-icon>
                 确认要删除吗？
@@ -46,18 +46,21 @@ export default {
     },
     closeDialog() {
         this.data.set('open', false);
+    },
+    handleClickMask() {
+        console.log('You clicked the mask and closed the dialog!');
     }
 }
 </script>
 ```
 
-上边的例子中点击在弹窗侧的遮罩会自动关闭掉弹窗。如果你不想这样做，可以将 `closeOnClickMask` 设置为 false；
+点击弹窗侧的遮罩会触发`clickMask`事件。上边的例子中点击遮罩会自动关闭掉弹窗，如果你不想这样做，可以将 `closeOnClickMask` 设置为 false；
 
 ```san 禁止点击遮罩关闭弹窗
 <template>
     <div>
         <san-button on-click="openDialog">open a dialog</san-button>
-        <san-dialog open="{=open=}" closeOnClickMask="{{!1}}">
+        <san-dialog open="{=open=}" closeOnClickMask="{{!1}}" on-clickMask="handleClickMask">
             <div class="demo-dialog-title" slot="title">
                 <san-icon>warning</san-icon>
                 确认要删除吗？
@@ -95,6 +98,9 @@ export default {
     },
     closeDialog() {
         this.data.set('open', false);
+    },
+    handleClickMask() {
+        console.log('You clicked the mask but didn\'t close the dialog!');
     }
 }
 </script>
@@ -247,7 +253,9 @@ export default {
 
 ### 事件
 
-无
+|方法 | 说明 | 返回值 |
+| --- | --- | --- |
+| clickMask | 点击遮罩层事件 | 无 |
 
 ### 插槽
 
