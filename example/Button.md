@@ -169,6 +169,13 @@ export default {
                 variants="secondery raised">
                 keyboard_arrow_left
             </san-button>
+            <san-button
+                target="_blank"
+                href="https://github.com/ecomfe/san-mui"
+                variants="primary"
+                disabled="{{!0}}">
+                a_link_disabled
+            </san-button>
             <san-icon-button
                 target="_blank"
                 href="https://github.com/ecomfe/san-mui"
