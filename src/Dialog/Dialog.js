@@ -103,11 +103,10 @@ export default class Dialog extends Layer {
         this.lockBodyScroll(false);
     }
 
-    onMaskClick(e) {
+    onMaskClick() {
         if (this.data.get('closeOnClickMask')) {
             this.data.set('open', false);
         }
-        this.fire('clickMask');
     }
 
 }
