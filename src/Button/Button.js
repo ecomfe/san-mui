@@ -46,7 +46,7 @@ export default class Button extends BaseButton {
     };
 
     attached() {
-        // save thie original href inito originalHref and change current href according to disabled
+        // save the original href into originalHref and change current href according to disabled
         if (this.data.get('href')) {
             this.data.set('originalHref', this.data.get('href'));
 
