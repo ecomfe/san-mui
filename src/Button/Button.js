@@ -21,7 +21,7 @@ export default class Button extends BaseButton {
             on-click="click($event)"
             type="{{type}}"
             class="{{computedClassName}}"
-            disabled="{{disabled}}">
+            disabled="{=disabled=}">
             <slot />
             <san-touch-ripple san-if="!disabled" />
         </button>
@@ -43,6 +43,30 @@ export default class Button extends BaseButton {
             type: 'button',
             disabled: false
         };
+    };
+
+    attached() {
+        // save thie original href inito originalHref and change current href according to disabled
+        if (this.data.get('href')) {
+            this.data.set('originalHref', this.data.get('href'));
+
+            if (this.data.get('disabled')) {
+                this.setHref('javascript:void(0);');
+            }
+        }
+
+        this.watch('disabled', val => {
+            if (val) {
+                this.setHref('javascript:void(0);');
+                return;
+            }
+            
+            this.setHref(this.data.get('originalHref'));
+        });
+    };
+
+    setHref(hrefVal) {
+        this.data.set('href', hrefVal);
     }
 
     click(e) {
