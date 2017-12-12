@@ -158,7 +158,10 @@ san-button-swatch($swatches, $revert = false)
     &.state-disabled
         color: rgba(0,0,0,.38);
         cursor: not-allowed;
-        background-color: transparent
+        background-color: transparent;
+        &:hover
+            background-color: transparent;
+            color: rgba(0,0,0,.38);
 
 
     &.variant-raised.state-disabled

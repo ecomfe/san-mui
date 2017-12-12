@@ -21,7 +21,7 @@ export default class Button extends BaseButton {
             on-click="click($event)"
             type="{{type}}"
             class="{{computedClassName}}"
-            disabled="{=disabled=}">
+            disabled="{{disabled}}">
             <slot />
             <san-touch-ripple san-if="!disabled" />
         </button>
