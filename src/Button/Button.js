@@ -43,6 +43,30 @@ export default class Button extends BaseButton {
             type: 'button',
             disabled: false
         };
+    };
+
+    attached() {
+        // save the original href into originalHref and change current href according to disabled
+        if (this.data.get('href')) {
+            this.data.set('originalHref', this.data.get('href'));
+
+            if (this.data.get('disabled')) {
+                this.setHref('javascript:void(0);');
+            }
+        }
+
+        this.watch('disabled', val => {
+            if (val) {
+                this.setHref('javascript:void(0);');
+                return;
+            }
+            
+            this.setHref(this.data.get('originalHref'));
+        });
+    };
+
+    setHref(hrefVal) {
+        this.data.set('href', hrefVal);
     }
 
     click(e) {
