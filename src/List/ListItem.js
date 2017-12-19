@@ -124,13 +124,12 @@ export default san.defineComponent({
     },
 
     attached() {
-
-        let slotChilds = this.slotChilds;
+        let slotChildren = this.slotChildren;
 
         let hasLeft = false;
         let hasRight = false;
 
-        for (let slot of slotChilds) {
+        for (let slot of slotChildren) {
             if (slot.name === 'left') {
                 hasLeft = true;
             }

@@ -15,7 +15,9 @@ function getTimingValue([start, stop], progress) {
 export default san.defineComponent({
 
     template: `
-        <div class="${cx.getPartClassName()}" style="{{style}}"></div>
+        <div>
+            <div class="${cx.getPartClassName()}" style="{{style}}" s-transition="opacityTrans"></div>
+        <div>
     `,
 
     initData() {
@@ -29,73 +31,48 @@ export default san.defineComponent({
         };
     },
 
-    computed: {
-        style() {
+    opacityTrans() {
+        return {
+            enter: (el, done) => {
+                let opacity = this.data.get('opacity'); // default opacity
+                let scale = this.data.get('scale');
+                let step = this.data.get('step');
+                let steps = this.data.get('steps');
+                let top = this.data.get('top');
+                let left = this.data.get('left');
+                let width = this.data.get('width');
+                let height = this.data.get('height');
+                let color = this.data.get('color');
+                let radius = Math.max(width, height);
+                
+                // set immutable style of el
+                el.style.top = `${top - radius}px`;
+                el.style.left = `${left - radius}px`;
+                el.style.width = `${radius * 2}px`;
+                el.style.height = `${radius * 2}px`;
+                el.style.backgroundColor = color;
 
-            let step = this.data.get('step');
-            let steps = this.data.get('steps');
-            let progress = step / steps;
-            let opacity = getTimingValue(this.data.get('opacity'), progress);
-            let scale = getTimingValue(this.data.get('scale'), progress);
-            let top = this.data.get('top');
-            let left = this.data.get('left');
-            let width = this.data.get('width');
-            let height = this.data.get('height');
-            let color = this.data.get('color');
-            let radius = Math.max(width, height);
+                let goStep = () => {
+                    if (step >= steps) {
+                        // fire animate-end
+                        this.fire('animate-end');
+                        done();
+                        return;
+                    }
 
-            return {
-                'top': `${top - radius}px`,
-                'left': `${left - radius}px`,
-                'width': `${radius * 2}px`,
-                'height': `${radius * 2}px`,
-                'transform': `scale(${scale}, ${scale})`,
-                'opacity': opacity,
-                'background-color': color
-            };
+                    let progress = step++ / steps;
+                    let curOpacity = getTimingValue(opacity, progress);
+                    let curScale = getTimingValue(scale, progress);
+                    el.style.opacity = curOpacity;
+                    el.style.transform = `scale(${curScale}, ${curScale})`
+                    requestAnimationFrame(goStep);
+                }
 
+                // fire animate start
+                this.fire('animate-start');
+                goStep();
+            }
         }
-    },
-
-    inited() {
-        this.animate = this.animate.bind(this);
-    },
-
-    attached() {
-        this.startAnimation();
-    },
-
-    startAnimation() {
-
-        let animating = this.data.get('animating');
-
-        if (animating) {
-            return;
-        }
-
-        this.data.set('animating', true);
-        this.animation = requestAnimationFrame(this.animate);
-
-        this.fire('animate-start');
-
-    },
-
-    animate() {
-
-        let steps = this.data.get('steps');
-        let step = this.data.get('step');
-
-        this.data.set('step', step + 1);
-
-        if (step < steps) {
-            this.animation = requestAnimationFrame(this.animate);
-            return;
-        }
-
-        this.animation = null;
-        this.data.set('animating', false);
-        this.fire('animate-end');
-
     },
 
     stopAnimation() {
