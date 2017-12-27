@@ -14,7 +14,7 @@ import {Component, parseTemplate} from 'san';
 
 const linkANodeProps = parseTemplate(
     '<a href="{{href}}" target="{{target}}"/>'
-).childs[0].props;
+).children[0].props;
 
 const hrefProps = linkANodeProps.get('href');
 const targetProps = linkANodeProps.get('target');
