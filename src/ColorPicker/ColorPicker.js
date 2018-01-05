@@ -32,7 +32,7 @@ export default san.defineComponent({
                 >
                     <i
                         class="${cx.getPartClassName('indicator')}"
-                        style="{{indicatorComputedStyle}}"
+                        style="background-color: {{color}}"
                     >
                     </i>
                 </span>
@@ -44,22 +44,22 @@ export default san.defineComponent({
             </san-underline>
             <san-dialog
                 open="{{open}}"
-                width="{{dialogComputedStyle}}",
+                width="{{alpha ? 307 : 277}}"
                 closeOnClickMask="{{closeOnClickMask}}"
             >
                 <div class="${cx.getPartClassName('hsv-wrapper')}">
                     <div
                         class="${cx.getPartClassName('color-sv')}"
-                        on-click="handleSv($event)"
-                        on-mousedown="handleSvMouseDown($event)"
-                        on-mouseup="handleSvMouseUp($event)"
+                        on-click="handleSvChange($event)"
+                        on-mousedown="handleMouseDown($event, 'sv')"
+                        on-mouseup="handleMouseUp($event, 'sv')"
                         on-mousemove="handleSvMouseMove($event)"
-                        on-mouseleave="handleSvMouseUp($event)"
+                        on-mouseleave="handleMouseUp($event, 'sv')"
                         style="{{colorComputedStyle}}"
                     >
                         <span
                             class="${cx.getPartClassName('sv-chooser')}"
-                            style="{{svChooseComputedStyle}}"
+                            style="left: {{hsv[1] * 200 - 3}}px; top: {{(1 - hsv[2]) * 200 - 3}}px"
                         >
                         </span>
                         <div class="${cx.getPartClassName('sv-white')}"></div>
@@ -67,25 +67,25 @@ export default san.defineComponent({
                     </div>
                     <div
                         class="${cx.getPartClassName('color-hua')}"
-                        on-click="handleHua($event)"
-                        on-mousedown="handleHuaMouseDown($event)"
-                        on-mouseup="handleHuaMouseUp($event)"
+                        on-click="handleHuaChange($event)"
+                        on-mousedown="handleMouseDown($event, 'h')"
+                        on-mouseup="handleMouseUp($event, 'h')"
                         on-mousemove="handleHuaMouseMove($event)"
-                        on-mouseleave="handleHuaMouseUp($event)"
+                        on-mouseleave="handleMouseUp($event, 'h')"
                     >
                         <span
                             class="${cx.getPartClassName('hua-chooser')}"
-                            style="{{huaChooseComputedStyle}}"
+                            style="top: {{(hsv[0] / 360) * 200 - 3}}px"
                         >
                         </span>
                     </div>
                     <div
                         class="${cx.getPartClassName('color-alpha')}"
-                        on-click="handleAlpha($event)"
-                        on-mousedown="handleAlphaMouseDown($event)"
-                        on-mouseup="handleAlphaMouseUp($event)"
-                        on-mousemove="handleAlphaMouseMove($event)"
-                        on-mouseleave="handleAlphaMouseUp($event)"
+                        on-click="handleAlphaChange($event)"
+                        on-mousedown="handleMouseDown($event, 'a')"
+                        on-mouseup="handleMouseUp($event, 'a')"
+                        on-mousemove="handleAlphaMouseMove($event)" 
+                        on-mouseleave="handleMouseUp($event, 'a')"
                         san-if="alpha"
                     >
                         <div
@@ -95,7 +95,7 @@ export default san.defineComponent({
                         </div>
                         <span
                             class="${cx.getPartClassName('alpha-chooser')}"
-                            style="{{alphaChooseComputedStyle}}"
+                            style="top: {{rgba[3] * 200 - 3}}px"
                         >
                         </span>
                     </div>
@@ -106,8 +106,8 @@ export default san.defineComponent({
                             label="R"
                             inputClass="${cx.getPartClassName('rgb-input-width')}"
                             underlineClass="${cx.getPartClassName('rgb-input-width')}"
-                            inputValue="{=r=}"
-                            on-input-change="handleInput(r, 'r')"
+                            inputValue="{{rgba[0]}}"
+                            on-input-change="handleRgbInput($event, 0)"
                         />
                     </div>
                     <div class="${cx.getPartClassName('rgb-wrapper')}">
@@ -115,8 +115,8 @@ export default san.defineComponent({
                             label="G"
                             inputClass="${cx.getPartClassName('rgb-input-width')}"
                             underlineClass="${cx.getPartClassName('rgb-input-width')}"
-                            inputValue="{=g=}"
-                            on-input-change="handleInput(g, 'g')"
+                            inputValue="{{rgba[1]}}"
+                            on-input-change="handleRgbInput($event, 1)"
                         />
                     </div>
                     <div class="${cx.getPartClassName('rgb-wrapper')}">
@@ -124,8 +124,8 @@ export default san.defineComponent({
                             label="B"
                             inputClass="${cx.getPartClassName('rgb-input-width')}"
                             underlineClass="${cx.getPartClassName('rgb-input-width')}"
-                            inputValue="{=b=}"
-                            on-input-change="handleInput(b, 'b')"
+                            inputValue="{{rgba[2]}}"
+                            on-input-change="handleRgbInput($event, 2)"
                         />
                     </div>
                     <div class="${cx.getPartClassName('rgb-wrapper')}">
@@ -133,8 +133,8 @@ export default san.defineComponent({
                             label="A"
                             inputClass="${cx.getPartClassName('rgb-input-width')}"
                             underlineClass="${cx.getPartClassName('rgb-input-width')}"
-                            inputValue="{=a=}"
-                            on-input-change="handleAlphaInput(a)"
+                            inputValue="{{rgba[3]}}"
+                            on-input-change="handleAlphaInput($event)"
                         />
                     </div>
                 </div>
@@ -143,13 +143,13 @@ export default san.defineComponent({
                         inputClass="${cx.getPartClassName('hex-input-width')}"
                         underlineClass="${cx.getPartClassName('hex-input-width')}"
                         label="hex"
-                        inputValue="{=hex=}"
-                        on-input-change="handleHexInput(hex)"
+                        inputValue="{{hex}}"
+                        on-input-change="handleHexInput($event)"
                     />
                 </div>
                 <div slot="actions">
                     <san-button on-click="handleCancel" variants="danger">取消</san-button>
-                    <san-button on-click="handleEnsure" variants="info">确定</san-button>
+                    <san-button on-click="handleConfirm" variants="info">确定</san-button>
                 </div>
             </san-dialog>
         </div>
@@ -159,151 +159,136 @@ export default san.defineComponent({
         return {
             color: '#ffffff',
             alpha: false,
-            h: 0,
-            s: 0,
-            v: 0,
-            a: 0,
-            r: 0,
-            g: 0,
-            b: 0,
+            hsv: [0, 0, 0],
+            rgba: [0, 0, 0, 0],
             hex: '',
             svDraggable: false,
             hDraggable: false,
             aDraggable: false
         };
     },
+
     attached() {
-        let color = this.data.get('color');
-        color = color ? color : '#ffffff';
-        let k = kolor(color);
-        let [h, s, v, a] = k.hsva().toArray();
-        let [r, g, b] = k.rgb().toArray();
-        let hex = k.hex();
-        this.data.set('h', h);
-        this.data.set('s', s);
-        this.data.set('v', v);
-        this.data.set('a', a);
-        this.data.set('r', r);
-        this.data.set('g', g);
-        this.data.set('b', b);
-        this.data.set('hex', hex);
-        if (this.data.get('alpha')) {
-            this.data.set('color', k.rgba().css());
-        }
-        else {
-            this.data.set('color', k.hex());
-        }
+        let color = this.data.get('color') || '#ffffff';
+        this.initColorParam(color);
     },
+
     computed: {
         computedClass() {
             return cx(this).build();
         },
-        dialogComputedStyle() {
-            return this.data.get('alpha') ? 278 : 258;
-        },
-        indicatorComputedStyle() {
-            let color = this.data.get('color');
-            return {
-                'background-color': color
-            };
-        },
         colorComputedStyle() {
-            let h = this.data.get('h');
+            let h = this.data.get('hsv[0]');
             let color = kolor.hsva(h, 1, 1, 1).hex();
             return {
                 'background-color': color
             };
         },
-        svChooseComputedStyle() {
-            let left = this.data.get('s') * 200 - 3;
-            let top = (1 - this.data.get('v')) * 200 - 3;
-            return {
-                top: top + 'px',
-                left: left + 'px'
-            };
-        },
-        huaChooseComputedStyle() {
-            let top = this.data.get('h') / 360 * 200 - 3;
-            return {
-                top: top + 'px'
-            };
-        },
         alphaComputedStyle() {
-            let h = this.data.get('h');
-            let s = this.data.get('s');
-            let v = this.data.get('v');
+            // 根据hsv计算出alpha颜色选取条的样式
+            let [h, s, v] = this.data.get('hsv');
             let colorBegin = kolor.hsva(h, s, v, 1).rgba().css();
             let colorEnd = kolor.hsva(h, s, v, 0).rgba().css();
             let color = 'linear-gradient(0deg, ' + colorBegin + ', ' + colorEnd + ')';
             return {
                 background: color
             };
-        },
-        alphaChooseComputedStyle() {
-            let top = this.data.get('a') * 200 - 3;
-            return {
-                top: top + 'px'
-            };
         }
     },
-    rgbTohsv() {
-        let r = this.data.get('r');
-        let g = this.data.get('g');
-        let b = this.data.get('b');
-        let k = kolor.rgb(r, g, b).hsv();
-        let [h, s, v] = k.toArray();
-        s = s.toFixed(3);
-        v = v.toFixed(3);
-        this.data.set('h', h);
-        this.data.set('s', s);
-        this.data.set('v', v);
+
+    /**
+     * 给定color值，初始化设定h,s,v,r,g,b,a的值
+     *
+     * @param {string} color 颜色的字符串代码，hex或者rgba形式
+     */
+    initColorParam(color) {
+        let k = kolor(color);
+        let hsv = k.hsv().toArray();
+        let rgba = k.rgba().toArray();
+        let hex = k.hex();
+
+        this.data.set('hsv', hsv);
+        this.data.set('rgba', rgba);
+        this.data.set('hex', hex);
+        this.data.get('alpha') ? this.data.set('color', k.rgba().css())
+            : this.data.set('color', hex);
     },
+
+    /**
+     * 给定rgb，计算对应的hsv
+     */
+    rgbTohsv() {
+        let [r, g, b] = this.data.get('rgba');
+        let k = kolor.rgb(r, g, b).hsv();
+
+        let hsv = k.toArray();
+        hsv[1] = hsv[1].toFixed(3);
+        hsv[2] = hsv[2].toFixed(3);
+        this.data.set('hsv', hsv);
+    },
+
+    /**
+     * 给定hsv，计算对应的rgb
+     */
     hsvTorgb() {
-        let h = this.data.get('h');
-        let s = this.data.get('s');
-        let v = this.data.get('v');
+        let [h, s, v] = this.data.get('hsv');
         let k = kolor.hsv(h, s, v).rgb();
         let [r, g, b] = k.toArray();
         let hex = k.hex();
-        this.data.set('r', r);
-        this.data.set('g', g);
-        this.data.set('b', b);
+        this.data.set('rgba[0]', r);
+        this.data.set('rgba[1]', g);
+        this.data.set('rgba[2]', b);
         this.data.set('hex', hex);
     },
+
+    /**
+     * 给定颜色hex，计算对应的hsv
+     */
     hexTohsv() {
         let hex = this.data.get('hex');
-        let [h, s, v] = kolor(hex).hsv().toArray();
-        s = s.toFixed(3);
-        v = v.toFixed(3);
-        this.data.set('h', h);
-        this.data.set('s', s);
-        this.data.set('v', v);
+        let hsv = kolor(hex).hsv().toArray();
+        hsv[1] = hsv[1].toFixed(3);
+        hsv[2] = hsv[2].toFixed(3);
+        this.data.set('hsv', hsv);
     },
-    handleClick(e) {
-        this.data.set('focus', !this.data.get('focus'));
+
+    /**
+     * 打开颜色选择板
+     */
+    openPanel() {
+        this.data.set('focus', true);
         this.data.set('open', true);
-        if (this.data.get('alpha')) {
-            let k = kolor(this.data.get('color'));
-            let [r, g, b, a] = k.rgba().toArray();
-            this.data.set('r', r);
-            this.data.set('g', g);
-            this.data.set('b', b);
-            this.data.set('a', a);
-        }
-        else {
-            let hex = this.data.get('color');
-            this.data.set('hex', hex);
-        }
     },
-    handleEnsure(e) {
-        this.data.set('focus', !this.data.get('focus'));
+
+    /**
+     * 关闭颜色选择板
+     */
+    closePanel() {
+        this.data.set('focus', false);
         this.data.set('open', false);
-        let h = this.data.get('h');
-        let s = this.data.get('s');
-        let v = this.data.get('v');
+    },
+
+    /**
+     * 点击颜色输入框，调起选择板
+     *
+     * @param {Object} e 事件参数
+     */
+    handleClick(e) {
+        this.openPanel();
+        this.initColorParam(this.data.get('color'));
+    },
+
+    /**
+     * 点击确定，改变输入框的颜色值
+     *
+     * @param {Object} e 事件参数
+     */
+    handleConfirm(e) {
+        this.closePanel();
+        let [h, s, v] = this.data.get('hsv');
         let color;
         if (this.data.get('alpha')) {
-            let a = parseFloat(this.data.get('a')).toFixed(2);
+            let a = parseFloat(this.data.get('rgba[3]')).toFixed(2);
             color = kolor.hsva(h, s, v, a).rgba().css();
         }
         else {
@@ -312,11 +297,82 @@ export default san.defineComponent({
         this.data.set('color', color);
         this.fire('color-change');
     },
+
+    /**
+     * 点击取消，不改变输入框的颜色值
+     *
+     * @param {Object} e 事件参数
+     */
     handleCancel(e) {
-        this.data.set('focus', !this.data.get('focus'));
-        this.data.set('open', false);
+        this.closePanel();
     },
-    handleSv(e) {
+
+    /**
+     * 处理鼠标按下事件, 此时滑块可滑动
+     *
+     * @param {Object} e 事件参数
+     * @param {string} prefix 滑动标识的前缀
+     */
+    handleMouseDown(e, prefix) {
+        e.preventDefault();
+        let key = prefix + 'Draggable';
+        this.data.set(key, true);
+    },
+
+    /**
+     * 处理鼠标松开事件, 此时滑块不可滑动
+     *
+     * @param {Object} e 事件参数
+     * @param {string} prefix 滑动标识的前缀
+     */
+    handleMouseUp(e, prefix) {
+        e.preventDefault();
+        let key = prefix + 'Draggable';
+        this.data.set(key, false);
+    },
+
+    /**
+     * 处理sv区域鼠标滑动事件
+     *
+     * @param {Object} e 事件参数
+     */
+    handleSvMouseMove(e) {
+        e.preventDefault();
+        if (this.data.get('svDraggable')) {
+            this.handleSvChange(e);
+        }
+    },
+
+    /**
+     * 处理hua区域鼠标滑动事件
+     *
+     * @param {Object} e 事件参数
+     */
+    handleHuaMouseMove(e) {
+        e.preventDefault();
+        if (this.data.get('hDraggable')) {
+            this.handleHuaChange(e);
+        }
+    },
+
+    /**
+     * 处理alpha区域鼠标滑动事件
+     *
+     * @param {Object} e 事件参数
+     */
+    handleAlphaMouseMove(e) {
+        e.preventDefault();
+        if (this.data.get('aDraggable')) {
+            this.handleAlphaChange(e);
+        }
+    },
+
+    /**
+     * 处理sv选择框鼠标点击事件
+     *
+     * @param {Object} e 事件参数
+     */
+    handleSvChange(e) {
         let target = e.currentTarget;
         let outX = target.offsetLeft;
         let outY = target.offsetTop;
@@ -324,126 +380,99 @@ export default san.defineComponent({
         let clientY = e.clientY;
         let s = ((clientX - outX) / 200).toFixed(3);
         let v = (1 - (clientY - outY) / 200).toFixed(3);
-        if (s > 1) {
-            s = 1;
-        }
-        else if (s < 0) {
-            s = 0;
-        }
-        if (v > 1) {
-            v = 1;
-        }
-        else if (v < 0) {
-            v = 0;
-        }
-        this.data.set('s', s);
-        this.data.set('v', v);
+        // s，v合法性校验，防止大于1或者小于0
+        s = s > 1 ? 1 : s < 0 ? 0 : s;
+        v = v > 1 ? 1 : v < 0 ? 0 : v;
+        this.data.set('hsv[1]', s);
+        this.data.set('hsv[2]', v);
         this.hsvTorgb();
     },
-    handleSvMouseDown(e) {
-        e.preventDefault();
-        this.data.set('svDraggable', true);
-    },
-    handleSvMouseUp(e) {
-        e.preventDefault();
-        this.data.set('svDraggable', false);
-    },
-    handleSvMouseMove(e) {
-        e.preventDefault();
-        if (this.data.get('svDraggable')) {
-            this.handleSv(e);
-        }
-    },
-    handleHua(e) {
+
+    /**
+     * 处理hua框鼠标点击事件
+     *
+     * @param {Object} e 事件参数
+     */
+    handleHuaChange(e) {
         let target = e.currentTarget;
         let outY = target.offsetTop;
         let clientY = e.clientY;
         let h = (clientY - outY) / 200 * 360;
-        if (h > 360) {
-            h = 360;
-        }
-        else if (h < 0) {
-            h = 0;
-        }
-        this.data.set('h', h);
+        // h合法性校验，防止大于360或者小于0
+        h = h > 360 ? 360 : h < 0 ? 0 : h;
+        this.data.set('hsv[0]', h);
         this.hsvTorgb();
     },
-    handleHuaMouseDown(e) {
-        e.preventDefault();
-        this.data.set('hDraggable', true);
-    },
-    handleHuaMouseUp(e) {
-        e.preventDefault();
-        this.data.set('hDraggable', false);
-    },
-    handleHuaMouseMove(e) {
-        e.preventDefault();
-        if (this.data.get('hDraggable')) {
-            this.handleHua(e);
-        }
-    },
-    handleAlpha(e) {
+
+    /**
+     * 处理alpha框鼠标点击事件
+     *
+     * @param {Object} e 事件参数
+     */
+    handleAlphaChange(e) {
         let target = e.currentTarget;
         let outY = target.offsetTop;
         let clientY = e.clientY;
         let a = ((clientY - outY) / 200).toFixed(2);
-        if (a > 1) {
-            a = 1;
-        }
-        else if (a < 0) {
-            a = 0;
-        }
-        this.data.set('a', a);
+        // a合法性校验，防止大于1或者小于0
+        a = a > 1 ? 1 : a < 0 ? 0 : a;
+        this.data.set('rgba[3]', a);
     },
-    handleAlphaMouseDown(e) {
-        e.preventDefault();
-        this.data.set('aDraggable', true);
-    },
-    handleAlphaMouseUp(e) {
-        e.preventDefault();
-        this.data.set('aDraggable', false);
-    },
-    handleAlphaMouseMove(e) {
-        e.preventDefault();
-        if (this.data.get('aDraggable')) {
-            this.handleAlpha(e);
-        }
-    },
-    handleInput(val, type) {
+
+    /**
+     * 处理rgb输入事件
+     *
+     * @param {Object} e 事件参数
+     * @param {string} index r,g,b在rgba变量中的索引
+     */
+    handleRgbInput(e, index) {
+        let val = e.target.value;
+        // rgb输入合法性校验
         let formatVal = parseInt(val, 10);
-        if (isNaN(formatVal)) {
-            this.data.set(type, '');
-        }
-        else {
-            formatVal = formatVal >= 255 ? 255 : formatVal;
-            this.data.set(type, formatVal);
-        }
+        let value = isNaN(formatVal) ? '' : Math.min(255, formatVal);
+        this.data.set('rgba[' + index + ']', value);
+        e.target.value = value;
         this.rgbTohsv();
     },
-    handleAlphaInput(val) {
+
+    /**
+     * 处理alpha输入事件
+     *
+     * @param {Object} e 事件参数
+     */
+    handleAlphaInput(e) {
+        let val = e.target.value;
         if (val.indexOf('.') === val.length - 1) {
             return;
         }
-        let formatVal;
-        if (val.length > 4) {
-            formatVal = parseFloat(val.substring(0, 4));
-        }
-        else {
-            formatVal = parseFloat(val);
-        }
+
+        // a输入合法性校验
+        let formatVal = parseFloat(val.substring(0, 4));
         if (isNaN(formatVal)) {
-            this.data.set('a', '');
+            this.data.set('rgba[3]', '');
+            e.target.value = '';
         }
         else {
             formatVal = formatVal >= 1 ? 1 : formatVal;
-            this.data.set('a', formatVal);
+            this.data.set('rgba[3]', formatVal);
+            e.target.value = formatVal;
         }
     },
-    handleHexInput(val) {
+
+    /**
+     * 处理hex颜色代码输入事件
+     *
+     * @param {Object} e 事件参数
+     */
+    handleHexInput(e) {
+        let val = e.target.value;
+        this.data.set('hex', val);
+        // hex输入合法性校验
         let reg = /^\#[0-9a-fA-F]{6}$/;
         if (reg.test(val)) {
-            this.data.set('hex', val);
             this.hexTohsv();
         }
+
     }
+
 });
