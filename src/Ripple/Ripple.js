@@ -44,7 +44,7 @@ export default san.defineComponent({
                 let height = this.data.get('height');
                 let color = this.data.get('color');
                 let radius = Math.max(width, height);
-                
+
                 // set immutable style of el
                 el.style.top = `${top - radius}px`;
                 el.style.left = `${left - radius}px`;
@@ -64,9 +64,9 @@ export default san.defineComponent({
                     let curOpacity = getTimingValue(opacity, progress);
                     let curScale = getTimingValue(scale, progress);
                     el.style.opacity = curOpacity;
-                    el.style.transform = `scale(${curScale}, ${curScale})`
+                    el.style.transform = `scale(${curScale}, ${curScale})`;
                     requestAnimationFrame(goStep);
-                }
+                };
 
                 // fire animate start
                 this.fire('animate-start');
