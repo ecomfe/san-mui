@@ -83,10 +83,14 @@ export default san.defineComponent({
         checked: DataTypes.string
     },
     handleClick(e) {
-        // 阻止事件冒泡，放置外部控制的时候触发两次 click
-        if (!this.data.get('disabled')) {
-            this.ref('ripple').click();
+        if (this.data.get('disabled')) {
+            return;
         }
+        // 点击label，同时也会出发INPUT的点击事件。这里需要过滤一下，否则ripple会click两次
+        if (e.target.tagName === 'INPUT') {
+            return;
+        }
+        this.ref('ripple').click();
     },
     handleTouchStart(event) {
     },
