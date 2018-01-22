@@ -76,7 +76,7 @@ export default san.defineComponent({
                 this.fire('animate-start');
                 goStep();
             }
-        }
+        };
     },
 
     stopAnimation() {

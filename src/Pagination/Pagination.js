@@ -178,7 +178,7 @@ export default class extends Component {
         this.fire('pageSizeChange', {
             pageNum: current,
             page: current,
-            pageSize,
+            pageSize
         });
 
         this.toggleSelectorPopup();

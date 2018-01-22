@@ -137,9 +137,7 @@ export default san.defineComponent({
             if (!checked) {
                 return [];
             }
-            else {
-                return this.data.get('checked').map(d => d.toString());
-            }
+            return checked.map(item => item.toString());
         }
     },
     handleClick(e) {
