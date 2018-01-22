@@ -6,9 +6,22 @@
 import {expect} from 'chai';
 import san from 'san';
 import Checkbox from 'src/Checkbox';
+import 'src/Checkbox/Checkbox.styl';
 
 describe('Checkbox', () => {
+    // prepare for testing
     const viewport = document.createElement('div');
+    viewport.id = 'test';
+
+    before(() => {
+        document.body.appendChild(viewport);
+    });
+
+    after(() => {
+        viewport.remove();
+    });
+
+    // testing component
     const createComponent = function (options) {
         let Component = san.defineComponent(
             Object.assign({
@@ -25,13 +38,6 @@ describe('Checkbox', () => {
         return component;
     };
 
-    beforeEach(() => {
-        document.body.appendChild(viewport);
-    });
-    afterEach(() => {
-        viewport.remove();
-    });
-
     it('simple use', done => {
         let component = createComponent({
             template: `<div>
@@ -47,49 +53,60 @@ describe('Checkbox', () => {
                     value: 'ON',
                     inputValue: ['ON']
                 };
-            }
+            },
+            handleChange(e) {}
         });
-        component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.checked).to.equal(true);
         el.click();
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(inputElement.checked).to.equal(false);
             expect(component.data.get('inputValue').length).to.equal(0);
+            component.dispose();
             done();
-        }, 1);
+        });
     });
+
     it('checked and disabled', done => {
         let component = createComponent({
             template: `<div>
             <ui-checkbox label="最简单的"
                 value="{{value}}"
                 class="demo-checkbox"
-                disabled
+                disabled="{{disabled}}"
                 checked="{=inputValue=}"/>
             </div>`,
 
             initData() {
                 return {
+                    disabled: true,
                     value: 'ON',
                     inputValue: ['ON']
                 };
             }
         });
-        component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
+        window.i = inputElement;
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.checked).to.equal(true);
         expect(inputElement.disabled).to.equal(true);
         el.click();
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(inputElement.checked).to.equal(true);
-            done();
-        }, 1);
+            component.data.set('disabled', false);
+            el.click();
+            component.nextTick(() => {
+                expect(inputElement.checked).to.equal(true);
+                expect(inputElement.disabled).to.equal(false);
+                component.dispose();
+                done();
+            });
+        });
     });
+
     it('unchecked and disabled', done => {
         let component = createComponent({
             template: `<div>
@@ -106,17 +123,17 @@ describe('Checkbox', () => {
                 };
             }
         });
-        component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.checked).to.equal(false);
         expect(inputElement.disabled).to.equal(true);
         el.click();
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(inputElement.checked).to.equal(false);
+            component.dispose();
             done();
-        }, 1);
+        });
     });
 
     it('set indeterminate', done => {
@@ -135,16 +152,16 @@ describe('Checkbox', () => {
                 };
             }
         });
-        component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.indeterminate).to.equal(false);
         component.data.set('indeterminate', true);
         setTimeout(() => {
             expect(inputElement.indeterminate).to.equal(true);
+            component.dispose();
             done();
-        }, 1);
+        }, 10);
     });
 
     it('click to change checked and indeterminate', done => {
@@ -159,22 +176,27 @@ describe('Checkbox', () => {
 
             initData() {
                 return {
-                    value: 'ON'
+                    value: 'ON',
+                    inputValue: []
                 };
             }
         });
-        component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
+        expect(inputElement.indeterminate).to.equal(false);
+        expect(inputElement.checked).to.equal(false);
         el.click();
         setTimeout(() => {
             expect(inputElement.indeterminate).to.equal(true);
+            expect(inputElement.checked).to.equal(true);
             el.click();
             setTimeout(() => {
+                expect(inputElement.indeterminate).to.equal(false);
                 expect(inputElement.checked).to.equal(true);
+                component.dispose();
                 done();
-            }, 300);
-        });
+            }, 10);
+        }, 10);
     });
 });

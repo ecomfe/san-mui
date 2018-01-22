@@ -48,7 +48,7 @@ export default function (config) {
         webpack: {
             devtool: 'inline-source-map',
             resolve: {
-                extensions: ['', '.js', '.san'],
+                extensions: ['', '.js', '.san', '.styl'],
                 fallback: [path.join(__dirname, '../node_modules')],
                 alias: {
                     src: SRC_ROOT
@@ -94,6 +94,10 @@ export default function (config) {
                             limit: 100000,
                             name: assetsPath('fonts/[name].[hash:7].[ext]')
                         }
+                    },
+                    {
+                        test: /\.styl$/,
+                        loader: 'style-loader!css-loader!stylus-loader'
                     }
                 ]
             },

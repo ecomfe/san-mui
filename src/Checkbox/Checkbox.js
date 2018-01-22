@@ -9,12 +9,11 @@ import {CenterRipple} from '../Ripple';
 import cx from 'classnames';
 
 /**
- * 本组件支持的data type
+ * @const 本组件支持的data type常量
  */
 const CHECKBOX_DATA_TYPES = {
-    'number'  : 'number',
-    'string'  : 'string',
-    // 'boolean' : 'boolean'
+    number: 'number',
+    string: 'string'
 };
 
 export default san.defineComponent({
@@ -103,13 +102,13 @@ export default san.defineComponent({
         name: DataTypes.string,
         value: DataTypes.oneOfType([
             DataTypes.string,
-            DataTypes.number,
+            DataTypes.number
         ]),
         checked: DataTypes.arrayOf(function (dataValue, key, componentName, dataFullName) {
             if (!/^string|number$/.test(typeof dataValue[key])) {
                 throw new Error(
-                    'Invalid prop `' + dataFullName + '` supplied to' +
-                    ' `' + componentName + '`. Validation failed.'
+                    'Invalid prop `' + dataFullName + '` supplied to'
+                    + ' `' + componentName + '`. Validation failed.'
                 );
             }
         }),
@@ -120,7 +119,7 @@ export default san.defineComponent({
         checkedIcon: DataTypes.string,
         indeterminateIcon: DataTypes.string,
         iconClass: DataTypes.string,
-        disabled: DataTypes.bool,
+        disabled: DataTypes.bool
     },
     computed: {
         mainClass() {
@@ -135,10 +134,11 @@ export default san.defineComponent({
         },
         realChecked() {
             const checked = this.data.get('checked');
-            if (checked) {
-                return this.data.get('checked').map(d => d.toString());
-            } else {
+            if (!checked) {
                 return [];
+            }
+            else {
+                return this.data.get('checked').map(d => d.toString());
             }
         }
     },
@@ -161,7 +161,8 @@ export default san.defineComponent({
 
         if (checked && index === -1) {
             this.data.push('checked', inputValue);
-        } else if (!checked && index !== -1) {
+        }
+        if (!checked && index !== -1) {
             this.data.removeAt('checked', index);
         }
 
@@ -220,9 +221,6 @@ export default san.defineComponent({
             case string:
                 value = String(str);
                 break;
-            // case boolean:
-            //     value = Boolean(str);
-            //     break;
             default:
                 break;
         }

@@ -6,9 +6,22 @@
 import {expect} from 'chai';
 import san from 'san';
 import Radio from 'src/Radio';
+import 'src/Radio/index.styl';
 
-describe('Checkbox', () => {
+describe('Radio', () => {
+    // prepare for testing
     const viewport = document.createElement('div');
+    viewport.id = 'test';
+
+    before(() => {
+        document.body.appendChild(viewport);
+    });
+
+    after(() => {
+        viewport.remove();
+    });
+
+    // testing component
     const createComponent = function (options) {
         let Component = san.defineComponent(
             Object.assign({
@@ -24,13 +37,6 @@ describe('Checkbox', () => {
         component.attach(viewport);
         return component;
     };
-
-    beforeEach(() => {
-        document.body.appendChild(viewport);
-    });
-    afterEach(() => {
-        viewport.remove();
-    });
 
     it('simple use', done => {
         let component = createComponent({
@@ -51,9 +57,8 @@ describe('Checkbox', () => {
                 };
             }
         });
-        component.attach(viewport);
-        let firstRadio = component.childs[0].el;
-        let secondRadio = component.childs[1].el;
+        let firstRadio = component.children[0].el;
+        let secondRadio = component.children[1].el;
         let firstInput = firstRadio.querySelector('input');
         let secondInput = secondRadio.querySelector('input');
         expect(firstRadio.tagName).to.equal('LABEL');
@@ -61,11 +66,12 @@ describe('Checkbox', () => {
         expect(firstInput.checked).to.equal(true);
         expect(secondInput.checked).to.equal(false);
         secondRadio.click();
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(firstInput.checked).to.equal(false);
             expect(secondInput.checked).to.equal(true);
+            component.dispose();
             done();
-        }, 100);
+        });
     });
 
     it('disabled', done => {
@@ -89,9 +95,8 @@ describe('Checkbox', () => {
                 };
             }
         });
-        component.attach(viewport);
-        let firstRadio = component.childs[0].el;
-        let secondRadio = component.childs[1].el;
+        let firstRadio = component.children[0].el;
+        let secondRadio = component.children[1].el;
         let firstInput = firstRadio.querySelector('input');
         let secondInput = secondRadio.querySelector('input');
         expect(firstRadio.tagName).to.equal('LABEL');
@@ -100,10 +105,11 @@ describe('Checkbox', () => {
         expect(secondInput.checked).to.equal(false);
         expect(firstInput.disabled).to.equal(true);
         secondRadio.click();
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(firstInput.checked).to.equal(true);
             expect(secondInput.checked).to.equal(false);
+            component.dispose();
             done();
-        }, 500);
+        });
     });
 });

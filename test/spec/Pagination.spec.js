@@ -6,10 +6,22 @@
 import {expect} from 'chai';
 import san from 'san';
 import Pagination from 'src/Pagination';
+import 'src/Pagination/index.styl';
 
 describe('Pagination', () => {
-
+    // prepare for testing
     const viewport = document.createElement('div');
+    viewport.id = 'test';
+
+    before(() => {
+        document.body.appendChild(viewport);
+    });
+
+    after(() => {
+        viewport.remove();
+    });
+
+    // testing component
     const createComponent = function (options) {
         const Component = san.defineComponent(
             Object.assign({
@@ -25,13 +37,6 @@ describe('Pagination', () => {
         component.attach(viewport);
         return component;
     };
-
-    beforeEach(() => {
-        document.body.appendChild(viewport);
-    });
-    afterEach(() => {
-        viewport.remove();
-    });
 
     it('pagination element', () => {
         const component = new Pagination({
@@ -49,7 +54,7 @@ describe('Pagination', () => {
         component.dispose();
     });
 
-    it('component Pagination', () => {
+    it('should automatically update totalPage when pageSize change', done => {
         let component = createComponent({
             template: '<div><sm-pagination total="{{total}}"></sm-pagination></div>',
             initData() {
@@ -58,16 +63,17 @@ describe('Pagination', () => {
                 };
             }
         });
-        let paginationComponent = component.childs[0];
+        let paginationComponent = component.children[0];
         expect(paginationComponent.data.get('totalPage')).to.equal(5);
         paginationComponent.data.set('pageSize', 25);
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(paginationComponent.data.get('totalPage')).to.equal(2);
-        }, 10);
-
+            component.dispose();
+            done();
+        });
     });
 
-    it('it should turn to next page when click next page button', () => {
+    it('should turn to next page when click next page button', done => {
         let component = createComponent({
             template: '<div><sm-pagination total="{{total}}"></sm-pagination></div>',
             initData() {
@@ -76,15 +82,16 @@ describe('Pagination', () => {
                 };
             }
         });
-        let paginationComponent = component.childs[0];
+        let paginationComponent = component.children[0];
         paginationComponent.el.getElementsByClassName('next-page')[0].click();
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(paginationComponent.data.get('current')).to.equal(2);
-        }, 10);
-
+            component.dispose();
+            done();
+        });
     });
 
-    it('it should turn to pre page when click pre page button', () => {
+    it('should turn to pre page when click pre page button', done => {
         let component = createComponent({
             template: '<div><sm-pagination total="{{total}}" current="{{current}}"></sm-pagination></div>',
             initData() {
@@ -94,12 +101,13 @@ describe('Pagination', () => {
                 };
             }
         });
-        let paginationComponent = component.childs[0];
+        let paginationComponent = component.children[0];
         paginationComponent.el.getElementsByClassName('pre-page')[0].click();
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(paginationComponent.data.get('current')).to.equal(1);
-        }, 10);
-
+            component.dispose();
+            done();
+        });
     });
 
 });
