@@ -82,6 +82,64 @@ export default {
 </style>
 ```
 
+现在CheckBox组件支持了数字与字符串两种输入。能够满足更多样的业务场景
+
+```san 支持两种类型的value值
+<template>
+    <div>
+        <div class="checkbox-row">
+            <sm-checkbox
+                label="字符串1"
+                value="{{value1}}"
+                class="demo-checkbox"
+                checked="{=inputValue=}"/>
+            <sm-checkbox
+                label="字符串2"
+                value="{{value2}}"
+                class="demo-checkbox"
+                checked="{=inputValue=}"/>
+            <sm-checkbox
+                label="数字1"
+                value="{{value3}}"
+                class="demo-checkbox"
+                checked="{=inputValue2=}"/>
+            <sm-checkbox
+                label="数字2"
+                value="{{value4}}"
+                class="demo-checkbox"
+                checked="{=inputValue2=}"/>
+        </div>
+        <div class="checkbox-bind-value">
+            <p><span s-for="item in inputValue">"{{item}}"</span></p>
+            <p><span s-for="item in inputValue2">{{item}}</span></p>
+        </div>
+    </div>
+</template>
+<script>
+import Checkbox from '../src/Checkbox';
+export default {
+    components: {
+        'sm-checkbox': Checkbox
+    },
+    initData() {
+        return {
+            value1: '1',
+            value2: '2',
+            inputValue: ['1', '2'],
+            inputValue2: [1, 2],
+            value3: 1,
+            value4: 2
+        };
+    }
+};
+</script>
+<style>
+.checkbox-bind-value p span {
+    margin: 0 5px;
+}
+</style>
+```
+
 除了 `勾选` 和 `未勾选` 两个状态，我们还支持 `不定` 状态 `indeterminate`。
 
 ```san 不确定状态

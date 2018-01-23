@@ -9,11 +9,12 @@ import {CenterRipple} from '../Ripple';
 import cx from 'classnames';
 
 /**
+ * @const
  * 本组件支持的data type
  */
 const CHECKBOX_DATA_TYPES = {
-    'number'  : 'number',
-    'string'  : 'string',
+    number: 'number',
+    string: 'string'
     // 'boolean' : 'boolean'
 };
 
@@ -103,13 +104,13 @@ export default san.defineComponent({
         name: DataTypes.string,
         value: DataTypes.oneOfType([
             DataTypes.string,
-            DataTypes.number,
+            DataTypes.number
         ]),
         checked: DataTypes.arrayOf(function (dataValue, key, componentName, dataFullName) {
             if (!/^string|number$/.test(typeof dataValue[key])) {
                 throw new Error(
-                    'Invalid prop `' + dataFullName + '` supplied to' +
-                    ' `' + componentName + '`. Validation failed.'
+                    'Invalid prop `' + dataFullName + '` supplied to'
+                    + ' `' + componentName + '`. Validation failed.'
                 );
             }
         }),
@@ -120,7 +121,7 @@ export default san.defineComponent({
         checkedIcon: DataTypes.string,
         indeterminateIcon: DataTypes.string,
         iconClass: DataTypes.string,
-        disabled: DataTypes.bool,
+        disabled: DataTypes.bool
     },
     computed: {
         mainClass() {
@@ -137,16 +138,15 @@ export default san.defineComponent({
             const checked = this.data.get('checked');
             if (checked) {
                 return this.data.get('checked').map(d => d.toString());
-            } else {
-                return [];
             }
+            return [];
         }
     },
     handleClick(e) {
         if (this.data.get('disabled')) {
             return;
         }
-        // 点击label，同时也会出发INPUT的点击事件。这里也接收到INPUT冒泡上来的事件，所以需要过滤一下，否则ripple会click两次
+        // 点击label，同时也会触发INPUT的点击事件。这里也接收到INPUT冒泡上来的事件，所以需要过滤一下，否则ripple会click两次
         if (e.target.tagName === 'INPUT') {
             return;
         }
@@ -161,7 +161,8 @@ export default san.defineComponent({
 
         if (checked && index === -1) {
             this.data.push('checked', inputValue);
-        } else if (!checked && index !== -1) {
+        }
+        else if (!checked && index !== -1) {
             this.data.removeAt('checked', index);
         }
 
@@ -197,7 +198,7 @@ export default san.defineComponent({
         const {value, checked} = this.data.get();
         const valueType = typeof value;
         this.data.set('valueDataType', valueType);
-        // if (checked)
+
         if (checked) {
             checked.forEach(d => {
                 const t = typeof d;
