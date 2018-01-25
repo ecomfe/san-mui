@@ -344,7 +344,7 @@ export default san.defineComponent({
     },
 
     attached() {
-        let slotChilds = this.slotChilds;
+        let slotChilds = this.slotChilds || this.slotChildren;
         let hasLeft = 0;
 
         for (let slot of slotChilds) {
@@ -500,7 +500,7 @@ export default san.defineComponent({
     },
 
     hasNestedSlotChilds() {
-        let slotChilds = this.slotChilds;
+        let slotChilds = this.slotChilds || this.slotChildren;
         if (slotChilds.length <= 0) {
             return false;
         }
@@ -508,7 +508,7 @@ export default san.defineComponent({
             if (i.name !== 'nested') {
                 continue;
             }
-            for (let j of i.childs) {
+            for (let j of (i.childs ? i.childs : i.children)) {
                 if (j.subTag === this.subTag) {
                     return true;
                 }
@@ -519,15 +519,15 @@ export default san.defineComponent({
 
     getNestedAndCheckedSlotChilds() {
         let items = [];
-        let slotChilds = this.slotChilds;
-        if (slotChilds.length <= 0) {
+        let slotChilds = this.slotChilds || this.slotChildren;
+        if (!slotChilds || slotChilds.length <= 0) {
             return items;
         }
         for (let i of slotChilds) {
             if (i.name !== 'nested') {
                 continue;
             }
-            for (let j of i.childs) {
+            for (let j of (i.childs ? i.childs : i.children)) {
                 if (!j.el || !j.el.parentNode) {
                     continue;
                 }
