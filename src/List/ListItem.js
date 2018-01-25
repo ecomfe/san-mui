@@ -125,7 +125,7 @@ export default san.defineComponent({
 
     attached() {
 
-        let slotChilds = this.slotChilds;
+        let slotChilds = this.slotChilds || this.slotChildren;
 
         let hasLeft = false;
         let hasRight = false;

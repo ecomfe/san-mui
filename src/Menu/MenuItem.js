@@ -192,7 +192,7 @@ export default class MenuItem extends Component {
 
     attached() {
 
-        let slotChilds = this.slotChilds;
+        let slotChilds = this.slotChilds || this.slotChildren;
 
         let {type, cascade} = this.data.get();
 

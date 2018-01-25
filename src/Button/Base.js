@@ -12,9 +12,9 @@ import {Component, parseTemplate} from 'san';
 //
 // @tricky: 我们在这里使用了 san 提供的 parseTemplate 来获得 anode 属性
 
-const linkANodeProps = parseTemplate(
-    '<a href="{{href}}" target="{{target}}"/>'
-).childs[0].props;
+const linkANode = parseTemplate('<a href="{{href}}" target="{{target}}"/>');
+
+const linkANodeProps = (linkANode.childs || linkANode.children)[0].props;
 
 const hrefProps = linkANodeProps.get('href');
 const targetProps = linkANodeProps.get('target');
