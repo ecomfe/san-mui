@@ -95,8 +95,7 @@ export default san.defineComponent({
             indeterminateIcon: 'icon',
             iconClass: '',
             checked: [],
-            disabled: false,
-            valueDataType: 'string'
+            disabled: false
         };
     },
     dataTypes: {
@@ -193,24 +192,26 @@ export default san.defineComponent({
         // get data type of value
         const {value, checked} = this.data.get();
         const valueType = typeof value;
-        this.data.set('valueDataType', valueType);
+        this.valueDataType = valueType;
 
         if (checked) {
             checked.forEach(d => {
                 const t = typeof d;
                 if (CHECKBOX_DATA_TYPES[t] !== valueType) {
-                    throw new Error(`[SAN-MUI ERROR] the data type of elements in Array "checked" and "value" attribute
-    must be all the same in checkbox component. Attribute "value" is ${valueType}, but "checked" Array contains ${t}.`);
+                    throw new Error(
+                        '[SAN-MUI ERROR] the data type of element in Array "checked" and "value"'
+                        + ' attribute must be all the same in CHECKBOX component. '
+                        + 'Attribute "value" is ' + valueType + ', but "checked" Array contains ' + t + '}.'
+                    );
                 }
             });
         }
     },
     stringToInputValue(str) {
         const {number, string} = CHECKBOX_DATA_TYPES;
-        const valueDataType = this.data.get('valueDataType');
 
         let value;
-        switch (valueDataType) {
+        switch (this.valueDataType) {
             case number:
                 value = Number(str);
                 break;
