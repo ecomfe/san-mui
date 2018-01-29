@@ -9,7 +9,8 @@ import {CenterRipple} from '../Ripple';
 import cx from 'classnames';
 
 /**
- * @const 本组件支持的data type常量
+ * @const
+ * 本组件支持的data type
  */
 const CHECKBOX_DATA_TYPES = {
     number: 'number',
@@ -134,17 +135,14 @@ export default san.defineComponent({
         },
         realChecked() {
             const checked = this.data.get('checked');
-            if (!checked) {
-                return [];
-            }
-            return checked.map(item => item.toString());
+            return this.data.get('checked').map(d => d.toString());
         }
     },
     handleClick(e) {
         if (this.data.get('disabled')) {
             return;
         }
-        // 点击label，同时也会出发INPUT的点击事件。这里也接收到INPUT冒泡上来的事件，所以需要过滤一下，否则ripple会click两次
+        // 点击label，同时也会触发INPUT的点击事件。这里也接收到INPUT冒泡上来的事件，所以需要过滤一下，否则ripple会click两次
         if (e.target.tagName === 'INPUT') {
             return;
         }
@@ -196,7 +194,7 @@ export default san.defineComponent({
         const {value, checked} = this.data.get();
         const valueType = typeof value;
         this.data.set('valueDataType', valueType);
-        // if (checked)
+
         if (checked) {
             checked.forEach(d => {
                 const t = typeof d;
@@ -218,8 +216,6 @@ export default san.defineComponent({
                 break;
             case string:
                 value = String(str);
-                break;
-            default:
                 break;
         }
         return value;
