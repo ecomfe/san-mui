@@ -175,9 +175,14 @@ describe('Menu', () => {
                             <ui-menu>
                                 <ui-menu-item title="menu item" cascade>
                                     <ui-menu slot="submenu">
-                                        <ui-menu-item title="submenu item" cascade>
+                                        <ui-menu-item title="submenu item1" cascade>
                                             <ui-menu slot="submenu">
                                                 <ui-menu-item title="subsubmenu item" />
+                                            </ui-menu>
+                                        </ui-menu-item>
+                                        <ui-menu-item title="submenu item2" cascade>
+                                            <ui-menu slot="submenu">
+                                                <ui-menu-item san-ref="sub-sub-menu" title="subsubmenu item" />
                                             </ui-menu>
                                         </ui-menu-item>
                                     </ui-menu>
@@ -199,15 +204,27 @@ describe('Menu', () => {
         menu1.el.click();
         component.nextTick(() => {
             expect(menu1.data.get('subMenuOpen')).to.equal(true);
+            expect(menu1.children[4].children[0].el.className).to.include('state-open');
             menu2.el.click();
             component.nextTick(() => {
                 expect(menu2.data.get('subMenuOpen')).to.equal(true);
-                menu1.el.click(); // close all
+                expect(menu2.children[4].children[0].el.className).to.include('state-open');
+                // 测试能否级联关闭 父Menu
+                component.ref('sub-sub-menu').el.click();
                 component.nextTick(() => {
                     expect(menu1.data.get('subMenuOpen')).to.equal(false);
-                    expect(menu2.data.get('subMenuOpen')).to.equal(false);
-                    component.dispose();
-                    done();
+                    expect(menu1.children[4].children[0].el.className).to.not.include('state-open');
+                    // 测试能否级联关闭 subMenu，这里适当地做了简化
+                    menu1.el.click();
+                    menu2.el.click();
+                    menu1.el.click();
+                    component.nextTick(() => {
+                        expect(menu1.data.get('subMenuOpen')).to.equal(false);
+                        expect(menu1.children[4].children[0].el.className).to.not.include('state-open');
+                        expect(menu2.children[4].children[0].el.className).to.not.include('state-open');
+                        component.dispose();
+                        done();
+                    });
                 });
             });
         });
@@ -217,7 +234,7 @@ describe('Menu', () => {
         let component = createComponent({
             template: `<div>
                             <ui-icon-menu icon="more_vert">
-                                <ui-menu-item title="刷新" />
+                                <ui-menu-item san-ref="sub-menu1" title="刷新" />
                                 <ui-menu-item title="推出" />
                             </ui-icon-menu>
                         </div>`,
@@ -226,42 +243,108 @@ describe('Menu', () => {
                 };
             }
         });
-        expect(component.children[0].data.get('open')).to.equal(false);
-        component.children[0].el.querySelector('.sm-icon').click();
+        let iconMenu = component.children[0];
+        expect(iconMenu.data.get('open')).to.equal(false);
+        iconMenu.el.querySelector('.sm-icon').click();
         component.nextTick(() => {
-            expect(component.children[0].data.get('open')).to.equal(true);
-            component.dispose();
-            done();
+            expect(iconMenu.data.get('open')).to.equal(true);
+            component.ref('sub-menu1').el.click();
+            component.nextTick(() => {
+                expect(iconMenu.data.get('open')).to.equal(false);
+                expect(document.querySelector('.sm-popover').className).to.not.include('state-open');
+                component.dispose();
+                done();
+            });
         });
     });
 
     it('dropdown menu', done => {
         let component = createComponent({
             template: `<div>
-                            <ui-dropdown-menu value="{=value=}" on-change="change($event)">
+                            <ui-dropdown-menu
+                                value="{=value=}"
+                                maxHeight="{{40}}"
+                                on-click="handleClick($event)"
+                                on-change="change($event)">
                                 <ui-menu-item value="1" title="星期一"/>
                                 <ui-menu-item value="2" title="星期二"/>
-                                <ui-menu-item value="3" title="星期三"/>
+                                <ui-menu-item on-click="handleClick($event)" value="3" title="星期三"/>
                             </ui-dropdown-menu>
                         </div>`,
             initData() {
                 return {
-                    value: '1'
+                    value: '1',
+                    clickCounter: 1
                 };
             },
             change(value) {
                 this.data.set('value', value);
                 expect(component.children[0].slotChildren[0].children[value - 1].data.get('selected')).to.equal(true);
-            }
+            },
+            handleClick(event) {}
         });
-        let itemComponent1 = component.children[0].slotChildren[0].children[0];
-        let itemComponent2 = component.children[0].slotChildren[0].children[1];
-        let itemComponent3 = component.children[0].slotChildren[0].children[2];
+        let menu = component.children[0];
+        let itemComponent1 = menu.slotChildren[0].children[0];
+        let itemComponent3 = menu.slotChildren[0].children[2];
         expect(itemComponent1.data.get('selected')).to.equal(true);
-        itemComponent2.el.click();
+        menu.el.click();
         component.nextTick(() => {
+            expect(menu.data.get('open')).to.equal(true);
+            expect(menu.children[0].el.className).to.include('state-open');
+            expect(itemComponent1.el.className).to.include('state-selected');
             itemComponent3.el.click();
             component.nextTick(() => {
+                expect(menu.data.get('open')).to.equal(false);
+                expect(menu.children[0].el.className).to.not.include('state-open');
+                expect(itemComponent3.el.className).to.include('state-selected');
+                expect(itemComponent3.el.parentNode.scrollTop).to.equal(0);
+                menu.el.click();
+                component.nextTick(() => {
+                    expect(menu.data.get('open')).to.equal(true);
+                    expect(menu.children[0].el.className).to.include('state-open');
+                    expect(itemComponent3.el.parentNode.scrollTop).to.equal(itemComponent3.el.offsetTop);
+                    component.dispose();
+                    done();
+                });
+            });
+        });
+    });
+
+    it('dropdown menu disabled & readOnly', done => {
+        let component = createComponent({
+            template: `<div>
+                            <ui-dropdown-menu
+                                value="{=value=}"
+                                readOnly="{{readOnly}}"
+                                disabled="{{disabled}}">
+                                <ui-menu-item value="1" title="星期一"/>
+                                <ui-menu-item value="2" title="星期二"/>
+                            </ui-dropdown-menu>
+                        </div>`,
+            initData() {
+                return {
+                    value: '1',
+                    readOnly: true,
+                    disabled: false
+                };
+            }
+        });
+        let menu = component.children[0];
+        let itemComponent1 = menu.slotChildren[0].children[0];
+        expect(itemComponent1.data.get('selected')).to.equal(true);
+        expect(menu.el.className).to.include('state-readOnly');
+        expect(menu.el.querySelector('input').readOnly).to.equal(true);
+        menu.el.click();
+        component.nextTick(() => {
+            expect(menu.data.get('open')).to.equal(false);
+            expect(menu.children[0].el.className).to.not.include('state-open');
+            component.data.set('readOnly', false);
+            component.data.set('disabled', true);
+            component.nextTick(() => {
+                expect(menu.data.get('open')).to.equal(false);
+                expect(menu.children[0].el.className).to.not.include('state-open');
+                expect(menu.el.className).to.include('state-disabled');
+                component.data.set('disabled', false);
                 component.dispose();
                 done();
             });

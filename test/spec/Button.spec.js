@@ -75,10 +75,11 @@ describe('Button', () => {
 
     it('component link', () => {
         let component = createComponent({
-            template: '<div><ui-button href="{{href}}">Hello</ui-button></div>',
+            template: '<div><ui-button target="{{target}}" href="{{href}}">Hello</ui-button></div>',
             initData() {
                 return {
-                    href: 'hello'
+                    href: 'hello',
+                    target: '_blank'
                 };
             }
         });
@@ -89,14 +90,20 @@ describe('Button', () => {
         component.dispose();
     });
 
-    it('component iconbutton', () => {
+    it('component iconbutton', done => {
         let component = createComponent({
-            template: '<div><ui-icon-button>keyboard_arrow_down</ui-icon-button></div>'
+            template: '<div><ui-icon-button on-click="handleClick">keyboard_arrow_down</ui-icon-button></div>',
+            handleClick(e) {
+                expect(e.target).to.deep.equal(component.children[0].el);
+                component.dispose();
+                done();
+            }
         });
-        expect(component.children[0].el.querySelector('.sm-icon')).to.be.not.null;
-        expect(component.children[0].el.querySelector('.sm-icon').innerText.trim())
+        let el = component.children[0].el;
+        expect(el.querySelector('.sm-icon')).to.be.not.null;
+        expect(el.querySelector('.sm-icon').innerText.trim())
             .to.equal('keyboard_arrow_down');
-        component.dispose();
+        el.click();
     });
 
     it('component flatbutton', () => {
@@ -105,5 +112,34 @@ describe('Button', () => {
         });
         expect(component.children[0].el.innerText.trim()).to.equal('HELLO');
         component.dispose();
+    });
+
+    it('disabled button', done => {
+        let component = createComponent({
+            template: '<div>' +
+                '<ui-button disabled href="{{href}}">disabled link</ui-button>' +
+                '<ui-button>disabled button</ui-button>' +
+            '</div>',
+            initData() {
+                return {
+                    href: 'hello'
+                };
+            }
+        });
+
+        let [link, button] = component.children;
+        button.data.set('disabled', true);
+        button.click();
+        component.nextTick(() => {
+            expect(link.el.href).to.equal('javascript:void(0);');
+            expect(button.el.disabled).to.equal(true);
+            link.click();
+            component.nextTick(() => {
+                expect(link.el.href).to.equal('javascript:void(0);');
+                expect(button.el.disabled).to.equal(true);
+                component.dispose();
+                done();
+            });
+        });
     });
 });
