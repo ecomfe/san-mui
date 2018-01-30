@@ -25,7 +25,7 @@
     "kolor": "^1.1.9",
     "dom-align": "^1.6.2",
     "moment": "^2.18.1",
-    "san": "^3.3.1"
+    "san": "^3.4.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.1",

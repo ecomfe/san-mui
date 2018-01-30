@@ -133,7 +133,6 @@ export default san.defineComponent({
             );
         },
         realChecked() {
-            const checked = this.data.get('checked');
             return this.data.get('checked').map(d => d.toString());
         }
     },
