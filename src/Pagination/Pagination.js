@@ -95,22 +95,6 @@ export default class extends Component {
         let pageSizeOptions = this.data.get(pageSizeOptionsKey);
         let pageSize = this.data.get(pageSizeKey);
 
-        // 如果给的pageSizeOptions不是数组类型，做数据转换
-        if (!Array.isArray(pageSizeOptions)) {
-            try {
-                pageSizeOptions = JSON.parse(pageSizeOptions);
-            }
-            catch (err) {
-                pageSizeOptions = defaultPageSizeOption;
-            }
-            finally {
-                if (!Array.isArray(pageSizeOptions)) {
-                    pageSizeOptions = defaultPageSizeOption;
-                }
-                this.data.set(pageSizeOptionsKey, pageSizeOptions);
-            }
-        }
-        // 如果给定pageSize不在可选范围内，将设置为可选范围的第一个数据，若数据格式不符合要求，将设置为默认页码10
         if (this.data.get(showSizeChangerKey) && !pageSizeOptions.includes(pageSize)) {
             this.setPageSize(pageSizeOptions[0]);
         }
@@ -167,13 +151,12 @@ export default class extends Component {
 
     changePageSize(pageSize) {
 
-        let me = this;
         let oldPageSize = this.data.get(pageSizeKey);
         let oldCurrent = this.data.get(currentKey);
         let current = Math.ceil(((oldCurrent - 1) * oldPageSize + 1) / pageSize);
 
         this.setPageSize(pageSize);
-        me.setCurrentPage(current, true);
+        this.setCurrentPage(current, true);
 
         this.fire('pageSizeChange', {
             pageNum: current,
