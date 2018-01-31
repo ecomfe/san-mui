@@ -152,36 +152,19 @@ describe('Pagination', () => {
         expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('2');
         let preButton = paginationComponent.el.querySelector('.pre-page');
 
-        Promise.resolve(() => {
+        preButton.click();
+        component.nextTick(() => {
+            expect(paginationComponent.data.get('current')).to.equal(1);
+            expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('1');
+            expect(preButton.className).to.include('disable');
             preButton.click();
             component.nextTick(() => {
                 expect(paginationComponent.data.get('current')).to.equal(1);
                 expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('1');
-                expect(preButton.className).to.include('disable');
+                component.dispose();
+                done();
             });
-        }).then(() => {
-            preButton.click();
-            component.nextTick(() => {
-                expect(paginationComponent.data.get('current')).to.equal(1);
-                expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('1');
-            });
-        }).then(() => {
-            component.dispose();
-            done();
-        })
-        // preButton.click();
-        // component.nextTick(() => {
-        //     expect(paginationComponent.data.get('current')).to.equal(1);
-        //     expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('1');
-        //     expect(preButton.className).to.include('disable');
-        //     preButton.click();
-        //     component.nextTick(() => {
-        //         expect(paginationComponent.data.get('current')).to.equal(1);
-        //         expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('1');
-        //         component.dispose();
-        //         done();
-        //     });
-        // });
+        });
     });
 
 });

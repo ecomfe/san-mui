@@ -48,7 +48,6 @@ describe('TextField', () => {
         expect(el.tagName).to.equal('DIV');
         expect(el.className).to.equal('sm-text-field');
         expect(hintElement.innerText.trim()).to.equal('提示文字');
-        // component.children[0].data.set('focus', true);
         inputElement.focus();
         component.nextTick(() => {
             expect(focusLineElement.classList.contains('focus')).to.equal(true);
@@ -97,7 +96,6 @@ describe('TextField', () => {
         expect(el.tagName).to.equal('DIV');
         expect(labelElement.innerText.trim()).to.equal('标签文字');
         expect(labelElement.classList.contains('focusClass')).to.equal(false);
-        // component.children[0].data.set('focus', true);
         inputElement.focus();
         component.nextTick(() => {
             expect(el.classList.contains('focus-state')).to.equal(true);
@@ -117,7 +115,6 @@ describe('TextField', () => {
         expect(el.tagName).to.equal('DIV');
         expect(labelElement.classList.contains('state-float')).to.equal(true);
         expect(labelElement.innerText.trim()).to.equal('标签文字');
-        // component.children[0].data.set('focus', true);
         inputElement.focus();
         component.nextTick(() => {
             expect(labelElement.classList.contains('state-float')).to.equal(false);
@@ -185,33 +182,91 @@ describe('TextField', () => {
         component.dispose();
     });
 
-    it('character count', done => {
+    it('focus and blur', done => {
+        let component = createComponent({
+            template: `
+            <div>
+                <ui-input 
+                    on-input-focus="focus($event)"
+                    on-input-blur="blur($event)"
+                    hintText="提示文字"/>
+                <input id="input-for-blur" value="hhp"/>
+            </div>`,
+            initData() {
+                return {
+                    counter: 1
+                }
+            },
+            focus(e) {
+                this.data.set('counter', this.data.get('counter') + 1);
+            },
+            blur(e) {
+                this.data.set('counter', this.data.get('counter') + 1);
+            }
+        });
+        let el = component.children[0].el;
+        let inputElement = el.querySelector('input');
+        let focusLineElement = el.querySelector('.sm-text-field-focus-line');
+        expect(el.className).to.equal('sm-text-field');
+        inputElement.focus();
+        component.nextTick(() => {
+            expect(focusLineElement.classList.contains('focus')).to.equal(true);
+            expect(component.data.get('counter')).to.equal(2);
+            expect(el.classList.contains('focus-state')).to.equal(true);
+            // 长时间的setTimeout是在等待focus动画结束
+            setTimeout(() => {
+                document.querySelector('#input-for-blur').focus();
+                setTimeout(() => {
+                    expect(component.data.get('counter')).to.equal(3);
+                    expect(focusLineElement.classList.contains('focus')).to.equal(false);
+                    expect(el.classList.contains('focus-state')).to.equal(false);
+                    component.dispose();
+                    done();
+                }, 600);
+            }, 500);
+        });
+    });
+
+    it('input change and character count', done => {
         let component = createComponent({
             template: `<div>
                 <ui-input
                     inputValue="{=inputValue=}"
                     hintText="最多不超过10个字符"
                     errorText="{{inputErrorText}}"
+                    isTextOverflow
                     on-textOverflow="handleInputOverflow($event)"
+                    on-input-change="handleInputChange($event)"
                     maxLength="{{9}}"/>
             </div>`,
-
+            initData() {
+                return {
+                    inputValue: '123456789'
+                }
+            },
             handleInputOverflow(isOverflow) {
                 this.data.set('inputErrorText', isOverflow === 'true' ? 'overflow' : '');
-            }
+            },
+            // TODO: 模拟input change
+            handleInputChange(e) {}
         });
-        component.data.set('inputValue', '1234567890');
         let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         let helpElement = el.querySelector('.sm-text-field-help');
-        inputElement.focus();
-        // component.children[0].data.set('focus', true);
         let focusLineElement = el.querySelector('.sm-text-field-focus-line');
+        let children = helpElement.children;
+        children = Array.prototype.slice.call(children);
+
+        let charElement = children[0];
+        let numElement = children[1];
+        inputElement.focus();
+        expect(charElement.innerText).to.equal('');
+        expect(numElement.innerText).to.equal('9/9');
+        expect(el.classList.contains('error')).to.equal(false);
+        expect(focusLineElement.classList.contains('error')).to.equal(false);
+
+        component.data.set('inputValue', '1234567890');
         component.nextTick(() => {
-            let children = helpElement.children;
-            children = Array.prototype.slice.call(children);
-            let charElement = children[0];
-            let numElement = children[1];
             expect(charElement.innerText).to.equal('overflow');
             expect(numElement.innerText).to.equal('10/9');
             expect(el.classList.contains('error')).to.equal(true);
