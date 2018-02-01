@@ -33,9 +33,9 @@ export default san.defineComponent({
     initData() {
         return {
             name: '',
-            nativeValue: 'ON',
             onValue: 'ON',
             offValue: 'OFF',
+            value: 'OFF',
             label: '',
             labelLeft: false,
             labelClass: '',
@@ -48,16 +48,16 @@ export default san.defineComponent({
 
     dataTypes: {
         name: DataTypes.string,
-        nativeValue: DataTypes.string,
-        onValue: DataTypes.string,
-        offValue: DataTypes.string,
+        onValue: DataTypes.oneOfType([DataTypes.string, DataTypes.bool]),
+        offValue: DataTypes.oneOfType([DataTypes.string, DataTypes.bool]),
+        value: DataTypes.oneOfType([DataTypes.string, DataTypes.bool]),
         label: DataTypes.string,
         labelLeft: DataTypes.bool,
         labelClass: DataTypes.string,
         trackClass: DataTypes.string,
         thumbClass: DataTypes.string,
         disabled: DataTypes.bool,
-        inputValue: DataTypes.array
+        inputValue: DataTypes.arrayOf(DataTypes.string)
     },
 
     components: {
@@ -78,25 +78,42 @@ export default san.defineComponent({
     },
 
     dealInput() {
-        let value = this.data.get('value');
-        let inputValue = this.data.get('inputValue');
-        let onValue = this.data.get('onValue');
-        let offValue = this.data.get('offValue');
-        let nativeValue = this.data.get('nativeValue');
+        let {
+            value,
+            inputValue,
+            onValue,
+            offValue
+        } = this.data.get();
+
         if (value === onValue && !inputValue[0]) {
-            this.data.set('inputValue[0]', nativeValue);
+            this.data.set('inputValue[0]', 'ON');
         }
+
         if (value === offValue && inputValue[0]) {
             this.data.set('inputValue', []);
         }
     },
 
+    checkInputDataType() {
+        const {onValue, offValue, value} = this.data.get();
+        this.currentDataType = typeof onValue;
+        if (this.currentDataType !== typeof offValue || this.currentDataType !== typeof value) {
+            throw new Error(
+                '[SAN-MUI ERROR] the data type of ("onValue", "offValue", "value") '
+                + ' must be all the same in SWITCH component. '
+            );
+        }
+    },
+
     attached() {
+        this.checkInputDataType();
+        this.dealInput();
+
         this.watch('value', val => {
             this.fire('input-change', val);
+            this.checkInputDataType();
             this.dealInput();
         });
-        this.dealInput();
         this.watch('inputValue', val => {
             let onValue = this.data.get('onValue');
             let offValue = this.data.get('offValue');

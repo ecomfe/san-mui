@@ -3,6 +3,6 @@
  * @author liuchaofan(asd123freedom@gmail.com)
  */
 
-import Radio  from './Radio';
+import Radio from './Radio';
 
 export default Radio;

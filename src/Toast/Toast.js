@@ -166,6 +166,7 @@ export default class Toast extends Layer {
     }
 
     detached() {
+        super.detached();
         this.clearHideTimer();
         this.unbindToWindow();
     }
