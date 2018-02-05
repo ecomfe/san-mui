@@ -56,13 +56,13 @@ export default class TBody extends san.Component {
     }
 
     eachItem(iterator) {
-        this.findChildTRs().forEach((child, index) => {
+        this.findChildrenTRs().forEach((child, index) => {
             iterator.call(this, child, index);
             index++;
         });
     }
 
-    findChildTRs() {
+    findChildrenTRs() {
         let result = [];
 
         function find(node) {

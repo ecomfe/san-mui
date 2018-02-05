@@ -30,6 +30,7 @@ export default class TR extends san.Component {
                 <sm-checkbox
                     s-else
                     checked="{{checked}}"
+                    indeterminate="{{indeterminate}}"
                     value="ON"
                     on-input-change="select($event)"/>
             </sm-th>
@@ -60,14 +61,16 @@ export default class TR extends san.Component {
     };
 
     static dataTypes = {
+        pos: DataTypes.oneOf(['tbody', 'thead', 'tfoot']),
         selected: DataTypes.bool,
-        pos: DataTypes.oneOf(['tbody', 'thead', 'tfoot'])
+        indeterminate: DataTypes.bool
     };
 
     initData() {
         return {
             pos: 'tbody',
-            selected: false
+            selected: false,
+            indeterminate: false
         };
     }
 
@@ -78,7 +81,7 @@ export default class TR extends san.Component {
     /**
      * 选中
      *
-     * @note 这里把数据变化丢给 table，table 会更新 tr 的 selected 值
+     * @note 这里把数据变化丢给 table，table 会更新 tr 的 selected 值（修改后直接在这里改变tr的selected值）
      * @param  {Array<string>} checked checkbox的当前选中值
      */
     select(checked) {
@@ -91,7 +94,7 @@ export default class TR extends san.Component {
             return;
         }
 
-        this.data.set('selected', nextSelected, {silent: true});
+        this.data.set('selected', nextSelected, {silent: false});
 
         this.dispatch(
             `UI:table-select-${pos === 'tbody' ? 'item' : 'head'}`,
