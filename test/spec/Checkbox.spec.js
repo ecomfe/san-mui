@@ -71,12 +71,13 @@ describe('Checkbox', () => {
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.checked).to.equal(true);
         el.click();
-        component.nextTick(() => {
+        // setTimeout为了等待CenterRipple animationend，触发对应方法，提高覆盖率。
+        setTimeout(() => {
             expect(inputElement.checked).to.equal(false);
             expect(component.data.get('inputValue').length).to.equal(0);
             component.dispose();
             done();
-        });
+        }, 800);
     });
 
     it('checked and disabled', done => {
