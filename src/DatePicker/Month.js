@@ -11,6 +11,10 @@ import {CenterRipple} from '../Ripple';
 
 const FORMAT = 'YYYY-MM-DD';
 
+let empty = function () {
+    return false;
+};
+
 export default class Month extends Component {
 
     static template = `
@@ -22,6 +26,7 @@ export default class Month extends Component {
                 active="{{date.active}}"
                 today="{{date.today}}"
                 part="{{date.part}}"
+                disabled="{{date.disabled}}"
                 on-pick="{{setDate(date.value)}}"/>
         </div>
     `;
@@ -41,12 +46,13 @@ export default class Month extends Component {
             let monthEnd = moment(date).endOf('month');
             let begin = moment(monthBegin).startOf('week');
             let end = moment(monthEnd).endOf('week');
-
+            let isDisabled = this.data.get('isDisabled') || empty;
             let dates = [];
 
             while (begin.isBefore(end)) {
 
                 dates.push({
+                    disabled: isDisabled(begin.unix()),
                     value: begin.date(),
                     weekend: begin.weekday() > 4,
                     active: begin.isSame(value, 'd'),
@@ -69,6 +75,9 @@ export default class Month extends Component {
             month: moment().format(FORMAT),
             format: FORMAT
         };
+    }
+
+    attached() {
     }
 
     setDate(date) {

@@ -56,7 +56,7 @@ export default class DatePicker extends Component {
                     on-open="toggleYearPanel" />
                 <san-month-carousel date="{=visualDate=}"/>
                 <san-week />
-                <san-month date="{=visualDate=}" value="{=pickedDate=}" />
+                <san-month date="{=visualDate=}" value="{=pickedDate=}" isDisabled="{{isDisabled}}"/>
                 <san-year
                     san-if="{{yearPanelOpen}}"
                     date="{=pickedDate=}"
@@ -166,6 +166,7 @@ export default class DatePicker extends Component {
 
     }
 
+    attached() {}
 
     openDialog() {
         this.data.set('open', true);

@@ -8,7 +8,7 @@
 <template>
     <div>
         <div class="date-picker-demo-row">
-            <san-date-picker value="{=date=}" />
+            <san-date-picker value="{=date=}" isDisabled="{{isDisabled}}"/>
         </div>
         <div class="date-picker-demo-row">
             <san-date-picker value="{=date=}" disabled />
@@ -18,13 +18,23 @@
 <script>
 import DatePicker from '../src/DatePicker';
 import '../src/DatePicker/DatePicker.styl';
+import moment from 'moment';
 export default {
     components: {
         'san-date-picker': DatePicker
     },
     initData() {
         return {
-            date: ''
+            date: '',
+            isDisabled(date) {
+                let startTime = moment('20180301', 'YYYYMMDD').unix();
+                let endTime = moment('20180306', 'YYYYMMDD').unix();
+                if (date > startTime && date < endTime) {
+                    console.log(123);
+                    return true;
+                }
+                return false;
+            }
         };
     }
 };
