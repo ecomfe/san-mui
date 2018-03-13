@@ -16,7 +16,7 @@ export default san.defineComponent({
                 disabled="{{disabled}}"
                 name="{{name}}"
                 value="{{value}}"
-                on-change="handleChange"
+                on-change="handleChange($event)"
                 checked="{= checked =}">
             <div class="sm-radio-wrapper">
                 <div class="sm-radio-label {{labelClass}}" san-if="label && labelLeft">{{label}}</div>
@@ -92,9 +92,8 @@ export default san.defineComponent({
     },
     handleTouchEnd() {
     },
-    handleChange() {
-        let checked = this.data.get('checked');
-        this.fire('change', checked);
+    handleChange(e) {
+        this.fire('change', e);
     },
     attached() {
         this.watch('checked', val => {
