@@ -70,7 +70,7 @@ describe('Toast', () => {
             }
         });
         setTimeout(() => {
-            expect(component.childs[0].data.get('open')).to.equal(true);
+            expect(component.children[0].data.get('open')).to.equal(true);
             done();
         }, 10);
     });
@@ -90,7 +90,7 @@ describe('Toast', () => {
         setTimeout(() => {
             viewport.click();
             setTimeout(() => {
-                expect(component.childs[0].data.get('open')).to.equal(false);
+                expect(component.children[0].data.get('open')).to.equal(false);
                 done();
             }, 10);
         }, 100);

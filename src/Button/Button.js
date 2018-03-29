@@ -5,12 +5,12 @@
 
 import {create} from '../common/util/cx';
 import {TouchRipple} from '../Ripple';
-import BaseButton from './Base';
-import {DataTypes} from 'san';
+// import BaseButton from './Base';
+import {Component, DataTypes} from 'san';
 
 const cx = create('button');
 
-export default class Button extends BaseButton {
+export default class Button extends Component {
 
     static components = {
         'san-touch-ripple': TouchRipple
@@ -43,7 +43,7 @@ export default class Button extends BaseButton {
             type: 'button',
             disabled: false
         };
-    };
+    }
 
     attached() {
         // save the original href into originalHref and change current href according to disabled
@@ -60,10 +60,10 @@ export default class Button extends BaseButton {
                 this.setHref('javascript:void(0);');
                 return;
             }
-            
+
             this.setHref(this.data.get('originalHref'));
         });
-    };
+    }
 
     setHref(hrefVal) {
         this.data.set('href', hrefVal);

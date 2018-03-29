@@ -50,7 +50,7 @@ describe('Checkbox', () => {
             }
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.checked).to.equal(true);
@@ -79,7 +79,7 @@ describe('Checkbox', () => {
             }
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.checked).to.equal(true);
@@ -107,7 +107,7 @@ describe('Checkbox', () => {
             }
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.checked).to.equal(false);
@@ -136,7 +136,7 @@ describe('Checkbox', () => {
             }
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.indeterminate).to.equal(false);
@@ -164,7 +164,7 @@ describe('Checkbox', () => {
             }
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         el.click();

@@ -5,7 +5,7 @@
 
 import {expect} from 'chai';
 import san from 'san';
-import {IconButton, Button, FlatButton} from 'src/Button';
+import {IconButton, Button} from 'src/Button';
 
 describe('Button', () => {
     const viewport = document.createElement('div');
@@ -14,8 +14,7 @@ describe('Button', () => {
             Object.assign({
                 components: {
                     'ui-button': Button,
-                    'ui-icon-button': IconButton,
-                    'ui-flat-button': FlatButton
+                    'ui-icon-button': IconButton
                 },
                 initData() {
                     return {};
@@ -53,49 +52,27 @@ describe('Button', () => {
                 };
             },
             onclick() {
-                expect(component.childs[0].data.get('disabled')).to.equal(false);
+                expect(component.children[0].data.get('disabled')).to.equal(false);
                 done();
             }
         });
-        expect(component.childs[0].el.innerText.trim()).to.equal('Hello');
-        component.childs[0].el.click();
+        expect(component.children[0].el.innerText.trim()).to.equal('Hello');
+        component.children[0].el.click();
         setTimeout(() => {
-            component.childs[0].data.set('disabled', false);
+            component.children[0].data.set('disabled', false);
             setTimeout(() => {
-                component.childs[0].el.click();
+                component.children[0].el.click();
             });
         }, 10);
-    });
-
-    it('component link', done => {
-        let component = createComponent({
-            template: '<div><ui-button on-click="onclick" href="{{href}}">Hello</ui-button></div>',
-            initData() {
-                return {
-                    href: 'hello'
-                };
-            }
-        });
-        expect(component.childs[0].el.tagName).to.equal('A');
-        expect(component.childs[0].el.getAttribute('href')).to.equal('hello');
-        done();
     });
 
     it('component iconbutton', done => {
         let component = createComponent({
             template: '<div><ui-icon-button>keyboard_arrow_down</ui-icon-button></div>'
         });
-        expect(component.childs[0].el.querySelector('.sm-icon')).to.be.ok;
-        expect(component.childs[0].el.querySelector('.sm-icon').innerText.trim())
+        expect(component.children[0].el.querySelector('.sm-icon')).to.be.ok;
+        expect(component.children[0].el.querySelector('.sm-icon').innerText.trim())
             .to.equal('keyboard_arrow_down');
-        done();
-    });
-
-    it('component flatbutton', done => {
-        let component = createComponent({
-            template: '<div><ui-flat-button>Hello</ui-flat-button></div>'
-        });
-        expect(component.childs[0].el.innerText.trim()).to.equal('Hello');
         done();
     });
 });

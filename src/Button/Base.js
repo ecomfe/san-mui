@@ -16,19 +16,28 @@ const linkANodeProps = parseTemplate(
     '<a href="{{href}}" target="{{target}}"/>'
 ).children[0].props;
 
-const hrefProps = linkANodeProps.get('href');
-const targetProps = linkANodeProps.get('target');
+let hrefProps;
+let targetProps;
+linkANodeProps.map(item => {
+    if (item.name === 'href') {
+        hrefProps = item;
+    }
+    else if (item.name === 'target') {
+        targetProps = item;
+    }
+    return item;
+});
 
 export default class BaseButton extends Component {
 
     inited() {
 
         let {data, aNode} = this;
-
         if (data.get('href')) {
             aNode.tagName = 'A';
             aNode.props.push(hrefProps);
-            aNode.props.remove('type');
+            aNode.props = aNode.props.filter(item => item.name && item.name !== 'type');
+            aNode.props.splice(0, 1);
             this.tagName = 'a';
         }
 

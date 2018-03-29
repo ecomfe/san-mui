@@ -58,7 +58,7 @@ describe('Pagination', () => {
                 };
             }
         });
-        let paginationComponent = component.childs[0];
+        let paginationComponent = component.children[0];
         expect(paginationComponent.data.get('totalPage')).to.equal(5);
         paginationComponent.data.set('pageSize', 25);
         setTimeout(() => {
@@ -76,7 +76,7 @@ describe('Pagination', () => {
                 };
             }
         });
-        let paginationComponent = component.childs[0];
+        let paginationComponent = component.children[0];
         paginationComponent.el.getElementsByClassName('next-page')[0].click();
         setTimeout(() => {
             expect(paginationComponent.data.get('current')).to.equal(2);
@@ -94,7 +94,7 @@ describe('Pagination', () => {
                 };
             }
         });
-        let paginationComponent = component.childs[0];
+        let paginationComponent = component.children[0];
         paginationComponent.el.getElementsByClassName('pre-page')[0].click();
         setTimeout(() => {
             expect(paginationComponent.data.get('current')).to.equal(1);

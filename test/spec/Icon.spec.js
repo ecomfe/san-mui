@@ -50,11 +50,11 @@ describe('Icon', () => {
                 };
             }
         });
-        expect(component.childs[0].el.innerText.trim()).to.equal('keyboard_arrow_down');
-        expect(component.childs[0].el.style.fontSize).to.equal('100px');
+        expect(component.children[0].el.innerText.trim()).to.equal('keyboard_arrow_down');
+        expect(component.children[0].el.style.fontSize).to.equal('100px');
         component.data.set('size', 200);
         setTimeout(() => {
-            expect(component.childs[0].el.style.fontSize).to.equal('200px');
+            expect(component.children[0].el.style.fontSize).to.equal('200px');
             done();
         });
     });

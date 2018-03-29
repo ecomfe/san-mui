@@ -52,8 +52,8 @@ describe('Checkbox', () => {
             }
         });
         component.attach(viewport);
-        let firstRadio = component.childs[0].el;
-        let secondRadio = component.childs[1].el;
+        let firstRadio = component.children[0].el;
+        let secondRadio = component.children[1].el;
         let firstInput = firstRadio.querySelector('input');
         let secondInput = secondRadio.querySelector('input');
         expect(firstRadio.tagName).to.equal('LABEL');
@@ -90,8 +90,8 @@ describe('Checkbox', () => {
             }
         });
         component.attach(viewport);
-        let firstRadio = component.childs[0].el;
-        let secondRadio = component.childs[1].el;
+        let firstRadio = component.children[0].el;
+        let secondRadio = component.children[1].el;
         let firstInput = firstRadio.querySelector('input');
         let secondInput = secondRadio.querySelector('input');
         expect(firstRadio.tagName).to.equal('LABEL');

@@ -47,7 +47,7 @@ describe('Switch', () => {
             }
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         setTimeout(() => {
@@ -77,7 +77,7 @@ describe('Switch', () => {
             }
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('LABEL');
         expect(inputElement.disabled).to.equal(true);

@@ -3,15 +3,15 @@
  * @author leon <ludafa@outlook.com>
  */
 
-import BaseButton from './Base';
+// import BaseButton from './Base';
 import {create} from '../common/util/cx';
 import Icon from '../Icon';
 import {CenterRipple} from '../Ripple';
-import {DataTypes} from 'san';
+import {Component, DataTypes} from 'san';
 
 const cx = create('button');
 
-export default class IconButton extends BaseButton {
+export default class IconButton extends Component {
 
     static template = `
         <button
@@ -23,6 +23,13 @@ export default class IconButton extends BaseButton {
             <san-center-ripple />
         </button>
     `;
+
+    initData() {
+        return {
+            type: 'button',
+            disabled: false
+        };
+    }
 
     static components = {
         'san-icon': Icon,

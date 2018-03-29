@@ -177,13 +177,13 @@ describe('Menu', () => {
             }
         });
 
-        let menu1 = component.childs[0].slotChilds[0].childs[0];
-        let menu2 = menu1.slotChilds.filter(child => {
+        let menu1 = component.children[0].slotchildren[0].children[0];
+        let menu2 = menu1.slotchildren.filter(child => {
             return child.name === 'submenu';
-        })[0].childs[0].slotChilds[0].childs[0];
-        let menu3 = menu2.slotChilds.filter(child => {
+        })[0].children[0].slotchildren[0].children[0];
+        let menu3 = menu2.slotchildren.filter(child => {
             return child.name === 'submenu';
-        })[0].childs[0].slotChilds[0].childs[0];
+        })[0].children[0].slotchildren[0].children[0];
         menu1.el.click();
         setTimeout(() => {
             expect(menu1.data.get('subMenuOpen')).to.equal(true);
@@ -213,10 +213,10 @@ describe('Menu', () => {
                 };
             }
         });
-        expect(component.childs[0].data.get('open')).to.equal(false);
-        component.childs[0].el.querySelector('.sm-icon').click();
+        expect(component.children[0].data.get('open')).to.equal(false);
+        component.children[0].el.querySelector('.sm-icon').click();
         setTimeout(() => {
-            expect(component.childs[0].data.get('open')).to.equal(true);
+            expect(component.children[0].data.get('open')).to.equal(true);
             done();
         }, 0);
     });
@@ -237,12 +237,12 @@ describe('Menu', () => {
             },
             change(value) {
                 this.data.set('value', value);
-                expect(component.childs[0].slotChilds[0].childs[value - 1].data.get('selected')).to.equal(true);
+                expect(component.children[0].slotchildren[0].children[value - 1].data.get('selected')).to.equal(true);
             }
         });
-        let itemComponent1 = component.childs[0].slotChilds[0].childs[0];
-        let itemComponent2 = component.childs[0].slotChilds[0].childs[1];
-        let itemComponent3 = component.childs[0].slotChilds[0].childs[2];
+        let itemComponent1 = component.children[0].slotchildren[0].children[0];
+        let itemComponent2 = component.children[0].slotchildren[0].children[1];
+        let itemComponent3 = component.children[0].slotchildren[0].children[2];
         expect(itemComponent1.data.get('selected')).to.equal(true);
         itemComponent2.el.click();
         setTimeout(() => {
@@ -280,17 +280,17 @@ describe('Menu', () => {
             change(value) {
                 this.data.set('value', value);
                 if (value === '1') {
-                    expect(component.childs[0].slotChilds[0].childs[0].childs[value - 1].data.get('selected')).to.equal(true);
+                    expect(component.children[0].slotchildren[0].children[0].children[value - 1].data.get('selected')).to.equal(true);
                 }
                 else if (value === '4') {
-                    expect(component.childs[0].slotChilds[0].childs[0].childs[value - 4].data.get('selected')).to.equal(true);
+                    expect(component.children[0].slotchildren[0].children[0].children[value - 4].data.get('selected')).to.equal(true);
                 }
             }
         });
         // 测试items循环赋值
-        let itemComponent1 = component.childs[0].slotChilds[0].childs[0].childs[0];
-        let itemComponent2 = component.childs[0].slotChilds[0].childs[0].childs[1];
-        let itemComponent3 = component.childs[0].slotChilds[0].childs[0].childs[2];
+        let itemComponent1 = component.children[0].slotchildren[0].children[0].children[0];
+        let itemComponent2 = component.children[0].slotchildren[0].children[0].children[1];
+        let itemComponent3 = component.children[0].slotchildren[0].children[0].children[2];
         expect(itemComponent1.data.get('selected')).to.equal(true);
         itemComponent2.el.click();
         setTimeout(() => {
@@ -321,7 +321,7 @@ describe('Menu', () => {
         component.data.set('items', newItems);
         setTimeout(() => {
             // 重新渲染后，比较重新渲染的组件个数与items新变量长度是否一致
-            let newItemsComponents = component.childs[0].slotChilds[0].childs[0].childs;
+            let newItemsComponents = component.children[0].slotchildren[0].children[0].children;
             expect(newItemsComponents.length).to.equal(newItems.length);
             // 重新渲染后，items内部data和重新指定的新items变量比较
             newItemsComponents.forEach((item, index) => {

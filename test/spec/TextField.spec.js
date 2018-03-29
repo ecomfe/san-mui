@@ -37,7 +37,7 @@ describe('TextField', () => {
             template: '<div><ui-input hintText="提示文字"/></div>'
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         let hintElement = el.querySelector('.sm-text-field-hint');
         let focusLineElement = el.querySelector('.sm-text-field-focus-line');
@@ -58,7 +58,7 @@ describe('TextField', () => {
             template: '<div><ui-input hintText="提示文字" multiLine rows="{{3}}" rowsMax="{{6}}"/></div>'
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('textarea');
         expect(inputElement).to.not.equal(null);
     });
@@ -68,7 +68,7 @@ describe('TextField', () => {
             template: '<div><ui-input label="标签文字" labelFocusClass="focusClass"/></div>'
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         let labelElement = el.querySelector('.sm-text-field-label');
         expect(el.tagName).to.equal('DIV');
@@ -88,7 +88,7 @@ describe('TextField', () => {
             template: '<div><ui-input labelFloat label="标签文字"/></div>'
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         let labelElement = el.querySelector('.sm-text-field-label');
         expect(el.tagName).to.equal('DIV');
@@ -107,7 +107,7 @@ describe('TextField', () => {
             template: '<div><ui-input type="password" label="标签文字"/></div>'
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         expect(el.tagName).to.equal('DIV');
         expect(inputElement.getAttribute('type')).to.equal('password');
@@ -119,7 +119,7 @@ describe('TextField', () => {
             template: '<div><ui-input fullWidth label="标签文字"/></div>'
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         expect(getComputedStyle(el, null)['width']).to.equal(getComputedStyle(component.el, null)['width']);
         component.dispose();
     });
@@ -129,7 +129,7 @@ describe('TextField', () => {
             template: '<div><ui-input hintText="标签文字" errorText="错误文字"/></div>'
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let focusLineElement = el.querySelector('.sm-text-field-focus-line');
         expect(el.classList.contains('error')).to.equal(true);
         expect(focusLineElement.classList.contains('error')).to.equal(true);
@@ -141,7 +141,7 @@ describe('TextField', () => {
             template: '<div><ui-input hintText="标签文字" errorText="错误文字" errorColor="#2196f3"/></div>'
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let focusLineElement = el.querySelector('.sm-text-field-focus-line');
         expect(el.classList.contains('error')).to.equal(true);
         expect(el.style.color).to.equal('rgb(33, 150, 243)');
@@ -154,7 +154,7 @@ describe('TextField', () => {
             template: '<div><ui-input hintText="提示文字" disabled/></div>'
         });
         component.attach(viewport);
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let UnderLineElement = el.querySelector('.sm-text-field-line');
         let inputElement = el.querySelector('input');
         expect(el.classList.contains('disabled')).to.equal(true);
@@ -180,7 +180,7 @@ describe('TextField', () => {
         });
         component.attach(viewport);
         component.data.set('inputValue', '1234567890');
-        let el = component.childs[0].el;
+        let el = component.children[0].el;
         let inputElement = el.querySelector('input');
         let helpElement = el.querySelector('.sm-text-field-help');
         inputElement.focus();

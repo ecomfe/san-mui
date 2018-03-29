@@ -23,7 +23,6 @@ export default {
     <div>
         <san-appbar title="标题">
             <san-icon-button
-                on-click="toggleMenu($event)"
                 variants="info raised"
                 slot="left">
                 menu
