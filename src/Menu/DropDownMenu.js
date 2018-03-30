@@ -22,7 +22,7 @@ export default class DropDownMenu extends Component {
             style="{{dropDownMenuStyle}}"
             on-click="openPopover">
             <sm-popover
-                ref="popover"
+                s-ref="popover"
                 open="{=open=}"
                 maxHeight="{{maxHeight}}"
                 useLayerForClickAway="{{!1}}"

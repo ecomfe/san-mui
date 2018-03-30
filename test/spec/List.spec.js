@@ -6,10 +6,23 @@
 import {expect} from 'chai';
 import san from 'san';
 import {List, ListItem} from 'src/List';
+import 'src/List/index.styl'
 import Icon from 'src/Icon';
+import 'src/Icon/Icon.styl'
 
 describe('List', () => {
+    // prepare for testing
     const viewport = document.createElement('div');
+    viewport.id = 'test';
+
+    before(() => {
+        document.body.appendChild(viewport);
+    });
+
+    after(() => {
+        viewport.remove();
+    });
+
     const createComponent = function (options) {
         let Component = san.defineComponent(
             Object.assign({
@@ -28,18 +41,11 @@ describe('List', () => {
         return component;
     };
 
-    beforeEach(() => {
-        document.body.appendChild(viewport);
-    });
-    afterEach(() => {
-        viewport.remove();
-    });
-
     it('list - disabled item', done => {
         let component = createComponent({
             template: `<div>
                             <ui-list>
-                                <ui-list-item san-ref="item1" primaryText="item" disabled="{{disabled}}" on-click="onclick" />
+                                <ui-list-item san-ref="item1" primaryText="item" disabled="{{disabled}}" on-click="onclick"/>
                             </ui-list>
                         </div>`,
             initData() {
@@ -49,6 +55,7 @@ describe('List', () => {
             },
             onclick() {
                 expect(component.ref('item1').data.get('disabled')).to.equal(false);
+                component.dispose();
                 done();
             }
         });
@@ -56,15 +63,15 @@ describe('List', () => {
         let itemComponent = component.ref('item1');
         expect(itemComponent.el.innerText.trim()).to.equal('item');
         itemComponent.el.click(); // disabled, expect nothing happen
-        setTimeout(() => {
+        component.nextTick(() => {
             itemComponent.data.set('disabled', false);
-            setTimeout(() => {
+            component.nextTick(() => {
                 itemComponent.el.click();
             });
-        }, 10);
+        });
     });
 
-    it('list initiallyOpen', done => {
+    it('list initiallyOpen', () => {
         let component = createComponent({
             template: `<div>
                             <ui-list>
@@ -79,10 +86,10 @@ describe('List', () => {
         let itemComponent = component.ref('item1');
         expect(itemComponent.el.innerText.trim()).to.equal('item');
         expect(itemComponent.data.get('open')).to.equal(true);
-        done();
+        component.dispose();
     });
 
-    it('list item with comps', done => {
+    it('list item with comps', () => {
         let component = createComponent({
             template: `<div>
                             <ui-list>
@@ -98,10 +105,10 @@ describe('List', () => {
         });
         let itemComponent = component.ref('item1');
         expect(itemComponent.data.get('hasLeft')).to.equal(true);
-        expect(itemComponent.el.querySelector('.sm-icon')).to.be.ok;
+        expect(itemComponent.el.querySelector('.sm-icon')).to.be.not.null;
         expect(itemComponent.el.querySelector('.sm-icon').innerText.trim())
             .to.equal('star');
-        done();
+        component.dispose();
     });
 
     it('list item nested', done => {
@@ -127,24 +134,32 @@ describe('List', () => {
         });
         let itemComponent = component.ref('item1');
         expect(itemComponent.data.get('toggleNested')).to.equal(true);
-        expect(itemComponent.data.get('open')).to.not.be.ok;
+        expect(itemComponent.data.get('open')).to.not.equal(true);
+        // disabled toggle list
         itemComponent.el.querySelector('.sm-list-item-content').click();
-        setTimeout(() => {
+        component.nextTick(() => {
+            expect(itemComponent.data.get('toggleNested')).to.equal(true);
+            expect(itemComponent.data.get('open')).to.not.equal(true);
+
+            // enable toggle list && test toggle
             itemComponent.data.set('primaryTogglesNestedList', true);
-            setTimeout(() => {
+            itemComponent.el.querySelector('.sm-list-item-content').click();
+            component.nextTick(() => {
+                expect(itemComponent.data.get('open')).to.equal(true);
                 itemComponent.el.querySelector('.sm-list-item-content').click();
-            }, 10);
-            setTimeout(() => {
-                itemComponent.el.querySelector('.sm-list-item-expand').click();
-                done();
-            }, 10);
-        }, 10);
+                component.nextTick(() => {
+                    expect(itemComponent.data.get('open')).to.equal(false);
+                    component.dispose();
+                    done();
+                });
+            })
+        });
     });
 
     it('selectable list', done => {
         let component = createComponent({
             template: `<div>
-                            <ui-list value="{{ value }}" selectable="{{!0}}" on-change="listItemSelect($event)">
+                            <ui-list s-ref="list" value="{{ value }}" selectable="{{!0}}" on-change="listItemSelect($event)">
                                 <ui-list-item san-ref="item1" primaryText="item 1" value="{{1}}"></ui-list-item>
                                 <ui-list-item san-ref="item2" primaryText="item 2" value="{{2}}"></ui-list-item>
                             </ui-list>
@@ -156,15 +171,16 @@ describe('List', () => {
             },
             listItemSelect(value) {
                 expect(value).to.equal(1);
-                setTimeout(() => {
+                component.nextTick(() => {
                     expect(itemComponent1.el.className).to.contain('selected');
+                    component.dispose();
                     done();
                 });
             }
         });
         let itemComponent1 = component.ref('item1');
         let itemComponent2 = component.ref('item2');
-        expect(component.children[0].data.get('selectable')).to.equal(true);
+        expect(component.ref('list').data.get('selectable')).to.equal(true);
         expect(itemComponent2.el.className).to.contain('selected');
         itemComponent1.el.click();
     });

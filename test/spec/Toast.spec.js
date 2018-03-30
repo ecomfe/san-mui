@@ -6,9 +6,21 @@
 import {expect} from 'chai';
 import san from 'san';
 import Toast from 'src/Toast';
+import 'src/Toast/index.styl';
 
 describe('Toast', () => {
+    // prepare for testing
     const viewport = document.createElement('div');
+    viewport.id = 'test';
+
+    before(() => {
+        document.body.appendChild(viewport);
+    });
+
+    after(() => {
+        viewport.remove();
+    });
+
     const createComponent = function (options) {
         const Component = san.defineComponent(
             Object.assign({
@@ -25,13 +37,6 @@ describe('Toast', () => {
         return component;
     };
 
-    beforeEach(() => {
-        document.body.appendChild(viewport);
-    });
-    afterEach(() => {
-        viewport.remove();
-    });
-
     it('toast element', () => {
         const component = new Toast();
         component.attach(viewport);
@@ -42,7 +47,7 @@ describe('Toast', () => {
         component.dispose();
     });
 
-    it('component toast', done => {
+    it('component toast', () => {
         let component = createComponent({
             template: '<div>toast</div>',
             initData() {
@@ -52,9 +57,9 @@ describe('Toast', () => {
             },
             attached() {
                 expect(this.data.get('open')).to.equal(true);
-                done();
             }
         });
+        component.dispose();
     });
 
     it('should opened toast state is true', done => {
@@ -69,10 +74,11 @@ describe('Toast', () => {
                 this.data.set('open', true);
             }
         });
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(component.children[0].data.get('open')).to.equal(true);
+            component.dispose();
             done();
-        }, 10);
+        });
     });
 
     it('should opened toast clickoutside', done => {
@@ -87,12 +93,14 @@ describe('Toast', () => {
                 this.data.set('open', true);
             }
         });
-        setTimeout(() => {
+        component.nextTick(() => {
+            expect(component.children[0].data.get('open')).to.equal(true);
             viewport.click();
-            setTimeout(() => {
+            component.nextTick(() => {
                 expect(component.children[0].data.get('open')).to.equal(false);
+                component.dispose();
                 done();
-            }, 10);
-        }, 100);
+            });
+        });
     });
 });

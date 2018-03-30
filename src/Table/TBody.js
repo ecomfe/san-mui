@@ -69,8 +69,8 @@ export default class TBody extends san.Component {
             if (node instanceof TR) {
                 result.push(node);
             }
-            else if (node.childs) {
-                node.childs.forEach(function (child) {
+            else if (node.children) {
+                node.children.forEach(function (child) {
                     find(child);
                 });
             }

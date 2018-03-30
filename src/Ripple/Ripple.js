@@ -5,6 +5,10 @@
 
 import san from 'san';
 import {create} from '../common/util/cx';
+import {
+    requestAnimationFrame,
+    cancelAnimationFrame
+} from '../common/help';
 
 const cx = create('ripple');
 
@@ -65,24 +69,28 @@ export default san.defineComponent({
                     let curScale = getTimingValue(scale, progress);
                     el.style.opacity = curOpacity;
                     el.style.transform = `scale(${curScale}, ${curScale})`;
-                    requestAnimationFrame(goStep);
+                    this.requestAnimationId = requestAnimationFrame(goStep);
                 };
 
                 // fire animate start
                 this.fire('animate-start');
                 goStep();
             }
-        }
+        };
     },
 
     stopAnimation() {
-        if (this.animation) {
-            cancelAnimationFrame(this.animation);
+        if (this.requestAnimationId) {
+            cancelAnimationFrame(this.requestAnimationId);
         }
     },
 
     detached() {
         this.stopAnimation();
+    },
+
+    disposed() {
+        this.requestAnimationId = null;
     }
 
 });

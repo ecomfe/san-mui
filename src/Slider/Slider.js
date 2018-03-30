@@ -6,6 +6,9 @@
 import san, {DataTypes} from 'san';
 import FocusRipple from '../Ripple/FocusRipple';
 import {create} from '../common/util/cx';
+import {
+    requestAnimationFrame
+} from '../common/help';
 
 const cx = create('slider');
 
@@ -236,7 +239,7 @@ export default san.defineComponent({
         data.set('dragRunning', 1);
 
         let me = this;
-        window.requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
             data.set('dragRunning', 0);
             if (!data.get('disable')) {
                 me.setValue(e);

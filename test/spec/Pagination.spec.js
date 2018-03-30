@@ -6,10 +6,22 @@
 import {expect} from 'chai';
 import san from 'san';
 import Pagination from 'src/Pagination';
+import 'src/Pagination/index.styl';
 
 describe('Pagination', () => {
-
+    // prepare for testing
     const viewport = document.createElement('div');
+    viewport.id = 'test';
+
+    before(() => {
+        document.body.appendChild(viewport);
+    });
+
+    after(() => {
+        viewport.remove();
+    });
+
+    // testing component
     const createComponent = function (options) {
         const Component = san.defineComponent(
             Object.assign({
@@ -25,13 +37,6 @@ describe('Pagination', () => {
         component.attach(viewport);
         return component;
     };
-
-    beforeEach(() => {
-        document.body.appendChild(viewport);
-    });
-    afterEach(() => {
-        viewport.remove();
-    });
 
     it('pagination element', () => {
         const component = new Pagination({
@@ -49,7 +54,35 @@ describe('Pagination', () => {
         component.dispose();
     });
 
-    it('component Pagination', () => {
+    it('should use default value when pageSize and current value invalid when inited.', () => {
+        let component = createComponent({
+            template: `
+                <div>
+                    <sm-pagination current="{{current}}"
+                    s-ref="pager"
+                    pageSize="{{pageSize}}"
+                    pageSizeOptions="{{pageSizeOptions}}"
+                    total="{{total}}"></sm-pagination>
+                </div>
+            `,
+            initData() {
+                return {
+                    current: 100,
+                    pageSizeOptions: [2, 4],
+                    pageSize: 66,
+                    total: 50
+                };
+            }
+        });
+        let paginationComponent = component.ref('pager');
+        expect(paginationComponent.data.get('pageSize')).to.equal(2);
+        expect(paginationComponent.data.get('current')).to.equal(1);
+        expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('1');
+        expect(paginationComponent.el.querySelector('.dropdown-selector').textContent).to.equal('2 / 页');
+        component.dispose();
+    });
+
+    it('should automatically update totalPage and current when pageSize change', done => {
         let component = createComponent({
             template: '<div><sm-pagination total="{{total}}"></sm-pagination></div>',
             initData() {
@@ -60,31 +93,55 @@ describe('Pagination', () => {
         });
         let paginationComponent = component.children[0];
         expect(paginationComponent.data.get('totalPage')).to.equal(5);
-        paginationComponent.data.set('pageSize', 25);
-        setTimeout(() => {
-            expect(paginationComponent.data.get('totalPage')).to.equal(2);
-        }, 10);
-
+        expect(paginationComponent.data.get('current')).to.equal(1);
+        let nextGroupButton = paginationComponent.el.querySelector('.page-selector .next-group');
+        let selector = paginationComponent.el.querySelector('.page-size-selector');
+        nextGroupButton.click();
+        component.nextTick(() => {
+            expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('5');
+            expect(paginationComponent.data.get('current')).to.equal(5);
+            selector.querySelector('.dropdown-selector').click();
+            component.nextTick(() => {
+                expect(selector.className).to.include('open');
+                selector.querySelectorAll('.page-size-item')[2].click();
+                component.nextTick(() => {
+                    expect(paginationComponent.data.get('pageSize')).to.equal(20);
+                    expect(paginationComponent.data.get('totalPage')).to.equal(3);
+                    expect(paginationComponent.data.get('current')).to.equal(3);
+                    component.dispose();
+                    done();
+                });
+            });
+        });
     });
 
-    it('it should turn to next page when click next page button', () => {
+    it('should turn to next page when click next page button', done => {
         let component = createComponent({
             template: '<div><sm-pagination total="{{total}}"></sm-pagination></div>',
             initData() {
                 return {
-                    total: 50
+                    total: 20
                 };
             }
         });
         let paginationComponent = component.children[0];
-        paginationComponent.el.getElementsByClassName('next-page')[0].click();
-        setTimeout(() => {
+        let nextButton = paginationComponent.el.querySelector('.next-page');
+        nextButton.click();
+        component.nextTick(() => {
             expect(paginationComponent.data.get('current')).to.equal(2);
-        }, 10);
-
+            expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('2');
+            expect(nextButton.className).to.include('disable');
+            nextButton.click();
+            component.nextTick(() => {
+                expect(paginationComponent.data.get('current')).to.equal(2);
+                expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('2');
+                component.dispose();
+                done();
+            });
+        });
     });
 
-    it('it should turn to pre page when click pre page button', () => {
+    it('should turn to pre page when click pre page button', done => {
         let component = createComponent({
             template: '<div><sm-pagination total="{{total}}" current="{{current}}"></sm-pagination></div>',
             initData() {
@@ -95,11 +152,23 @@ describe('Pagination', () => {
             }
         });
         let paginationComponent = component.children[0];
-        paginationComponent.el.getElementsByClassName('pre-page')[0].click();
-        setTimeout(() => {
-            expect(paginationComponent.data.get('current')).to.equal(1);
-        }, 10);
+        expect(paginationComponent.data.get('current')).to.equal(2);
+        expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('2');
+        let preButton = paginationComponent.el.querySelector('.pre-page');
 
+        preButton.click();
+        component.nextTick(() => {
+            expect(paginationComponent.data.get('current')).to.equal(1);
+            expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('1');
+            expect(preButton.className).to.include('disable');
+            preButton.click();
+            component.nextTick(() => {
+                expect(paginationComponent.data.get('current')).to.equal(1);
+                expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('1');
+                component.dispose();
+                done();
+            });
+        });
     });
 
 });

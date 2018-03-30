@@ -58,6 +58,7 @@ export default class MenuItem extends Component {
                 </slot>
             </div>
             <sm-popover
+                s-ref="popover"
                 s-if="{{cascade}}"
                 open="{=subMenuOpen=}"
                 getAnchor="{{getAnchor}}"

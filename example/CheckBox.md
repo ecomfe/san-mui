@@ -58,6 +58,9 @@ export default {
             !v || v.length === 0 || v[0] === '' ? [this.data.get('value')] : ['']
         );
     },
+    attached() {
+        console.log(this);
+    },
     handleChange(e) {
         console.log(e);
     }

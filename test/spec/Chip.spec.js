@@ -6,9 +6,21 @@
 import {expect} from 'chai';
 import san from 'san';
 import Chip from 'src/Chip';
+import 'src/Chip/Chip.styl';
 
 describe('Chip', () => {
+    // prepare for testing
     const viewport = document.createElement('div');
+    viewport.id = 'test';
+
+    before(() => {
+        document.body.appendChild(viewport);
+    });
+
+    after(() => {
+        viewport.remove();
+    });
+
     const createComponent = function (options) {
         const Component = san.defineComponent(
             Object.assign({
@@ -24,13 +36,6 @@ describe('Chip', () => {
         component.attach(viewport);
         return component;
     };
-
-    beforeEach(() => {
-        document.body.appendChild(viewport);
-    });
-    afterEach(() => {
-        viewport.remove();
-    });
 
     it('chip element', () => {
         const component = new Chip();
@@ -48,7 +53,6 @@ describe('Chip', () => {
                 <sm-chip 
                     showDelete
                     on-delete="handleDelete($event)"
-                    on-click="handleClick"
                     s-ref="chip">delete chip</sm-chip>
             </div>`,
             initData() {
@@ -63,11 +67,13 @@ describe('Chip', () => {
                 document.getElementsByClassName('sm-chip-delete-icon-wrapper')[0].click();
             }
         });
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(component.data.get('delete')).to.equal(1);
+            component.dispose();
             done();
-        }, 50);
+        });
     });
+
     it('should disabled chip cannot handleClick', done => {
         let component = createComponent({
             template: `<div>
@@ -88,9 +94,10 @@ describe('Chip', () => {
                 this.ref('chip').el.click();
             }
         });
-        setTimeout(() => {
+        component.nextTick(() => {
             expect(component.data.get('clicked')).to.equal(0);
+            component.dispose();
             done();
-        }, 50);
+        });
     });
 });

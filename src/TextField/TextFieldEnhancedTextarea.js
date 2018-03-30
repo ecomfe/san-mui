@@ -8,8 +8,8 @@ import san from 'san';
 export default san.defineComponent({
     template: `
         <div class="sm-text-field-multiline">
-            <textarea class="sm-text-field-textarea-hide sm-text-field-input" value="{= value =}"></textarea>
-            <textarea class="sm-text-field-input sm-text-field-textarea {{normalClass}}"
+            <textarea s-ref="text-field-hidden" class="sm-text-field-textarea-hide sm-text-field-input" value="{=value=}"></textarea>
+            <textarea s-ref="text-field" class="sm-text-field-input sm-text-field-textarea {{normalClass}}"
                 value="{= value =}"
                 on-input="handleInput($event)"
                 on-focus="handleFocus($event)"
@@ -30,27 +30,8 @@ export default san.defineComponent({
         };
     },
     resizeTextarea() {
-        let element = null;
-        let textareas = document.getElementsByClassName('sm-text-field-textarea');
-        Array.prototype.forEach.call(textareas, item => {
-            if (this.el.contains(item)) {
-                if (this.el.contains(item)) {
-                    element = item;
-                }
-            }
-        });
-        if (!element) {
-            return;
-        }
-        let hiddenEl = null;
-        let hiddenTextareas = document.getElementsByClassName('sm-text-field-textarea-hide');
-        Array.prototype.forEach.call(hiddenTextareas, item => {
-            if (this.el.contains(item)) {
-                if (this.el.contains(item)) {
-                    hiddenEl = item;
-                }
-            }
-        });
+        let element = this.ref('text-field');
+        let hiddenEl = this.ref('text-field-hidden');
         let lineHeight = window.getComputedStyle(element, null).getPropertyValue('line-height');
         lineHeight = +lineHeight.replace(/[^\d]*/g, '');
         let pt = window.getComputedStyle(element, null).getPropertyValue('padding-top');

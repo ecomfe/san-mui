@@ -6,9 +6,23 @@
 import {expect} from 'chai';
 import san from 'san';
 import {IconButton, Button} from 'src/Button';
+import 'src/Button/Button.styl';
+
 
 describe('Button', () => {
+    // prepare for testing
     const viewport = document.createElement('div');
+    viewport.id = 'test';
+
+    before(() => {
+        document.body.appendChild(viewport);
+    });
+
+    after(() => {
+        viewport.remove();
+    });
+
+    // testing component
     const createComponent = function (options) {
         let Component = san.defineComponent(
             Object.assign({
@@ -25,13 +39,6 @@ describe('Button', () => {
         component.attach(viewport);
         return component;
     };
-
-    beforeEach(() => {
-        document.body.appendChild(viewport);
-    });
-    afterEach(() => {
-        viewport.remove();
-    });
 
     it('button element', () => {
         let component = new Button();
@@ -53,26 +60,56 @@ describe('Button', () => {
             },
             onclick() {
                 expect(component.children[0].data.get('disabled')).to.equal(false);
+                component.dispose();
                 done();
             }
         });
-        expect(component.children[0].el.innerText.trim()).to.equal('Hello');
+        expect(component.children[0].el.innerText.trim()).to.equal('HELLO');
         component.children[0].el.click();
-        setTimeout(() => {
-            component.children[0].data.set('disabled', false);
-            setTimeout(() => {
-                component.children[0].el.click();
-            });
-        }, 10);
+        component.children[0].data.set('disabled', false);
+        component.nextTick(() => {
+            component.children[0].el.click();
+        });
     });
 
     it('component iconbutton', done => {
         let component = createComponent({
-            template: '<div><ui-icon-button>keyboard_arrow_down</ui-icon-button></div>'
+            template: '<div><ui-icon-button on-click="handleClick">keyboard_arrow_down</ui-icon-button></div>',
+            handleClick(e) {
+                expect(e.target).to.deep.equal(component.children[0].el);
+                component.dispose();
+                done();
+            }
         });
-        expect(component.children[0].el.querySelector('.sm-icon')).to.be.ok;
-        expect(component.children[0].el.querySelector('.sm-icon').innerText.trim())
+        let el = component.children[0].el;
+        expect(el.querySelector('.sm-icon')).to.be.not.null;
+        expect(el.querySelector('.sm-icon').innerText.trim())
             .to.equal('keyboard_arrow_down');
-        done();
+        el.click();
+    });
+
+    it('disabled button', done => {
+        let component = createComponent({
+            template: '<div>' +
+                '<ui-button>disabled button</ui-button>' +
+            '</div>',
+            initData() {
+                return {
+                    href: 'hello'
+                };
+            }
+        });
+
+        let [button] = component.children;
+        button.data.set('disabled', true);
+        button.click();
+        component.nextTick(() => {
+            expect(button.el.disabled).to.equal(true);
+            component.nextTick(() => {
+                expect(button.el.disabled).to.equal(true);
+                component.dispose();
+                done();
+            });
+        });
     });
 });
