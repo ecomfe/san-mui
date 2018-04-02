@@ -13,17 +13,6 @@ import {throttle} from '../common/util/throttle';
 
 const cx = create('popover');
 const INITIAL_POSITION_STYLE = 'top: -9999px; left: -9999px';
-const ORIGIN_STYLE_MAP = {
-    t: 'top',
-    c: '50%',
-    b: 'bottom',
-    l: 'left',
-    r: 'right'
-};
-
-function getTransfromOrigin([top, left]) {
-    return `${ORIGIN_STYLE_MAP[left]} ${ORIGIN_STYLE_MAP[top]}`;
-}
 
 export default class Popover extends Layer {
 
@@ -192,25 +181,10 @@ export default class Popover extends Layer {
             this.data.set('closing', false);
         }
 
-        // 先缓存一下当前的样式
-        let cssTransformBackup = content.style.transform;
-
-        // 这里要先清空掉 transform，否则会影响到 align-dom 的定位
-        content.style.transform = 'none';
-
-        let transformOrigin = getTransfromOrigin(targetOrigin);
-
-        // 设置缩放动画的起点
-        content.style.transformOrigin = transformOrigin;
-        content.style.mozTransformOrigin = transformOrigin;
-        content.style.msTransformOrigin = transformOrigin;
-        content.style.webkitTransformOrigin = transformOrigin;
-
         content.style.maxHeight = maxHeight == null ? 'auto' : `${maxHeight}px`;
         content.style.overflowY = maxHeight == null ? 'visible' : 'auto';
         content.style.maxWidth = maxWidth == null ? 'auto' : `${maxWidth}px`;
         content.style.overflowX = maxWidth == null ? 'auto' : `${maxWidth}px`;
-
         // 对齐元素
         align(
             this.el.firstElementChild,
@@ -226,9 +200,6 @@ export default class Popover extends Layer {
             }
         );
 
-        // 恢复之前的样式
-        content.style.transform = cssTransformBackup;
-
         // 绑定 clickAway 处理
         // @hack: 这里延迟绑定 click 事件，已免此次点击事件冒泡到 body 误触发 hide
         setTimeout(() => {
@@ -242,7 +213,7 @@ export default class Popover extends Layer {
 
     }
 
-    hide() {
+    hide(e) {
         window.removeEventListener('click', this.hide);
         this.data.set('open', false);
         this.data.set('closing', true);
@@ -250,6 +221,7 @@ export default class Popover extends Layer {
 
     detach() {
         window.removeEventListener('click', this.hide);
+        super.attached();
     }
 
     click(e) {

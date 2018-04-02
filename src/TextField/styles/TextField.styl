@@ -1,3 +1,5 @@
+@require '../css/variable.styl'
+
 .sm-text-field
     font-size: 16px
     width: 256px
@@ -10,9 +12,9 @@
         width: 100%
 
     &.focus-state
-        color: #03a9f4
+        color: $md-colors.lightBlue
         &.error
-            color: #f44336
+            color: $md-colors.red
 
 
     &.has-icon
@@ -81,7 +83,7 @@
     left: 0
     right: 0
     .sm-text-field.error &
-        color: #f44336
+        color: $md-colors.red
 
     .sm-text-field.disabled &
         color: inherit
