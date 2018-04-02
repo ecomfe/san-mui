@@ -151,61 +151,6 @@ export default {
 </script>
 ```
 
-### 用做于链接使用
-
-`FlatButton`、`RaisedButton` 和 `IconButton` 都可以用做 `<a>` 来使用。只需要添加 `href` 即可。同时，在指定了 `href`时，`target` 也是支持的。
-
-```san 作为链接使用
-<template>
-    <section>
-        <div class="button-icon-row">
-            <san-button
-                target="_blank"
-                href="https://github.com/ecomfe/san-mui"
-                variants="primary">
-                san-mui
-            </san-button>
-            <san-button
-                variants="secondery raised">
-                keyboard_arrow_left
-            </san-button>
-            <san-button
-                target="_blank"
-                href="https://github.com/ecomfe/san-mui"
-                variants="primary"
-                disabled="{{!0}}">
-                a_link_disabled
-            </san-button>
-            <san-icon-button
-                target="_blank"
-                href="https://github.com/ecomfe/san-mui"
-                variants="danger">
-                keyboard_arrow_right
-            </san-button>
-        </div>
-    </section>
-</template>
-<style>
-.button-icon-row {
-    margin: 1rem 0;
-    display: flex;
-    align-items: center
-}
-.button-icon-row>.sm-button {
-    margin-right: 1rem
-}
-</style>
-<script>
-import {Button, IconButton} from '../src/Button';
-export default {
-    components: {
-        'san-button': Button,
-        'san-icon-button': IconButton
-    }
-};
-</script>
-```
-
 ## API
 
 ### 属性

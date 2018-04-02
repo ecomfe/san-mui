@@ -33,7 +33,7 @@ export default class Popover extends Layer {
                 class="${cx.getPartClassName('content')}"
                 style="${INITIAL_POSITION_STYLE}"
                 on-transitionend="transitionEnd">
-                <slot />
+                <slot></slot>
             </div>
         </div>
     `;
