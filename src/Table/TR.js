@@ -91,7 +91,7 @@ export default class TR extends san.Component {
             return;
         }
 
-        this.data.set('selected', nextSelected, {silent: true});
+        this.data.set('selected', nextSelected, {silent: false});
 
         this.dispatch(
             `UI:table-select-${pos === 'tbody' ? 'item' : 'head'}`,

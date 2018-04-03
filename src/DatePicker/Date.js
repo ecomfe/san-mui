@@ -24,18 +24,21 @@ export default san.defineComponent({
             let active = this.data.get('active');
             let today = this.data.get('today');
             let part = this.data.get('part');
+            let disabled = this.data.get('disabled');
             return cx(this)
                 .addVariants(part)
                 .addStates({
                     weekend,
                     active,
-                    today
+                    today,
+                    disabled
                 }).build();
         }
     },
 
     click() {
-        this.fire('pick');
+        if (!this.data.get('disabled')) {
+            this.fire('pick');
+        }
     }
-
 });

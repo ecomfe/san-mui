@@ -37,6 +37,14 @@
         .sm-ripple
             background-color: rgb(0, 159, 147)
 
+    &.state-disabled
+        opacity: 0.4
+    &.state-disabled &-cell
+            &:hover
+                color: rgba(0, 0, 0, .8)
+                background-color: #fff
+
+
     &.state-active &-cell
         color: #fff
         background-color: rgb(0, 159, 147)

@@ -59,7 +59,6 @@ export default {
         );
     },
     attached() {
-        console.log(this);
     },
     handleChange(e) {
         console.log(e);

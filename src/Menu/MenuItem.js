@@ -196,12 +196,12 @@ export default class MenuItem extends Component {
         let {type, cascade} = this.data.get();
 
         if (type !== 'checkbox' && type !== 'radio') {
-            this.data.set('hasLeft', (this.givenSlots && this.givenSlots.named && this.givenSlots.named.leftIcon));
+            this.data.set('hasLeft', !!(this.givenSlots && this.givenSlots.named && this.givenSlots.named.leftIcon));
         }
 
         this.data.set(
             'hasRight',
-            cascade || (this.givenSlots && this.givenSlots.named && this.givenSlots.named.rightIcon)
+            cascade || !!(this.givenSlots && this.givenSlots.named && this.givenSlots.named.rightIcon)
         );
 
         // 这里处理来『孙』菜单的关闭状态

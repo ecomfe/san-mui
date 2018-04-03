@@ -84,7 +84,6 @@ export default {
 
     onDemoButtonClick(e) {
         this.data.set('open', !this.data.get('open'));
-        console.log(this.data.get('open'));
     }
 
 }

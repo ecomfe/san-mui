@@ -59,7 +59,6 @@ export default san.defineComponent({
     messages: {
         'UI:nested-counter'(arg) {
             let target = arg.value;
-
             target.set('nestedLevel', target.get('nestedLevel') + 1);
             this.dispatch('UI:nested-counter', target);
         }
@@ -124,18 +123,14 @@ export default san.defineComponent({
     },
 
     attached() {
-        let slotChildren = this.slotChildren;
-
         let hasLeft = false;
         let hasRight = false;
-
-        for (let slot of slotChildren) {
-            if (slot.name === 'left') {
-                hasLeft = true;
-            }
-            if (slot.name === 'right') {
-                hasRight = true;
-            }
+        let givenSlots = this.givenSlots.named;
+        if (givenSlots.left) {
+            hasLeft = true;
+        }
+        if (givenSlots.right) {
+            hasRight = true;
         }
 
         this.data.set('hasLeft', hasLeft);

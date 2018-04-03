@@ -128,7 +128,8 @@ export default {
                 }
             ]
         };
-    }
+    },
+    multiTableSelect() {}
 };
 </script>
 ```
@@ -202,7 +203,8 @@ export default {
                 }
             ]
         };
-    }
+    },
+    multiTableSelect() {}
 };
 </script>
 ```
