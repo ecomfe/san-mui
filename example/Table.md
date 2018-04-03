@@ -136,7 +136,7 @@ export default {
 ```san Selectable - Multiple
 <template>
     <div>
-        <sm-table selectable="multi" on-select="multiTableSelect($event)">
+        <sm-table selectable="multi" on-select="multiTableSelect($event)" data="{{persons}}">
             <sm-thead slot="header">
                 <sm-tr>
                     <sm-th tooltip="名称">Name</sm-th>
@@ -363,12 +363,13 @@ export default {
 |名称|类型|必须|默认值|描述|
 |:---|:---:|---|---|:---|
 |selectable|string\|boolean|false|false|表格是否可选，可以设定为 false 表示不可选；或者设定为 `single` 单选；或者设定为 `multi` 多选|
+|data|array|false|[]|表格的数据内容。当`selectable`为 `multi` 时必选|
 
 #### 事件
 
 |名称|描述|
 |:---|:---|
-|select|当表格可选时，选中行发生变化时触发，带有当月选中行序号，例如: [0, 2, 3]|
+|select|当表格可选时，选中行发生变化时触发，默认参数为当前所有选中行的序号数组，例如: [0, 2, 3]|
 
 #### 插槽
 
@@ -450,7 +451,7 @@ export default {
 
 |名称|描述|
 |:---|:---|
-|select|当表格可选时，选中行发生变化时触发，带有当月选中行序号，例如: [0, 2, 3]|
+|select|当表格可选时，选中行发生变化时触发，默认参数为当前所有选中行的序号数组，例如: [0, 2, 3]|
 
 #### 插槽
 无

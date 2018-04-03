@@ -284,12 +284,13 @@ describe('Menu', () => {
         let itemComponent3 = component.ref('menu-item-3');
         expect(itemComponent1.data.get('selected')).to.equal(true);
         menu.el.click();
-        component.nextTick(() => {
+        // 这里连续使用两个setTimeout，而不是nextTick，是为了等待menu弹入/弹出的动画结束，覆盖到对应on-transitionend的代码。
+        setTimeout(() => {
             expect(menu.data.get('open')).to.equal(true);
             expect(menu.ref('popover').el.className).to.include('state-open');
             expect(itemComponent1.el.className).to.include('state-selected');
             itemComponent3.el.click();
-            component.nextTick(() => {
+            setTimeout(() => {
                 expect(menu.data.get('open')).to.equal(false);
                 expect(menu.ref('popover').el.className).to.not.include('state-open');
                 expect(itemComponent3.el.className).to.include('state-selected');
@@ -302,8 +303,8 @@ describe('Menu', () => {
                     component.dispose();
                     done();
                 });
-            });
-        });
+            }, 550);
+        }, 550);
     });
 
     it('dropdown menu disabled & readOnly', done => {

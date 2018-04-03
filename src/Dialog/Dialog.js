@@ -30,7 +30,7 @@ export default class Dialog extends Layer {
             <sm-mask
                 s-if="useMask"
                 on-close="onMaskClick"
-                open={{open}}
+                open="{{open}}"
                 z-index="{{-1}}" />
         </div>
     `;
