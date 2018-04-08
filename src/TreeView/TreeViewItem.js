@@ -154,7 +154,7 @@ export default san.defineComponent({
         'UI:tree-view-item-detached'(arg) {
             if (this.data.get('dataSource') !== 'JSON') {
                 this.data.set('toggleNested',
-                    !!this.getNestedAndCheckedSlotChilds().length);
+                    !!this.getNestedAndCheckedSlotChildren().length);
             }
             this.data && this.data.set(
                 'children', this.data.get('children') - 1);
@@ -324,7 +324,7 @@ export default san.defineComponent({
             });
             this.parentComponent
                 && this.parentComponent.subTag === this.subTag
-                    && this.parentComponent.updateSelfCheckboxStateFromChilds();
+                    && this.parentComponent.updateSelfCheckboxStateFromChildren();
         });
 
         this.watch('checked', value => {
@@ -344,10 +344,10 @@ export default san.defineComponent({
     },
 
     attached() {
-        let slotChilds = this.slotChilds;
+        let slotChildren = this.slotChildren;
         let hasLeft = 0;
 
-        for (let slot of slotChilds) {
+        for (let slot of slotChildren) {
             if (slot.name === 'left') {
                 hasLeft++;
             }
@@ -375,7 +375,7 @@ export default san.defineComponent({
         });
         this.watch('treeData.treeData', value => {
             san.nextTick(function () {
-                this.updateSelfCheckboxStateFromChilds();
+                this.updateSelfCheckboxStateFromChildren();
             }, this);
         });
 
@@ -385,7 +385,7 @@ export default san.defineComponent({
                 this.data.get('checkboxIndeterminate'));
         }
 
-        this.updateSelfCheckboxStateFromChilds();
+        this.updateSelfCheckboxStateFromChildren();
 
         this.dispatch('UI:tree-view-item-attached', this);
     },
@@ -396,7 +396,7 @@ export default san.defineComponent({
         this.data.get('dataSource') !== 'JSON'
             && this.parentComponent
                 && this.parentComponent.subTag === this.subTag
-                    && this.parentComponent.updateSelfCheckboxStateFromChilds();
+                    && this.parentComponent.updateSelfCheckboxStateFromChildren();
     },
 
     created() {
@@ -440,7 +440,7 @@ export default san.defineComponent({
         let value = this.data.get('checkboxInputValue');
         let checked = value && value.toString() !== '';
         this.data.set('checked', checked);
-        this.updateChildsCheckboxState(checked, 'checkbox');
+        this.updateChildrenCheckboxState(checked, 'checkbox');
 
         this.fire('checkboxClick',
             {event: evt, comp: this.ref('checkbox'), checked: checked});
@@ -487,28 +487,28 @@ export default san.defineComponent({
         }
     },
 
-    updateChildsCheckboxState(value, driver) {
+    updateChildrenCheckboxState(value, driver) {
         this.data.set('checkboxInputValue',
             value ? [this.data.get('checkboxValue')] : ['']);
-        this.hasNestedSlotChilds()
-            ? this.updateSlotChildsCheckboxState(value)
-            : this.updateJsonChildsCheckboxState(value);
+        this.hasNestedSlotChildren()
+            ? this.updateSlotChildrenCheckboxState(value)
+            : this.updateJsonChildrenCheckboxState(value);
         if (driver === 'checkbox' && this.parentComponent
             && this.parentComponent.subTag === this.subTag) {
-            this.parentComponent.updateSelfCheckboxStateFromChilds();
+            this.parentComponent.updateSelfCheckboxStateFromChildren();
         }
     },
 
-    hasNestedSlotChilds() {
-        let slotChilds = this.slotChilds;
-        if (slotChilds.length <= 0) {
+    hasNestedSlotChildren() {
+        let slotChildren = this.slotChildren;
+        if (slotChildren.length <= 0) {
             return false;
         }
-        for (let i of slotChilds) {
+        for (let i of slotChildren) {
             if (i.name !== 'nested') {
                 continue;
             }
-            for (let j of i.childs) {
+            for (let j of i.children) {
                 if (j.subTag === this.subTag) {
                     return true;
                 }
@@ -517,17 +517,17 @@ export default san.defineComponent({
         return false;
     },
 
-    getNestedAndCheckedSlotChilds() {
+    getNestedAndCheckedSlotChildren() {
         let items = [];
-        let slotChilds = this.slotChilds;
-        if (slotChilds.length <= 0) {
+        let slotChildren = this.slotChildren;
+        if (!slotChildren || (slotChildren && slotChildren.length <= 0)) {
             return items;
         }
-        for (let i of slotChilds) {
+        for (let i of slotChildren) {
             if (i.name !== 'nested') {
                 continue;
             }
-            for (let j of i.childs) {
+            for (let j of i.children) {
                 if (!j.el || !j.el.parentNode) {
                     continue;
                 }
@@ -543,7 +543,7 @@ export default san.defineComponent({
         return items;
     },
 
-    getNestedAndCheckedJsonChilds() {
+    getNestedAndCheckedJsonChildren() {
         let items = [];
         let treeData = this.data.get('treeData');
         if (!treeData || typeof treeData !== 'object'
@@ -580,14 +580,14 @@ export default san.defineComponent({
     },
 
     hasChildHavingCheckbox() {
-        let childs = this.getNestedAndCheckedSlotChilds();
-        if (!childs || childs.length <= 0) {
-            childs = this.getNestedAndCheckedJsonChilds();
-            if (!childs || childs.length <= 0) {
+        let children = this.getNestedAndCheckedSlotChildren();
+        if (!children || children.length <= 0) {
+            children = this.getNestedAndCheckedJsonChildren();
+            if (!children || children.length <= 0) {
                 return false;
             }
         }
-        for (let i of childs) {
+        for (let i of children) {
             if (typeof i.data.get('checked') === 'boolean') {
                 return true;
             }
@@ -595,27 +595,27 @@ export default san.defineComponent({
         return false;
     },
 
-    updateSlotChildsCheckboxState(value) {
-        let childs = this.getNestedAndCheckedSlotChilds();
-        for (let i of childs) {
+    updateSlotChildrenCheckboxState(value) {
+        let children = this.getNestedAndCheckedSlotChildren();
+        for (let i of children) {
             i.data.set('checked', value);
-            i.updateChildsCheckboxState(value);
+            i.updateChildrenCheckboxState(value);
         }
     },
 
-    updateJsonChildsCheckboxState(value) {
-        let childs = this.getNestedAndCheckedJsonChilds();
-        for (let i of childs) {
+    updateJsonChildrenCheckboxState(value) {
+        let children = this.getNestedAndCheckedJsonChildren();
+        for (let i of children) {
             i.data.set('checked', value);
-            i.updateChildsCheckboxState(value);
+            i.updateChildrenCheckboxState(value);
         }
     },
 
-    updateSelfCheckboxStateFromChilds() {
-        let childs = this.getNestedAndCheckedSlotChilds();
-        if (!childs || childs.length <= 0) {
-            childs = this.getNestedAndCheckedJsonChilds();
-            if (!childs || childs.length <= 0) {
+    updateSelfCheckboxStateFromChildren() {
+        let children = this.getNestedAndCheckedSlotChildren();
+        if (!children || children.length <= 0) {
+            children = this.getNestedAndCheckedJsonChildren();
+            if (!children || children.length <= 0) {
                 this.data.set('checkboxIndeterminate', false);
                 return;
             }
@@ -625,7 +625,7 @@ export default san.defineComponent({
         }
         let subChecked;
         let count = 0;
-        for (let i of childs) {
+        for (let i of children) {
             let childChecked = i.data.get('checked');
             if (typeof childChecked !== 'boolean') {
                 continue;
@@ -654,7 +654,7 @@ export default san.defineComponent({
         }
         let parent = this.getParentHavingCheckbox();
         if (parent) {
-            return parent.updateSelfCheckboxStateFromChilds();
+            return parent.updateSelfCheckboxStateFromChildren();
         }
     },
 

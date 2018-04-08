@@ -24,13 +24,11 @@ export default class TR extends san.Component {
                 san-if="tableSelectable === 'multi'"
                 class="sm-table-col-select">
                 <sm-checkbox
-                    s-if="disabled"
+                    s-ref="checkbox"
                     checked="{{checked}}"
-                    disabled/>
-                <sm-checkbox
-                    s-else
-                    checked="{{checked}}"
+                    indeterminate="{{indeterminate}}"
                     value="ON"
+                    disabled="{{!!disabled}}"
                     on-input-change="select($event)"/>
             </sm-th>
             <sm-th
@@ -60,14 +58,17 @@ export default class TR extends san.Component {
     };
 
     static dataTypes = {
+        pos: DataTypes.oneOf(['tbody', 'thead', 'tfoot']),
         selected: DataTypes.bool,
-        pos: DataTypes.oneOf(['tbody', 'thead', 'tfoot'])
+        indeterminate: DataTypes.bool
     };
 
     initData() {
         return {
             pos: 'tbody',
-            selected: false
+            selected: false,
+            indeterminate: false,
+            disable: false
         };
     }
 
@@ -75,10 +76,14 @@ export default class TR extends san.Component {
         this.dispatch('UI:tr-inited');
     }
 
+    attached() {
+        this.dispatch('UI:tr-attached');
+    }
+
     /**
      * 选中
      *
-     * @note 这里把数据变化丢给 table，table 会更新 tr 的 selected 值
+     * @note 这里把数据变化丢给 table，table 会更新 tr 的 selected 值（修改后直接在这里改变tr的selected值）
      * @param  {Array<string>} checked checkbox的当前选中值
      */
     select(checked) {
@@ -91,13 +96,17 @@ export default class TR extends san.Component {
             return;
         }
 
-        this.data.set('selected', nextSelected, {silent: false});
+        this.data.set('selected', nextSelected);
 
         this.dispatch(
             `UI:table-select-${pos === 'tbody' ? 'item' : 'head'}`,
             nextSelected
         );
 
+    }
+
+    detached() {
+        this.dispatch('UI:tr-detached');
     }
 
 

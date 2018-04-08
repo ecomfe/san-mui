@@ -29,9 +29,23 @@ export default class THead extends san.Component {
         this.tr = null;
     }
 
-    updateSelectAllState(selectAll) {
-        if (this.tr) {
-            this.tr.data.set('selected', selectAll);
+    updateSelectedState(type) {
+        if (!this.tr) {
+            return;
+        }
+        switch (type) {
+            case 'all':
+                this.tr.data.set('selected', true);
+                this.tr.data.set('indeterminate', false);
+                break;
+            case 'indeterminate':
+                this.tr.data.set('selected', false);
+                this.tr.data.set('indeterminate', true);
+                break;
+            case 'none':
+                this.tr.data.set('selected', false);
+                this.tr.data.set('indeterminate', false);
+                break;
         }
     }
 }

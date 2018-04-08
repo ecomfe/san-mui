@@ -49,9 +49,6 @@ export default class Table extends san.Component {
             this.fire('select', selected);
         },
         'UI:table-select-body'(e) {
-            if (this.thead) {
-                this.thead.updateSelectAllState(this.isAllSelected());
-            }
             this.fire('select', e.value);
         }
     };
@@ -63,13 +60,16 @@ export default class Table extends san.Component {
     };
 
     static dataTypes = {
+        // 这里的data需要跟selectable的multi配合使用。即当selectable为multi时，data属性必须提供
+        data: DataTypes.array,
         selectable: DataTypes.oneOf([false, 'multi', 'single'])
     };
 
     initData() {
         return {
             // multi | single
-            selectable: false
+            selectable: false,
+            data: []
         };
     }
 
@@ -77,37 +77,42 @@ export default class Table extends san.Component {
 
         // 当所有的行都初始化完成，我们算一下是不是所有的行都是被选中的
 
-        let selectable = this.data.get('selectable');
+        let {
+            selectable,
+            data
+        } = this.data.get();
 
         if (!selectable) {
             return;
         }
 
-        if (this.thead) {
-            this.thead.updateSelectAllState(this.isAllSelected());
+        if (this.thead && data) {
+            const type = this.checkTHeadState(data);
+            this.thead.updateSelectedState(type);
         }
 
+        this.watch('data', val => {
+            const type = this.checkTHeadState(val);
+            this.thead.updateSelectedState(type);
+        });
     }
 
-    isAllSelected() {
-        let rows = this.tbody.findChildTRs();
-        let isAllSelected = true;
-        // 当tbody有数据时再遍历有没有全选
-        if (rows.length > 0) {
-            for (let i = 0, len = rows.length; i < len; i++) {
-                let row = rows[i];
-                if (!row.data.get('selected')) {
-                    isAllSelected = false;
-                    break;
-                }
-            }
+    checkTHeadState(val) {
+        const total = val.filter(item => !item.disabled);
+        const selected = val.filter(item => !item.disabled && item.selected);
+        let type;
+        if (selected.length === 0) {
+            type = 'none';
+        }
+        else if (selected.length === total.length) {
+            type = 'all';
         }
         else {
-            isAllSelected = false;
+            type = 'indeterminate';
         }
-        return isAllSelected;
+        // console.log(type);
+        return type;
     }
-
 
     disposed() {
         this.tbody = this.thead = this.tfoot = null;
