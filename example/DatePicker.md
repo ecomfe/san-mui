@@ -82,6 +82,7 @@ export default {
 | open | boolean | false | false | 是否打开选择弹窗 |
 | format | string | false | YYYY-MM-DD | 日期字符串的格式；更多的格式请参考[这里](http://momentjs.cn/docs/#/displaying/format/) |
 | disabled | boolean | false | false | 是否禁用 |
+| isDisabled | function | false || 满足条件的函数是否禁用|
 
 > DatePicker 的输入框部分属性与 TextField 一致，可以根据需要添加
 
