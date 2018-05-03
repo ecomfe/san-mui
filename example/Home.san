@@ -32,31 +32,31 @@
             <div class="sm-home-part-container">
                 <ul>
                     <li>
-                        <div class="sm-home-intro-icon">
-                            <img class="sm-home-intro-icon-image" src="../src/css/image/test3.jpg" alt="sanui">
-                        </div>
                         <div class="sm-home-intro-content">
-                            <router-link to="{{MainUrl}}" class="sm-home-link"><span class="sm-home-intro-title">教程</span></router-link>
+                            <div class="sm-home-intro-icon">
+                                <img class="sm-home-intro-icon-image" src="../src/css/image/test3.jpg" alt="sanui">
+                            </div>
+                            <router-link to="{{MainUrl}}" class="sm-home-link sm-home-changelink"><span class="sm-home-intro-title">教程</span></router-link>
                             <p class="sm-home-p">教程是入门的捷径，点击这里快速开始了解San-Mui吧，帮你构建清晰易用的网站</p>
                         </div>
                     </li>
 
                     <li>
-                        <div class="sm-home-intro-icon">
-                            <img class="sm-home-intro-icon-image" src="../src/css/image/test.jpg" alt="sanui">
-                        </div>
                         <div class="sm-home-intro-content">
-                            <router-link to="{{ComponentUrl}}" class="sm-home-link"><span class="sm-home-intro-title">组件</span></router-link>
+                            <div class="sm-home-intro-icon">
+                                <img class="sm-home-intro-icon-image" src="../src/css/image/test.jpg" alt="sanui">
+                            </div>
+                            <router-link to="{{ComponentUrl}}" class="sm-home-link sm-home-changelink"><span class="sm-home-intro-title">组件</span></router-link>
                             <p class="sm-home-p">当你想不起来组件的接口时，请查阅这里，通过Demo快速了解组件的使用方法</p>
                         </div>
                     </li>
 
                     <li>
-                        <div class="sm-home-intro-icon">
-                            <img class="sm-home-intro-icon-image" src="../src/css/image/test2.jpg" alt="sanui">
-                        </div>
                         <div class="sm-home-intro-content">
-                            <router-link to="{{SourceUrl}}" class="sm-home-link"><span class="sm-home-intro-title">资源</span></router-link>
+                            <div class="sm-home-intro-icon">
+                                <img class="sm-home-intro-icon-image" src="../src/css/image/test2.jpg" alt="sanui">
+                            </div>
+                            <router-link to="{{SourceUrl}}" class="sm-home-link sm-home-changelink"><span class="sm-home-intro-title">资源</span></router-link>
                             <p class="sm-home-p">这里有San-Mui提供的资源集合，你可以在这里找到Material-Design的相关图标</p>
                         </div>
                     </li>
@@ -138,7 +138,7 @@ export default {
     },
 
     onWindowScroll() {
-        let scroll = document.body.scrollTop;
+        let scroll = document.body.scrollTop||document.documentElement.scrollTop;
         let nav = document.getElementsByClassName('sm-home-hero-navigation')[0];
         let header = document.getElementsByClassName('sm-home-header')[0];
         let githubBtn = document.getElementsByClassName('sm-home-member-actions')[0];
@@ -150,7 +150,6 @@ export default {
 
             header.style.borderBottom = 'none';
             header.style.padding = '35px 0';
-
             githubBtn.style.top = '26px';
 
         }
@@ -212,7 +211,7 @@ export default {
     .fixed
         position: fixed
         background-color: #364653
-        z-index: 999
+        z-index: 1999
         width: 100%
 
     .sm-home-header
@@ -301,6 +300,9 @@ export default {
         text-decoration:none
         cursor: pointer
 
+    .sm-home-changelink
+        display: inline-block
+
     .sm-home-link:hover, .sm-home-link:focus
         color: #2EA2F8
         text-decoration: none
@@ -315,7 +317,7 @@ Typography
         font-size: 15px
         line-height: 29px
         color: rgba(28, 54, 83, 0.6)
-        margin: 0 0 10px
+        margin: 15px 0 10px
 
     .sm-home-h1
         font-size: 50px
@@ -392,10 +394,10 @@ Intro
         width: 31%
         height: 260px
         margin-top: 90px
-        margin-right: 10px
+        margin-right: 15px
 
     .sm-home-part-container li:first-child
-        margin-left: 10px
+        margin-left: 25px
 
     .sm-home-intro-icon
         display: inline-block

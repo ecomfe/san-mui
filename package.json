@@ -22,8 +22,9 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "kolor": "^1.1.9",
+    "cnpm": "^5.2.0",
     "dom-align": "^1.6.2",
+    "kolor": "^1.1.9",
     "moment": "^2.18.1",
     "san": "^3.2.3"
   },
