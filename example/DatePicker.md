@@ -30,7 +30,6 @@ export default {
                 let startTime = moment('20180301', 'YYYYMMDD').unix();
                 let endTime = moment('20180306', 'YYYYMMDD').unix();
                 if (date > startTime && date < endTime) {
-                    console.log(123);
                     return true;
                 }
                 return false;
