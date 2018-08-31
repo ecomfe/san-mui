@@ -27,7 +27,7 @@ export default class Month extends Component {
                 today="{{date.today}}"
                 part="{{date.part}}"
                 disabled="{{date.disabled}}"
-                on-pick="{{setDate(date.value)}}"/>
+                on-pick="setDate(date.value)"/>
         </div>
     `;
 
