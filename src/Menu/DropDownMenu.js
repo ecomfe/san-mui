@@ -30,7 +30,7 @@ export default class DropDownMenu extends Component {
                 targetOrigin="tl"
                 getAnchor="{{getAnchor}}"
                 matchAnchorWidth="{{!autoWidth}}"
-                on-open-complete="{{adjustMenuItemPosition}}">
+                on-open-complete="adjustMenuItemPosition">
                 <slot />
             </sm-popover>
             <sm-text-field
