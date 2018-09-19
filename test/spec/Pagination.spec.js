@@ -87,26 +87,26 @@ describe('Pagination', () => {
             template: '<div><sm-pagination total="{{total}}"></sm-pagination></div>',
             initData() {
                 return {
-                    total: 50
+                    total: 70
                 };
             }
         });
         let paginationComponent = component.children[0];
-        expect(paginationComponent.data.get('totalPage')).to.equal(5);
+        expect(paginationComponent.data.get('totalPage')).to.equal(7);
         expect(paginationComponent.data.get('current')).to.equal(1);
         let nextGroupButton = paginationComponent.el.querySelector('.page-selector .next-group');
         let selector = paginationComponent.el.querySelector('.page-size-selector');
         nextGroupButton.click();
         component.nextTick(() => {
-            expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('5');
-            expect(paginationComponent.data.get('current')).to.equal(5);
+            expect(paginationComponent.el.querySelector('.page-num.current').textContent).to.equal('6');
+            expect(paginationComponent.data.get('current')).to.equal(6);
             selector.querySelector('.dropdown-selector').click();
             component.nextTick(() => {
                 expect(selector.className).to.include('open');
                 selector.querySelectorAll('.page-size-item')[2].click();
                 component.nextTick(() => {
                     expect(paginationComponent.data.get('pageSize')).to.equal(20);
-                    expect(paginationComponent.data.get('totalPage')).to.equal(3);
+                    expect(paginationComponent.data.get('totalPage')).to.equal(4);
                     expect(paginationComponent.data.get('current')).to.equal(3);
                     component.dispose();
                     done();

@@ -14,6 +14,9 @@ export default san.defineComponent({
                 on-input="handleInput($event)"
                 on-focus="handleFocus($event)"
                 on-blur="handleBlur($event)"
+                on-keyup="handleKeyup($event)"
+                on-keypress="handleKeypress($event)"
+                on-keydown="handleKeydown($event)"
                 placeholder="{{placeholder}}"
                 readonly="{{readOnly}}"
                 disabled="{{disabled}}"/>
@@ -48,13 +51,22 @@ export default san.defineComponent({
         element.style.height = `${styleHeight}px`;
     },
     handleInput(e) {
-        this.fire('change', e.target.value);
+        this.fire('input', e);
     },
     handleFocus(e) {
         this.fire('focus', e);
     },
     handleBlur(e) {
         this.fire('blur', e);
+    },
+    handleKeydown() {
+        this.fire('keydown', e);
+    },
+    handleKeyup() {
+        this.fire('keyup', e);
+    },
+    handleKeypress() {
+        this.fire('keypress', e);
     },
 
     attached() {
