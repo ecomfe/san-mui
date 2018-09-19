@@ -278,4 +278,102 @@ describe('TextField', () => {
             done();
         });
     });
+
+    it('multiline focus and blur', done => {
+        let component = createComponent({
+            template: `
+            <div>
+                <ui-input
+                    s-ref="input"
+                    multiLine
+                    on-input-focus="focus($event)"
+                    on-input-blur="blur($event)"
+                    hintText="提示文字"/>
+                <input id="input-for-blur" value="hhp"/>
+            </div>`,
+            initData() {
+                return {
+                    counter: 1
+                };
+            },
+            focus(e) {
+                this.data.set('counter', this.data.get('counter') + 1);
+            },
+            blur(e) {
+                this.data.set('counter', this.data.get('counter') + 1);
+            }
+        });
+        let el = component.ref('input').el;
+        let inputElement = el.querySelector('.sm-text-field-textarea');
+        let focusLineElement = el.querySelector('.sm-text-field-focus-line');
+        expect(el.className).to.equal('sm-text-field multi-line');
+        inputElement.focus();
+        component.nextTick(() => {
+            expect(focusLineElement.classList.contains('focus')).to.equal(true);
+            expect(component.data.get('counter')).to.equal(2);
+            expect(el.classList.contains('focus-state')).to.equal(true);
+            // 长时间的setTimeout是在等待focus动画结束
+            setTimeout(() => {
+                document.querySelector('#input-for-blur').focus();
+                setTimeout(() => {
+                    expect(component.data.get('counter')).to.equal(3);
+                    expect(focusLineElement.classList.contains('focus')).to.equal(false);
+                    expect(el.classList.contains('focus-state')).to.equal(false);
+                    component.dispose();
+                    done();
+                }, 600);
+            }, 500);
+        });
+    });
+
+    it('multiline input change and character count', done => {
+        let component = createComponent({
+            template: `<div>
+                <ui-input
+                    multiLine
+                    inputValue="{=inputValue=}"
+                    hintText="最多不超过10个字符"
+                    errorText="{{inputErrorText}}"
+                    isTextOverflow
+                    s-ref="input"
+                    on-textOverflow="handleInputOverflow($event)"
+                    on-input-change="handleInputChange($event)"
+                    maxLength="{{9}}"/>
+            </div>`,
+            initData() {
+                return {
+                    inputValue: '123456789'
+                };
+            },
+            handleInputOverflow(isOverflow) {
+                this.data.set('inputErrorText', isOverflow === 'true' ? 'overflow' : '');
+            },
+            // TODO: 模拟input change
+            handleInputChange(e) {}
+        });
+        let el = component.ref('input').el;
+        let inputElement = el.querySelector('.sm-text-field-input');
+        let helpElement = el.querySelector('.sm-text-field-help');
+        let focusLineElement = el.querySelector('.sm-text-field-focus-line');
+        let children = helpElement.children;
+        children = Array.prototype.slice.call(children);
+
+        let charElement = children[0];
+        let numElement = children[1];
+        inputElement.focus();
+        expect(charElement.innerText).to.equal('');
+        expect(numElement.innerText).to.equal('9/9');
+        expect(el.classList.contains('error')).to.equal(false);
+        expect(focusLineElement.classList.contains('error')).to.equal(false);
+
+        component.data.set('inputValue', '1234567890');
+        component.nextTick(() => {
+            expect(charElement.innerText).to.equal('overflow');
+            expect(numElement.innerText).to.equal('10/9');
+            expect(el.classList.contains('error')).to.equal(true);
+            expect(focusLineElement.classList.contains('error')).to.equal(true);
+            component.dispose();
+            done();
+        });
+    });
 });

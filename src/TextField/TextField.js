@@ -55,7 +55,10 @@ export default san.defineComponent({
                     rowsMax="{{rowsMax}}"
                     on-input="handleChange($event)"
                     on-focus="handleFocus($event)"
-                    on-blur="handleBlur($event)"></enhanced-textarea>
+                    on-blur="handleBlur($event)"
+                    on-keyup="handleKeyup($event)"
+                    on-keypress="handleKeypress($event)"
+                    on-keydown="handleKeydown($event)"></enhanced-textarea>
             </slot>
         <underline
             san-if="underlineShow"
