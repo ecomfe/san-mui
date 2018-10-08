@@ -36,11 +36,11 @@ export default san.defineComponent({
         let element = this.ref('text-field');
         let hiddenEl = this.ref('text-field-hidden');
         let lineHeight = window.getComputedStyle(element, null).getPropertyValue('line-height');
-        lineHeight = +lineHeight.replace(/[^\d]*/g, '');
+        lineHeight = parseFloat(lineHeight);
         let pt = window.getComputedStyle(element, null).getPropertyValue('padding-top');
-        pt = +pt.replace(/[^\d]*/g, '');
+        pt = parseFloat(pt);
         let pd = window.getComputedStyle(element, null).getPropertyValue('padding-bottom');
-        pd = +pd.replace(/[^\d]*/g, '');
+        pd = parseFloat(pd);
         let rows = this.data.get('rows') || 0;
         let rowsMax = this.data.get('rowsMax') || 0;
         let minHeight = pd + pt + lineHeight * rows;
@@ -59,13 +59,13 @@ export default san.defineComponent({
     handleBlur(e) {
         this.fire('blur', e);
     },
-    handleKeydown() {
+    handleKeydown(e) {
         this.fire('keydown', e);
     },
-    handleKeyup() {
+    handleKeyup(e) {
         this.fire('keyup', e);
     },
-    handleKeypress() {
+    handleKeypress(e) {
         this.fire('keypress', e);
     },
 
